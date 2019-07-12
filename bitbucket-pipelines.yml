@@ -1,15 +1,44 @@
-# This is a sample build configuration for JavaScript.
-# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: node:10.15.3
-
+options:
+  max-time: 20
 pipelines:
+  custom:
+    standard:
+        - step: &install
+            name: Get Dependencies
+            caches:
+            - node
+            script:
+            - yarn install
+            artifacts:
+            - node_modules/**
+            - public/**
+        - parallel: &tests
+            - step:
+                name: Lint
+                script:
+                - npm run lint
+            - step:
+                name: Unit Test
+                script:
+                - npm run test:unit
+            - step:
+                name: E2E Test
+                script:
+                - chmod 755 ./ci/misc/web-e2e.sh
+                - ./ci/misc/web-e2e.sh
+            - step:
+                name: Build
+                script:
+                - apt-get update
+                - apt install -y wine
+                - dpkg --add-architecture i386
+                - npm run build
+                - npm run build-pack:electron
   default:
-    - step:
-        caches:
-          - node
-        script: # Modify the commands below to build your repository.
-          - npm install
-          - npm test
+    - step: *install
+    - parallel: *tests
+  branches:
+    master:
+      - step: *install
+      - parallel: *tests

@@ -1,0 +1,32 @@
+{
+    "plugins": [
+        "stylelint-scss",
+        "stylelint-order"
+    ],
+    "extends": "stylelint-config-airbnb",
+    "rules": {
+        "at-rule-empty-line-before": ["always", {
+            except: [
+                "blockless-after-same-name-blockless",
+                "first-nested",
+            ],
+            ignore: ["after-comment"],
+        }],
+        "at-rule-semicolon-newline-after": "always",
+        "color-hex-case": "upper",
+        "color-hex-length": "long",
+        "declaration-property-value-blacklist": {
+            "/^border/": []
+        },
+        "max-nesting-depth": 6,
+        'order/order': [
+            'declarations',
+            'rules',
+            { type: 'at-rule' },
+            { type: 'at-rule', hasBlock: true },
+        ],
+        "number-leading-zero": "always",
+        "selector-max-id": 2,
+        "string-quotes": "single"
+    }
+}
