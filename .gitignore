@@ -1,0 +1,30 @@
+node_modules/
+.DS_Store
+.idea
+build/
+installers/
+.vscode/
+out/
+build/
+# Transpiled core logic
+nodejs-assets/nodejs-project/core
+# Test generated files
+/ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
+*.js.meta
+# Android/IntelliJ
+dist/
+build/
+.idea
+.gradle
+local.properties
+*.iml
+# Tools/Translations
+tools/translations/*
+!tools/translations/generate-translations.js
+# Code Signing
+*.p12*
+*.tar
+
+npm-debug\.log
+
+port-status

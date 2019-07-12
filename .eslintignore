@@ -1,0 +1,5 @@
+node_modules/
+build/
+app/
+installers/
+nodejs-assets/nodejs-project/sample-main.js
