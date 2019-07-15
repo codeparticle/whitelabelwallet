@@ -1,0 +1,7 @@
+{
+  "appId": "com.cp.whitelabelwallet",
+  "appName": "White Label Wallet",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "build"
+}

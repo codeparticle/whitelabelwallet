@@ -4,11 +4,24 @@ React starter project for cross-platform wallet generation.
 
 ## Technologies
 
-- React
-- Electron
-- Ionic
-- Capacitor
-- Npm(Npx)/Yarn
+- [React](https://github.com/facebook/react)
+- [Electron](https://github.com/electron/electron)
+- [Ionic](https://github.com/ionic-team/ionic)
+- [Capacitor](https://github.com/ionic-team/capacitor)
+- [Npm](https://github.com/npm/npm)([Npx](https://github.com/npm/npx))/[Yarn](https://github.com/yarnpkg/yarn)
+
+## Developing Native Components
+
+When developing native components, make sure to use the wrappers provided by Ionic found on their docs so the components are cross-compatible on web, desktop, and mobile.
+
+## Versioning
+
+We use commitlint and standard-version to automate the CHANGELOG process and making releasing easier.
+
+When making a commit, please follow the following format in order to pass the commit lint: "type(project-ticketNumber): description"
+Type can be any of the following: feature, bugfix, test, misc
+By following these, commits will automatically generate a nice changelog when a release is done.
+There are 3 release commands which you can use, `release:major`, `release:minor`, and `release:path`, which increment the respective versions `x.0.0`, `0.x.0`, and `0.0.x`.
 
 ## Icons
 
@@ -43,3 +56,43 @@ All tests should go under the `tests` directory.
 Unit tests: `yarn run test:unit`
 E2E tests: `yarn run test:e2e`
 Electron E2E tests: `yarn run test:e2e-electron`
+
+## Translations
+
+This starter project is fully equipped to handle translations and support this editor https://bitbucket.org/bflower/react-intl-editor/src/master/.
+
+Directory to import keys from: `src/translations/keys`. (Add new translations here)
+Directory to add different locales: `src/translations/locales`.
+
+To use in component:
+```
+import { injectIntl, intlShape } from 'react-intl';
+import { TRANSLATION_KEYS } from 'translations/keys';
+
+const Component = ({ intl: { formatMessage }}) => {
+    return (
+        <div>
+            {formatMessage(TRANSLATION_KEYS.COMMON.SUBMIT)}
+        </div>
+    );
+};
+
+Component.propTypes = {
+    intl: intlShape.isRequired,
+};
+
+export default injectIntl(Component);
+```
+
+To run translations manager: `yarn run manage:translations`.
+
+To run translations editor (Needs node v6):
+```
+Run translations manager from above command.
+Run these next commands from outside this project's folder.
+- git clone git@bitbucket.org:bflower/react-intl-editor.git
+- cd react-intl-editor
+- npm install
+- npm run dev
+Import files for defaultMessage (src/translations/locales/defaultMessages.json), whichever translation you want to do (src/translations/locales/es.json), and whitelist file corresponding to same locale (src/translations/locales/whitelist_es.json).
+```

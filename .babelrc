@@ -1,0 +1,50 @@
+{
+  "presets": ["es2015", "react", "stage-2"],
+  "env": {
+    "development": {
+      "plugins": [
+        "transform-react-jsx-source",
+        "react-hot-loader/babel"
+      ]
+    },
+  },
+  "plugins": [
+    "transform-async-to-generator",
+    "transform-inline-environment-variables",
+    ["transform-runtime", {
+      "helpers": false,
+      "polyfill": false,
+      "regenerator": true,
+      "moduleName": "babel-runtime"
+    }],
+    [
+      "react-intl",
+      {
+        "messagesDir": "./build/messages/"
+      }
+    ],
+    [
+      "module-resolver",
+      {
+        "cwd":"babelrc",
+        "alias": {
+          "api": "./src/api",
+          "app": "./src/app",
+          "components": "./src/components",
+          "config": "./src/config",
+          "global-components": "./src/global-components",
+          "lib": "./src/lib",
+          "pages": "./src/pages",
+          "rdx": "./src/rdx",
+          "server": "./src/server",
+          "translations": "./src/translations",
+          "window": "./src/window",
+          "e2e": "./tests/e2e",
+          "package.json": "./package.json",
+          "application-config": "./application-config",
+          "plugins": "./plugins"
+        }
+      }
+    ]
+  ]
+}

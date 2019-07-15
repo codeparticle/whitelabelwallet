@@ -1,0 +1,90 @@
+@mixin backgroundify($color) {
+  background-color: $color;
+
+  &:hover {
+    background-color: darken($color, 5%);
+  }
+
+  &:active {
+    background-color: darken($color, 15%);
+  }
+}
+
+
+.flash-messages-rct-component {
+  $height: 80px;
+  $open-duration: 0.75s;
+  $wait-duration: 2s;
+  $close-duration: 0.5s;
+
+  $delay-from-open-to-close: $open-duration + $wait-duration;
+
+  $open-anim: open $open-duration;
+  $close-anim: close $close-duration forwards;
+
+  position: absolute;
+  height: $height;
+  top: -$height;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100;
+
+  .item {
+    pointer-events: all;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    font-size: 1.2em;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0.2em 0.6em #333333;
+    transform: translateY($height);
+
+    &.error {
+      @include backgroundify(red);
+    }
+
+    @include backgroundify(white);
+  }
+
+  .open-anim {
+    animation: $open-anim;
+  }
+
+  .stay-open {
+    animation: none;
+  }
+
+  .close-after-wait {
+    animation: $close-anim $delay-from-open-to-close;
+  }
+
+  .close-immediate {
+    animation: $close-anim;
+  }
+
+  @keyframes open {
+
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY($height);
+    }
+  }
+
+  @keyframes close {
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
