@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-eval' 'sha256-++gna1tMQ08GGn4M8jnPXPgLA3Il1y2LY+JVA4NpYKk=' 'sha256-o1L4ETKUnyImUi8R1kD/4gzYpB842nSukARp4eOTyYQ=' chrome-devtools: http: ws: https: data: file:; style-src 'unsafe-inline' http: https:">
+    <title>White Label Wallet</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type='text/javascript'>
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = `http://localhost:${process.env.PORT || 8080}/styles.css`;
+
+      const script = document.createElement('script');
+      script.src = `http://localhost:${process.env.PORT || 8080}/bundle.js`;
+
+      document.getElementsByTagName('body')[0].append(script);
+      document.getElementsByTagName('head')[0].append(link);
+    </script>
+  </body>
+</html>

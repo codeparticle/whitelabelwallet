@@ -1,0 +1,182 @@
+[
+  {
+    "id": "common.cancel",
+    "description": "Cancel text",
+    "defaultMessage": "Cancel",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.copy",
+    "description": "Copy text",
+    "defaultMessage": "Copy",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.done",
+    "description": "Done text",
+    "defaultMessage": "Done",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.email",
+    "description": "Email text",
+    "defaultMessage": "Email",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.login",
+    "description": "Login text",
+    "defaultMessage": "Login",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.password",
+    "description": "Password text",
+    "defaultMessage": "Password",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.start",
+    "description": "Start text",
+    "defaultMessage": "Start",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.submit",
+    "description": "Submit text",
+    "defaultMessage": "Submit",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "common.tos",
+    "description": "Terms of Service text",
+    "defaultMessage": "Terms of Service",
+    "filepath": "src/translations/keys/common.js"
+  },
+  {
+    "id": "form.error-email-address",
+    "description": "Error text displayed when an invalid email address is entered",
+    "defaultMessage": "Must be a valid email address",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "form.error-password-length",
+    "description": "Error text displayed when a password length is invalid",
+    "defaultMessage": "Password must be {isMin, select, true {at least} false {less than}} {count} characters",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "form.error-max-characters",
+    "description": "Error text displayed when text input has surpassed the maximum amount of characters",
+    "defaultMessage": "Maximum allowed characters is {max}.",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "form.error-value-required",
+    "description": "Error text displayed when an input value is required",
+    "defaultMessage": "Value is required",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "form.error-zip-code",
+    "description": "Error text displayed when an invalid zipcode is entered",
+    "defaultMessage": "Please enter a 5 character zipcode",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "form.password-placeholder",
+    "description": "Placeholder for a password field",
+    "defaultMessage": "Enter your password",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "form.wrong-password",
+    "description": "Text displayed to the user when they enter the wrong password",
+    "defaultMessage": "Wrong password!",
+    "filepath": "src/translations/keys/form.js"
+  },
+  {
+    "id": "helmet.description",
+    "description": "Description that goes in the head description meta tag of the page",
+    "defaultMessage": "Change your description to fit project need",
+    "filepath": "src/translations/keys/helmet.js"
+  },
+  {
+    "id": "app-name",
+    "description": "App name",
+    "defaultMessage": "White Label Wallet",
+    "filepath": "src/translations/keys/index.js"
+  },
+  {
+    "id": "label",
+    "description": "Label of the locale",
+    "defaultMessage": "English",
+    "filepath": "src/translations/keys/index.js"
+  },
+  {
+    "id": "page-not-found",
+    "description": "Page not found message",
+    "defaultMessage": "The Page you requested was not found!",
+    "filepath": "src/translations/keys/index.js"
+  },
+  {
+    "id": "menu.about",
+    "description": "Label for About options on the Electron menu",
+    "defaultMessage": "About",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.copy",
+    "description": "Label for Copy options on the Electron menu",
+    "defaultMessage": "Copy",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.cut",
+    "description": "Label for Cut options on the Electron menu",
+    "defaultMessage": "Cut",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.edit",
+    "description": "Label for Edit options on the Electron menu",
+    "defaultMessage": "Edit",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.help",
+    "description": "Label for Help options on the Electron menu",
+    "defaultMessage": "Help",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.paste",
+    "description": "Label for Paste options on the Electron menu",
+    "defaultMessage": "Paste",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.redo",
+    "description": "Label for Redo options on the Electron menu",
+    "defaultMessage": "Redo",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.select-all",
+    "description": "Label for Select All options on the Electron menu",
+    "defaultMessage": "Select All",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.user-manual",
+    "description": "Label for User Manual options on the Electron menu",
+    "defaultMessage": "User Manual",
+    "filepath": "src/translations/keys/menu.js"
+  },
+  {
+    "id": "menu.quit",
+    "description": "Label for Quit options on the Electron menu",
+    "defaultMessage": "Quit",
+    "filepath": "src/translations/keys/menu.js"
+  }
+]
