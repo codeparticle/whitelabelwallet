@@ -34,7 +34,11 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/*', proxy(API_URL, {
-  proxyReqPathResolver: req => req.baseUrl.replace('/api', ''),
+  proxyReqPathResolver: req => {
+    const queryParams = req.url.split('?')[1] || '';
+
+    return `${req.baseUrl.replace('/api', '')}${queryParams ? `?${queryParams}` : ''}`;
+  },
 }));
 
 app.get('/ping', (req, res) => res.end('OK'));

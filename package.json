@@ -92,9 +92,11 @@
   ],
   "scripts": {
     "start": "yarn run dev",
-    "dev": "NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --progress --colors",
-    "dev:electron": "TYPE=electron NODE_ENV=development electron main.js & TYPE=electron NODE_ENV=development webpack-dev-server --config config/webpack.electron-dev.config.js --progress --colors",
+    "dev": "run-p web node-server:dev mock-server:dev",
+    "dev:electron": "run-p electron node-server:dev mock-server:dev",
     "dev:mobile": "yarn build && npx cap serve",
+    "electron": "TYPE=electron NODE_ENV=development electron main.js & TYPE=electron NODE_ENV=development webpack-dev-server --config config/webpack.electron-dev.config.js --progress --colors",
+    "web": "NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --progress --colors",
     "build": "NODE_ENV=production webpack --display-error-details --config config/webpack.prod.config.js --progress --colors",
     "build:mobile": "yarn build && npx cap copy",
     "build:electron": "concurrently 'npm run build:electron-main' 'npm run build:electron-renderer'",
