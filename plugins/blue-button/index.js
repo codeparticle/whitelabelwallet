@@ -10,15 +10,12 @@ import './index.scss';
 
 const BlueButton = (props) => {
   const { forceRed } = props;
-
   const mockBlockchainManagerInst = new mockBlockchainManager();
-
-
-  console.log('========\n', 'mockBlockchainManagerInst.retrieveTransactionHistory', mockBlockchainManagerInst.retrieveTransactionHistory, '\n========');
 
   const onClick = () => {
     props.updateForceRed(!forceRed);
-    mockBlockchainManagerInst.retrieveTransacationDetails('dgh45ksmcd35cefbcd79ejdg674dae03460ab9bb4c928a31cf10a0dhsn56ekj8');
+    mockBlockchainManagerInst.generateAddress();
+    // mockBlockchainManagerInst.retrieveAddressBalance('znkz4JE6Y4m8xWoo4ryTnpxwBT5F7vFDgNf');
   };
 
   return (
