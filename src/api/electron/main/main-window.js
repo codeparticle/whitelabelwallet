@@ -7,9 +7,15 @@ import { setupLogging } from 'config/utils/setup-logging';
 import { environment } from 'lib/utils/environment';
 import { isRequestAllowed } from 'lib/utils/is-request-allowed';
 import { appMenu } from 'window/menus';
+import { initializeElectronMainService } from './electron-main-service';
 import { AboutWindow } from './about-window';
+import {
+  ADD_ALLOWED_URLS,
+  CREATE_MENU,
+  OPEN_URL,
+} from '../ipc-events';
 
-export default class MainWindow {
+export class MainWindow {
   constructor() {
     this.mainWindow = null;
     this.userApiUrls = '';
@@ -61,8 +67,8 @@ export default class MainWindow {
     app.on('window-all-closed', this.onWindowAllClosed);
     app.on('before-quit', this.onBeforeQuit);
 
-    ipcMain.on('create-menu', this.createMenu);
-    ipcMain.on('add-allowed-urls', this.addAllowedUrls);
+    ipcMain.on(CREATE_MENU, this.createMenu);
+    ipcMain.on(ADD_ALLOWED_URLS, this.addAllowedUrls);
 
     return this.mainWindow;
   }
@@ -189,7 +195,7 @@ export default class MainWindow {
 
   onOpenUrl = (event, url) => {
     if (this.mainWindow) {
-      this.mainWindow.webContents.send('open-url', url.split('//')[1]);
+      this.mainWindow.webContents.send(OPEN_URL, url.split('//')[1]);
     }
   }
 
@@ -201,3 +207,5 @@ export default class MainWindow {
     app.quit();
   }
 }
+
+initializeElectronMainService();

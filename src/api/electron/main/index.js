@@ -1,9 +1,9 @@
-import AboutWindow from './about-window';
-import MainService from './main-service';
-import MainWindow from './main-window';
+import { AboutWindow } from './about-window';
+import { MainWindow } from './main-window';
+import { initializeElectronMainService } from './electron-main-service';
 
 export {
   AboutWindow,
-  MainService,
   MainWindow,
+  initializeElectronMainService,
 };

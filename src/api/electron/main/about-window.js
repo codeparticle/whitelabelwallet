@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, Menu, shell } from 'electron';
 import path from 'path';
 import { environment } from 'lib/utils/environment';
 
-export default class AboutWindow {
+export class AboutWindow {
   constructor() {
     this.aboutWindow = null;
     this.terminateAboutWindow = false;
