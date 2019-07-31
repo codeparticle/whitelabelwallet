@@ -14,9 +14,9 @@ import { routes } from 'config/routes';
 
 // IMPORT_PT: if persistGate is 'on', user must go to console => applicaiton tab
 // => local storage and remove 'persist:root' to reload the default state
-function renderRoute(route, index) {
+function renderRoute(props, route, index) {
   return (
-    <Route key={index} {...route} />
+    <Route {...props} key={index} {...route} />
   );
 }
 
@@ -47,10 +47,10 @@ function getRoutesWithPlugins(routes, plugins) {
   });
 }
 
-const RootRouter = ({ plugins }) => (
+const RootRouter = (props) => (
   <Fragment>
     <Switch>
-      {getRoutesWithPlugins(routes, plugins).map(renderRoute)}
+      {getRoutesWithPlugins(props).map((route, index) => renderRoute(props, route, index))}
     </Switch>
     <FlashMessages />
   </Fragment>
