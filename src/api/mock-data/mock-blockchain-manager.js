@@ -5,6 +5,7 @@ const {
   TRANSACTIONS,
   TRANSACTIONS_DETAILS,
   ADDRESS,
+  ADDRESS_BALANCE,
   ADDRESS_DETAILS,
 } = urls;
 
@@ -19,7 +20,7 @@ class mockBlockchainManager {
    * @return tx history
    */
   retrieveTransactionHistory() {
-    api.request({
+    api.get({
       url: TRANSACTIONS,
     }).then((response) => response.data
     ).catch((err) => err);
@@ -31,9 +32,11 @@ class mockBlockchainManager {
    */
 
   retrieveTransacationDetails(txid) {
-    api.request({
-      url: `${TRANSACTIONS_DETAILS}${txid}`,
-    }).then((response) => response.data
+    console.log('========\n', '`${TRANSACTIONS_DETAILS}${txid}`', `${TRANSACTIONS_DETAILS}${txid}`, '\n========');
+    api.get(`${TRANSACTIONS_DETAILS}${txid}`).then((response) => {
+      console.log('========\n', 'response.data', response.data, '\n========');
+      return response.data;
+    }
     ).catch((err) => err);
   }
 
@@ -43,7 +46,7 @@ class mockBlockchainManager {
    */
 
   retrieveAddressDetails(address) {
-    api.request({
+    api.get({
       url: `${ADDRESS_DETAILS}${address}`,
     }).then((response) => response.data
     ).catch((err) => err);
@@ -55,15 +58,21 @@ class mockBlockchainManager {
    * @return {promise} resolves to the balance data
    */
   retrieveAddressBalance(address) {
-    api.request({
-      url: `${ADDRESS_DETAILS}${address}`,
-    }).then((response) => {
-      const balanceData = {
-        balance: response.data[0].balance,
-        balanceSat: response.data[0].balanceSat,
-      };
+    api.get(`${ADDRESS_BALANCE}${address}`).then((response) => {
+      const balanceData = response.data.data;
+      const balanceReducer = (total, currentObj) => total + currentObj.value;
+      let incomingBalance = 0;
+      let outgoingBalance = 0;
 
-      return balanceData;
+      balanceData.incomingTxs.forEach((tx) => {
+        incomingBalance += tx.vout.reduce(balanceReducer, 0);
+      });
+
+      balanceData.outgoingTxs.forEach((tx) => {
+        outgoingBalance += tx.vin.reduce(balanceReducer, 0);
+      });
+
+      return incomingBalance - outgoingBalance;
     }).catch((err) => err);
   }
 
@@ -104,9 +113,22 @@ class mockBlockchainManager {
     };
 
     api.post(ADDRESS, addressData).then((response) => {
-      console.log('address generated', response.data);
       return response.data;
     }).catch((err) => err);
+  }
+
+  sendToAddress(fromAddress, receivingAdress, amount, pubKey) {
+
+    // get most recent transaction using from address that totals amount param and creat vin, spcript sig is public key
+
+    // create v out using reveiving address and publickey key param
+
+    // mine block and add to block chain
+    const transactionData = {
+      txid: this.randomString(65),
+      version: 1,
+      locktime: 0,
+    };
   }
 }
 
