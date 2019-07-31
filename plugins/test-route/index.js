@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button } from '@codeparticle/whitelabelwallet.styleguide';
 import './index.scss';
@@ -7,14 +7,30 @@ const TestRouteTrigger = withRouter(({ history }) => (
   <Button className='test-route-trigger' onClick={() => history.push('/test-route')}>Go to Test Route</Button>
 ));
 
-const TestRoute = () => (
-  <div>
-    <p>This is the Test Route!</p>
-    <Link to='/test-route-the-second'>Navigate To Test Route The Second!!</Link>
-    <br />
-    <Link to='/'>Go Home</Link>
-  </div>
-);
+const TestRoute = ({ service }) => {
+  useEffect(() => {
+    service.checkDatabaseExists('test', '123').then((exists) => {
+      console.log(`DB Exists: ${exists}`);
+    });
+
+    service.saveDatabase('test', '123', new Buffer('Test DB Data', 'utf-8')).then((saved) => {
+      console.log(`Saved DB: ${saved}`);
+
+      service.loadDatabase('test', '123').then((buffer) => {
+        console.log(`DB Data: ${new TextDecoder('utf-8').decode(buffer)}`);
+      });
+    });
+  }, []);
+
+  return (
+    <div>
+      <p>This is the Test Route!</p>
+      <Link to='/test-route-the-second'>Navigate To Test Route The Second!!</Link>
+      <br />
+      <Link to='/'>Go Home</Link>
+    </div>
+  );
+};
 
 const TestRouteTheSecond = () => (
   <div>
@@ -25,7 +41,7 @@ const TestRouteTheSecond = () => (
   </div>
 );
 
-const TestRoutePlugin = () => {
+const TestRoutePlugin = (store, service) => {
   return [
     {
       role: 'button',
@@ -36,7 +52,7 @@ const TestRoutePlugin = () => {
       components: [
         {
           path: '/test-route',
-          component: TestRoute,
+          render: (props) => <TestRoute {...props} service={service} />,
           exact: true,
         },
         {
