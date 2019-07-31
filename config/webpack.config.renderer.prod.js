@@ -73,6 +73,9 @@ export default merge.smart(baseConfig, {
           },
           {
             loader: 'sass-loader',
+            options: {
+              includePaths: ['node_modules'],
+            },
           },
         ],
       },

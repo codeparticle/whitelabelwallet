@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { Button } from '@codeparticle/whitelabelwallet.styleguide';
 import './index.scss';
 
 const TestRouteTrigger = withRouter(({ history }) => (
-  <button className='test-route-trigger' onClick={() => history.push('/test-route')}>Go to Test Route</button>
+  <Button className='test-route-trigger' onClick={() => history.push('/test-route')}>Go to Test Route</Button>
 ));
 
 const TestRoute = () => (
