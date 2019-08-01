@@ -11,6 +11,7 @@ import {
   SAVE_DATABASE,
   SAVED_DATABASE,
 } from '../ipc-events';
+import { SqlService } from '../../db';
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
@@ -34,6 +35,30 @@ export class ElectronRendererService {
   }
 
   /**
+   * Sets the SqlService Instance
+   * @param {Object} dbFile : database file returned by fileService
+   */
+  startSqlService(dbFile) {
+    log.debug('ElectronRendererService::startSqlService called');
+    SqlService.file = dbFile;
+    this.sqlService = SqlService.instance;
+  }
+
+  /**
+   * Generates a new DB
+   */
+  generateDatabase() {
+    log.debug('ElectronRendererService::generateDatabase called');
+    this.startSqlService();
+
+    return new Promise(resolve => {
+      this.sqlService.generateTables().then(() => {
+        resolve(true);
+      });
+    });
+  }
+
+  /**
    * Attempt to import database based on login credentials
    * @param {string} username : username fetched from login page
    * @param {string} password : password passed in by user
@@ -45,13 +70,15 @@ export class ElectronRendererService {
       ipcRenderer.once(FETCHED_DATABASE, (event, imported, buffer) => {
         if (imported) {
           log.debug('ElectronAppService::loadDatabase success');
+          const dbBinary = new Uint8Array(buffer);
 
-          resolve(new Uint8Array(buffer));
+          this.startSqlService(dbBinary);
         } else {
           log.error('ElectronAppService::loadDatabase not found');
           ipcRenderer.send(DELETE_LOGS);
-          resolve(false);
         }
+
+        resolve(imported);
       });
 
       ipcRenderer.send(FETCH_DATABASE, username, password);
@@ -64,8 +91,9 @@ export class ElectronRendererService {
    * @param {string} username : username fetched from login page
    * @param {string} password : password passed in by user
    */
-  saveDatabase(username, password, dbBinary) {
+  saveDatabase(username, password) {
     log.debug('ElectronRendererService::saveDatabase called');
+    const dbBinary = this.sqlService.exportDatabase();
 
     return new Promise(resolve => {
       ipcRenderer.once(SAVED_DATABASE, (event, saved) => {
