@@ -10,12 +10,14 @@ const {
 } = urls;
 
 class Block {
-  constructor(index, hash, previousHash, timestamp, data) {
+  constructor(index, hash, previousHash, timestamp, data, difficulty, nonce) {
     this.index = index;
     this.previousHash = previousHash;
     this.timestamp = timestamp;
     this.data = data;
     this.hash = hash;
+    this.difficulty = difficulty;
+    this.nonce = nonce;
   }
 }
 
@@ -31,11 +33,10 @@ class BlockchainManager {
     });
   }
 
-  getBlockChain() {
-    api.get(BLOCKS).then((response)=>{
-      console.log(response.data);
-      return response.data;
-    });
+  async getBlockChain() {
+    const blockchainData = (await api.get(BLOCKS)).data;
+    console.log('========\n', 'blockchainData', blockchainData, '\n========');
+    return blockchainData;
   }
 
   async getLatestBlock() {

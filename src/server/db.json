@@ -157,33 +157,6 @@
       "hash": "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
       "createdAt": 1564609893241,
       "id": 1
-    },
-    {
-      "index": 1,
-      "previousHash": "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
-      "timestamp": 1564669624.78,
-      "data": "mockBlockChainData1",
-      "hash": "cff82198fc0d5e1cbf1a2572b1bc943cdda502c9b37e7073e106009dd6af259b",
-      "createdAt": 1564669640462,
-      "id": 2
-    },
-    {
-      "index": 2,
-      "previousHash": "cff82198fc0d5e1cbf1a2572b1bc943cdda502c9b37e7073e106009dd6af259b",
-      "timestamp": 1564669898.926,
-      "data": "mockBlockChainData1",
-      "hash": "1fb758d0ca8790b595df560ed3e8903ca00955bbdc2208ce548145061f713a4e",
-      "createdAt": 1564669898961,
-      "id": 3
-    },
-    {
-      "index": 3,
-      "previousHash": "1fb758d0ca8790b595df560ed3e8903ca00955bbdc2208ce548145061f713a4e",
-      "timestamp": 1564669931.551,
-      "data": "mockBlockChainData1",
-      "hash": "6dd6c5400e9e2d9916b069200dfd611d2aa008ff4f2e6786e7653834c71bb216",
-      "createdAt": 1564669931588,
-      "id": 4
     }
   ]
 }
