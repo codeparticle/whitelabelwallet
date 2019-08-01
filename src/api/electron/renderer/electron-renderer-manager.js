@@ -11,6 +11,7 @@ import {
   SAVE_DATABASE,
   SAVED_DATABASE,
 } from '../ipc-events';
+import { DatabaseManager } from '../../db';
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
@@ -34,6 +35,30 @@ export class ElectronRendererManager {
   }
 
   /**
+   * Sets the DatabaseManager Instance
+   * @param {Object} dbFile : database file returned by fileService
+   */
+  startDatabaseManager(dbFile) {
+    log.debug('ElectronRendererService::startDatabaseManager called');
+    DatabaseManager.file = dbFile;
+    this.databaseManager = DatabaseManager.instance;
+  }
+
+  /**
+   * Generates a new DB
+   */
+  generateDatabase() {
+    log.debug('ElectronRendererService::generateDatabase called');
+    this.startDatabaseManager();
+
+    return new Promise(resolve => {
+      this.databaseManager.generateTables().then(() => {
+        resolve(true);
+      });
+    });
+  }
+
+  /**
    * Attempt to import database based on login credentials
    * @param {string} username : username fetched from login page
    * @param {string} password : password passed in by user
@@ -45,13 +70,15 @@ export class ElectronRendererManager {
       ipcRenderer.once(FETCHED_DATABASE, (event, imported, buffer) => {
         if (imported) {
           log.debug('ElectronRendererManager::loadDatabase success');
+          const dbBinary = new Uint8Array(buffer);
 
-          resolve(new Uint8Array(buffer));
+          this.startDatabaseManager(dbBinary);
         } else {
           log.error('ElectronRendererManager::loadDatabase not found');
           ipcRenderer.send(DELETE_LOGS);
-          resolve(false);
         }
+
+        resolve(imported);
       });
 
       ipcRenderer.send(FETCH_DATABASE, username, password);
@@ -64,8 +91,9 @@ export class ElectronRendererManager {
    * @param {string} username : username fetched from login page
    * @param {string} password : password passed in by user
    */
-  saveDatabase(username, password, dbBinary) {
+  saveDatabase(username, password) {
     log.debug('ElectronRendererManager::saveDatabase called');
+    const dbBinary = this.databaseManager.exportDatabase();
 
     return new Promise(resolve => {
       ipcRenderer.once(SAVED_DATABASE, (event, saved) => {
