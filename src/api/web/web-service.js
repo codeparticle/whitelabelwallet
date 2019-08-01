@@ -1,3 +1,4 @@
+import { SqlService } from '../db';
 import { EncryptionService } from '../encryption-service';
 import { FileService } from './file-service';
 
@@ -5,6 +6,28 @@ export class WebService {
   constructor() {
     this.storage = window.localStorage;
     this.fileService = new FileService(this.storage);
+  }
+
+  /**
+   * Sets the SqlService Instance
+   * @param {Object} dbFile : database file returned by fileService
+   */
+  startSqlService(dbFile) {
+    SqlService.file = dbFile;
+    this.sqlService = SqlService.instance;
+  }
+
+  /**
+   * Generates a new DB
+   */
+  generateDatabase() {
+    this.startSqlService();
+
+    return new Promise(resolve => {
+      this.sqlService.generateTables().then(() => {
+        resolve(true);
+      });
+    });
   }
 
   /**
@@ -24,7 +47,8 @@ export class WebService {
       const decodedBinary = EncryptionService.prepToLoadDatabase(username, password, dbFile);
       const dbBinary = EncryptionService.encodeBinary(decodedBinary);
 
-      resolve(dbBinary);
+      this.startSqlService(dbBinary);
+      resolve(true);
     });
   }
 
@@ -33,8 +57,9 @@ export class WebService {
    * @param {string} username : username fetched from login page
    * @param {string} password : password passed in by user
    */
-  saveDatabase(username, password, dbBinary) {
+  saveDatabase(username, password) {
     return new Promise(resolve => {
+      const dbBinary = this.sqlService.exportDatabase();
       const serializedBinary = EncryptionService.prepToSaveDatabase(username, password, dbBinary);
       this.fileService.storeDatabaseFile(username, password, serializedBinary);
       resolve(true);

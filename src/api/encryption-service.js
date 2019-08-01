@@ -25,10 +25,9 @@ export class EncryptionService {
    * [web only] encrypt the Database file passed over from the server in
    * buffer format and encrypt the database into serialized string
    * @param {object} userData : user information coming from client side
-   * @param {ArrayBuffer} buffer : buffer of the unencrypted DB file
+   * @param {Uint8Array} dbBinary : dbBinary of the unencrypted DB file
    */
-  static prepToSaveDatabase(username, password, buffer) {
-    const dbBinary = new Uint8Array(buffer);
+  static prepToSaveDatabase(username, password, dbBinary) {
     const encryptedDatabase = this.encryptDatabase(username, password, dbBinary);
     const serializedBinary = this.decodeBinary(encryptedDatabase);
 
