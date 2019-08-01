@@ -1,5 +1,7 @@
+import { CryptoJS } from 'crypto-js';
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-data/constants.js';
+import { Block } from 'api/mock-data/block';
 
 const {
   TRANSACTIONS,
@@ -16,13 +18,63 @@ const charsetParams = {
 
 class mockBlockchainManager {
   /**
+   * Generate random string provided the length of the string
+   * and the character sets to pick chars from
+   * @param {int} length
+   * @param {string} charsets
+   */
+  randomString(length = charsetParams.length, charsets = charsetParams.charset) {
+    let result = '';
+    for (let i = length; i > 0; --i) {
+      result += charsets[Math.round(Math.random() * (charsets.length - 1))];
+    }
+    return result;
+  }
+  /**
+   * Generate hash of the data provided
+   * @param {number}  index
+   * @param {string}  previousHash
+   * @param {number}  timestamp
+   * @param {string}  data
+   */
+  calculateHash(index, previousHash, timestamp, data) {
+    return CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
+  }
+
+  /** Determine if new block is valid */
+  isValidNewBlock (newBlock, previousBlock) {
+    if (previousBlock.index + 1 !== newBlock.index) {
+      console.log('invalid index');
+      return false;
+    } else if (previousBlock.hash !== newBlock.previousHash) {
+      console.log('invalid previoushash');
+      return false;
+    } else if (this.calculateHashForBlock(newBlock) !== newBlock.hash) {
+      console.log(typeof (newBlock.hash) + ' ' + typeof this.calculateHashForBlock(newBlock));
+      console.log('invalid hash: ' + this.calculateHashForBlock(newBlock) + ' ' + newBlock.hash);
+      return false;
+    }
+    return true;
+  };
+
+  /** Gernerate a new block */
+
+  generateNextBlock (blockData) {
+    const previousBlock = this.getLatestBlock();
+    const nextIndex = previousBlock.index + 1;
+    const nextTimestamp = new Date().getTime() / 1000;
+    const nextHash = this.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
+    const newBlock = new Block(nextIndex, nextHash, previousBlock.hash, nextTimestamp, blockData);
+    return newBlock;
+  };
+
+
+  /**
    * Mock get avalilable transaction history.
    * @return tx history
    */
   retrieveTransactionHistory() {
-    api.get({
-      url: TRANSACTIONS,
-    }).then((response) => response.data
+    api.get(TRANSACTIONS).then((response) => response.data
     ).catch((err) => err);
   }
 
@@ -32,9 +84,7 @@ class mockBlockchainManager {
    */
 
   retrieveTransacationDetails(txid) {
-    console.log('========\n', '`${TRANSACTIONS_DETAILS}${txid}`', `${TRANSACTIONS_DETAILS}${txid}`, '\n========');
     api.get(`${TRANSACTIONS_DETAILS}${txid}`).then((response) => {
-      console.log('========\n', 'response.data', response.data, '\n========');
       return response.data;
     }
     ).catch((err) => err);
@@ -46,9 +96,7 @@ class mockBlockchainManager {
    */
 
   retrieveAddressDetails(address) {
-    api.get({
-      url: `${ADDRESS_DETAILS}${address}`,
-    }).then((response) => response.data
+    api.get(`${ADDRESS_DETAILS}${address}`).then((response) => response.data
     ).catch((err) => err);
   }
 
@@ -74,20 +122,6 @@ class mockBlockchainManager {
 
       return incomingBalance - outgoingBalance;
     }).catch((err) => err);
-  }
-
-  /**
-   * Generate random string provided the length of the string
-   * and the character sets to pick chars from
-   * @param {int} length
-   * @param {string} charsets
-   */
-  randomString(length = charsetParams.length, charsets = charsetParams.charset) {
-    let result = '';
-    for (let i = length; i > 0; --i) {
-      result += charsets[Math.round(Math.random() * (charsets.length - 1))];
-    }
-    return result;
   }
 
   /**
@@ -119,7 +153,7 @@ class mockBlockchainManager {
 
   sendToAddress(fromAddress, receivingAdress, amount, pubKey) {
 
-    // get most recent transaction using from address that totals amount param and creat vin, spcript sig is public key
+    // get most recent transaction/s using from address that totals amount param and creat vin, spcript sig is public key
 
     // create v out using reveiving address and publickey key param
 
