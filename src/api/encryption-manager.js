@@ -25,10 +25,9 @@ export class EncryptionManager {
    * [web only] encrypt the Database file passed over from the server in
    * buffer format and encrypt the database into serialized string
    * @param {object} userData : user information coming from client side
-   * @param {ArrayBuffer} buffer : buffer of the unencrypted DB file
+   * @param {Uint8Array} dbBinary : dbBinary of the unencrypted DB file
    */
-  static prepToSaveDatabase(username, password, buffer) {
-    const dbBinary = new Uint8Array(buffer);
+  static prepToSaveDatabase(username, password, dbBinary) {
     const encryptedDatabase = this.encryptDatabase(username, password, dbBinary);
     const serializedBinary = this.decodeBinary(encryptedDatabase);
 
@@ -72,7 +71,7 @@ export class EncryptionManager {
    * and return an ArrayBuffer
    * @param {string} username : login name of the user
    * @param {string} password : user's password to the account
-   * @param {Uint8Array} inputBytes : DB file to be encrypted as exported by Wallet Manager
+   * @param {Uint8Array} inputBytes : DB file to be encrypted as exported by Wallet Service
    */
   static encryptDatabase(username, password, inputBytes) {
     const iv = Buffer.concat([Buffer.from(username, 'utf-8'), crypto.randomBytes(64)]);

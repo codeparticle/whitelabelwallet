@@ -1,3 +1,4 @@
+import { DatabaseManager } from '../db';
 import { EncryptionManager } from '../encryption-manager';
 import { FileManager } from './file-manager';
 
@@ -5,6 +6,28 @@ export class WebManager {
   constructor() {
     this.storage = window.localStorage;
     this.fileManager = new FileManager(this.storage);
+  }
+
+  /**
+   * Sets the DatabaseManager Instance
+   * @param {Object} dbFile : database file returned by fileManager
+   */
+  startDatabaseManager(dbFile) {
+    DatabaseManager.file = dbFile;
+    this.databaseManager = DatabaseManager.instance;
+  }
+
+  /**
+   * Generates a new DB
+   */
+  generateDatabase() {
+    this.startDatabaseManager();
+
+    return new Promise(resolve => {
+      this.databaseManager.generateTables().then(() => {
+        resolve(true);
+      });
+    });
   }
 
   /**
@@ -24,7 +47,8 @@ export class WebManager {
       const decodedBinary = EncryptionManager.prepToLoadDatabase(username, password, dbFile);
       const dbBinary = EncryptionManager.encodeBinary(decodedBinary);
 
-      resolve(dbBinary);
+      this.startDatabaseManager(dbBinary);
+      resolve(true);
     });
   }
 
@@ -33,8 +57,9 @@ export class WebManager {
    * @param {string} username : username fetched from login page
    * @param {string} password : password passed in by user
    */
-  saveDatabase(username, password, dbBinary) {
+  saveDatabase(username, password) {
     return new Promise(resolve => {
+      const dbBinary = this.databaseManager.exportDatabase();
       const serializedBinary = EncryptionManager.prepToSaveDatabase(username, password, dbBinary);
       this.fileManager.storeDatabaseFile(username, password, serializedBinary);
       resolve(true);
