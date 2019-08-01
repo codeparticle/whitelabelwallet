@@ -28,29 +28,29 @@ server.use((req, res, next) => {
 server.use(router);
 
 // needed because json-sever does not allow filtering on deeply nested arrays
-router.render = (req, res) => {
-  if (req.method === 'GET') {
-    let data = res.locals.data;
+// router.render = (req, res) => {
+//   if (req.method === 'GET') {
+//     let data = res.locals.data;
 
-    if (req.url.includes('/tx?address=')) {
-      const queryParam = req.url.split('=');
-      const incomingTxs = data.filter((tx) => {
-        return tx.vout.find(vout => vout.scriptPubKey.addresses.includes(`${queryParam[1]}`));
-      });
-      const outgoingTxs = data.filter((tx) => {
-        return tx.vin.find(vin => vin.addr === `${queryParam[1]}`);
-      });
+//     if (req.url.includes('/tx?address=')) {
+//       const queryParam = req.url.split('=');
+//       const incomingTxs = data.filter((tx) => {
+//         return tx.vout.find(vout => vout.scriptPubKey.addresses.includes(`${queryParam[1]}`));
+//       });
+//       const outgoingTxs = data.filter((tx) => {
+//         return tx.vin.find(vin => vin.addr === `${queryParam[1]}`);
+//       });
 
-      data = {
-        incomingTxs,
-        outgoingTxs,
-      };
-    }
-    res.send({
-      data,
-    });
-  }
-};
+//       data = {
+//         incomingTxs,
+//         outgoingTxs,
+//       };
+//     }
+//     res.send({
+//       data,
+//     });
+//   }
+// };
 
 server.listen(MOCK_SERVER_PORT, () => {
   console.log(`JSON Server is running on port ${MOCK_SERVER_PORT}`);

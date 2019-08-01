@@ -150,21 +150,40 @@
   ],
   "blocks": [
     {
-      "id": 0,
-      "hash": "0000000000000538200a48202ca6340e983646ca088c7618ae82d68e0c76ef5a",
-      "time": 1325794737,
-      "block_index": 0,
-      "height": 1,
-      "transactions": ["dgh45ksmcd35cefbcd79ejdg674dae03460ab9bb4c928a31cf10a0dhsn56ekj8"]
+      "index": 0,
+      "previousHash": "",
+      "timestamp": 1465154705,
+      "data": "my genesis block!!",
+      "hash": "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
+      "createdAt": 1564609893241,
+      "id": 1
     },
     {
-      "id": 1,
-      "hash": "0000000000000624200a48202ca6340e983646ca088c7618ae82d68e0c76eg67",
-      "previousBlock": "0000000000000538200a48202ca6340e983646ca088c7618ae82d68e0c76ef5a",
-      "time": 1325794456,
-      "block_index": 1,
-      "height": 2,
-      "transactions": ["c7736a0a0046d5a8cc61c8c3c2821d4d7517f5de2bc66a966011aaa79965ffba"]
+      "index": 1,
+      "previousHash": "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7",
+      "timestamp": 1564669624.78,
+      "data": "mockBlockChainData1",
+      "hash": "cff82198fc0d5e1cbf1a2572b1bc943cdda502c9b37e7073e106009dd6af259b",
+      "createdAt": 1564669640462,
+      "id": 2
+    },
+    {
+      "index": 2,
+      "previousHash": "cff82198fc0d5e1cbf1a2572b1bc943cdda502c9b37e7073e106009dd6af259b",
+      "timestamp": 1564669898.926,
+      "data": "mockBlockChainData1",
+      "hash": "1fb758d0ca8790b595df560ed3e8903ca00955bbdc2208ce548145061f713a4e",
+      "createdAt": 1564669898961,
+      "id": 3
+    },
+    {
+      "index": 3,
+      "previousHash": "1fb758d0ca8790b595df560ed3e8903ca00955bbdc2208ce548145061f713a4e",
+      "timestamp": 1564669931.551,
+      "data": "mockBlockChainData1",
+      "hash": "6dd6c5400e9e2d9916b069200dfd611d2aa008ff4f2e6786e7653834c71bb216",
+      "createdAt": 1564669931588,
+      "id": 4
     }
   ]
 }

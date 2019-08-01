@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { blueButton } from './reducer';
 import { updateForceRed } from './actions';
-import { mockBlockchainManager } from 'api/mock-data/mock-blockchain-manager';
+import { BlockchainManager } from 'api/mock-block-chainV2/blockchain';
 import './index.scss';
 
 
 
 const BlueButton = (props) => {
   const { forceRed } = props;
-  const mockBlockchainManagerInst = new mockBlockchainManager();
+  const mockBlockchainManagerInst = new BlockchainManager();
 
   const onClick = () => {
-    props.updateForceRed(!forceRed);
-    //  mockBlockchainManagerInst.retrieveTransacationDetails('dgh45ksmcd35cefbcd79ejdg674dae03460ab9bb4c928a31cf10a0dhsn56ekj8');
-    mockBlockchainManagerInst.retrieveAddressBalance('ImhCAOig1YRkUjGLTHjcPqtxnO4at8jvjl4');
+    // props.updateForceRed(!forceRed);
+    mockBlockchainManagerInst.generateNextBlock('mockBlockChainData1');
     // mockBlockchainManagerInst.retrieveAddressBalance('znkz4JE6Y4m8xWoo4ryTnpxwBT5F7vFDgNf');
   };
 
