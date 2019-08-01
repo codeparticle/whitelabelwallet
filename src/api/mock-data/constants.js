@@ -9,7 +9,15 @@ const urls = {
   TRANSACTIONS_DETAILS: '/tx?txid=',
 };
 
+const blockchain = {
+  // in seconds
+  BLOCK_GENERATION_INTERVAL: 10,
+  // in blocks
+  DIFFICULTY_ADJUSTMENT_INTERVAL: 10,
+};
+
 export {
+  blockchain,
   urls,
 };
 

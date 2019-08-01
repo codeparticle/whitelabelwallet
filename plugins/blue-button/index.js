@@ -14,7 +14,7 @@ const BlueButton = (props) => {
 
   const onClick = () => {
     // props.updateForceRed(!forceRed);
-    mockBlockchainManagerInst.generateNextBlock('mockBlockChainData1');
+    mockBlockchainManagerInst.generateNextBlock('mockBlockChainData2');
     // mockBlockchainManagerInst.retrieveAddressBalance('znkz4JE6Y4m8xWoo4ryTnpxwBT5F7vFDgNf');
   };
 
