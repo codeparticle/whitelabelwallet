@@ -6,7 +6,7 @@ try {
 
 const jsonServer = require('json-server');
 const path = require('path');
-// const _ = require('lodash');
+const fs = require('fs');
 
 const { MOCK_SERVER_PORT } = process.env;
 
@@ -20,37 +20,34 @@ server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   if (req.method === 'POST') {
     req.body.createdAt = Date.now();
+
+    console.log('========\n', 'req.body', req.body, '\n========');
   }
 
   next();
 });
 
+// custom routes need to do entire replace subset of db, JSON server does not have this functionality out of the box.
+server.post('/unspentTxOuts', (req, res) => {
+  fs.readFile(path.join(__dirname, 'db.json'), (err, data) => {
+    if (err) {
+      throw err;
+    }
+    const db = JSON.parse(data);
+
+    db.unspentTxOuts = req.body;
+    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(db, null, 4), (err) => {
+      if (err) {
+        throw err;
+      }
+
+      res.send('uTxOs updated');
+    });
+  });
+});
+
+
 server.use(router);
-
-// needed because json-sever does not allow filtering on deeply nested arrays
-// router.render = (req, res) => {
-//   if (req.method === 'GET') {
-//     let data = res.locals.data;
-
-//     if (req.url.includes('/tx?address=')) {
-//       const queryParam = req.url.split('=');
-//       const incomingTxs = data.filter((tx) => {
-//         return tx.vout.find(vout => vout.scriptPubKey.addresses.includes(`${queryParam[1]}`));
-//       });
-//       const outgoingTxs = data.filter((tx) => {
-//         return tx.vin.find(vin => vin.addr === `${queryParam[1]}`);
-//       });
-
-//       data = {
-//         incomingTxs,
-//         outgoingTxs,
-//       };
-//     }
-//     res.send({
-//       data,
-//     });
-//   }
-// };
 
 server.listen(MOCK_SERVER_PORT, () => {
   console.log(`JSON Server is running on port ${MOCK_SERVER_PORT}`);

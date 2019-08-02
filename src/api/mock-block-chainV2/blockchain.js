@@ -4,10 +4,12 @@ import * as CryptoJS from 'crypto-js';
 import { api } from 'rdx/api';
 import { urls, blockchain } from 'api/mock-data/constants.js';
 import { hexToBinary } from 'api/mock-block-chainV2/utils/hex-to-binary.js';
+import { TransactionService } from 'api/mock-block-chainV2/transactions.js';
 
 const {
   BLOCKS,
   LATESTBLOCK,
+  UNSPENT_TX_OUTS,
 } = urls;
 
 const {
@@ -41,13 +43,18 @@ class BlockchainManager {
 
   async getBlockchain() {
     const blockchainData = (await api.get(BLOCKS)).data;
-    console.log('========\n', 'getBlockchainData', blockchainData, '\n========');
     return blockchainData;
   }
 
   async getLatestBlock() {
     const latestBLock = (await api.get(LATESTBLOCK)).data[0];
     return latestBLock;
+  }
+
+  async getUnspentTxOs() {
+    const transactionServiceInst = new TransactionService();
+    const uTxOs = await transactionServiceInst.getUnspentTxOuts();
+    return uTxOs;
   }
 
   /**
@@ -93,9 +100,12 @@ class BlockchainManager {
     const nextIndex = previousBlock.index + 1;
     const nextTimestamp = this.getCurrentTimestamp();
     const newBlock = this.findBlock(nextIndex, previousBlock.hash, nextTimestamp, blockData, difficulty);
-    await this.addBlock(newBlock);
-    // broadcastLatest(); mock broadcasting p2p
-    return newBlock;
+    if (await this.addBlockToChain(newBlock)) {
+      // broadcastLatest(); TODO: mock broadcasting to p2p
+      return newBlock;
+    } else {
+      return null;
+    }
   };
 
   /**
@@ -129,13 +139,31 @@ class BlockchainManager {
     return CryptoJS.SHA256(index + previousHash + timestamp + data + difficulty + nonce).toString();
   }
 
-  async addBlock (newBlock) {
-    if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
-    // block valid now post new block
-      const block = (await api.post(BLOCKS, newBlock)).data;
-      return block;
+  //   async addBlockToChain (newBlock) {
+  //     if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
+  //     // block valid now post new block
+  //         const
+  //       const block = (await api.post(BLOCKS, newBlock)).data;
+  //       return block;
 
+  //     }
+  //   };
+
+  async addBlockToChain (newBlock) {
+    if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
+      const transactionServiceInst = new TransactionService();
+      const processedData = transactionServiceInst.processTransactions(newBlock.data, await this.getUnspentTxOs(), newBlock.index);
+      console.log('========\n', 'processedData', processedData, '\n========');
+      if (processedData === null) {
+        return false;
+      } else {
+        await api.post(BLOCKS, newBlock);
+        await api.post(UNSPENT_TX_OUTS, processedData);
+
+        return true;
+      }
     }
+    return false;
   };
 
   isValidBlockStructure (block) {
@@ -167,14 +195,15 @@ class BlockchainManager {
   };
 
   /**
-   * caluclates the accumlated difficulty of block cahin returns a diffucalty score
+   * Caluclates the accumlated difficulty of block cahin returns a diffucalty score.
+   * To get the cumulative difficulty of a chain we calculate 2^difficulty for each block and take a sum of all those numbers. We have to use the 2^difficulty as we chose the difficulty to represent the number of zeros that must prefix the hash in binary format.
    * @param {array} blockchain
    */
   getAccumulatedDifficulty (blockchain) {
     return blockchain
       .map((block) => block.difficulty)
       .map((difficulty) => Math.pow(2, difficulty))
-      .reduce((a, b) => a + b);
+      .reduce((total, currentDifficulty) => total + currentDifficulty);
   };
 
   /**
@@ -229,6 +258,11 @@ class BlockchainManager {
     }
     return true;
   };
+
+  /**
+ * The correct chain has the most cummalitive difficulty.
+ * @param {array} newBlocks
+ */
 
   async replaceChain (newBlocks) {
     if (this.isValidChain(newBlocks) &&
