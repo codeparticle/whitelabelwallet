@@ -2,9 +2,10 @@ import * as CryptoJS from 'crypto-js';
 // import { broadcastLatest } from './p2p';
 
 import { api } from 'rdx/api';
-import { urls, blockchain } from 'api/mock-data/constants.js';
-import { hexToBinary } from 'api/mock-block-chainV2/utils/hex-to-binary.js';
-import { TransactionService } from 'api/mock-block-chainV2/transactions.js';
+import { urls, blockchain } from 'api/mock-data/constants';
+import { hexToBinary } from 'api/mock-block-chainV2/utils/hex-to-binary';
+import { TransactionService } from 'api/mock-block-chainV2/transactions';
+import { WalletService } from 'api/mock-block-chainV2/wallet';
 
 const {
   BLOCKS,
@@ -94,7 +95,7 @@ class BlockchainManager {
     return Math.round(new Date().getTime() / 1000);
   }
 
-  async generateNextBlock (blockData) {
+  async generateRawNextBlock (blockData) {
     const previousBlock = await this.getLatestBlock();
     const difficulty = this.getDifficulty(await this.getBlockchain());
     const nextIndex = previousBlock.index + 1;
@@ -106,6 +107,29 @@ class BlockchainManager {
     } else {
       return null;
     }
+  };
+
+  async generateNextBlock () {
+    const transactionServiceInst = new TransactionService();
+    const walletServiceInst = new WalletService();
+    const coinbaseTx = transactionServiceInst.getCoinbaseTransaction(walletServiceInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
+    const blockData = [coinbaseTx];
+    return await this.generateRawNextBlock(blockData);
+  };
+
+  async generatenextBlockWithTransaction (receiverAddress, amount) {
+    const transactionServiceInst = new TransactionService();
+    const walletServiceInst = new WalletService();
+    if (!transactionServiceInst.isValidAddress(receiverAddress)) {
+      throw Error('invalid address');
+    }
+    if (typeof amount !== 'number') {
+      throw Error('invalid amount');
+    }
+    const coinbaseTx = transactionServiceInst.getCoinbaseTransaction(walletServiceInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
+    const tx = transactionServiceInst.createTransaction(receiverAddress, amount, walletServiceInst.getPrivateFromWallet(), await transactionServiceInst.getUnspentTxOuts());
+    const blockData = [coinbaseTx, tx];
+    return await this.generateRawNextBlock(blockData);
   };
 
   /**
@@ -139,16 +163,6 @@ class BlockchainManager {
     return CryptoJS.SHA256(index + previousHash + timestamp + data + difficulty + nonce).toString();
   }
 
-  //   async addBlockToChain (newBlock) {
-  //     if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
-  //     // block valid now post new block
-  //         const
-  //       const block = (await api.post(BLOCKS, newBlock)).data;
-  //       return block;
-
-  //     }
-  //   };
-
   async addBlockToChain (newBlock) {
     if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
       const transactionServiceInst = new TransactionService();
@@ -171,7 +185,7 @@ class BlockchainManager {
           && typeof block.hash === 'string'
           && typeof block.previousHash === 'string'
           && typeof block.timestamp === 'number'
-          && typeof block.data === 'string';
+          && typeof block.data === 'object';
   };
 
   isValidNewBlock (newBlock, previousBlock) {

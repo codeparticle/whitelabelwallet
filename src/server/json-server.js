@@ -27,7 +27,7 @@ server.use((req, res, next) => {
   next();
 });
 
-// custom routes need to do entire replace subset of db, JSON server does not have this functionality out of the box.
+// custom routes needed to do a replace on subset of db, JSON server does not have this functionality out of the box.
 server.post('/unspentTxOuts', (req, res) => {
   fs.readFile(path.join(__dirname, 'db.json'), (err, data) => {
     if (err) {
@@ -35,7 +35,7 @@ server.post('/unspentTxOuts', (req, res) => {
     }
     const db = JSON.parse(data);
 
-    db.unspentTxOuts = req.body;
+    db.unspentTxOuts = req.body; // validate uTxOs arraay
     fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(db, null, 4), (err) => {
       if (err) {
         throw err;
@@ -45,6 +45,10 @@ server.post('/unspentTxOuts', (req, res) => {
     });
   });
 });
+
+// server.post('/createWallet', (req, res) => {
+//   res.send('wallet created');
+// });
 
 
 server.use(router);
