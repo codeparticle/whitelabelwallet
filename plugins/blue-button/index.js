@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from '@codeparticle/whitelabelwallet.styleguide';
 import { connect } from 'react-redux';
 import { blueButton } from './reducer';
 import { updateForceRed } from './actions';
@@ -13,12 +14,12 @@ const BlueButton = (props) => {
   };
 
   return (
-    <button
+    <Button
       className={`button ${forceRed ? 'red' : 'blue'}`}
       onClick={onClick}
     >
       The Redux {forceRed ? 'Red' : 'Blue'} Button Plugin
-    </button>
+    </Button>
   );
 };
 
