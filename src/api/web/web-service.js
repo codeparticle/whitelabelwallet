@@ -1,4 +1,4 @@
-import { SqlService } from '../db';
+import { SqlService, UpdateService } from '../db';
 import { EncryptionService } from '../encryption-service';
 import { FileService } from './file-service';
 
@@ -48,7 +48,13 @@ export class WebService {
       const dbBinary = EncryptionService.encodeBinary(decodedBinary);
 
       this.startSqlService(dbBinary);
-      resolve(true);
+      UpdateService(this.sqlService).then((updated) => {
+        if (updated) {
+          this.saveDatabase(username, password);
+        }
+
+        resolve(true);
+      });
     });
   }
 

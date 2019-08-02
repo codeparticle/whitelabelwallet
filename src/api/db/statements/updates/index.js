@@ -7,6 +7,7 @@ export const UPDATES_STATEMENTS = {
     DEFAULT: `insert into Updates default values;`,
   },
   SELECT: {
+    ALL: `select * from Updates limit 1;`,
     DB_VERSION: `select db_version from Updates order by db_version desc limit 1;`,
   },
 };

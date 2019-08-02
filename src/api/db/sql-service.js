@@ -1,10 +1,10 @@
 import { STATEMENTS as STMT } from './statements';
 import * as sqlClient from 'sql.js/js/sql';
 
-export default class SqlService {
+export class SqlService {
   /**
    * This class instance is always fetched using "SqlService.instance"
-   * @param {object} dbFile : Uint8Array of the DB file
+   * @param {Uint8Array} dbFile : Uint8Array of the DB file
    */
   constructor(dbFile) {
     if (dbFile) {
@@ -14,6 +14,9 @@ export default class SqlService {
     }
   }
 
+  /**
+   * @param {Uint8Array} dbFile
+   */
   static set file(dbFile) {
     if (!this._instance) {
       SqlService._instance = new SqlService(dbFile);
@@ -34,13 +37,15 @@ export default class SqlService {
   }
 
   // Generates wallet DB
-  generateTables() {
+  async generateTables() {
+    const run = true;
     const promises = [];
     Object.keys(STMT).forEach(table => {
-      promises.push(this.query({ statement: STMT[table].CREATE, run: true }));
+      promises.push(this.query({ statement: STMT[table].CREATE, run }));
     });
 
-    return Promise.all(promises).then(() => this.insert().appDefaults());
+    await Promise.all(promises);
+    return await this.insert().appDefaults();
   }
 
   /**
@@ -178,8 +183,23 @@ export default class SqlService {
     }).join(', ');
   }
 
-  getCurrentVersion() {
+  updateDbVersion(cols, lastVersion) {
+    this.update({
+      table: STMT.UPDATES.NAME,
+      cols,
+      where: `db_version=${lastVersion}`,
+    });
+  }
+
+  async getCurrentVersion() {
     const statement = STMT.UPDATES.SELECT.DB_VERSION;
+    const [row] = await this.query({ statement });
+
+    return row.db_version;
+  }
+
+  getUpdatesTable() {
+    const statement = STMT.UPDATES.SELECT.ALL;
     return this.query({ statement });
   }
 
