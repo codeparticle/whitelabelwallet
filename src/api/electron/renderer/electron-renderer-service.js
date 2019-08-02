@@ -11,7 +11,7 @@ import {
   SAVE_DATABASE,
   SAVED_DATABASE,
 } from '../ipc-events';
-import { SqlService } from '../../db';
+import { SqlService, UpdateService } from '../../db';
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
@@ -73,6 +73,11 @@ export class ElectronRendererService {
           const dbBinary = new Uint8Array(buffer);
 
           this.startSqlService(dbBinary);
+          UpdateService(this.sqlService).then((updated) => {
+            if (updated) {
+              this.saveDatabase(username, password);
+            }
+          });
         } else {
           log.error('ElectronAppService::loadDatabase not found');
           ipcRenderer.send(DELETE_LOGS);
