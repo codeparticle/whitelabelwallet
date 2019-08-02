@@ -26,5 +26,6 @@ tools/translations/*
 *.tar
 
 npm-debug\.log
+yarn-error.log
 
 port-status
