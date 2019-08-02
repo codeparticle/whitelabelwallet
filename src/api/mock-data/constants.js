@@ -7,6 +7,7 @@ const urls = {
   SECRET_ITEMS: '/secretItems',
   TRANSACTIONS: '/tx',
   TRANSACTIONS_DETAILS: '/tx?txid=',
+  UNSPENT_TX_OUTS: '/unspentTxOuts',
 };
 
 const blockchain = {
