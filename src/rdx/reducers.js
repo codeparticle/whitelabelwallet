@@ -2,11 +2,15 @@ import { combineReducers } from 'redux';
 import activeRequestsReducers from 'rdx/modules/active-requests/reducers';
 import apiReducers from 'rdx/modules/api/reducers';
 import appReducers from 'rdx/modules/app/reducers';
-import routerReducers from 'rdx/modules/router/reducers';
 import authReducers from 'rdx/modules/auth/reducers';
-import messageReducers from 'rdx/modules/messages/reducers';
+import contactsReducers from 'rdx/modules/contacts/reducers';
 import localeReducers from 'rdx/modules/locale/reducers';
+import messageReducers from 'rdx/modules/messages/reducers';
 import pluginsReducers from 'rdx/modules/plugins/reducers';
+import routerReducers from 'rdx/modules/router/reducers';
+import selectedReducers from 'rdx/modules/selected/reducers';
+import transactionsReducers from 'rdx/modules/transactions/reducers';
+import walletsReducers from 'rdx/modules/wallets/reducers';
 import { connectRouter } from 'connected-react-router';
 // IMPORT_PT (for script -- do not remove!)
 
@@ -14,11 +18,15 @@ export const reducers = {
   ...activeRequestsReducers,
   ...apiReducers,
   ...appReducers,
-  ...routerReducers,
   ...authReducers,
-  ...messageReducers,
+  ...contactsReducers,
   ...localeReducers,
+  ...messageReducers,
   ...pluginsReducers,
+  ...routerReducers,
+  ...selectedReducers,
+  ...transactionsReducers,
+  ...walletsReducers,
 // INSERTION_PT (for script -- do not remove!)
 };
 

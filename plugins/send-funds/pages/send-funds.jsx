@@ -1,20 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
-import './auth-guard.scss';
 
-const About = () => {
+const SendFunds = () => {
   return (
     <div>
-      About Page
+      Send Funds Page
     </div>
   );
 };
 
-About.propTypes = {
+SendFunds.propTypes = {
 };
 
-About.defaultProps = {
+SendFunds.defaultProps = {
 };
 
 const actionsMapper = getRdxActionMapper([
@@ -23,6 +22,6 @@ const actionsMapper = getRdxActionMapper([
 const stateMapper = getRdxSelectionMapper({
 });
 
-const AboutContainer = connect(stateMapper, actionsMapper)(About);
+const SendFundsPage = connect(stateMapper, actionsMapper)(SendFunds);
 
-export { AboutContainer };
+export { SendFundsPage };
