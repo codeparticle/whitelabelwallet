@@ -15,13 +15,19 @@ const router = jsonServer.router(path.join(__dirname, 'db.json'));
 
 const middlewares = jsonServer.defaults();
 
+server.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', `${process.env.ORIGIN_URL}`);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  next();
+});
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   if (req.method === 'POST') {
     req.body.createdAt = Date.now();
-
-    console.log('========\n', 'req.body', req.body, '\n========');
   }
 
   next();
@@ -34,21 +40,22 @@ server.post('/unspentTxOuts', (req, res) => {
       throw err;
     }
     const db = JSON.parse(data);
+    const addIds = req.body.map((uTxO, index) => {
+      return {
+        ...uTxO,
+        id: index + 1,
+      };
+    });
 
-    db.unspentTxOuts = req.body; // validate uTxOs arraay
-    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(db, null, 4), (err) => {
+    db.unspentTxOuts = addIds; // validate uTxOs arraay
+    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(db, null, 2), (err) => {
       if (err) {
         throw err;
       }
-
       res.send('uTxOs updated');
     });
   });
 });
-
-// server.post('/createWallet', (req, res) => {
-//   res.send('wallet created');
-// });
 
 
 server.use(router);

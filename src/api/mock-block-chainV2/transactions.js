@@ -4,13 +4,14 @@ import _ from 'lodash';
 
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-data/constants.js';
+import { WalletService } from 'api/mock-block-chainV2/wallet';
 
 const {
   UNSPENT_TX_OUTS,
 } = urls;
 
 const ec = new ecdsa.ec('secp256k1');
-
+const walletInst = new WalletService();
 const COINBASE_AMOUNT = 50;
 
 /**
@@ -63,6 +64,26 @@ class TransactionService {
     return (await api.get(UNSPENT_TX_OUTS)).data;
   }
 
+  async addFundsToWallet(amount) {
+    const address = walletInst.getPublicFromWallet();
+    const unspentTxOuts = [];
+    const unspentTxOutObj = {
+      address,
+      amount,
+      label: 'force funds to wallet',
+    };
+
+    if (this.isValidTxOutStructure(unspentTxOutObj)) {
+      console.log('tx out valid');
+      unspentTxOuts.push(unspentTxOutObj);
+      const response = await api.post(UNSPENT_TX_OUTS, unspentTxOuts);
+      console.log('========\n', 'response.data', response.data, '\n========');
+      return response.data;
+    } else {
+      console.log('tx out invalid');
+    }
+  }
+
   /**
  * The transaction id is calculated by taking a hash from the contents of the transaction
  * @param {obj} transaction
@@ -82,8 +103,8 @@ class TransactionService {
 
   validateTransaction (transaction, aUnspentTxOuts) {
 
-    if (this.getTransactionId(transaction) !== transaction.id) {
-      console.log('invalid tx id: ' + transaction.id);
+    if (this.getTransactionId(transaction) !== transaction.txid) {
+      console.log('invalid tx id: ' + transaction.txid);
       return false;
     }
     const hasValidTxIns = transaction.txIns
@@ -91,7 +112,7 @@ class TransactionService {
       .reduce((a, b) => a && b, true);
 
     if (!hasValidTxIns) {
-      console.log('some of the txIns are invalid in tx: ' + transaction.id);
+      console.log('some of the txIns are invalid in tx: ' + transaction.txid);
       return false;
     }
 
@@ -105,7 +126,7 @@ class TransactionService {
       .reduce((a, b) => (a + b), 0);
 
     if (totalTxOutValues !== totalTxInValues) {
-      console.log('totalTxOutValues !== totalTxInValues in tx: ' + transaction.id);
+      console.log('totalTxOutValues !== totalTxInValues in tx: ' + transaction.txid);
       return false;
     }
 
@@ -154,8 +175,8 @@ class TransactionService {
       console.log('the first transaction in the block must be coinbase transaction');
       return false;
     }
-    if (this.getTransactionId(transaction) !== transaction.id) {
-      console.log('invalid coinbase tx id: ' + transaction.id);
+    if (this.getTransactionId(transaction) !== transaction.txid) {
+      console.log('invalid coinbase tx id: ' + transaction.txid);
       return false;
     }
     if (transaction.txIns.length !== 1) {
@@ -187,7 +208,7 @@ class TransactionService {
     const address = referencedUTxOut.address;
 
     const key = ec.keyFromPublic(address, 'hex');
-    return key.verify(transaction.id, txIn.signature);
+    return key.verify(transaction.txid, txIn.signature);
   };
 
 
@@ -210,7 +231,7 @@ class TransactionService {
 
     transObj.txIns = [txIn];
     transObj.txOuts = [new TxOut(address, COINBASE_AMOUNT)];
-    transObj.id = this.getTransactionId(transObj);
+    transObj.txid = this.getTransactionId(transObj);
     return transObj;
   };
 
@@ -225,7 +246,7 @@ class TransactionService {
   signTxIn (transaction, txInIndex, privateKey, aUnspentTxOuts) {
     const txIn = transaction.txIns[txInIndex];
 
-    const dataToSign = transaction.id;
+    const dataToSign = transaction.txid;
     const referencedUnspentTxOut = this.findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts);
     if (referencedUnspentTxOut == null) {
       console.log('could not find referenced txOut');
@@ -234,8 +255,7 @@ class TransactionService {
     const referencedAddress = referencedUnspentTxOut.address;
 
     if (this.getPublicKey(privateKey) !== referencedAddress) {
-      console.log('trying to sign an input with private' +
-' key that does not match the address that is referenced in txIn');
+      console.log('trying to sign an input with private' + ' key that does not match the address that is referenced in txIn');
       throw Error();
     }
     const key = ec.keyFromPrivate(privateKey, 'hex');
@@ -252,7 +272,7 @@ class TransactionService {
     //  We will first retrieve all new unspent transaction outputs from the new block
     const newUnspentTxOuts = newTransactions
       .map((transObj) => {
-        return transObj.txOuts.map((txOut, index) => new UnspentTxOut(transObj.id, index, txOut.address, txOut.amount));
+        return transObj.txOuts.map((txOut, index) => new UnspentTxOut(transObj.txid, index, txOut.address, txOut.amount));
       })
       .reduce((uTxOCollection, uTxO) => uTxOCollection.concat(uTxO), []);
 
@@ -293,6 +313,8 @@ class TransactionService {
   };
 
   isValidTxInStructure (txIn) {
+    debugger;
+    console.log('========\n', 'txIn', txIn, '\n========');
     if (txIn == null) {
       console.log('txIn is null');
       return false;
@@ -330,12 +352,14 @@ class TransactionService {
 
   isValidTransactionsStructure (transactions) {
     return transactions
-      .map(this.isValidTransactionStructure)
+      .map(this.isValidTransactionStructure.bind(this))
       .reduce((checkedTransactions, uncheckedTransaction) => (checkedTransactions && uncheckedTransaction), true);
   };
 
   isValidTransactionStructure (transaction) {
-    if (typeof transaction.id !== 'string') {
+    debugger;
+    console.log('========\n', 'transaction to be validated', transaction, '\n========');
+    if (typeof transaction.txid !== 'string') {
       console.log('transactionId missing');
       return false;
     }
@@ -343,9 +367,10 @@ class TransactionService {
       console.log('invalid txIns type in transaction');
       return false;
     }
-    if (!transaction.txIns
-      .map(this.isValidTxInStructure)
-      .reduce((checkedTxins, uncheckedTxIn) => (checkedTxins && uncheckedTxIn), true)) {
+
+
+    console.log('========\n', 'transactions.txIns to validate', transaction.txIns, '\n========');
+    if (!transaction.txIns.map(this.isValidTxInStructure).reduce((checkedTxIns, uncheckedTxIn) => (checkedTxIns && uncheckedTxIn), true)) {
       return false;
     }
 
@@ -355,7 +380,7 @@ class TransactionService {
     }
 
     if (!transaction.txOuts
-      .map(this.isValidTxOutStructure)
+      .map(this.isValidTxOutStructure.bind(this))
       .reduce((checkedTxOuts, uncheckedTxOut) => (checkedTxOuts && uncheckedTxOut), true)) {
       return false;
     }

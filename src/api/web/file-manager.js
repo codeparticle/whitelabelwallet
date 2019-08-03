@@ -7,6 +7,15 @@ export class FileManager {
     return `whitelabelwallet:${username}:${password}`;
   }
 
+  savePrivateKey(privateKey) {
+    // check if priatekey exists
+    this.storage.setItem('privateKey', privateKey);
+  }
+
+  getPrivateKey() {
+    return this.storage.getItem('privateKey') || null;
+  }
+
   // fetch DB file on localStorage given username
   getDatabaseFile(username, password) {
     return this.storage.getItem(this.getKeyName(username, password)) || null;

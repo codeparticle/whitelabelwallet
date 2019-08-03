@@ -118,6 +118,7 @@ class BlockchainManager {
   };
 
   async generatenextBlockWithTransaction (receiverAddress, amount) {
+    debugger;
     const transactionServiceInst = new TransactionService();
     const walletServiceInst = new WalletService();
     if (!transactionServiceInst.isValidAddress(receiverAddress)) {
@@ -126,9 +127,11 @@ class BlockchainManager {
     if (typeof amount !== 'number') {
       throw Error('invalid amount');
     }
+    debugger;
     const coinbaseTx = transactionServiceInst.getCoinbaseTransaction(walletServiceInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
-    const tx = transactionServiceInst.createTransaction(receiverAddress, amount, walletServiceInst.getPrivateFromWallet(), await transactionServiceInst.getUnspentTxOuts());
+    const tx = walletServiceInst.createTransaction(receiverAddress, amount, walletServiceInst.getPrivateFromWallet(), await transactionServiceInst.getUnspentTxOuts());
     const blockData = [coinbaseTx, tx];
+    debugger;
     return await this.generateRawNextBlock(blockData);
   };
 
@@ -164,6 +167,7 @@ class BlockchainManager {
   }
 
   async addBlockToChain (newBlock) {
+    console.log('========\n', 'newBlock', newBlock, '\n========');
     if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
       const transactionServiceInst = new TransactionService();
       const processedData = transactionServiceInst.processTransactions(newBlock.data, await this.getUnspentTxOs(), newBlock.index);
