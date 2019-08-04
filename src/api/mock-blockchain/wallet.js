@@ -1,9 +1,9 @@
 import { ec } from 'elliptic';
 import  _ from 'lodash';
 import { api } from 'rdx/api';
-import { Transaction, TxIn, TxOut, TransactionService } from 'api/mock-block-chainV2/transactions';
+import { Transaction, TxIn, TxOut, TransactionService } from 'api/mock-blockchain/transactions';
 import { FileService } from 'api/web/file-service';
-import { urls } from 'api/mock-data/constants';
+import { urls } from 'api/mock-blockchain/constants';
 
 const {
   ADDRESS,
