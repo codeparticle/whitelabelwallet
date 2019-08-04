@@ -2,10 +2,10 @@ import * as CryptoJS from 'crypto-js';
 import  _ from 'lodash';
 
 import { api } from 'rdx/api';
-import { urls, blockchain } from 'api/mock-data/constants';
-import { hexToBinary } from 'api/mock-block-chainV2/utils/hex-to-binary';
-import { TransactionService } from 'api/mock-block-chainV2/transactions';
-import { WalletService } from 'api/mock-block-chainV2/wallet';
+import { urls, blockchain } from 'api/mock-blockchain/constants';
+import { hexToBinary } from 'api/mock-blockchain/utils/hex-to-binary';
+import { TransactionService } from 'api/mock-blockchain/transactions';
+import { WalletService } from 'api/mock-blockchain/wallet';
 
 const {
   BLOCKS,

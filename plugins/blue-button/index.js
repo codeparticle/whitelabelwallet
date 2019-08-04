@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { blueButton } from './reducer';
 import { updateForceRed } from './actions';
-import { BlockchainManager } from 'api/mock-block-chainV2/blockchain';
-import { WalletService } from 'api/mock-block-chainV2/wallet';
-import { TransactionService } from 'api/mock-block-chainV2/transactions';
+import { BlockchainManager } from 'api/mock-blockchain/blockchain';
+import { WalletService } from 'api/mock-blockchain/wallet';
+import { TransactionService } from 'api/mock-blockchain/transactions';
 import './index.scss';
 
 

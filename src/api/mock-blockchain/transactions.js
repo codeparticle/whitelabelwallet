@@ -3,8 +3,8 @@ import * as ecdsa from 'elliptic';
 import _ from 'lodash';
 
 import { api } from 'rdx/api';
-import { urls } from 'api/mock-data/constants.js';
-import { WalletService } from 'api/mock-block-chainV2/wallet';
+import { urls } from 'api/mock-blockchain/constants.js';
+import { WalletService } from 'api/mock-blockchain/wallet';
 
 const {
   UNSPENT_TX_OUTS,
