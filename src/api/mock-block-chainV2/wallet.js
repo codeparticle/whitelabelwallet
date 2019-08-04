@@ -1,5 +1,5 @@
 import { ec } from 'elliptic';
-import * as _ from 'lodash';
+import  _ from 'lodash';
 import { api } from 'rdx/api';
 import { Transaction, TxIn, TxOut, TransactionService } from 'api/mock-block-chainV2/transactions';
 import { FileService } from 'api/web/file-service';
@@ -20,7 +20,6 @@ class WalletService {
   getPublicFromWallet() {
     const privateKey = this.getPrivateFromWallet();
     const key = EC.keyFromPrivate(privateKey, 'hex');
-    console.log('========\n', 'public', key.getPublic().encode('hex'), '\n========');
     return key.getPublic().encode('hex');
   };
 
@@ -94,24 +93,12 @@ class WalletService {
   };
 
   createTransaction (receiverAddress, amount, privateKey, unspentTxOuts) {
-    debugger;
-    // console.log('========\n', '1. receiverAddress', receiverAddress, '\n========');
-    // console.log('========\n', 'amount', amount, '\n========');
-    // console.log('========\n', 'privateKey', privateKey, '\n========');
-    // console.log('========\n', 'unspentTxOuts', unspentTxOuts, '\n========');
     const transactionServiceInst = new TransactionService();
     const myAddress = transactionServiceInst.getPublicKey(privateKey);
     const myUnspentTxOuts = unspentTxOuts.filter((uTxO) => uTxO.address === myAddress);
-    console.log('========\n', 'myUnspentTxOuts', myUnspentTxOuts, '\n========');
-
     const { includedUnspentTxOuts, leftOverAmount } = this.findTxOutsForAmount(amount, myUnspentTxOuts);
 
-    console.log('========\n', 'includedUnspentTxOuts', includedUnspentTxOuts, '\n========');
-    console.log('========\n', 'leftOverAmount', leftOverAmount, '\n========');
-
     const toUnsignedTxIn = (unspentTxOut) => {
-      console.log('========\n', 'mapping over included unspentTxOuts', '\n========');
-      console.log('========\n', 'unspentTxOut', unspentTxOut, '\n========');
       const txIn = new TxIn();
       txIn.txOutId = unspentTxOut.txOutId;
       txIn.txOutIndex = unspentTxOut.txOutIndex;
@@ -119,7 +106,6 @@ class WalletService {
     };
 
     const unsignedTxIns = includedUnspentTxOuts.map(toUnsignedTxIn);
-
     const tx = new Transaction();
     tx.txIns = unsignedTxIns;
     tx.txOuts = this.createTxOuts(receiverAddress, myAddress, amount, leftOverAmount);

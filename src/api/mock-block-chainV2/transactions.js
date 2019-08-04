@@ -77,7 +77,6 @@ class TransactionService {
       console.log('tx out valid');
       unspentTxOuts.push(unspentTxOutObj);
       const response = await api.post(UNSPENT_TX_OUTS, unspentTxOuts);
-      console.log('========\n', 'response.data', response.data, '\n========');
       return response.data;
     } else {
       console.log('tx out invalid');
@@ -99,6 +98,106 @@ class TransactionService {
       .reduce((allTxOutDataString, currentTxOut) => allTxOutDataString + currentTxOut, '');
 
     return CryptoJS.SHA256(txInContent + txOutContent).toString();
+  };
+
+  // returns the amount value of a txIn
+  getTxInAmount (txIn, aUnspentTxOuts) {
+    return this.findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts).amount;
+  };
+
+  // returns matching uTxO
+  findUnspentTxOut (transactionId, index, aUnspentTxOuts) {
+    return aUnspentTxOuts.find((uTxO) => uTxO.txOutId === transactionId && uTxO.txOutIndex === index);
+  };
+
+  getCoinbaseTransaction (address, blockIndex) {
+    const transObj = new Transaction();
+    const txIn = new TxIn();
+    txIn.signature = '';
+    txIn.txOutId = '';
+    txIn.txOutIndex = blockIndex;
+
+    transObj.txIns = [txIn];
+    transObj.txOuts = [new TxOut(address, COINBASE_AMOUNT)];
+    transObj.txid = this.getTransactionId(transObj);
+    return transObj;
+  };
+
+  /**
+   * When signing the transaction inputs, only the txId will be signed. If any of the contents in the transactions are modified, the txId must change, making the transaction and signature invalid.
+   * @param {obj} transaction
+   * @param {num} txInIndex
+   * @param {string} privateKey
+   * @param {array} aUnspentTxOuts
+   */
+
+  signTxIn (transaction, txInIndex, privateKey, aUnspentTxOuts) {
+    const txIn = transaction.txIns[txInIndex];
+
+    const dataToSign = transaction.txid;
+    const referencedUnspentTxOut = this.findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts);
+    if (referencedUnspentTxOut == null) {
+      console.log('could not find referenced txOut');
+      throw Error();
+    }
+    const referencedAddress = referencedUnspentTxOut.address;
+
+    if (this.getPublicKey(privateKey) !== referencedAddress) {
+      console.log('trying to sign an input with private' + ' key that does not match the address that is referenced in txIn');
+      throw Error();
+    }
+    const key = ec.keyFromPrivate(privateKey, 'hex');
+    const signature = this.toHexString(key.sign(dataToSign).toDER());
+
+    return signature;
+  };
+
+  /**
+   * @param {obj} newTransactions
+   * @param {array} aUnspentTxOuts
+   */
+  updateUnspentTxOuts (newTransactions, aUnspentTxOuts) {
+    //  We will first retrieve all new unspent transaction outputs from the new block
+    const newUnspentTxOuts = newTransactions
+      .map((transObj) => {
+        return transObj.txOuts.map((txOut, index) => new UnspentTxOut(transObj.txid, index, txOut.address, txOut.amount));
+      })
+      .reduce((uTxOCollection, uTxO) => uTxOCollection.concat(uTxO), []);
+
+    // Need to know which transaction outputs are consumed by the new transactions of the block
+    const consumedTxOuts = newTransactions
+      .map((transObj) => transObj.txIns)
+      .reduce((txInCollection, txin) => txInCollection.concat(txin), [])
+      .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
+
+    // we can generate the new unspent transaction outputs by removing the consumedTxOuts and adding the newUnspentTxOuts to our existing transaction outputs.
+    const resultingUnspentTxOuts = aUnspentTxOuts
+      .filter(((uTxO) => !this.findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)))
+      .concat(newUnspentTxOuts);
+
+    return resultingUnspentTxOuts;
+  };
+
+  processTransactions = (aTransactions, aUnspentTxOuts, blockIndex) => {
+    if (!this.isValidTransactionsStructure(aTransactions)) {
+      return null;
+    }
+
+    if (!this.validateBlockTransactions(aTransactions, aUnspentTxOuts, blockIndex)) {
+      console.log('invalid block transactions');
+      return null;
+    }
+    return this.updateUnspentTxOuts(aTransactions, aUnspentTxOuts);
+  };
+
+  toHexString (byteArray) {
+    return Array.from(byteArray, (byte) => {
+      return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    }).join('');
+  };
+
+  getPublicKey  (aPrivateKey) {
+    return ec.keyFromPrivate(aPrivateKey, 'hex').getPublic().encode('hex');
   };
 
   validateTransaction (transaction, aUnspentTxOuts) {
@@ -211,110 +310,7 @@ class TransactionService {
     return key.verify(transaction.txid, txIn.signature);
   };
 
-
-  // returns the amount value of a txIn
-  getTxInAmount (txIn, aUnspentTxOuts) {
-    return this.findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts).amount;
-  };
-
-  // returns matching uTxO
-  findUnspentTxOut (transactionId, index, aUnspentTxOuts) {
-    return aUnspentTxOuts.find((uTxO) => uTxO.txOutId === transactionId && uTxO.txOutIndex === index);
-  };
-
-  getCoinbaseTransaction (address, blockIndex) {
-    const transObj = new Transaction();
-    const txIn = new TxIn();
-    txIn.signature = '';
-    txIn.txOutId = '';
-    txIn.txOutIndex = blockIndex;
-
-    transObj.txIns = [txIn];
-    transObj.txOuts = [new TxOut(address, COINBASE_AMOUNT)];
-    transObj.txid = this.getTransactionId(transObj);
-    return transObj;
-  };
-
-  /**
-   * When signing the transaction inputs, only the txId will be signed. If any of the contents in the transactions are modified, the txId must change, making the transaction and signature invalid.
-   * @param {obj} transaction
-   * @param {num} txInIndex
-   * @param {string} privateKey
-   * @param {array} aUnspentTxOuts
-   */
-
-  signTxIn (transaction, txInIndex, privateKey, aUnspentTxOuts) {
-    const txIn = transaction.txIns[txInIndex];
-
-    const dataToSign = transaction.txid;
-    const referencedUnspentTxOut = this.findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts);
-    if (referencedUnspentTxOut == null) {
-      console.log('could not find referenced txOut');
-      throw Error();
-    }
-    const referencedAddress = referencedUnspentTxOut.address;
-
-    if (this.getPublicKey(privateKey) !== referencedAddress) {
-      console.log('trying to sign an input with private' + ' key that does not match the address that is referenced in txIn');
-      throw Error();
-    }
-    const key = ec.keyFromPrivate(privateKey, 'hex');
-    const signature = this.toHexString(key.sign(dataToSign).toDER());
-
-    return signature;
-  };
-
-  /**
-   * @param {obj} newTransactions
-   * @param {array} aUnspentTxOuts
-   */
-  updateUnspentTxOuts (newTransactions, aUnspentTxOuts) {
-    //  We will first retrieve all new unspent transaction outputs from the new block
-    const newUnspentTxOuts = newTransactions
-      .map((transObj) => {
-        return transObj.txOuts.map((txOut, index) => new UnspentTxOut(transObj.txid, index, txOut.address, txOut.amount));
-      })
-      .reduce((uTxOCollection, uTxO) => uTxOCollection.concat(uTxO), []);
-
-    // Need to know which transaction outputs are consumed by the new transactions of the block
-    const consumedTxOuts = newTransactions
-      .map((transObj) => transObj.txIns)
-      .reduce((txInCollection, txin) => txInCollection.concat(txin), [])
-      .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
-
-    // we can generate the new unspent transaction outputs by removing the consumedTxOuts and adding the newUnspentTxOuts to our existing transaction outputs.
-    const resultingUnspentTxOuts = aUnspentTxOuts
-      .filter(((uTxO) => !this.findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)))
-      .concat(newUnspentTxOuts);
-
-    return resultingUnspentTxOuts;
-  };
-
-  processTransactions = (aTransactions, aUnspentTxOuts, blockIndex) => {
-    if (!this.isValidTransactionsStructure(aTransactions)) {
-      return null;
-    }
-
-    if (!this.validateBlockTransactions(aTransactions, aUnspentTxOuts, blockIndex)) {
-      console.log('invalid block transactions');
-      return null;
-    }
-    return this.updateUnspentTxOuts(aTransactions, aUnspentTxOuts);
-  };
-
-  toHexString (byteArray) {
-    return Array.from(byteArray, (byte) => {
-      return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-    }).join('');
-  };
-
-  getPublicKey  (aPrivateKey) {
-    return ec.keyFromPrivate(aPrivateKey, 'hex').getPublic().encode('hex');
-  };
-
   isValidTxInStructure (txIn) {
-    debugger;
-    console.log('========\n', 'txIn', txIn, '\n========');
     if (txIn == null) {
       console.log('txIn is null');
       return false;
@@ -357,8 +353,6 @@ class TransactionService {
   };
 
   isValidTransactionStructure (transaction) {
-    debugger;
-    console.log('========\n', 'transaction to be validated', transaction, '\n========');
     if (typeof transaction.txid !== 'string') {
       console.log('transactionId missing');
       return false;
@@ -368,8 +362,6 @@ class TransactionService {
       return false;
     }
 
-
-    console.log('========\n', 'transactions.txIns to validate', transaction.txIns, '\n========');
     if (!transaction.txIns.map(this.isValidTxInStructure).reduce((checkedTxIns, uncheckedTxIn) => (checkedTxIns && uncheckedTxIn), true)) {
       return false;
     }

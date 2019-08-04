@@ -1,9 +1,10 @@
 const urls = {
   ADDRESS: '/address',
-  ADDRESS_BALANCE: '/tx?address=',
   ADDRESS_DETAILS: '/address?address=',
   BLOCKS: '/blocks',
-  LATESTBLOCK: '/blocks?_sort=createdAt&_order=desc&_start=0&_end=1',
+  BLOCKS_DETAILS: '/blocks?hash=',
+  LATEST_BLOCK: '/blocks?_sort=createdAt&_order=desc&_start=0&_end=1',
+  LATEST_ADDRESS: '/ADDRESS?_sort=createdAt&_order=desc&_start=0&_end=1',
   MINE_TRANSACTION: '/mineTransaction',
   SECRET_ITEMS: '/secretItems',
   TRANSACTIONS: '/tx',

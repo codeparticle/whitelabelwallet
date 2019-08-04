@@ -1,5 +1,5 @@
 import * as CryptoJS from 'crypto-js';
-// import { broadcastLatest } from './p2p';
+import  _ from 'lodash';
 
 import { api } from 'rdx/api';
 import { urls, blockchain } from 'api/mock-data/constants';
@@ -9,8 +9,11 @@ import { WalletService } from 'api/mock-block-chainV2/wallet';
 
 const {
   BLOCKS,
-  LATESTBLOCK,
+  BLOCKS_DETAILS,
+  LATEST_BLOCK,
   UNSPENT_TX_OUTS,
+  LATEST_ADDRESS,
+  ADDRESS_DETAILS,
 } = urls;
 
 const {
@@ -36,10 +39,9 @@ const genesisBlock = new Block(
 
 class BlockchainManager {
 
-  createGenesisBLock() {
-    api.post(BLOCKS, genesisBlock).then((response) => {
-      return response.data;
-    });
+  async createGenesisBLock() {
+    const genisisBlock = await api.post(BLOCKS, genesisBlock);
+    return genisisBlock;
   }
 
   async getBlockchain() {
@@ -48,7 +50,7 @@ class BlockchainManager {
   }
 
   async getLatestBlock() {
-    const latestBLock = (await api.get(LATESTBLOCK)).data[0];
+    const latestBLock = (await api.get(LATEST_BLOCK)).data[0];
     return latestBLock;
   }
 
@@ -56,6 +58,30 @@ class BlockchainManager {
     const transactionServiceInst = new TransactionService();
     const uTxOs = await transactionServiceInst.getUnspentTxOuts();
     return uTxOs;
+  }
+
+  async getAddress(address) {
+    const addressDetails = (await api.get(`${ADDRESS_DETAILS}${address}`));
+    return addressDetails;
+  }
+
+  async getLatestAddress() {
+    const latestAddress = (await api.get(LATEST_ADDRESS)).data[0];
+    return latestAddress;
+  }
+
+  async getBlockDetails(hash) {
+    const block = (await api.get(`${BLOCKS_DETAILS}${hash}`));
+    return block;
+  }
+
+  async getTransactionDetial(txid) {
+    const tx = _(await this.getBlockchain())
+      .map((blocks) => blocks.data)
+      .flatten()
+      .find({ 'txid':txid });
+
+    return tx;
   }
 
   /**
@@ -95,6 +121,11 @@ class BlockchainManager {
     return Math.round(new Date().getTime() / 1000);
   }
 
+  /**
+   * This can be used to add a block with any data to the blockchain.
+   * @param {object} blockData
+   */
+
   async generateRawNextBlock (blockData) {
     const previousBlock = await this.getLatestBlock();
     const difficulty = this.getDifficulty(await this.getBlockchain());
@@ -102,12 +133,16 @@ class BlockchainManager {
     const nextTimestamp = this.getCurrentTimestamp();
     const newBlock = this.findBlock(nextIndex, previousBlock.hash, nextTimestamp, blockData, difficulty);
     if (await this.addBlockToChain(newBlock)) {
-      // broadcastLatest(); TODO: mock broadcasting to p2p
+      // broadcastLatest(); TODO: mock broadcasting to p2p server maybe?
       return newBlock;
     } else {
       return null;
     }
   };
+
+  /**
+   * This funciton can be used to generatae coinbase Txs. The coinbase transaction contains only an output, but no inputs. This means that a coinbase transaction adds new coins to circulation.
+   */
 
   async generateNextBlock () {
     const transactionServiceInst = new TransactionService();
@@ -117,8 +152,13 @@ class BlockchainManager {
     return await this.generateRawNextBlock(blockData);
   };
 
+  /**
+   * This funciton will add transcations blocks to the blockhain and also generates a coin to the wallet that executes the function(a reward for minining the block);
+   * @param {string} receiverAddress
+   * @param {number} amount
+   */
+
   async generatenextBlockWithTransaction (receiverAddress, amount) {
-    debugger;
     const transactionServiceInst = new TransactionService();
     const walletServiceInst = new WalletService();
     if (!transactionServiceInst.isValidAddress(receiverAddress)) {
@@ -127,18 +167,16 @@ class BlockchainManager {
     if (typeof amount !== 'number') {
       throw Error('invalid amount');
     }
-    debugger;
     const coinbaseTx = transactionServiceInst.getCoinbaseTransaction(walletServiceInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
     const tx = walletServiceInst.createTransaction(receiverAddress, amount, walletServiceInst.getPrivateFromWallet(), await transactionServiceInst.getUnspentTxOuts());
     const blockData = [coinbaseTx, tx];
-    debugger;
     return await this.generateRawNextBlock(blockData);
   };
 
   /**
    * To find a hash that satisfies the difficulty, we must be able to calculate different hashes for the same content of the block. This is done by modifying the nonce parameter. Because SHA256 is a hash function, each time anything in the block changes, the hash will be completely different. “Mining” is basically just trying a different nonce until the block hash matches the difficulty.
    *
-   * To find a valid block hash we must increase the nonce as until we get a valid hash. To find a satisfying hash is completely a random process. We must just loop through enough nonces until we find a satisfying hash:
+   * To find a valid block hash we must increase the nonce until we get a valid hash. To find a satisfying hash is completely a random process. We must just loop through enough nonces until we find a satisfying hash:
    * @param {number} index
    * @param {string} previousHash
    * @param {number} timestamp
@@ -167,11 +205,9 @@ class BlockchainManager {
   }
 
   async addBlockToChain (newBlock) {
-    console.log('========\n', 'newBlock', newBlock, '\n========');
     if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
       const transactionServiceInst = new TransactionService();
       const processedData = transactionServiceInst.processTransactions(newBlock.data, await this.getUnspentTxOs(), newBlock.index);
-      console.log('========\n', 'processedData', processedData, '\n========');
       if (processedData === null) {
         return false;
       } else {
@@ -182,34 +218,6 @@ class BlockchainManager {
       }
     }
     return false;
-  };
-
-  isValidBlockStructure (block) {
-    return typeof block.index === 'number'
-          && typeof block.hash === 'string'
-          && typeof block.previousHash === 'string'
-          && typeof block.timestamp === 'number'
-          && typeof block.data === 'object';
-  };
-
-  isValidNewBlock (newBlock, previousBlock) {
-    if (!this.isValidBlockStructure(newBlock)) {
-      console.log('invalid structure');
-      return false;
-    }
-    if (previousBlock.index + 1 !== newBlock.index) {
-      console.log('invalid index');
-      return false;
-    } else if (previousBlock.hash !== newBlock.previousHash) {
-      console.log('invalid previoushash');
-      return false;
-    } else if (!this.isValidTimestamp(newBlock, previousBlock)) {
-      console.log('invalid timestamp');
-      return false;
-    } else if (!this.hasValidHash(newBlock)) {
-      return false;
-    }
-    return true;
   };
 
   /**
@@ -236,6 +244,35 @@ class BlockchainManager {
   isValidTimestamp (newBlock, previousBlock) {
     return (previousBlock.timestamp - 60 < newBlock.timestamp)
             && newBlock.timestamp - 60 < this.getCurrentTimestamp();
+  };
+
+  isValidNewBlock (newBlock, previousBlock) {
+    if (!this.isValidBlockStructure(newBlock)) {
+      console.log('invalid structure');
+      return false;
+    }
+    if (previousBlock.index + 1 !== newBlock.index) {
+      console.log('invalid index');
+      return false;
+    } else if (previousBlock.hash !== newBlock.previousHash) {
+      console.log('invalid previoushash');
+      return false;
+    } else if (!this.isValidTimestamp(newBlock, previousBlock)) {
+      console.log('invalid timestamp');
+      return false;
+    } else if (!this.hasValidHash(newBlock)) {
+      return false;
+    }
+    return true;
+  };
+
+
+  isValidBlockStructure (block) {
+    return typeof block.index === 'number'
+          && typeof block.hash === 'string'
+          && typeof block.previousHash === 'string'
+          && typeof block.timestamp === 'number'
+          && typeof block.data === 'object';
   };
 
   hasValidHash (block) {
