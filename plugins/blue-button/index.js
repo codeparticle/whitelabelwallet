@@ -16,14 +16,9 @@ const BlueButton = (props) => {
   const walletInst = new WalletService();
   const transactionServiceInst = new TransactionService();
 
-  // const onClick = () => {
-  //   mockBlockchainManagerInst.generateAddress();
-
-  // };
-
-  // const generateWallet = () => {
-  //   walletInst.initWallet();
-  // };
+  const generateWallet = () => {
+    walletInst.initWallet();
+  };
 
   const genrateToAddress = () => {
     walletInst.generateToAddress();
@@ -37,17 +32,23 @@ const BlueButton = (props) => {
   };
 
   const testFunc = () => {
-    transactionServiceInst.addFundsToWallet(100);
+    mockBlockchainManagerInst.getTransactionDetial('2e3c4ad270a2011657ac9833e50a30a8e96243932257972bead5336d6ec3e50a');
+  };
+
+  const getBalance = async () => {
+    console.log(walletInst.getBalance(walletInst.getPublicFromWallet(), await transactionServiceInst.getUnspentTxOuts()));
   };
 
   return (
     <Fragment>
+      {'step 1 generate wallet/private key(if you have already) '}
       <button
         className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={createCoinBaseTx}
+        onClick={generateWallet}
       >
-        Testing
+        Create Wallet used for Transacions
       </button>
+      <br/>
       <br/>
       {'step 2 generate to address '}
       <button
@@ -73,6 +74,13 @@ const BlueButton = (props) => {
         Send 10 units
       </button>
       <br/>
+      {'find wallet balance '}
+      <button
+        className={`button ${forceRed ? 'red' : 'blue'}`}
+        onClick={getBalance}
+      >
+      get balance
+      </button>
     </Fragment>
   );
 };
