@@ -64,25 +64,6 @@ class TransactionService {
     return (await api.get(UNSPENT_TX_OUTS)).data;
   }
 
-  async addFundsToWallet(amount) {
-    const address = walletInst.getPublicFromWallet();
-    const unspentTxOuts = [];
-    const unspentTxOutObj = {
-      address,
-      amount,
-      label: 'force funds to wallet',
-    };
-
-    if (this.isValidTxOutStructure(unspentTxOutObj)) {
-      console.log('tx out valid');
-      unspentTxOuts.push(unspentTxOutObj);
-      const response = await api.post(UNSPENT_TX_OUTS, unspentTxOuts);
-      return new Promise(resolve => resolve(response.data));
-    } else {
-      console.log('tx out invalid');
-    }
-  }
-
   /**
  * The transaction id is calculated by taking a hash from the contents of the transaction
  * @param {obj} transaction
