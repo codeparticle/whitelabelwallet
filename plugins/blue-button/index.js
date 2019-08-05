@@ -5,7 +5,6 @@ import { blueButton } from './reducer';
 import { updateForceRed } from './actions';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { WalletService } from 'api/mock-blockchain/wallet';
-import { TransactionService } from 'api/mock-blockchain/transactions';
 import './index.scss';
 
 
@@ -14,7 +13,6 @@ const BlueButton = (props) => {
   const { forceRed } = props;
   const mockBlockchainManagerInst = new BlockchainManager();
   const walletInst = new WalletService();
-  const transactionServiceInst = new TransactionService();
 
   const generateWallet = () => {
     walletInst.initWallet();
@@ -32,23 +30,26 @@ const BlueButton = (props) => {
   };
 
   const testFunc = () => {
-    mockBlockchainManagerInst.getTransactionDetial('2e3c4ad270a2011657ac9833e50a30a8e96243932257972bead5336d6ec3e50a');
+    mockBlockchainManagerInst.getTransactions();
   };
 
   const getBalance = async () => {
-    console.log(walletInst.getBalance(walletInst.getPublicFromWallet(), await transactionServiceInst.getUnspentTxOuts()));
+    console.log(await mockBlockchainManagerInst.getBalanceForAddress(walletInst.getPublicFromWallet(), await mockBlockchainManagerInst.getUnspentTxOs()));
   };
 
   return (
     <Fragment>
-      {'step 1 generate wallet/private key(if you have already) '}
+      <strong>
+        {'Test Mock Blockchain'}
+      </strong>
+      <br/>
+      {'step 1 generate wallet/private key(if you dont have one already) '}
       <button
         className={`button ${forceRed ? 'red' : 'blue'}`}
         onClick={generateWallet}
       >
         Create Wallet used for Transacions
       </button>
-      <br/>
       <br/>
       {'step 2 generate to address '}
       <button
@@ -74,6 +75,11 @@ const BlueButton = (props) => {
         Send 10 units
       </button>
       <br/>
+      <br/>
+      <strong>
+        {'Other acitons/Test'}
+      </strong>
+      <br/>
       {'find wallet balance '}
       <button
         className={`button ${forceRed ? 'red' : 'blue'}`}
@@ -81,6 +87,17 @@ const BlueButton = (props) => {
       >
       get balance
       </button>
+      <br/>
+      {'test button '}
+      <button
+        className={`button ${forceRed ? 'red' : 'blue'}`}
+        onClick={testFunc}
+      >
+      Test Some functionality
+      </button>
+      <br/>
+      <br/>
+
     </Fragment>
   );
 };
