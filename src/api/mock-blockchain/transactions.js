@@ -4,14 +4,12 @@ import _ from 'lodash';
 
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants.js';
-import { WalletService } from 'api/mock-blockchain/wallet';
 
 const {
   UNSPENT_TX_OUTS,
 } = urls;
 
 const ec = new ecdsa.ec('secp256k1');
-const walletInst = new WalletService();
 const COINBASE_AMOUNT = 50;
 
 /**
