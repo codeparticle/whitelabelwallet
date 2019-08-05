@@ -171,9 +171,8 @@ class TransactionService {
       .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
 
     // we can generate the new unspent transaction outputs by removing the consumedTxOuts and adding the newUnspentTxOuts to our existing transaction outputs.
-    const resultingUnspentTxOuts = aUnspentTxOuts
-      .filter(((uTxO) => !this.findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)))
-      .concat(newUnspentTxOuts);
+    const resultingUnspentTxOuts = aUnspentTxOuts.filter(((uTxO) => !this.findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)));
+    resultingUnspentTxOuts.unshift(...newUnspentTxOuts);
 
     return resultingUnspentTxOuts;
   };
@@ -208,7 +207,7 @@ class TransactionService {
     }
     const hasValidTxIns = transaction.txIns
       .map((txIn) => this.validateTxIn(txIn, transaction, aUnspentTxOuts))
-      .reduce((a, b) => a && b, true);
+      .reduce((validatedTxIns, nextTxIn) => validatedTxIns && nextTxIn, true);
 
     if (!hasValidTxIns) {
       console.log('some of the txIns are invalid in tx: ' + transaction.txid);
@@ -218,11 +217,11 @@ class TransactionService {
     // The sums of the values specified in the outputs must be equal to the sums of the values specified in the inputs.
     const totalTxInValues = transaction.txIns
       .map((txIn) => this.getTxInAmount(txIn, aUnspentTxOuts))
-      .reduce((a, b) => (a + b), 0);
+      .reduce((allTxIns, nextTxIn) => (allTxIns + nextTxIn), 0);
 
     const totalTxOutValues = transaction.txOuts
       .map((txOut) => txOut.amount)
-      .reduce((a, b) => (a + b), 0);
+      .reduce((allTxOuts, nextTxOut) => (allTxOuts + nextTxOut), 0);
 
     if (totalTxOutValues !== totalTxInValues) {
       console.log('totalTxOutValues !== totalTxInValues in tx: ' + transaction.txid);
@@ -299,7 +298,7 @@ class TransactionService {
 
   // The signatures in the txIns must be valid and the referenced outputs must have not been spent.
   validateTxIn (txIn, transaction, aUnspentTxOuts) {
-    const referencedUTxOut = aUnspentTxOuts.find((uTxO) => uTxO.txOutId === txIn.txOutId && uTxO.txOutId === txIn.txOutId);
+    const referencedUTxOut = aUnspentTxOuts.find((uTxO) =>  uTxO.txOutId === txIn.txOutId);
     if (referencedUTxOut == null) {
       console.log('referenced txOut not found: ' + JSON.stringify(txIn));
       return false;
