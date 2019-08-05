@@ -21,8 +21,9 @@ const BlueButton = (props) => {
   const genrateToAddress = () => {
     walletInst.generateToAddress();
   };
-  const createTransactions = () => {
-    mockBlockchainManagerInst.generatenextBlockWithTransaction('04bff04b9e289eefd08789fcefbde50cf9857fab8208d4ff227a291aaf89e605a266aaffe0bec019ae2bb57e4ccc5b47d1dc06197ed7c6146f457570db56b915eb', 10);
+  const createTransactions = async () => {
+    const address = (await mockBlockchainManagerInst.getLatestAddress()).address;
+    mockBlockchainManagerInst.generatenextBlockWithTransaction(address, 10);
   };
 
   const createCoinBaseTx = () => {
@@ -51,20 +52,20 @@ const BlueButton = (props) => {
         Create Wallet used for Transacions
       </button>
       <br/>
-      {'step 2 generate to address '}
+      {'step 2 add a coin(50 units) to your wallet available to spend '}
+      <button
+        className={`button ${forceRed ? 'red' : 'blue'}`}
+        onClick={createCoinBaseTx}
+      >
+        Add 50 units
+      </button>
+      <br/>
+      {'step 3 generate to address '}
       <button
         className={`button ${forceRed ? 'red' : 'blue'}`}
         onClick={genrateToAddress}
       >
         Generate To Address
-      </button>
-      <br/>
-      {'step 3 add a coin(50 units) to your wallet available to spend '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={createCoinBaseTx}
-      >
-        fill
       </button>
       <br/>
       {'step 4 send 10 units to an address '}
@@ -85,7 +86,7 @@ const BlueButton = (props) => {
         className={`button ${forceRed ? 'red' : 'blue'}`}
         onClick={getBalance}
       >
-      get balance
+      Get Balance
       </button>
       <br/>
       {'test button '}
@@ -93,7 +94,7 @@ const BlueButton = (props) => {
         className={`button ${forceRed ? 'red' : 'blue'}`}
         onClick={testFunc}
       >
-      Test Some functionality
+      Conduct A Test
       </button>
       <br/>
       <br/>

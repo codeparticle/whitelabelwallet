@@ -122,7 +122,7 @@ class BlockchainManager {
     const timeTaken = latestBlock.timestamp - prevAdjustmentBlock.timestamp;
     if (timeTaken < timeExpected / 2) {
       return prevAdjustmentBlock.difficulty + 1;
-    } else if (timeTaken > timeExpected * 2) {
+    } else if (timeTaken > timeExpected * 2 && prevAdjustmentBlock.difficulty > 0) {
       return prevAdjustmentBlock.difficulty - 1;
     } else {
       return prevAdjustmentBlock.difficulty;
@@ -165,7 +165,7 @@ class BlockchainManager {
   };
 
   /**
-   * This funciton will add transcations blocks to the blockhain and also generates a coin to the wallet that executes the function(a reward for minining the block);
+   * This funciton will add transcations blocks to the blockhain and also generates a coin to the caller, in this case our wallet, that executes the function(a reward for minining the block);
    * @param {string} receiverAddress
    * @param {number} amount
    */
