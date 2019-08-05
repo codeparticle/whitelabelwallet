@@ -73,7 +73,7 @@ export class ElectronRendererService {
           const dbBinary = new Uint8Array(buffer);
 
           this.startSqlService(dbBinary);
-          UpdateService(this.sqlService).then((updated) => {
+          UpdateService().then((updated) => {
             if (updated) {
               this.saveDatabase(username, password);
             }

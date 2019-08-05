@@ -37,15 +37,14 @@ export class SqlService {
   }
 
   // Generates wallet DB
-  async generateTables() {
+  generateTables() {
     const run = true;
     const promises = [];
     Object.keys(STMT).forEach(table => {
       promises.push(this.query({ statement: STMT[table].CREATE, run }));
     });
 
-    await Promise.all(promises);
-    return await this.insert().appDefaults();
+    return Promise.all(promises).then(() => this.insert().appDefaults());
   }
 
   /**
@@ -127,6 +126,8 @@ export class SqlService {
       const run = true;
       const queries = [];
 
+      this.db.run('begin transaction');
+
       for (let i = 0; i < statementArr.length; i++) {
         const query = {
           statement: statementArr[i],
@@ -134,12 +135,10 @@ export class SqlService {
           run,
         };
 
-        queries.push(query);
+        queries.push(this.query(query));
       }
 
-      this.db.run('begin transaction');
-
-      Promise.all(queries.map(query => this.query(query))).then(() => {
+      Promise.all(queries).then(() => {
         this.db.run('commit');
         resolve(true);
       });
@@ -185,7 +184,7 @@ export class SqlService {
 
   updateDbVersion(cols, lastVersion) {
     this.update({
-      table: STMT.UPDATES.NAME,
+      table: 'Updates',
       cols,
       where: `db_version=${lastVersion}`,
     });

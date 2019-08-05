@@ -48,7 +48,7 @@ export class WebService {
       const dbBinary = EncryptionService.encodeBinary(decodedBinary);
 
       this.startSqlService(dbBinary);
-      UpdateService(this.sqlService).then((updated) => {
+      UpdateService().then((updated) => {
         if (updated) {
           this.saveDatabase(username, password);
         }

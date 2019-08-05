@@ -1,10 +1,15 @@
 /**
- * @fileoverview Mock update, uses instance to make a query
+ * @fileoverview Mock update
  * @author Gabriel Womble
  */
 
-export default async (instance) => {
-  console.log(await instance.getUpdatesTable());
+const update = `
+  begin transaction;
+  create table Test (
+    id integer primary key
+  );
+  drop table Test;
+  commit;
+`;
 
-  return true;
-};
+export default update;
