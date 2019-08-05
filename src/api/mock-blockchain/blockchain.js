@@ -41,7 +41,7 @@ class BlockchainManager {
 
   async createGenesisBLock() {
     const genisisBlock = await api.post(BLOCKS, genesisBlock);
-    return genisisBlock;
+    return new Promise(resolve => resolve(genisisBlock));
   }
 
   async getBlockchain() {
