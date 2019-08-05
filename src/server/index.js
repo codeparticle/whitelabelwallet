@@ -10,7 +10,6 @@ const {
   API_URL,
   EXPRESS_PORT,
   ORIGIN_URL,
-  PORT: APP_PORT,
   RUN_PROD_SERVER,
 } = process.env;
 
