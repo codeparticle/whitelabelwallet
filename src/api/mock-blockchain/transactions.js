@@ -77,7 +77,7 @@ class TransactionService {
       console.log('tx out valid');
       unspentTxOuts.push(unspentTxOutObj);
       const response = await api.post(UNSPENT_TX_OUTS, unspentTxOuts);
-      return response.data;
+      return new Promise(resolve => resolve(response.data));
     } else {
       console.log('tx out invalid');
     }

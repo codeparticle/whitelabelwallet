@@ -46,33 +46,40 @@ class BlockchainManager {
 
   async getBlockchain() {
     const blockchainData = (await api.get(BLOCKS)).data;
-    return blockchainData;
+    return new Promise(resolve => resolve(blockchainData));
   }
 
   async getLatestBlock() {
     const latestBLock = (await api.get(LATEST_BLOCK)).data[0];
-    return latestBLock;
+    return new Promise(resolve => resolve(latestBLock));
   }
 
   async getUnspentTxOs() {
     const transactionServiceInst = new TransactionService();
     const uTxOs = await transactionServiceInst.getUnspentTxOuts();
-    return uTxOs;
+    return new Promise(resolve => resolve(uTxOs));
   }
 
   async getAddress(address) {
-    const addressDetails = (await api.get(`${ADDRESS_DETAILS}${address}`));
-    return addressDetails;
+    const addressDetails = ((await api.get(`${ADDRESS_DETAILS}${address}`)).data[0]);
+    return new Promise(resolve => resolve(addressDetails));
   }
 
   async getLatestAddress() {
     const latestAddress = (await api.get(LATEST_ADDRESS)).data[0];
-    return latestAddress;
+    return new Promise(resolve => resolve(latestAddress));
   }
 
   async getBlockDetails(hash) {
-    const block = (await api.get(`${BLOCKS_DETAILS}${hash}`));
-    return block;
+    const block = (await api.get(`${BLOCKS_DETAILS}${hash}`)).data[0];
+    return new Promise(resolve => resolve(block));
+  }
+
+  async getTransactions() {
+    const transactions = _.filter((await this.getBlockchain())
+      .map((blocks) => blocks.data)
+      .flatten(), blockData => blockData.txid);
+    return new Promise(resolve => resolve(transactions));
   }
 
   async getTransactionDetial(txid) {
@@ -80,8 +87,13 @@ class BlockchainManager {
       .map((blocks) => blocks.data)
       .flatten()
       .find({ 'txid':txid });
+    return new Promise(resolve => resolve(tx));
+  }
 
-    return tx;
+  async getBalanceForAddress(address, unspentTxOuts) {
+    const walletServiceInst = new WalletService();
+    const balance = walletServiceInst.getBalance(address, unspentTxOuts);
+    return new Promise(resolve => resolve(balance));
   }
 
   /**

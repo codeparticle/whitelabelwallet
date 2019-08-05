@@ -33,7 +33,7 @@ server.use((req, res, next) => {
   next();
 });
 
-// custom routes needed to do a replace on subset of db, JSON server does not have this functionality out of the box.
+// custom routes needed to do a replace on  UxTos index of db, JSON server does not support the replace functionality out of the box.
 server.post('/unspentTxOuts', (req, res) => {
   fs.readFile(path.join(__dirname, 'db.json'), (err, data) => {
     if (err) {
