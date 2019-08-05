@@ -59,7 +59,7 @@ const BlueButton = (props) => {
         Generate To Address
       </button>
       <br/>
-      {'step 3 set available funds to spend to 100 units '}
+      {'step 3 add a coin(50 units) to your wallet available to spend '}
       <button
         className={`button ${forceRed ? 'red' : 'blue'}`}
         onClick={createCoinBaseTx}
