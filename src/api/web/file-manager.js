@@ -8,7 +8,7 @@ export class FileManager {
   }
 
   savePrivateKey(privateKey) {
-    // check if priatekey exists
+    // check if private key exists
     this.storage.setItem('privateKey', privateKey);
   }
 
