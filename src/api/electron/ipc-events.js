@@ -1,0 +1,12 @@
+export const ADD_ALLOWED_URLS = 'add-allowed-urls';
+export const CHECK_DATABASE = 'check-database';
+export const CHECKED_DATABASE = 'checked-database';
+export const DELETE_LOGS = 'delete-logs';
+export const DELETE_LOGS_ERROR = 'delete-logs-error';
+export const DELETE_LOGS_SUCCESS = 'delete-logs-success';
+export const FETCH_DATABASE = 'fetch-database';
+export const FETCHED_DATABASE = 'fetched-database';
+export const OPEN_URL = 'open-url';
+export const PERFORM_STARTUP_SETUP = 'perform-startup-setup';
+export const SAVE_DATABASE = 'save-database';
+export const SAVED_DATABASE = 'saved-database';

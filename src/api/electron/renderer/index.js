@@ -1,5 +1,5 @@
-import ElectronAppService from './electron-app-service';
+import { ElectronRendererManager } from './electron-renderer-manager';
 
 export {
-  ElectronAppService,
+  ElectronRendererManager,
 };
