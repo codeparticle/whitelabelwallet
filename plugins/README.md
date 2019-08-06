@@ -37,4 +37,12 @@ These are all the roles plugins can have at the moment:
 
 ### Registering Plugin
 
-When the plugin is done, whether it is an npm module or a local plugin, it still needs to be registered in the application. Under `application-config/plugins.js`, you should import the plugin and call the util function `implementPlugin(BlueButtonPlugin)` for example. That will store the plugin config in redux state.
+Plugins are automatically registered by importing them to the plugins/index.js and adding them to the exported plugins array.
+
+```js
+import { MyPlugin } from './my-plugin';
+
+export const plugins = [
+  MyPlugin,
+];
+```
