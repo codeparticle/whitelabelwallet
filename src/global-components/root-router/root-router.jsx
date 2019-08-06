@@ -21,9 +21,15 @@ function renderRoute(route, index) {
 }
 
 function getRoutesWithPlugins(routes, plugins) {
-  const pluginRoutes = wrapRoutesInErrorBoundary((plugins['main-route'] || []).map((plugin) => (
+  const rawRoutes = wrapRoutesInErrorBoundary((plugins['main-route'] || []).map((plugin) => (
     plugin.components || []
-  ))[0] || []);
+  )));
+
+  // flattens array of objects w/ nested child-objects into [{ 0: {} }, { 0: {}, 1: {} }]
+  // array with all of the child-objects at the first level [{}, {}, {}]
+  const pluginRoutes = [].concat(...rawRoutes.map(parent => {
+    return Object.keys(parent).map((child) => parent[child]);
+  }));
 
   return [
     ...routes,

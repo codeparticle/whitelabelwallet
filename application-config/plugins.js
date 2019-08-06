@@ -1,5 +1,4 @@
 import { implementPlugin } from 'rdx/utils/implement-plugin';
-import { BlueButtonPlugin, TestRoutePlugin } from 'plugins';
+import { plugins } from 'plugins';
 
-implementPlugin(BlueButtonPlugin);
-implementPlugin(TestRoutePlugin);
+plugins.map(implementPlugin);
