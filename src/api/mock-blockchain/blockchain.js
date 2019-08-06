@@ -147,9 +147,9 @@ class BlockchainManager {
     if (await this.addBlockToChain(newBlock)) {
       // broadcastLatest(); TODO: mock broadcasting to p2p server maybe?
       return newBlock;
-    } else {
-      return null;
     }
+
+    return null;
   };
 
   /**
@@ -294,6 +294,7 @@ class BlockchainManager {
     }
     if (!this.hashMatchesDifficulty(block.hash, block.difficulty)) {
       console.log('block difficulty not satisfied. Expected: ' + block.difficulty + 'got: ' + block.hash);
+      return false;
     }
     return true;
   };
