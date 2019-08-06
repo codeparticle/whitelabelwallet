@@ -18,7 +18,7 @@ const BlueButton = (props) => {
     walletInst.initWallet();
   };
 
-  const genrateToAddress = () => {
+  const generateToAddress = () => {
     walletInst.generateToAddress();
   };
   const createTransactions = async () => {
@@ -63,7 +63,7 @@ const BlueButton = (props) => {
       {'step 3 generate to address '}
       <button
         className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={genrateToAddress}
+        onClick={generateToAddress}
       >
         Generate To Address
       </button>

@@ -40,7 +40,6 @@ server.post('/unspentTxOuts', (req, res) => {
       throw err;
     }
     const db = JSON.parse(data);
-    console.log(req.body);
     const addIds = req.body.map((uTxO, index) => {
       return {
         ...uTxO,
