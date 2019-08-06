@@ -1,10 +1,10 @@
-import { EncryptionService } from '../encryption-service';
-import { FileService } from './file-service';
+import { EncryptionManager } from '../encryption-manager';
+import { FileManager } from './file-manager';
 
-export class WebService {
+export class WebManager {
   constructor() {
     this.storage = window.localStorage;
-    this.fileService = new FileService(this.storage);
+    this.fileManager = new FileManager(this.storage);
   }
 
   /**
@@ -14,15 +14,15 @@ export class WebService {
    */
   loadDatabase(username, password) {
     // retrive dbFile encrypted
-    const dbFile = this.fileService.getDatabaseFile(username, password);
+    const dbFile = this.fileManager.getDatabaseFile(username, password);
 
     return new Promise((resolve) => {
       if (!dbFile) {
         return resolve(false);
       }
 
-      const decodedBinary = EncryptionService.prepToLoadDatabase(username, password, dbFile);
-      const dbBinary = EncryptionService.encodeBinary(decodedBinary);
+      const decodedBinary = EncryptionManager.prepToLoadDatabase(username, password, dbFile);
+      const dbBinary = EncryptionManager.encodeBinary(decodedBinary);
 
       resolve(dbBinary);
     });
@@ -35,8 +35,8 @@ export class WebService {
    */
   saveDatabase(username, password, dbBinary) {
     return new Promise(resolve => {
-      const serializedBinary = EncryptionService.prepToSaveDatabase(username, password, dbBinary);
-      this.fileService.storeDatabaseFile(username, password, serializedBinary);
+      const serializedBinary = EncryptionManager.prepToSaveDatabase(username, password, dbBinary);
+      this.fileManager.storeDatabaseFile(username, password, serializedBinary);
       resolve(true);
     });
   }
@@ -47,7 +47,7 @@ export class WebService {
    * @param {string} password : password passed in by user
    */
   checkDatabaseExists(username, password) {
-    const dbFile = this.fileService.getDatabaseFile(username, password);
+    const dbFile = this.fileManager.getDatabaseFile(username, password);
 
     return new Promise((resolve) => {
       if (dbFile) {

@@ -14,8 +14,8 @@ import {
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
-export class ElectronRendererService {
-  // transmit event to main service to perform startup functions
+export class ElectronRendererManager {
+  // transmit event to main manager to perform startup functions
   performStartupService() {
     ipcRenderer.send(PERFORM_STARTUP_SETUP);
   }
@@ -29,7 +29,7 @@ export class ElectronRendererService {
   }
 
   createAppMenus(intl) {
-    log.debug('ElectronRendererService::createAppMenus called');
+    log.debug('ElectronRendererManager::createAppMenus called');
     ipcRenderer.send(CREATE_MENU, intl);
   }
 
@@ -39,16 +39,16 @@ export class ElectronRendererService {
    * @param {string} password : password passed in by user
    */
   loadDatabase(username, password) {
-    log.debug('ElectronAppService::loadDatabase called');
+    log.debug('ElectronRendererManager::loadDatabase called');
 
     return new Promise(resolve => {
       ipcRenderer.once(FETCHED_DATABASE, (event, imported, buffer) => {
         if (imported) {
-          log.debug('ElectronAppService::loadDatabase success');
+          log.debug('ElectronRendererManager::loadDatabase success');
 
           resolve(new Uint8Array(buffer));
         } else {
-          log.error('ElectronAppService::loadDatabase not found');
+          log.error('ElectronRendererManager::loadDatabase not found');
           ipcRenderer.send(DELETE_LOGS);
           resolve(false);
         }
@@ -65,11 +65,11 @@ export class ElectronRendererService {
    * @param {string} password : password passed in by user
    */
   saveDatabase(username, password, dbBinary) {
-    log.debug('ElectronRendererService::saveDatabase called');
+    log.debug('ElectronRendererManager::saveDatabase called');
 
     return new Promise(resolve => {
       ipcRenderer.once(SAVED_DATABASE, (event, saved) => {
-        log.debug('ElectronRendererService::saveDatabase database saved');
+        log.debug('ElectronRendererManager::saveDatabase database saved');
 
         resolve(saved);
       });
@@ -84,7 +84,7 @@ export class ElectronRendererService {
    * @param {string} password : password passed in by user
    */
   checkDatabaseExists(username, password) {
-    log.debug('ElectronAppService::checkDatabase called');
+    log.debug('ElectronRendererManager::checkDatabase called');
 
     return new Promise(resolve => {
       ipcRenderer.once(CHECKED_DATABASE, (event, exists) => {

@@ -1,4 +1,4 @@
-export class FileService {
+export class FileManager {
   constructor(storage) {
     this.storage = storage;
   }

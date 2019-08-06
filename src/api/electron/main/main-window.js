@@ -7,7 +7,7 @@ import { setupLogging } from 'config/utils/setup-logging';
 import { environment } from 'lib/utils/environment';
 import { isRequestAllowed } from 'lib/utils/is-request-allowed';
 import { appMenu } from 'window/menus';
-import { initializeElectronMainService } from './electron-main-service';
+import { initializeElectronMainManager } from './electron-main-manager';
 import { AboutWindow } from './about-window';
 import {
   ADD_ALLOWED_URLS,
@@ -208,4 +208,4 @@ export class MainWindow {
   }
 }
 
-initializeElectronMainService();
+initializeElectronMainManager();

@@ -4,7 +4,7 @@ const atob = require('atob');
 /**
  * Handles encryption and decryption of the database
  */
-export class EncryptionService {
+export class EncryptionManager {
   /**
    * [web only] decrypt the encrypted Database stored on client
    * and return a base64string of the decrypted DB file
@@ -72,7 +72,7 @@ export class EncryptionService {
    * and return an ArrayBuffer
    * @param {string} username : login name of the user
    * @param {string} password : user's password to the account
-   * @param {Uint8Array} inputBytes : DB file to be encrypted as exported by Wallet Service
+   * @param {Uint8Array} inputBytes : DB file to be encrypted as exported by Wallet Manager
    */
   static encryptDatabase(username, password, inputBytes) {
     const iv = Buffer.concat([Buffer.from(username, 'utf-8'), crypto.randomBytes(64)]);
@@ -115,7 +115,7 @@ export class EncryptionService {
    * @param {string} text
    */
   static encryptString(text) {
-    const cipher = crypto.createCipher(EncryptionService.getAuthentication().algorithm, EncryptionService.getAuthentication().password);
+    const cipher = crypto.createCipher(EncryptionManager.getAuthentication().algorithm, EncryptionManager.getAuthentication().password);
     let crypted = cipher.update(text, 'utf8', 'hex');
 
     crypted += cipher.final('hex');
@@ -127,7 +127,7 @@ export class EncryptionService {
    * @param {string} text
    */
   static decryptString(text) {
-    const decipher = crypto.createDecipher(EncryptionService.getAuthentication().algorithm, EncryptionService.getAuthentication().password);
+    const decipher = crypto.createDecipher(EncryptionManager.getAuthentication().algorithm, EncryptionManager.getAuthentication().password);
     let dec = decipher.update(text, 'hex', 'utf8');
 
     dec += decipher.final('utf8');

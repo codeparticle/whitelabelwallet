@@ -1,12 +1,12 @@
 import { app } from 'electron';
 import fs from 'fs';
 import os from 'os';
-import { EncryptionService } from '../../encryption-service';
+import { EncryptionManager } from '../../encryption-manager';
 
 /**
  * Deals with all communication with user's local filesystem for the electron app
  */
-export class FileService {
+export class FileManager {
   // makes sure file directories are created before any operations on DB
   setUpFilePaths() {
     const rootPath = this.getRootFilePath();
@@ -94,7 +94,7 @@ export class FileService {
       const encryptedBuffer = fs.readFileSync(fullFileName);
 
       if (encryptedBuffer.length) {
-        return EncryptionService.decryptDatabase(username, password, encryptedBuffer);
+        return EncryptionManager.decryptDatabase(username, password, encryptedBuffer);
       }
     }
 
@@ -105,11 +105,11 @@ export class FileService {
    * Store the given DB file on user's filesystem
    * @param {string} username : login name of the user
    * @param {string} password : user's password to the account
-   * @param {Uint8Array} dbFile : DB file to be encrypted as exported by Wallet Service
+   * @param {Uint8Array} dbFile : DB file to be encrypted as exported by Wallet Manager
    */
   storeDatabaseFile(username, password, dbFile) {
     const fullFileName = this.getFullFileName(username + password);
-    const encryptedDatabase = EncryptionService.encryptDatabase(username, password, dbFile);
+    const encryptedDatabase = EncryptionManager.encryptDatabase(username, password, dbFile);
 
     this.storeFile(fullFileName, encryptedDatabase);
   }

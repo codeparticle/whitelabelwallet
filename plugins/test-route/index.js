@@ -7,16 +7,16 @@ const TestRouteTrigger = withRouter(({ history }) => (
   <Button className='test-route-trigger' onClick={() => history.push('/test-route')}>Go to Test Route</Button>
 ));
 
-const TestRoute = ({ service }) => {
+const TestRoute = ({ manager }) => {
   useEffect(() => {
-    service.checkDatabaseExists('test', '123').then((exists) => {
+    manager.checkDatabaseExists('test', '123').then((exists) => {
       console.log(`DB Exists: ${exists}`);
     });
 
-    service.saveDatabase('test', '123', new Buffer('Test DB Data', 'utf-8')).then((saved) => {
+    manager.saveDatabase('test', '123', new Buffer('Test DB Data', 'utf-8')).then((saved) => {
       console.log(`Saved DB: ${saved}`);
 
-      service.loadDatabase('test', '123').then((buffer) => {
+      manager.loadDatabase('test', '123').then((buffer) => {
         console.log(`DB Data: ${new TextDecoder('utf-8').decode(buffer)}`);
       });
     });
@@ -41,7 +41,7 @@ const TestRouteTheSecond = () => (
   </div>
 );
 
-const TestRoutePlugin = (store, service) => {
+const TestRoutePlugin = (store, manager) => {
   return [
     {
       role: 'button',
@@ -52,7 +52,7 @@ const TestRoutePlugin = (store, service) => {
       components: [
         {
           path: '/test-route',
-          render: (props) => <TestRoute {...props} service={service} />,
+          render: (props) => <TestRoute {...props} manager={manager} />,
           exact: true,
         },
         {

@@ -1,10 +1,10 @@
 /**
- * Service for electron main process (NodeJS available)
+ * Manager for electron main process (NodeJS available)
  */
 import fs from 'fs';
 import log from 'electron-log';
 import { ipcMain } from 'electron';
-import { FileService } from './file-service';
+import { FileManager } from './file-manager';
 import {
   CHECK_DATABASE,
   CHECKED_DATABASE,
@@ -18,12 +18,12 @@ import {
   SAVED_DATABASE,
 } from '../ipc-events';
 
-export const initializeElectronMainService = () => {
-  const fileService = new FileService();
+export const initializeElectronMainManager = () => {
+  const fileManager = new FileManager();
 
   // Perform app startup
   ipcMain.on(PERFORM_STARTUP_SETUP, () => {
-    fileService.setUpFilePaths();
+    fileManager.setUpFilePaths();
   });
 
   ipcMain.on(DELETE_LOGS, (event, filePath) => {
@@ -41,14 +41,14 @@ export const initializeElectronMainService = () => {
   // Checks if a db file exists
   ipcMain.on(CHECK_DATABASE, (event, username, password) => {
     // checks if file exists first before generating database
-    fileService.fileExists(username, password).then((exists) => {
+    fileManager.fileExists(username, password).then((exists) => {
       event.sender.send(CHECKED_DATABASE, exists);
     });
   });
 
   // Tries to fetch an existing database from the user's local system
   ipcMain.on(FETCH_DATABASE, (event, username, password) => {
-    const buffer = fileService.importDatabaseFile(username, password);
+    const buffer = fileManager.importDatabaseFile(username, password);
 
     if (buffer) {
       event.sender.send(FETCHED_DATABASE, true, buffer);
@@ -60,7 +60,7 @@ export const initializeElectronMainService = () => {
 
   // Saved the database to the user's local system
   ipcMain.on(SAVE_DATABASE, (event, username, password, db) => {
-    fileService.storeDatabaseFile(username, password, db);
+    fileManager.storeDatabaseFile(username, password, db);
     event.sender.send(SAVED_DATABASE, true);
   });
 };

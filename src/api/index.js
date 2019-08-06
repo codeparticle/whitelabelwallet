@@ -1,5 +1,5 @@
-import { EncryptionService } from './encryption-service';
+import { EncryptionManager } from './encryption-manager';
 
 export {
-  EncryptionService,
+  EncryptionManager,
 };

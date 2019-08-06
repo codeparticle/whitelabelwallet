@@ -15,7 +15,7 @@ import {
   RootHelmet,
   RootRouter,
 } from 'global-components';
-import { ElectronRendererService } from 'api/electron/renderer';
+import { ElectronRendererManager } from 'api/electron/renderer';
 import './app.scss';
 
 const { remote } = window.require('electron');
@@ -25,7 +25,7 @@ const log = remote.require('electron-log');
 const history = createMemoryHistory();
 const { store, persistor } = configureStore(history);
 
-const service = new ElectronRendererService();
+const manager = new ElectronRendererManager();
 
 const AppWithStore = ({
   children,
@@ -33,9 +33,9 @@ const AppWithStore = ({
   messages,
 }) => {
   useEffect(() => {
-    log.debug('ElectronApp:: starting App Service');
-    service.performStartupService();
-    service.initDeepLink(history);
+    log.debug('ElectronApp:: starting App Manager');
+    manager.performStartupService();
+    manager.initDeepLink(history);
 
     const intlProvider = new IntlProvider({
       locale,
@@ -43,7 +43,7 @@ const AppWithStore = ({
     }, {});
   
     const { intl } = intlProvider.getChildContext();
-    service.createAppMenus(intl);
+    manager.createAppMenus(intl);
   }, []);
 
   if (window.location.pathname.includes('index.html') && environment.isDev()) {
@@ -72,7 +72,7 @@ const App = () => {
           <ConnectedRouter history={history}>
             <AppWithStoreContainer>
               <RootHelmet />
-              <RootRouter service={service} />
+              <RootRouter manager={manager} />
             </AppWithStoreContainer>
           </ConnectedRouter>
         </PersistGate>
@@ -83,6 +83,6 @@ const App = () => {
 
 export {
   App,
-  service,
+  manager,
   store,
 };

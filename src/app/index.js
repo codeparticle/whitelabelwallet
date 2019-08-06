@@ -9,10 +9,10 @@ if (environment.isElectron()) {
   appImport = require('./web-app');
 }
 
-const { App, service, store } = appImport;
+const { App, manager, store } = appImport;
 
 module.exports = {
   App: environment.isDev() ? hot(App) : App,
-  service,
+  manager,
   store,
 };

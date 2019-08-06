@@ -12,14 +12,14 @@ import {
   RootHelmet,
   RootRouter,
 } from 'global-components';
-import { WebService } from 'api/web';
+import { WebManager } from 'api/web';
 
 const { SplashScreen } = Plugins;
 
 const history = createBrowserHistory();
 const { store, persistor } = configureStore(history);
 
-const service = new WebService();
+const manager = new WebManager();
 
 // IMPORTANT: persistgate will save the state into localStorage
 // and load it from there; to use a new initialState, go to
@@ -37,7 +37,7 @@ const App = () => {
           <ConnectedRouter history={history}>
             <IonApp>
               <RootHelmet />
-              <RootRouter service={service} />
+              <RootRouter manager={manager} />
             </IonApp>
           </ConnectedRouter>
         </PersistGate>
@@ -50,6 +50,6 @@ registerServiceWorker();
 
 export {
   App,
-  service,
+  manager,
   store,
 };
