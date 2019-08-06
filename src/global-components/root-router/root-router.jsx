@@ -5,6 +5,7 @@ import { FlashMessages } from 'components';
 import { connect } from 'react-redux';
 import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { wrapRoutesInErrorBoundary } from 'lib/utils';
+import { routes } from 'config/routes';
 // IMPORT_PT (routes, and components -- do not remove!)
 
 // IMPORT_PT: to see the app in loggedIn state,
@@ -13,9 +14,9 @@ import { wrapRoutesInErrorBoundary } from 'lib/utils';
 
 // IMPORT_PT: if persistGate is 'on', user must go to console => applicaiton tab
 // => local storage and remove 'persist:root' to reload the default state
-function renderRoute(props, route, index) {
+function renderRoute(route, index) {
   return (
-    <Route {...props} key={index} {...route} />
+    <Route key={index} {...route} />
   );
 }
 
@@ -46,10 +47,10 @@ function getRoutesWithPlugins(routes, plugins) {
   });
 }
 
-const RootRouter = (props) => (
+const RootRouter = ({ plugins }) => (
   <Fragment>
     <Switch>
-      {getRoutesWithPlugins(props).map((route, index) => renderRoute(props, route, index))}
+      {getRoutesWithPlugins(routes, plugins).map(renderRoute)}
     </Switch>
     <FlashMessages />
   </Fragment>

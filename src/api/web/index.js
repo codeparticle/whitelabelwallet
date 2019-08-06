@@ -1,5 +1,5 @@
-import { WebService } from './web-service';
+import { WebManager } from './web-manager';
 
 export {
-  WebService,
+  WebManager,
 };

@@ -1,12 +1,71 @@
 import { app } from 'electron';
 import fs from 'fs';
 import os from 'os';
-import { EncryptionService } from '../../encryption-service';
+import log from 'electron-log';
+import {
+  CHECK_DATABASE,
+  CHECKED_DATABASE,
+  DELETE_LOGS,
+  DELETE_LOGS_ERROR,
+  DELETE_LOGS_SUCCESS,
+  FETCH_DATABASE,
+  FETCHED_DATABASE,
+  PERFORM_STARTUP_SETUP,
+  SAVE_DATABASE,
+  SAVED_DATABASE,
+  REMOVE_DATABASE,
+  REMOVED_DATABASE,
+} from '../ipc-events';
+import { EncryptionManager } from '../../encryption-manager';
 
 /**
  * Deals with all communication with user's local filesystem for the electron app
  */
-export class FileService {
+export class FileManager {
+  constructor(ipcMain) {
+    ipcMain.on(PERFORM_STARTUP_SETUP, this.setUpFilePaths.bind(this));
+    ipcMain.on(DELETE_LOGS, this.deleteLogs.bind(this));
+    ipcMain.on(CHECK_DATABASE, this.checkDatabase.bind(this));
+    ipcMain.on(FETCH_DATABASE, this.fetchDatabase.bind(this));
+    ipcMain.on(SAVE_DATABASE, this.saveDatabase.bind(this));
+    ipcMain.on(REMOVE_DATABASE, this.removeDatabase.bind(this));
+  }
+
+  checkDatabase(event, username, password) {
+    this.fileExists(username, password).then((exists) => {
+      event.sender.send(CHECKED_DATABASE, exists);
+    });
+  }
+
+  fetchDatabase(event, username, password) {
+    const buffer = this.importDatabaseFile(username, password);
+
+    event.sender.send(FETCHED_DATABASE, !!buffer, buffer);
+  }
+
+  saveDatabase(event, username, password, db) {
+    this.storeDatabaseFile(username, password, db);
+    event.sender.send(SAVED_DATABASE, true);
+  }
+
+  removeDatabase(event, username, password) {
+    this.removeDatabaseFile(username, password);
+    event.sender.send(REMOVED_DATABASE);
+  }
+
+  deleteLogs(event, filePath) {
+    const { sender } = event;
+
+    try {
+      fs.unlinkSync(filePath);
+      log.info('DELETE_LOGS_SUCCESS');
+      return sender.send(DELETE_LOGS_SUCCESS);
+    } catch (error) {
+      log.warn(`DELETE_LOGS_ERROR: ${error}`);
+      return sender.send(DELETE_LOGS_ERROR, error);
+    }
+  }
+
   // makes sure file directories are created before any operations on DB
   setUpFilePaths() {
     const rootPath = this.getRootFilePath();
@@ -46,7 +105,11 @@ export class FileService {
 
   // retrieve full file name extended from wallets path
   getFullFileName(filename) {
-    return this.getWalletPath() + filename + '.awd';
+    const encryptionString = EncryptionManager.getEncryptionString();
+    const appendedFilename = `${encryptionString}${filename}`;
+    const encryptedFilename = EncryptionManager.encryptString(appendedFilename);
+
+    return this.getWalletPath() + encryptedFilename + '.awd';
   }
 
   // checks if the file given exists already
@@ -91,10 +154,10 @@ export class FileService {
     const fullFileName = this.getFullFileName(username + password);
 
     if (fs.existsSync(fullFileName)) {
-      const encryptedBuffer = fs.readFileSync(fullFileName);
+      const encryptedBuffer = fs.readFileSync(fullFileName, { encoding: 'utf8' });
 
       if (encryptedBuffer.length) {
-        return EncryptionService.decryptDatabase(username, password, encryptedBuffer);
+        return EncryptionManager.decryptDatabase(username, password, encryptedBuffer);
       }
     }
 
@@ -105,13 +168,25 @@ export class FileService {
    * Store the given DB file on user's filesystem
    * @param {string} username : login name of the user
    * @param {string} password : user's password to the account
-   * @param {Uint8Array} dbFile : DB file to be encrypted as exported by Wallet Service
+   * @param {Uint8Array} dbFile : DB file to be encrypted as exported by Wallet Manager
    */
   storeDatabaseFile(username, password, dbFile) {
     const fullFileName = this.getFullFileName(username + password);
-    const encryptedDatabase = EncryptionService.encryptDatabase(username, password, dbFile);
+    const encryptedDatabase = EncryptionManager.encryptDatabase(username, password, dbFile);
 
     this.storeFile(fullFileName, encryptedDatabase);
+  }
+
+  /**
+   * Removes the given DB file on user's fs
+   * @param {string} username : login name of the user
+   * @param {string} password : user's password
+   */
+  removeDatabaseFile(username, password) {
+    const fullFileName = this.getFullFileName(username + password);
+    fs.unlinkSync(fullFileName);
+
+    return true;
   }
 
   // saves file to local filesystem of the user
