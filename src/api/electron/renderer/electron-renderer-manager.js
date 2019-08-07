@@ -11,7 +11,7 @@ import {
   SAVE_DATABASE,
   SAVED_DATABASE,
 } from '../ipc-events';
-import { DatabaseManager } from '../../db';
+import { DatabaseManager, UpdateManager } from '../../db';
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
@@ -73,6 +73,11 @@ export class ElectronRendererManager {
           const dbBinary = new Uint8Array(buffer);
 
           this.startDatabaseManager(dbBinary);
+          UpdateManager().then((updated) => {
+            if (updated) {
+              this.saveDatabase(username, password);
+            }
+          });
         } else {
           log.error('ElectronRendererManager::loadDatabase not found');
           ipcRenderer.send(DELETE_LOGS);
