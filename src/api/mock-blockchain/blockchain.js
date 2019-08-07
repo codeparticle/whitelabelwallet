@@ -39,65 +39,55 @@ const genesisBlock = new Block(
 
 class BlockchainManager {
 
-  async createGenesisBLock() {
-    const genisisBlock = await api.post(BLOCKS, genesisBlock);
-    return new Promise(resolve => resolve(genisisBlock));
-  }
-
   async getBlockchain() {
-    const blockchainData = (await api.get(BLOCKS)).data;
-    return new Promise(resolve => resolve(blockchainData));
+    return (await api.get(BLOCKS)).data;
   }
 
   async getLatestBlock() {
-    const latestBLock = (await api.get(LATEST_BLOCK)).data[0];
-    return new Promise(resolve => resolve(latestBLock));
+    return (await api.get(LATEST_BLOCK)).data[0];
   }
 
   async getUnspentTxOs() {
     const transactionServiceInst = new TransactionService();
-    const uTxOs = await transactionServiceInst.getUnspentTxOuts();
-    return new Promise(resolve => resolve(uTxOs));
+    return transactionServiceInst.getUnspentTxOuts();
   }
 
-  async getAddress(address) {
-    const addressDetails = ((await api.get(`${ADDRESS_DETAILS}${address}`)).data[0]);
-    return new Promise(resolve => resolve(addressDetails));
+  async getAddressDetails(address) {
+    return ((await api.get(`${ADDRESS_DETAILS}${address}`)).data[0]);
   }
 
   async getLatestAddress() {
-    const latestAddress = (await api.get(LATEST_ADDRESS)).data[0];
-    return new Promise(resolve => resolve(latestAddress));
+    return (await api.get(LATEST_ADDRESS)).data[0];
   }
 
   async getBlockDetails(hash) {
-    const block = (await api.get(`${BLOCKS_DETAILS}${hash}`)).data[0];
-    return new Promise(resolve => resolve(block));
+    return (await api.get(`${BLOCKS_DETAILS}${hash}`)).data[0];
   }
 
   async getTransactions() {
     const transactions = _.filter((await this.getBlockchain())
       .map((blocks) => blocks.data)
       .flatten(), blockData => blockData.txid);
-    return new Promise(resolve => resolve(transactions));
+    return transactions;
   }
 
-  async getTransactionDetial(txid) {
+  async getTransactionDetails(txid) {
     const tx = _(await this.getBlockchain())
       .map((blocks) => blocks.data)
       .flatten()
       .find({ 'txid':txid });
-    return new Promise(resolve => resolve(tx));
+    return tx;
   }
 
   async getBalanceForAddress(address, unspentTxOuts) {
     const walletServiceInst = new WalletService();
-    const balance = walletServiceInst.getBalance(address, unspentTxOuts);
-    return new Promise(resolve => resolve(balance));
+    return walletServiceInst.getBalance(address, unspentTxOuts);
   }
 
   /**
-   * For every 10 blocks that is generated, we check if the time that took to generate those blocks are larger or smaller than the expected time. The expected time is calculated like this: BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL. The expected time represents the case where the hashrate matches exactly the current difficulty.
+   * For every 10 blocks that is generated, we check if the time that took to generate those blocks are larger or smaller than the expected time.
+   * The expected time is calculated like this: BLOCK_GENERATION_INTERVAL * DIFFICULTY_ADJUSTMENT_INTERVAL.
+   * The expected time represents the case where the hashrate matches exactly the current difficulty.
    * @param {array} blockchain
    */
 
@@ -325,22 +315,6 @@ class BlockchainManager {
       }
     }
     return true;
-  };
-
-  /**
- * The correct chain has the most cummalitive difficulty.
- * @param {array} newBlocks
- */
-
-  async replaceChain (newBlocks) {
-    if (this.isValidChain(newBlocks) &&
-    this.getAccumulatedDifficulty(newBlocks) > this.getAccumulatedDifficulty(await this.getBlockchain())) {
-      console.log('Received blockchain is valid. Replacing current blockchain with received blockchain');
-      // TODO: reset block chain with new blocks. Example: blockchain = newBlocks;
-      // TODO: brocacast to peers. Example: broadcastLatest();
-    } else {
-      console.log('Received blockchain invalid');
-    }
   };
 }
 
