@@ -8,7 +8,7 @@ const TestRouteTrigger = withRouter(({ history }) => (
 ));
 
 const TestRoute = ({ manager }) => {
-  const username = 'jeff';
+  const username = 'jeffs';
   const password = '123';
 
   useEffect(() => {
@@ -28,7 +28,9 @@ const TestRoute = ({ manager }) => {
       console.log(db ? 'dbLoaded' : 'dbNotLoaded');
 
       const initialSettings = await manager.databaseManager.getUserSettings();
+      const version = await manager.databaseManager.getCurrentVersion();
       console.log('initialSettings: ', initialSettings[0]);
+      console.log('version: ', version);
     }
 
     managerDemo();
