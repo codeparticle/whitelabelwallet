@@ -238,6 +238,7 @@
     "redux-promise-middleware": "^6.1.1",
     "redux-saga": "^1.0.3",
     "redux-thunk": "^2.3.0",
+    "sql.js": "0.4.0",
     "ts-loader": "^6.0.4"
   },
   "devDependencies": {
