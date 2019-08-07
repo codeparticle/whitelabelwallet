@@ -14,6 +14,9 @@ export class DatabaseManager {
     }
   }
 
+  /**
+   * @param {Uint8Array} dbFile
+   */
   static set file(dbFile) {
     if (!this._instance) {
       DatabaseManager._instance = new DatabaseManager(dbFile);
@@ -35,9 +38,10 @@ export class DatabaseManager {
 
   // Generates wallet DB
   generateTables() {
+    const run = true;
     const promises = [];
     Object.keys(STMT).forEach(table => {
-      promises.push(this.query({ statement: STMT[table].CREATE, run: true }));
+      promises.push(this.query({ statement: STMT[table].CREATE, run }));
     });
 
     return Promise.all(promises).then(() => this.insert().appDefaults());
@@ -122,6 +126,8 @@ export class DatabaseManager {
       const run = true;
       const queries = [];
 
+      this.db.run('begin transaction');
+
       for (let i = 0; i < statementArr.length; i++) {
         const query = {
           statement: statementArr[i],
@@ -129,12 +135,10 @@ export class DatabaseManager {
           run,
         };
 
-        queries.push(query);
+        queries.push(this.query(query));
       }
 
-      this.db.run('begin transaction');
-
-      Promise.all(queries.map(query => this.query(query))).then(() => {
+      Promise.all(queries).then(() => {
         this.db.run('commit');
         resolve(true);
       });
@@ -178,8 +182,23 @@ export class DatabaseManager {
     }).join(', ');
   }
 
-  getCurrentVersion() {
+  updateDbVersion(cols, lastVersion) {
+    this.update({
+      table: 'Updates',
+      cols,
+      where: `db_version=${lastVersion}`,
+    });
+  }
+
+  async getCurrentVersion() {
     const statement = STMT.UPDATES.SELECT.DB_VERSION;
+    const [row] = await this.query({ statement });
+
+    return row.db_version;
+  }
+
+  getUpdatesTable() {
+    const statement = STMT.UPDATES.SELECT.ALL;
     return this.query({ statement });
   }
 
@@ -188,4 +207,3 @@ export class DatabaseManager {
     return this.query({ statement });
   }
 }
-
