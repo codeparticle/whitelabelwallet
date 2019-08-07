@@ -2,7 +2,7 @@ import { ec } from 'elliptic';
 import  _ from 'lodash';
 import { api } from 'rdx/api';
 import { Transaction, TxIn, TxOut, TransactionService } from 'api/mock-blockchain/transactions';
-import { FileService } from 'api/web/file-service';
+import { FileManager } from 'api/web/file-manager';
 import { urls } from 'api/mock-blockchain/constants';
 
 const {
@@ -10,7 +10,7 @@ const {
 } = urls;
 
 const EC = new ec('secp256k1');
-const fileServiceInst = new FileService(window.localStorage);
+const fileServiceInst = new FileManager(window.localStorage);
 
 class WalletService {
   getPrivateFromWallet() {
