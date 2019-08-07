@@ -1,16 +1,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { blueButton } from './reducer';
-import { updateForceRed } from './actions';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { WalletService } from 'api/mock-blockchain/wallet';
 import './index.scss';
 
 
 
-const BlueButton = (props) => {
-  const { forceRed } = props;
+const BlueButton = () => {
   const mockBlockchainManagerInst = new BlockchainManager();
   const walletInst = new WalletService();
 
@@ -45,34 +41,22 @@ const BlueButton = (props) => {
       </strong>
       <br/>
       {'step 1 generate wallet/private key(if you dont have one already) '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={generateWallet}
-      >
+      <button onClick={generateWallet}>
         Create Wallet used for Transacions
       </button>
       <br/>
       {'step 2 add a coin(50 units) to your wallet available to spend '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={createCoinBaseTx}
-      >
+      <button onClick={createCoinBaseTx}>
         Add 50 units
       </button>
       <br/>
       {'step 3 generate to address '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={generateToAddress}
-      >
+      <button onClick={generateToAddress}>
         Generate To Address
       </button>
       <br/>
       {'step 4 send 10 units to an address '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={createTransactions}
-      >
+      <button onClick={createTransactions}>
         Send 10 units
       </button>
       <br/>
@@ -82,18 +66,12 @@ const BlueButton = (props) => {
       </strong>
       <br/>
       {'find wallet balance '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={getBalance}
-      >
+      <button onClick={getBalance}>
       Get Balance
       </button>
       <br/>
       {'test button '}
-      <button
-        className={`button ${forceRed ? 'red' : 'blue'}`}
-        onClick={testFunc}
-      >
+      <button onClick={testFunc}>
       Conduct A Test
       </button>
       <br/>
@@ -104,27 +82,17 @@ const BlueButton = (props) => {
 };
 
 BlueButton.propTypes = {
-  updateForceRed: PropTypes.func.isRequired,
+  updateForceRed: PropTypes.func,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    forceRed: state.blueButton.forceRed,
-  };
-};
 
-const mapDispatchToProps = {
-  updateForceRed,
-};
+const BlueButtonComponent = (BlueButton);
 
-const BlueButtonComponent = connect(mapStateToProps, mapDispatchToProps)(BlueButton);
-
-const BlueButtonPlugin = (store) => {
-  store.injectPluginReducer('blueButton', blueButton);
+const BlueButtonPlugin = () => {
 
   return [
     {
-      role: 'button',
+      role: 'test',
       components: BlueButtonComponent,
     },
   ];
