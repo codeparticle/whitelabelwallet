@@ -8,19 +8,31 @@ const TestRouteTrigger = withRouter(({ history }) => (
 ));
 
 const TestRoute = ({ manager }) => {
+  const username = 'jeff';
+  const password = '123';
+
   useEffect(() => {
-    manager.checkDatabaseExists('test', '123').then((exists) => {
+    async function managerDemo() {
+      const exists = await manager.checkDatabaseExists(username, password);
+      // TODO Write db logging
       console.log(`DB Exists: ${exists}`);
-    });
 
-    manager.saveDatabase('test', '123', new Buffer('Test DB Data', 'utf-8')).then((saved) => {
-      console.log(`Saved DB: ${saved}`);
+      if (!exists) {
+        await manager.generateDatabase();
+        const saved = await manager.saveDatabase(username, password);
 
-      manager.loadDatabase('test', '123').then((buffer) => {
-        console.log(`DB Data: ${new TextDecoder('utf-8').decode(buffer)}`);
-      });
-    });
-  }, []);
+        console.log(`Saved DB: ${saved}`);
+      }
+
+      const db = await manager.loadDatabase(username, password);
+      console.log(db ? 'dbLoaded' : 'dbNotLoaded');
+
+      const initialSettings = await manager.databaseManager.getUserSettings();
+      console.log('initialSettings: ', initialSettings[0]);
+    }
+
+    managerDemo();
+  }, [username, password]);
 
   return (
     <div>
