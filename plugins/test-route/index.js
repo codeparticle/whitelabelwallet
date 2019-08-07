@@ -8,7 +8,7 @@ const TestRouteTrigger = withRouter(({ history }) => (
 ));
 
 const TestRoute = ({ manager }) => {
-  const username = 'jeff';
+  const username = 'jeffs';
   const password = '123';
 
   useEffect(() => {

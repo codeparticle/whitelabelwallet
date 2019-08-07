@@ -1,4 +1,4 @@
-import { DatabaseManager } from '../db';
+import { DatabaseManager, UpdateManager } from '../db';
 import { EncryptionManager } from '../encryption-manager';
 import { FileManager } from './file-manager';
 
@@ -48,7 +48,13 @@ export class WebManager {
       const dbBinary = EncryptionManager.encodeBinary(decodedBinary);
 
       this.startDatabaseManager(dbBinary);
-      resolve(true);
+      UpdateManager().then((updated) => {
+        if (updated) {
+          this.saveDatabase(username, password);
+        }
+
+        resolve(true);
+      });
     });
   }
 
