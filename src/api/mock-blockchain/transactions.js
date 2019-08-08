@@ -1,7 +1,6 @@
 import * as CryptoJS from 'crypto-js';
 import * as ecdsa from 'elliptic';
 import _ from 'lodash';
-
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants.js';
 
@@ -169,6 +168,68 @@ class TransactionManager {
     resultingUnspentTxOuts.unshift(...newUnspentTxOuts);
 
     return resultingUnspentTxOuts;
+  };
+
+  /**
+   * sum all the unspent transaction “owned” by that address:
+   * @param {string} address
+   * @param {array} unspentTxOuts
+   */
+  getBalance (address, unspentTxOuts) {
+    return _(unspentTxOuts)
+      .filter((uTxO) => uTxO.address === address)
+      .map((uTxO) => uTxO.amount)
+      .sum();
+  };
+
+  findTxOutsForAmount (amount, myUnspentTxOuts) {
+    let currentAmount = 0;
+    const includedUnspentTxOuts = [];
+    for (const myUnspentTxOut of myUnspentTxOuts) {
+      includedUnspentTxOuts.push(myUnspentTxOut);
+      currentAmount = currentAmount + myUnspentTxOut.amount;
+      if (currentAmount >= amount) {
+        const leftOverAmount = currentAmount - amount;
+        return { includedUnspentTxOuts, leftOverAmount };
+      }
+    }
+    throw Error('not enough coins to send transaction');
+  };
+
+  createTxOuts = (receiverAddress, myAddress, amount, leftOverAmount) => {
+    const txOut1 = new TxOut(receiverAddress, amount);
+    if (leftOverAmount === 0) {
+      return [txOut1];
+    } else {
+      const leftOverTx = new TxOut(myAddress, leftOverAmount);
+      return [txOut1, leftOverTx];
+    }
+  };
+
+  createTransaction (receiverAddress, amount, privateKey, unspentTxOuts) {
+    const myAddress = this.getPublicKey(privateKey);
+    const myUnspentTxOuts = unspentTxOuts.filter((uTxO) => uTxO.address === myAddress);
+    const { includedUnspentTxOuts, leftOverAmount } = this.findTxOutsForAmount(amount, myUnspentTxOuts);
+
+    const toUnsignedTxIn = (unspentTxOut) => {
+      const txIn = new TxIn();
+      txIn.txOutId = unspentTxOut.txOutId;
+      txIn.txOutIndex = unspentTxOut.txOutIndex;
+      return txIn;
+    };
+
+    const unsignedTxIns = includedUnspentTxOuts.map(toUnsignedTxIn);
+    const tx = new Transaction();
+    tx.txIns = unsignedTxIns;
+    tx.txOuts = this.createTxOuts(receiverAddress, myAddress, amount, leftOverAmount);
+    tx.txid = this.getTransactionId(tx);
+
+    tx.txIns = tx.txIns.map((txIn, index) => {
+      txIn.signature = this.signTxIn(tx, index, privateKey, unspentTxOuts);
+      return txIn;
+    });
+
+    return tx;
   };
 
   processTransactions = (aTransactions, aUnspentTxOuts, blockIndex) => {
