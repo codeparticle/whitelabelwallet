@@ -1,7 +1,7 @@
 import { ec } from 'elliptic';
 import  _ from 'lodash';
 import { api } from 'rdx/api';
-import { Transaction, TxIn, TxOut, TransactionService } from 'api/mock-blockchain/transactions';
+import { Transaction, TxIn, TxOut, TransactionManager } from 'api/mock-blockchain/transactions';
 import { FileManager } from 'api/web/file-manager';
 import { urls } from 'api/mock-blockchain/constants';
 
@@ -12,7 +12,19 @@ const {
 const EC = new ec('secp256k1');
 const fileServiceInst = new FileManager(window.localStorage);
 
-class WalletService {
+class WalletManager {
+
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new WalletManager();
+    }
+    return this._instance;
+  }
+
+  static resetInstance() {
+    this._instance = null;
+  }
+
   getPrivateFromWallet() {
     return fileServiceInst.getPrivateKey();
   };
@@ -93,8 +105,8 @@ class WalletService {
   };
 
   createTransaction (receiverAddress, amount, privateKey, unspentTxOuts) {
-    const transactionServiceInst = new TransactionService();
-    const myAddress = transactionServiceInst.getPublicKey(privateKey);
+    const transactionManagerInst = TransactionManager.instance;
+    const myAddress = transactionManagerInst.getPublicKey(privateKey);
     const myUnspentTxOuts = unspentTxOuts.filter((uTxO) => uTxO.address === myAddress);
     const { includedUnspentTxOuts, leftOverAmount } = this.findTxOutsForAmount(amount, myUnspentTxOuts);
 
@@ -109,10 +121,10 @@ class WalletService {
     const tx = new Transaction();
     tx.txIns = unsignedTxIns;
     tx.txOuts = this.createTxOuts(receiverAddress, myAddress, amount, leftOverAmount);
-    tx.txid = transactionServiceInst.getTransactionId(tx);
+    tx.txid = transactionManagerInst.getTransactionId(tx);
 
     tx.txIns = tx.txIns.map((txIn, index) => {
-      txIn.signature = transactionServiceInst.signTxIn(tx, index, privateKey, unspentTxOuts);
+      txIn.signature = transactionManagerInst.signTxIn(tx, index, privateKey, unspentTxOuts);
       return txIn;
     });
 
@@ -122,5 +134,5 @@ class WalletService {
 }
 
 export {
-  WalletService,
+  WalletManager,
 };

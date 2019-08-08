@@ -56,7 +56,22 @@ class Transaction {
   }
 }
 
-class TransactionService {
+/**
+   * This class instance is always fetched using "TransactionManager.instance"
+   */
+
+class TransactionManager {
+
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new TransactionManager();
+    }
+    return this._instance;
+  }
+
+  static resetInstance() {
+    this._instance = null;
+  }
 
   async getUnspentTxOuts() {
     return (await api.get(UNSPENT_TX_OUTS)).data;
@@ -146,7 +161,7 @@ class TransactionService {
     // Need to know which transaction outputs are consumed by the new transactions of the block
     const consumedTxOuts = newTransactions
       .map((transObj) => transObj.txIns)
-      .reduce((txInCollection, txin) => txInCollection.concat(txin), [])
+      .reduce((txInCollection, txIn) => txInCollection.concat(txIn), [])
       .map((txIn) => new UnspentTxOut(txIn.txOutId, txIn.txOutIndex, '', 0));
 
     // we can generate the new unspent transaction outputs by removing the consumedTxOuts and adding the newUnspentTxOuts to our existing transaction outputs.
@@ -378,7 +393,7 @@ export {
   UnspentTxOut,
   TxIn,
   Transaction,
-  TransactionService,
+  TransactionManager,
 };
 
 

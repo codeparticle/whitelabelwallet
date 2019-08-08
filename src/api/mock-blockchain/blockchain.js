@@ -4,8 +4,8 @@ import  _ from 'lodash';
 import { api } from 'rdx/api';
 import { urls, blockchain } from 'api/mock-blockchain/constants';
 import { hexToBinary } from 'api/mock-blockchain/utils/hex-to-binary';
-import { TransactionService } from 'api/mock-blockchain/transactions';
-import { WalletService } from 'api/mock-blockchain/wallet';
+import { TransactionManager } from 'api/mock-blockchain/transactions';
+import { WalletManager } from 'api/mock-blockchain/wallet';
 
 const {
   BLOCKS,
@@ -39,6 +39,18 @@ const genesisBlock = new Block(
 
 class BlockchainManager {
 
+  static get instance() {
+    if (!this._instance) {
+      // this._instance = BlockchainManager.instance;
+      this._instance = new BlockchainManager();
+    }
+    return this._instance;
+  }
+
+  static resetInstance() {
+    this._instance = null;
+  }
+
   async getBlockchain() {
     return (await api.get(BLOCKS)).data;
   }
@@ -48,8 +60,8 @@ class BlockchainManager {
   }
 
   async getUnspentTxOs() {
-    const transactionServiceInst = new TransactionService();
-    return transactionServiceInst.getUnspentTxOuts();
+    const transactionManagerInst = TransactionManager.instance;
+    return await transactionManagerInst.getUnspentTxOuts();
   }
 
   async getAddressDetails(address) {
@@ -80,8 +92,8 @@ class BlockchainManager {
   }
 
   async getBalanceForAddress(address, unspentTxOuts) {
-    const walletServiceInst = new WalletService();
-    return walletServiceInst.getBalance(address, unspentTxOuts);
+    const walletManagerInst = WalletManager.instance;
+    return await walletManagerInst.getBalance(address, unspentTxOuts);
   }
 
   /**
@@ -147,9 +159,9 @@ class BlockchainManager {
    */
 
   async generateNextBlock () {
-    const transactionServiceInst = new TransactionService();
-    const walletServiceInst = new WalletService();
-    const coinbaseTx = transactionServiceInst.getCoinbaseTransaction(walletServiceInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
+    const transactionManagerInst = TransactionManager.instance;
+    const walletManagerInst = WalletManager.instance;
+    const coinbaseTx = transactionManagerInst.getCoinbaseTransaction(walletManagerInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
     const blockData = [coinbaseTx];
     return await this.generateRawNextBlock(blockData);
   };
@@ -161,16 +173,16 @@ class BlockchainManager {
    */
 
   async generateNextBlockWithTransaction (receiverAddress, amount) {
-    const transactionServiceInst = new TransactionService();
-    const walletServiceInst = new WalletService();
-    if (!transactionServiceInst.isValidAddress(receiverAddress)) {
+    const transactionManagerInst = TransactionManager.instance;
+    const walletManagerInst = WalletManager.instance;
+    if (!transactionManagerInst.isValidAddress(receiverAddress)) {
       throw Error('invalid address');
     }
     if (typeof amount !== 'number') {
       throw Error('invalid amount');
     }
-    const coinbaseTx = transactionServiceInst.getCoinbaseTransaction(walletServiceInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
-    const tx = walletServiceInst.createTransaction(receiverAddress, amount, walletServiceInst.getPrivateFromWallet(), await transactionServiceInst.getUnspentTxOuts());
+    const coinbaseTx = transactionManagerInst.getCoinbaseTransaction(walletManagerInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
+    const tx = walletManagerInst.createTransaction(receiverAddress, amount, walletManagerInst.getPrivateFromWallet(), await transactionManagerInst.getUnspentTxOuts());
     const blockData = [coinbaseTx, tx];
     return await this.generateRawNextBlock(blockData);
   };
@@ -208,8 +220,8 @@ class BlockchainManager {
 
   async addBlockToChain (newBlock) {
     if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
-      const transactionServiceInst = new TransactionService();
-      const processedData = transactionServiceInst.processTransactions(newBlock.data, await this.getUnspentTxOs(), newBlock.index);
+      const transactionManagerInst = TransactionManager.instance;
+      const processedData = transactionManagerInst.processTransactions(newBlock.data, await this.getUnspentTxOs(), newBlock.index);
       if (processedData === null) {
         return false;
       } else {
