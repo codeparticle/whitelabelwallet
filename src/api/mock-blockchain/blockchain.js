@@ -1,6 +1,5 @@
 import * as CryptoJS from 'crypto-js';
 import  _ from 'lodash';
-
 import { api } from 'rdx/api';
 import { urls, blockchain } from 'api/mock-blockchain/constants';
 import { hexToBinary } from 'api/mock-blockchain/utils/hex-to-binary';
@@ -92,8 +91,8 @@ class BlockchainManager {
   }
 
   async getBalanceForAddress(address, unspentTxOuts) {
-    const walletManagerInst = WalletManager.instance;
-    return await walletManagerInst.getBalance(address, unspentTxOuts);
+    const transactionManagerInst = TransactionManager.instance;
+    return await transactionManagerInst.getBalance(address, unspentTxOuts);
   }
 
   /**
@@ -182,9 +181,11 @@ class BlockchainManager {
       throw Error('invalid amount');
     }
     const coinbaseTx = transactionManagerInst.getCoinbaseTransaction(walletManagerInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
-    const tx = walletManagerInst.createTransaction(receiverAddress, amount, walletManagerInst.getPrivateFromWallet(), await transactionManagerInst.getUnspentTxOuts());
+    const tx = transactionManagerInst.createTransaction(receiverAddress, amount, walletManagerInst.getPrivateFromWallet(), await transactionManagerInst.getUnspentTxOuts());
     const blockData = [coinbaseTx, tx];
-    return await this.generateRawNextBlock(blockData);
+    const generatedBlock =  await this.generateRawNextBlock(blockData);
+    console.log('========\n', 'generatedBlock', generatedBlock, '\n========');
+    return generatedBlock;
   };
 
   /**
