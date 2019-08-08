@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
-import { WalletService } from 'api/mock-blockchain/wallet';
+import { WalletManager } from 'api/mock-blockchain/wallet';
 import './index.scss';
 
 
 
 const BlueButton = () => {
-  const mockBlockchainManagerInst = new BlockchainManager();
-  const walletInst = new WalletService();
+  const mockBlockchainManagerInst = BlockchainManager.instance;
+  const walletInst = WalletManager.instance;
 
   const generateWallet = () => {
     walletInst.initWallet();
@@ -27,7 +27,7 @@ const BlueButton = () => {
   };
 
   const testFunc = () => {
-    mockBlockchainManagerInst.getTransactions();
+    mockBlockchainManagerInst.getUnspentTxOs();
   };
 
   const getBalance = async () => {
