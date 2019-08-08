@@ -143,7 +143,7 @@ class BlockchainManager {
   };
 
   /**
-   * This funciton can be used to generatae coinbase Txs. The coinbase transaction contains only an output, but no inputs. This means that a coinbase transaction adds new coins to circulation.
+   * This function can be used to generate coinbase Txs. The coinbase transaction contains only an output, but no inputs. This means that a coinbase transaction adds new coins to circulation.
    */
 
   async generateNextBlock () {
@@ -155,12 +155,12 @@ class BlockchainManager {
   };
 
   /**
-   * This funciton will add transcations blocks to the blockhain and also generates a coin to the caller, in this case our wallet, that executes the function(a reward for minining the block);
+   * This function will add transactions blocks to the blockchain and also generates a coin to the caller, in this case our wallet, that executes the function(a reward for mining the block);
    * @param {string} receiverAddress
    * @param {number} amount
    */
 
-  async generatenextBlockWithTransaction (receiverAddress, amount) {
+  async generateNextBlockWithTransaction (receiverAddress, amount) {
     const transactionServiceInst = new TransactionService();
     const walletServiceInst = new WalletService();
     if (!transactionServiceInst.isValidAddress(receiverAddress)) {
@@ -223,7 +223,7 @@ class BlockchainManager {
   };
 
   /**
-   * Caluclates the accumlated difficulty of block cahin returns a diffucalty score.
+   * Calculates the accumulated difficulty of blockchain returns a difficulty score.
    * To get the cumulative difficulty of a chain we calculate 2^difficulty for each block and take a sum of all those numbers. We have to use the 2^difficulty as we chose the difficulty to represent the number of zeros that must prefix the hash in binary format.
    * @param {array} blockchain
    */
@@ -235,11 +235,11 @@ class BlockchainManager {
   };
 
   /**
-     * This was implemented to mimic some security messures most blockchains adhere to in odrder to prevent false timestamps in an effort to manipulate the difficulty.
+     * This was implemented to mimic some security measures most blockchains adhere to in order to prevent false timestamps in an effort to manipulate the difficulty.
      * A block is valid, if the timestamp is at most 1 min in the future from the time we perceive.
     * A block in the chain is valid, if the timestamp is at most 1 min in the past of the previous block.
      * @param {obj} newBlock
-     * @param {obj} previousBlockk
+     * @param {obj} previousBlock
      * @return {bool} if timestamp is valid or not
      */
 

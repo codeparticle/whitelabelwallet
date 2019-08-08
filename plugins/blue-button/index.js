@@ -19,7 +19,7 @@ const BlueButton = () => {
   };
   const createTransactions = async () => {
     const address = (await mockBlockchainManagerInst.getLatestAddress()).address;
-    mockBlockchainManagerInst.generatenextBlockWithTransaction(address, 10);
+    mockBlockchainManagerInst.generateNextBlockWithTransaction(address, 10);
   };
 
   const createCoinBaseTx = () => {
@@ -42,7 +42,7 @@ const BlueButton = () => {
       <br/>
       {'step 1 generate wallet/private key(if you dont have one already) '}
       <button onClick={generateWallet}>
-        Create Wallet used for Transacions
+        Create Wallet used for Transactions
       </button>
       <br/>
       {'step 2 add a coin(50 units) to your wallet available to spend '}
@@ -62,7 +62,7 @@ const BlueButton = () => {
       <br/>
       <br/>
       <strong>
-        {'Other acitons/Test'}
+        {'Other actions/Test'}
       </strong>
       <br/>
       {'find wallet balance '}
