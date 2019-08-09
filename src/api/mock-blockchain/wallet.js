@@ -8,7 +8,7 @@ const {
 } = urls;
 
 const EC = new ec('secp256k1');
-const fileServiceInst = new FileManager(window.localStorage);
+const fileManager = new FileManager(window.localStorage);
 
 class WalletManager {
 
@@ -24,7 +24,7 @@ class WalletManager {
   }
 
   getPrivateFromWallet() {
-    return fileServiceInst.getPrivateKey();
+    return fileManager.getPrivateKey();
   };
 
   getPublicFromWallet() {
@@ -58,9 +58,9 @@ class WalletManager {
   }
 
   initWallet () {
-    if (fileServiceInst.getPrivateKey() === null) {
+    if (fileManager.getPrivateKey() === null) {
       const newPrivateKey = this.generatePrivateKey();
-      fileServiceInst.savePrivateKey(newPrivateKey);
+      fileManager.savePrivateKey(newPrivateKey);
       console.log('new wallet with private key created');
     }
   };

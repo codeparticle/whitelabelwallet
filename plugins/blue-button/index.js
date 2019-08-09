@@ -1,37 +1,41 @@
+// ToDo: this is a sample file to test the PR and will be removed/reverted back to the original
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { urls } from 'api/mock-blockchain/constants';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { WalletManager } from 'api/mock-blockchain/wallet';
 import './index.scss';
 
-
+const {
+  LATEST_ADDRESS,
+} = urls;
 
 const BlueButton = () => {
-  const mockBlockchainManagerInst = BlockchainManager.instance;
-  const walletInst = WalletManager.instance;
+  const blockchainManager = BlockchainManager.instance;
+  const walletManager = WalletManager.instance;
 
   const generateWallet = () => {
-    walletInst.initWallet();
+    walletManager.initWallet();
   };
 
   const generateToAddress = () => {
-    walletInst.generateToAddress();
+    walletManager.generateToAddress();
   };
   const createTransactions = async () => {
-    const address = (await mockBlockchainManagerInst.getLatestAddress()).address;
-    mockBlockchainManagerInst.generateNextBlockWithTransaction(address, 10);
+    const address = (await blockchainManager.apiGetItem(LATEST_ADDRESS)).address;
+    blockchainManager.generateNextBlockWithTransaction(address, 10);
   };
 
   const createCoinBaseTx = () => {
-    mockBlockchainManagerInst.generateNextBlock();
+    blockchainManager.generateNextBlock();
   };
 
   const testFunc = () => {
-    mockBlockchainManagerInst.getTransactions();
+    blockchainManager.getTransactions();
   };
 
   const getBalance = async () => {
-    console.log(await mockBlockchainManagerInst.getBalanceForAddress(walletInst.getPublicFromWallet(), await mockBlockchainManagerInst.getUnspentTxOs()));
+    console.log(await blockchainManager.getBalanceForAddress(walletManager.getPublicFromWallet(), await blockchainManager.getUnspentTxOs()));
   };
 
   return (
