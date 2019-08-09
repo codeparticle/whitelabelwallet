@@ -1,14 +1,9 @@
 // ToDo: this is a sample file to test the PR and will be removed/reverted back to the original
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { urls } from 'api/mock-blockchain/constants';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { WalletManager } from 'api/mock-blockchain/wallet';
 import './index.scss';
-
-const {
-  LATEST_ADDRESS,
-} = urls;
 
 const BlueButton = () => {
   const blockchainManager = BlockchainManager.instance;
@@ -22,7 +17,7 @@ const BlueButton = () => {
     walletManager.generateToAddress();
   };
   const createTransactions = async () => {
-    const address = (await blockchainManager.apiGetItem(LATEST_ADDRESS)).address;
+    const address = await blockchainManager.getLatestAddress();
     blockchainManager.generateNextBlockWithTransaction(address, 10);
   };
 
@@ -30,8 +25,8 @@ const BlueButton = () => {
     blockchainManager.generateNextBlock();
   };
 
-  const testFunc = () => {
-    blockchainManager.getTransactions();
+  const testFunc = async () => {
+    console.log(await blockchainManager.getLatestAddress());
   };
 
   const getBalance = async () => {

@@ -4,9 +4,12 @@ import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants';
 import { TransactionManager } from 'api/mock-blockchain/transactions';
 import { WalletManager } from 'api/mock-blockchain/wallet';
+import { FormattedAddress } from 'api/mock-blockchain/models';
 
 const {
+  ADDRESS_DETAILS,
   BLOCKS,
+  LATEST_ADDRESS,
   LATEST_BLOCK,
   UNSPENT_TX_OUTS,
 } = urls;
@@ -46,25 +49,41 @@ class BlockchainManager {
     return item;
   }
 
+  async getAddressDetails(addressParam) {
+    const blockchainAddress = await this.apiGetItem(ADDRESS_DETAILS, addressParam);
+    const address = new FormattedAddress(blockchainAddress.id, blockchainAddress.label, blockchainAddress.address);
+    return address;
+  }
+
+  async getLatestAddress() {
+    const blockchainAddress = await this.apiGetItem(LATEST_ADDRESS);
+    return blockchainAddress.address;
+  }
+
   async getTransactions() {
+    const transactionManager = TransactionManager.instance;
     const transactions = _.filter((await this.apiGetItem(BLOCKS))
       .map((blocks) => blocks.data)
       .flatten(), blockData => blockData.txid);
-    return transactions;
+    const formattedTransactions = transactions.map(transactionManager.transactionFormatter);
+    return formattedTransactions;
   }
 
   async getTransactionDetails(txid) {
+    const transactionManager = TransactionManager.instance;
     const tx = _(await this.apiGetItem(BLOCKS))
       .map((blocks) => blocks.data)
       .flatten()
       .find({ 'txid':txid });
-    return tx;
+    return transactionManager.transactionFormatter(tx);
   }
 
   async getBalanceForAddress(address, unspentTxOuts) {
     const transactionManager = TransactionManager.instance;
     return await transactionManager.getBalance(address, unspentTxOuts);
   }
+
+  transactionFormatter
 
   getRandomInt(max = 10) {
     return Math.floor(Math.random() * max) + 1;
@@ -123,7 +142,8 @@ class BlockchainManager {
     const tx = transactionManager.createTransaction(receiverAddress, amount, walletManager.getPrivateFromWallet(), await this.apiGetItem(UNSPENT_TX_OUTS));
     const blockData = [tx];
     const generatedBlock =  await this.generateRawNextBlock(blockData);
-    return generatedBlock.data[0];
+    const generatedTransaction = transactionManager.transactionFormatter(generatedBlock.data[0]);
+    return generatedTransaction;
   };
 
   calculateHash (index, previousHash, timestamp, data, difficulty, nonce) {
