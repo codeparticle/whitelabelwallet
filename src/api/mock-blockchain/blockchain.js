@@ -7,11 +7,8 @@ import { WalletManager } from 'api/mock-blockchain/wallet';
 
 const {
   BLOCKS,
-  BLOCKS_DETAILS,
   LATEST_BLOCK,
   UNSPENT_TX_OUTS,
-  LATEST_ADDRESS,
-  ADDRESS_DETAILS,
 } = urls;
 
 class Block {
@@ -30,7 +27,6 @@ class BlockchainManager {
 
   static get instance() {
     if (!this._instance) {
-      // this._instance = BlockchainManager.instance;
       this._instance = new BlockchainManager();
     }
     return this._instance;
@@ -40,40 +36,25 @@ class BlockchainManager {
     this._instance = null;
   }
 
-  async getBlockchain() {
-    return (await api.get(BLOCKS)).data;
-  }
-
-  async getLatestBlock() {
-    return (await api.get(LATEST_BLOCK)).data[0];
-  }
-
-  async getUnspentTxOs() {
-    const transactionManagerInst = TransactionManager.instance;
-    return await transactionManagerInst.getUnspentTxOuts();
-  }
-
-  async getAddressDetails(address) {
-    return ((await api.get(`${ADDRESS_DETAILS}${address}`)).data[0]);
-  }
-
-  async getLatestAddress() {
-    return (await api.get(LATEST_ADDRESS)).data[0];
-  }
-
-  async getBlockDetails(hash) {
-    return (await api.get(`${BLOCKS_DETAILS}${hash}`)).data[0];
+  async apiGetItem(method, param = '') {
+    let item;
+    if (method.includes('?')) {
+      item = (await api.get(`${method}${param}`)).data[0];
+    } else {
+      item = (await api.get(`${method}${param}`)).data;
+    }
+    return item;
   }
 
   async getTransactions() {
-    const transactions = _.filter((await this.getBlockchain())
+    const transactions = _.filter((await this.apiGetItem(BLOCKS))
       .map((blocks) => blocks.data)
       .flatten(), blockData => blockData.txid);
     return transactions;
   }
 
   async getTransactionDetails(txid) {
-    const tx = _(await this.getBlockchain())
+    const tx = _(await this.apiGetItem(BLOCKS))
       .map((blocks) => blocks.data)
       .flatten()
       .find({ 'txid':txid });
@@ -81,8 +62,8 @@ class BlockchainManager {
   }
 
   async getBalanceForAddress(address, unspentTxOuts) {
-    const transactionManagerInst = TransactionManager.instance;
-    return await transactionManagerInst.getBalance(address, unspentTxOuts);
+    const transactionManager = TransactionManager.instance;
+    return await transactionManager.getBalance(address, unspentTxOuts);
   }
 
   getRandomInt(max = 10) {
@@ -99,7 +80,7 @@ class BlockchainManager {
    */
 
   async generateRawNextBlock (blockData) {
-    const previousBlock = await this.getLatestBlock();
+    const previousBlock = await this.apiGetItem(LATEST_BLOCK);
     const difficulty = this.getRandomInt();
     const nextIndex = previousBlock.index + 1;
     const nextTimestamp = this.getCurrentTimestamp();
@@ -109,7 +90,6 @@ class BlockchainManager {
     if (await this.addBlockToChain(newBlock)) {
       return newBlock;
     }
-
     return null;
   };
 
@@ -118,9 +98,9 @@ class BlockchainManager {
    */
 
   async generateNextBlock () {
-    const transactionManagerInst = TransactionManager.instance;
-    const walletManagerInst = WalletManager.instance;
-    const coinbaseTx = transactionManagerInst.getCoinbaseTransaction(walletManagerInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
+    const transactionManager = TransactionManager.instance;
+    const walletManager = WalletManager.instance;
+    const coinbaseTx = transactionManager.getCoinbaseTransaction(walletManager.getPublicFromWallet(), (await this.apiGetItem(LATEST_BLOCK)).index + 1);
     const blockData = [coinbaseTx];
     return await this.generateRawNextBlock(blockData);
   };
@@ -132,15 +112,15 @@ class BlockchainManager {
    */
 
   async generateNextBlockWithTransaction (receiverAddress, amount) {
-    const transactionManagerInst = TransactionManager.instance;
-    const walletManagerInst = WalletManager.instance;
-    if (!transactionManagerInst.isValidAddress(receiverAddress)) {
+    const transactionManager = TransactionManager.instance;
+    const walletManager = WalletManager.instance;
+    if (!transactionManager.isValidAddress(receiverAddress)) {
       throw Error('invalid address');
     }
     if (typeof amount !== 'number') {
       throw Error('invalid amount');
     }
-    const tx = transactionManagerInst.createTransaction(receiverAddress, amount, walletManagerInst.getPrivateFromWallet(), await transactionManagerInst.getUnspentTxOuts());
+    const tx = transactionManager.createTransaction(receiverAddress, amount, walletManager.getPrivateFromWallet(), await this.apiGetItem(UNSPENT_TX_OUTS));
     const blockData = [tx];
     const generatedBlock =  await this.generateRawNextBlock(blockData);
     return generatedBlock.data[0];
@@ -151,9 +131,9 @@ class BlockchainManager {
   }
 
   async addBlockToChain (newBlock) {
-    if (this.isValidNewBlock(newBlock, await this.getLatestBlock())) {
-      const transactionManagerInst = TransactionManager.instance;
-      const processedData = transactionManagerInst.processTransactions(newBlock.data, await this.getUnspentTxOs(), newBlock.index);
+    if (this.isValidNewBlock(newBlock, await this.apiGetItem(LATEST_BLOCK))) {
+      const transactionManager = TransactionManager.instance;
+      const processedData = transactionManager.processTransactions(newBlock.data, await this.apiGetItem(UNSPENT_TX_OUTS), newBlock.index);
       if (processedData === null) {
         return false;
       } else {

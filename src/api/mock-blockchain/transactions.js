@@ -240,8 +240,6 @@ class TransactionManager {
       return txIn;
     });
 
-    console.log('========\n', 'tx', tx, '\n========');
-
     return tx;
   };
 
