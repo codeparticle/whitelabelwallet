@@ -12,15 +12,7 @@ const urls = {
   UNSPENT_TX_OUTS: '/unspentTxOuts',
 };
 
-const blockchain = {
-  // in seconds
-  BLOCK_GENERATION_INTERVAL: 10,
-  // in blocks
-  DIFFICULTY_ADJUSTMENT_INTERVAL: 10,
-};
-
 export {
-  blockchain,
   urls,
 };
 

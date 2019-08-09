@@ -85,14 +85,9 @@ class BlockchainManager {
     return await transactionManagerInst.getBalance(address, unspentTxOuts);
   }
 
-  /**
-   * Generate random mock difficulty value
-   */
-
   getRandomInt(max = 10) {
     return Math.floor(Math.random() * max) + 1;
   };
-
 
   getCurrentTimestamp () {
     return Math.round(new Date().getTime() / 1000);
@@ -112,7 +107,6 @@ class BlockchainManager {
     const hash = this.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData, difficulty, nonce);
     const newBlock = new Block(nextIndex, hash, previousBlock.hash, nextTimestamp, blockData, difficulty, nonce);
     if (await this.addBlockToChain(newBlock)) {
-      // broadcastLatest(); TODO: mock broadcasting to p2p server maybe?
       return newBlock;
     }
 
@@ -175,7 +169,7 @@ class BlockchainManager {
   /**
      * This was implemented to mimic some security measures most blockchains adhere to in order to prevent false timestamps in an effort to manipulate the difficulty.
      * A block is valid, if the timestamp is at most 1 min in the future from the time we perceive.
-    * A block in the chain is valid, if the timestamp is at most 1 min in the past of the previous block.
+     * A block in the chain is valid, if the timestamp is at most 1 min in the past of the previous block.
      * @param {obj} newBlock
      * @param {obj} previousBlock
      * @return {bool} if timestamp is valid or not
