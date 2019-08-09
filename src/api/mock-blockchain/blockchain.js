@@ -83,8 +83,6 @@ class BlockchainManager {
     return await transactionManager.getBalance(address, unspentTxOuts);
   }
 
-  transactionFormatter
-
   getRandomInt(max = 10) {
     return Math.floor(Math.random() * max) + 1;
   };
