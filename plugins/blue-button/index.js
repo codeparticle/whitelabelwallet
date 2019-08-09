@@ -27,7 +27,7 @@ const BlueButton = () => {
   };
 
   const testFunc = () => {
-    mockBlockchainManagerInst.getUnspentTxOs();
+    mockBlockchainManagerInst.getTransactions();
   };
 
   const getBalance = async () => {

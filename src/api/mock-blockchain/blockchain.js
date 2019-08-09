@@ -132,7 +132,7 @@ class BlockchainManager {
   };
 
   /**
-   * This function will add transactions blocks to the blockchain and also generates a coin to the caller, in this case our wallet, that executes the function(a reward for mining the block);
+   * This function will add transactions blocks to the blockchain
    * @param {string} receiverAddress
    * @param {number} amount
    */
@@ -146,12 +146,10 @@ class BlockchainManager {
     if (typeof amount !== 'number') {
       throw Error('invalid amount');
     }
-    const coinbaseTx = transactionManagerInst.getCoinbaseTransaction(walletManagerInst.getPublicFromWallet(), (await this.getLatestBlock()).index + 1);
     const tx = transactionManagerInst.createTransaction(receiverAddress, amount, walletManagerInst.getPrivateFromWallet(), await transactionManagerInst.getUnspentTxOuts());
-    const blockData = [coinbaseTx, tx];
+    const blockData = [tx];
     const generatedBlock =  await this.generateRawNextBlock(blockData);
-    console.log('========\n', 'generatedBlock', generatedBlock, '\n========');
-    return generatedBlock;
+    return generatedBlock.data[0];
   };
 
   calculateHash (index, previousHash, timestamp, data, difficulty, nonce) {

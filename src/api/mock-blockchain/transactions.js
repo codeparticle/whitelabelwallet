@@ -48,10 +48,16 @@ class TxOut {
 }
 
 class Transaction {
-  constructor(txid, txIns, txOuts) {
+  constructor(txid, txIns, txOuts, description, amount, fee, receiverAddress, recipientAddress) {
     this.txid = txid;
     this.txIns = txIns;
     this.txOuts = txOuts;
+    this.description = description;
+    this.amount = amount;
+    this.fee = fee;
+    this.receiverAddress = receiverAddress;
+    this.recipientAddress = recipientAddress;
+    this.status = 'pending';
   }
 }
 
@@ -206,7 +212,7 @@ class TransactionManager {
     }
   };
 
-  createTransaction (receiverAddress, amount, privateKey, unspentTxOuts) {
+  createTransaction (receiverAddress, amount, privateKey, unspentTxOuts, description = '', fee = 0.0001) {
     const myAddress = this.getPublicKey(privateKey);
     const myUnspentTxOuts = unspentTxOuts.filter((uTxO) => uTxO.address === myAddress);
     const { includedUnspentTxOuts, leftOverAmount } = this.findTxOutsForAmount(amount, myUnspentTxOuts);
@@ -223,11 +229,18 @@ class TransactionManager {
     tx.txIns = unsignedTxIns;
     tx.txOuts = this.createTxOuts(receiverAddress, myAddress, amount, leftOverAmount);
     tx.txid = this.getTransactionId(tx);
+    tx.description = description;
+    tx.fee = fee;
+    tx.receiverAddress = receiverAddress;
+    tx.recipientAddress = myAddress;
+    tx.amount = amount;
 
     tx.txIns = tx.txIns.map((txIn, index) => {
-      txIn.signature = this.signTxIn(tx, index, privateKey, unspentTxOuts);
+      txIn.signature = this.signTxIn(tx, index, privateKey, unspentTxOuts); // ToDo: decide if we need this or not
       return txIn;
     });
+
+    console.log('========\n', 'tx', tx, '\n========');
 
     return tx;
   };
@@ -286,13 +299,7 @@ class TransactionManager {
     return true;
   };
 
-  validateBlockTransactions  (aTransactions, aUnspentTxOuts, blockIndex) {
-    const coinbaseTx = aTransactions[0];
-    if (!this.validateCoinbaseTx(coinbaseTx, blockIndex)) {
-      console.log('invalid coinbase transaction: ' + JSON.stringify(coinbaseTx));
-      return false;
-    }
-
+  validateBlockTransactions  (aTransactions, aUnspentTxOuts) {
     // check for duplicate txIns. Each txIn can be included only once
     const txIns = _(aTransactions)
       .map(tx => tx.txIns)
