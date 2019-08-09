@@ -3,6 +3,7 @@ import * as ecdsa from 'elliptic';
 import _ from 'lodash';
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants.js';
+import { FormattedTransaction } from 'api/mock-blockchain/models';
 
 const {
   UNSPENT_TX_OUTS,
@@ -48,7 +49,7 @@ class TxOut {
 }
 
 class Transaction {
-  constructor(txid, txIns, txOuts, description, amount, fee, receiverAddress, recipientAddress) {
+  constructor(txid, txIns, txOuts, description, amount, fee, receiverAddress, senderAddress) {
     this.txid = txid;
     this.txIns = txIns;
     this.txOuts = txOuts;
@@ -56,7 +57,7 @@ class Transaction {
     this.amount = amount;
     this.fee = fee;
     this.receiverAddress = receiverAddress;
-    this.recipientAddress = recipientAddress;
+    this.senderAddress = senderAddress;
     this.status = 'pending';
   }
 }
@@ -232,7 +233,7 @@ class TransactionManager {
     tx.description = description;
     tx.fee = fee;
     tx.receiverAddress = receiverAddress;
-    tx.recipientAddress = myAddress;
+    tx.senderAddress = myAddress;
     tx.amount = amount;
 
     tx.txIns = tx.txIns.map((txIn, index) => {
@@ -242,6 +243,23 @@ class TransactionManager {
 
     return tx;
   };
+
+  transactionFormatter = (rawTransaction) => {
+    const rawData = {
+      txIns: rawTransaction.txIns,
+      txOuts: rawTransaction.txOuts,
+    };
+
+    return new FormattedTransaction(
+      rawTransaction.txid,
+      rawTransaction.amount,
+      rawTransaction.description,
+      rawData,
+      rawTransaction.fee,
+      rawTransaction.senderAddress,
+      rawTransaction.receiverAddress,
+    );
+  }
 
   processTransactions = (aTransactions, aUnspentTxOuts, blockIndex) => {
     if (!this.isValidTransactionsStructure(aTransactions)) {
