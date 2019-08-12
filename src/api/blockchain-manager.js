@@ -29,31 +29,30 @@ class BlockchainManager {
    * This function is used to get all the available transactions.
    * @return {Promise} Will return a promise that resolves with an Array of Transactions
 */
- getTransactions = required;
+  getTransactions = required;
 
- /**
+  /**
    * This function is used to get the information about a particular Transaction.
    * @param {string} txid
    * @return {Promise} Will return a promise that resolves with the Transaction details
 */
- getTransactionDetails = required;
+  getTransactionDetails = required;
 
- /**
+  /**
    * This get the balance of a particular address
    * @param {string} address
    * @param {array} Array of unspentTxOuts
    * @return {Promise} Will return a promise that resolves with the number balance associated to an address.
 */
-getBalanceForAddress = required;
+  getBalanceForAddress = required;
 
-/**
+  /**
    * This function will send the specified amount to the desired address.
    * @param {string} receiverAddress
    * @param {number} amount
    * @return {Promise} Will return a promise that resolves with a new created Transaction.
-*/
-sendToAddress = required;
-
+  */
+  sendToAddress = required;
 }
 
 export { BlockchainManager };
