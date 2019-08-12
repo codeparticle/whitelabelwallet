@@ -3,7 +3,7 @@ import * as ecdsa from 'elliptic';
 import _ from 'lodash';
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants.js';
-import { FormattedTransaction } from 'api/mock-blockchain/models';
+import { Transaction as FormattedTransaction } from 'models';
 
 const {
   UNSPENT_TX_OUTS,
@@ -13,7 +13,9 @@ const ec = new ecdsa.ec('secp256k1');
 const COINBASE_AMOUNT = 50;
 
 /**
- * A transaction input must always refer to an unspent transaction output (uTxO). Consequently, when you own some coins in the blockchain, what you actually have is a list of unspent transaction outputs whose public key matches to the private key you own.
+ * A transaction input must always refer to an unspent transaction output (uTxO).
+ * Consequently, when you own some coins in the blockchain,
+ * what you actually have is a list of unspent transaction outputs whose public key matches to the private key you own.
  */
 
 class UnspentTxOut {
@@ -26,7 +28,8 @@ class UnspentTxOut {
 }
 
 /**
- * Transaction inputs (txIn) provide the information “where” the coins are coming from. Each txIn refer to an earlier output, from which the coins are ‘unlocked’, with the signature. These unlocked coins are now ‘available’ for the txOuts. The signature gives proof that only the user, that has the private-key of the referred public-key ( =address) could have created the transaction.
+ * Transaction inputs (txIn) provide the information “where” the coins are coming from. Each txIn refer to an earlier output, from which the coins are ‘unlocked’, with the signature.
+ * These unlocked coins are now ‘available’ for the txOuts. The signature gives proof that only the user, that has the private-key of the referred public-key ( =address) could have created the transaction.
  */
 
 class TxIn {
@@ -38,7 +41,8 @@ class TxIn {
 }
 
 /**
- * Transaction outputs (txOut) consists of an address and an amount of coins. The address is an ECDSA public-key. This means that the user having the private-key of the referenced public-key (=address) will be able to access the coins
+ * Transaction outputs (txOut) consists of an address and an amount of coins. The address is an ECDSA public-key.
+ * This means that the user having the private-key of the referenced public-key (=address) will be able to access the coins
  */
 
 class TxOut {

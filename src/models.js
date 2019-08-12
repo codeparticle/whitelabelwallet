@@ -1,4 +1,4 @@
-class FormattedAddress {
+class Address {
   constructor(id, name, address) {
     this.id = id,
     this.name = name,
@@ -6,7 +6,7 @@ class FormattedAddress {
   }
 }
 
-class FormattedTransaction {
+class Transaction {
   constructor(id, amount, description, rawData, fee, senderAddress, recipientAddress) {
     this.id = id,
     this.amount = amount,
@@ -19,6 +19,6 @@ class FormattedTransaction {
 }
 
 export {
-  FormattedAddress,
-  FormattedTransaction,
+  Address,
+  Transaction,
 };
