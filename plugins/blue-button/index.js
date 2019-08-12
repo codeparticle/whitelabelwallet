@@ -18,7 +18,7 @@ const BlueButton = () => {
   };
   const createTransactions = async () => {
     const address = await blockchainManager.getLatestAddress();
-    blockchainManager.generateNextBlockWithTransaction(address, 10);
+    blockchainManager.sendToAddress(address, 10);
   };
 
   const createCoinBaseTx = () => {
@@ -26,7 +26,7 @@ const BlueButton = () => {
   };
 
   const testFunc = async () => {
-    console.log(await blockchainManager.getLatestAddress());
+    console.log(await blockchainManager.getTransactions());
   };
 
   const getBalance = async () => {

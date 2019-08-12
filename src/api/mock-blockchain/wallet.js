@@ -2,7 +2,7 @@ import { ec } from 'elliptic';
 import { api } from 'rdx/api';
 import { FileManager } from 'api/web/file-manager';
 import { urls } from 'api/mock-blockchain/constants';
-import { FormattedAddress } from 'api/mock-blockchain/models';
+import { Address } from 'models';
 
 const {
   ADDRESS,
@@ -55,8 +55,8 @@ class WalletManager {
     };
 
     const rawAddress  =  (await api.post(ADDRESS, addressData)).data;
-    const formattedAddress = new FormattedAddress(rawAddress.id, rawAddress.label, rawAddress.address);
-    return formattedAddress;
+    const address = new Address(rawAddress.id, rawAddress.label, rawAddress.address);
+    return address;
   }
 
   initWallet () {

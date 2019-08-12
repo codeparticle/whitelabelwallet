@@ -4,7 +4,7 @@ import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants';
 import { TransactionManager } from 'api/mock-blockchain/transactions';
 import { WalletManager } from 'api/mock-blockchain/wallet';
-import { FormattedAddress } from 'api/mock-blockchain/models';
+import { Address } from 'models';
 
 const {
   ADDRESS_DETAILS,
@@ -51,7 +51,7 @@ class BlockchainManager {
 
   async getAddressDetails(addressParam) {
     const blockchainAddress = await this.apiGetItem(ADDRESS_DETAILS, addressParam);
-    const address = new FormattedAddress(blockchainAddress.id, blockchainAddress.label, blockchainAddress.address);
+    const address = new Address(blockchainAddress.id, blockchainAddress.label, blockchainAddress.address);
     return address;
   }
 
@@ -62,11 +62,11 @@ class BlockchainManager {
 
   async getTransactions() {
     const transactionManager = TransactionManager.instance;
-    const transactions = _.filter((await this.apiGetItem(BLOCKS))
+    const rawTransactions = _.filter((await this.apiGetItem(BLOCKS))
       .map((blocks) => blocks.data)
       .flatten(), blockData => blockData.txid);
-    const formattedTransactions = transactions.map(transactionManager.transactionFormatter);
-    return formattedTransactions;
+    const transactions = rawTransactions.map(transactionManager.transactionFormatter);
+    return transactions;
   }
 
   async getTransactionDetails(txid) {
@@ -111,7 +111,9 @@ class BlockchainManager {
   };
 
   /**
-   * This function can be used to generate coinbase Txs. The coinbase transaction contains only an output, but no inputs. This means that a coinbase transaction adds new coins to circulation.
+   * This function can be used to generate coinbase Txs.
+   * The coinbase transaction contains only an output, but no inputs.
+   * This means that a coinbase transaction adds new coins to circulation.
    */
 
   async generateNextBlock () {
@@ -123,12 +125,13 @@ class BlockchainManager {
   };
 
   /**
-   * This function will add transactions blocks to the blockchain
+   * This function will send the specified about to the receiver's address
+   * while also creating a transaction block and adding it to the blockchain
    * @param {string} receiverAddress
    * @param {number} amount
    */
 
-  async generateNextBlockWithTransaction (receiverAddress, amount) {
+  async sendToAddress (receiverAddress, amount) {
     const transactionManager = TransactionManager.instance;
     const walletManager = WalletManager.instance;
     if (!transactionManager.isValidAddress(receiverAddress)) {
@@ -140,8 +143,8 @@ class BlockchainManager {
     const tx = transactionManager.createTransaction(receiverAddress, amount, walletManager.getPrivateFromWallet(), await this.apiGetItem(UNSPENT_TX_OUTS));
     const blockData = [tx];
     const generatedBlock =  await this.generateRawNextBlock(blockData);
-    const generatedTransaction = transactionManager.transactionFormatter(generatedBlock.data[0]);
-    return generatedTransaction;
+    const transaction = transactionManager.transactionFormatter(generatedBlock.data[0]);
+    return transaction;
   };
 
   calculateHash (index, previousHash, timestamp, data, difficulty, nonce) {
