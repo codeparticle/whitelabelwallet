@@ -1,3 +1,5 @@
+import { empty } from 'lib/utils';
+
 const strictUriEncode = require('../strict-uri-encode');
 const decodeComponent = require('../decode-uri-component');
 
@@ -176,7 +178,7 @@ export const stringify = (obj, options) => {
   options = Object.assign(defaults, options);
 
   if (options.sort === false) {
-    options.sort = () => {};
+    options.sort = empty;
   }
 
   const formatter = encoderForArrayFormat(options);

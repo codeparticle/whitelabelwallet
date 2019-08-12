@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 
@@ -11,6 +12,7 @@ const MyWallets = () => {
 };
 
 MyWallets.propTypes = {
+  intl: PropTypes.func.isRequired,
 };
 
 MyWallets.defaultProps = {

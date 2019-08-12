@@ -1,0 +1,18 @@
+@import 'src/styles/index.scss';
+
+.header-button-group-rct-component {
+  display: flex;
+
+  button {
+    margin-left: $space-1
+  }
+
+  &__icon {
+    height: 35px;
+    width: 35px;
+
+    path {
+      fill: $slate;
+    }
+  }
+}

@@ -1,0 +1,62 @@
+@import 'src/styles/index.scss';
+
+.nav-bar-rct-component {
+  background: $gradient-teal;
+  color: $cloud;
+  flex: 0 0 300px;
+  height: 100vh;
+  position: relative;
+
+  &__logo {
+    display: block;
+
+    & > div {
+      padding-left: 30%;
+      padding-right: 30%;
+    }
+  }
+
+  &__crypto-particle {
+    background: $gradient-teal, $gradient-blue;
+    background-blend-mode: multiply;
+    bottom: 0;
+    font-size: $font-size-xs-3;
+    font-weight: $font-weight-bold;
+    padding: $space-4;
+    position: absolute;
+    width: 100%;
+  }
+
+  &__crypto-particle-link {
+    color: $cloud;
+    font-size: $font-size-sm-1;
+    text-transform: uppercase;
+  }
+
+  .nav-item-rct-component:first-of-type {
+    padding-top: 0;
+  }
+
+  @include mquery($width-breakpoint-sm) {
+    flex-basis: 206px;
+  }
+}
+
+.nav-item-rct-component {
+  align-items: center;
+  display: flex;
+  padding: $space-3 $space-7;
+  padding-top: 0px;
+
+  &__icon {
+    padding-right: $space-4;
+    flex: 0 0 46px;
+  }
+
+  &__label {
+    color: $white;
+    font-size: $font-size-sm-3;
+    font-weight: $font-weight-semibold;
+    line-height: 22px;
+  }
+}
