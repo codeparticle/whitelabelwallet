@@ -1,3 +1,8 @@
+/**
+ * These our data models that will be used throughout the app.
+ * Each of these classes outline the properties we expect them to contain.
+ * These models should be consistent with our db schema.
+ */
 class Address {
   constructor(id, name, address) {
     this.id = id,
