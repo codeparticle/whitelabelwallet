@@ -77,5 +77,8 @@
       "before": false,
       "after": true
     }]
+  },
+  "settings": {
+    "import/core-modules": ["styled-jsx/css"]
   }
 }

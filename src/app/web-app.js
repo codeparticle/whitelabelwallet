@@ -8,9 +8,11 @@ import { createBrowserHistory } from 'history';
 import configureStore from 'rdx/configure-store';
 import registerServiceWorker from 'lib/register-service-worker';
 import {
+  AuthGuard,
   ConnectedIntlProvider,
   RootHelmet,
   RootRouter,
+  ManagerContext,
 } from 'global-components';
 import { WebManager } from 'api/web';
 
@@ -33,14 +35,18 @@ const App = () => {
   return (
     <Provider store={store}>
       <ConnectedIntlProvider>
-        <PersistGate persistor={persistor}>
-          <ConnectedRouter history={history}>
-            <IonApp>
-              <RootHelmet />
-              <RootRouter manager={manager} />
-            </IonApp>
-          </ConnectedRouter>
-        </PersistGate>
+        <ManagerContext.Provider value={manager}>
+          <PersistGate persistor={persistor}>
+            <ConnectedRouter history={history}>
+              <IonApp>
+                <AuthGuard>
+                  <RootHelmet />
+                  <RootRouter />
+                </AuthGuard>
+              </IonApp>
+            </ConnectedRouter>
+          </PersistGate>
+        </ManagerContext.Provider>
       </ConnectedIntlProvider>
     </Provider>
   );
