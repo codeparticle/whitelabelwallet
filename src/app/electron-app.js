@@ -11,7 +11,9 @@ import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { environment } from 'lib/utils';
 import configureStore from 'rdx/configure-store';
 import {
+  AuthGuard,
   ConnectedIntlProvider,
+  ManagerContext,
   RootHelmet,
   RootRouter,
 } from 'global-components';
@@ -68,14 +70,18 @@ const App = () => {
   return (
     <Provider store={store}>
       <ConnectedIntlProvider>
-        <PersistGate persistor={persistor}>
-          <ConnectedRouter history={history}>
-            <AppWithStoreContainer>
-              <RootHelmet />
-              <RootRouter manager={manager} />
-            </AppWithStoreContainer>
-          </ConnectedRouter>
-        </PersistGate>
+        <ManagerContext.Provider value={manager}>
+          <PersistGate persistor={persistor}>
+            <ConnectedRouter history={history}>
+              <AppWithStoreContainer>
+                <AuthGuard>
+                  <RootHelmet />
+                  <RootRouter />
+                </AuthGuard>
+              </AppWithStoreContainer>
+            </ConnectedRouter>
+          </PersistGate>
+        </ManagerContext.Provider>
       </ConnectedIntlProvider>
     </Provider>
   );

@@ -1,5 +1,5 @@
-import React from 'react';
-import { AuthGuard, PluginInjector } from 'global-components';
+import React, { Fragment } from 'react';
+import { PluginInjector } from 'global-components';
 import { logPageView } from 'components/google-analytics';
 import { main } from 'e2e/constants';
 import './main.scss';
@@ -8,7 +8,7 @@ const Main = () => {
   logPageView();
 
   return (
-    <AuthGuard>
+    <Fragment>
       <div
         className='main-rct-component'
         data-selector={main.selectors.test.raw}
@@ -20,7 +20,7 @@ const Main = () => {
         className='main-rct-component__plugin-item'
         role='button'
       />
-    </AuthGuard>
+    </Fragment>
   );
 };
 

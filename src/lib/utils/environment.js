@@ -31,6 +31,7 @@ const environment = {
   license: packageInfo.license,
   platform,
   productName: packageInfo.productName,
+  secret: process.env.REACT_APP_SECRET,
   version: packageInfo.version,
 };
 
