@@ -52,6 +52,7 @@ class TxOut {
   }
 }
 
+// Transaction objects is a collections of txIns and txOuts along with other transaction meta data.
 class Transaction {
   constructor(txid, txIns, txOuts, description, amount, fee, receiverAddress, senderAddress) {
     this.txid = txid;
@@ -67,7 +68,8 @@ class Transaction {
 }
 
 /**
-   * This class instance is always fetched using "TransactionManager.instance"
+   * This class instance is always fetched using "TransactionManager.instance".
+   * It handles the creation and implementation of new mock transactions.
    */
 
 class TransactionManager {
@@ -83,6 +85,7 @@ class TransactionManager {
     this._instance = null;
   }
 
+  // get all available UnspentTxOuts.
   async getUnspentTxOuts() {
     return (await api.get(UNSPENT_TX_OUTS)).data;
   }
@@ -90,6 +93,7 @@ class TransactionManager {
   /**
  * The transaction id is calculated by taking a hash from the contents of the transaction
  * @param {obj} transaction
+ * @return {string} returns a hash of the txIns and txOuts.
  */
 
   getTransactionId (transaction) {
@@ -114,6 +118,12 @@ class TransactionManager {
     return aUnspentTxOuts.find((uTxO) => uTxO.txOutId === transactionId && uTxO.txOutIndex === index);
   };
 
+  /**
+   * This function creates a new coinbase transaction object.
+   * @param {string} address
+   * @param {number} blockIndex
+   * @return {obj} returns a coinbase transaction object
+   */
   getCoinbaseTransaction (address, blockIndex) {
     const transObj = new Transaction();
     const txIn = new TxIn();
@@ -157,8 +167,10 @@ class TransactionManager {
   };
 
   /**
+   * This function is used to mock the consumption of any uTxOs used in a transaction.
    * @param {obj} newTransactions
    * @param {array} aUnspentTxOuts
+   * @returns {array} An array of uTxOs that are reaming after filtering out the consumed uTxOs
    */
   updateUnspentTxOuts (newTransactions, aUnspentTxOuts) {
     //  We will first retrieve all new unspent transaction outputs from the new block
@@ -193,6 +205,12 @@ class TransactionManager {
       .sum();
   };
 
+  /**
+   * This function determines if there are enough available funds in the wallet to
+   * complete the desired transaction.
+   * @param {number} amount
+   * @param {array} myUnspentTxOuts
+   */
   findTxOutsForAmount (amount, myUnspentTxOuts) {
     let currentAmount = 0;
     const includedUnspentTxOuts = [];
@@ -207,6 +225,14 @@ class TransactionManager {
     throw Error('not enough coins to send transaction');
   };
 
+  /**
+   * This function creates new txOuts used in transactions
+   * @param {string} receiverAddress
+   * @param {string} myAddress
+   * @param {number} amount
+   * @param {number} leftOverAmount
+   * @return {array} returns and array of new txOuts
+   */
   createTxOuts = (receiverAddress, myAddress, amount, leftOverAmount) => {
     const txOut1 = new TxOut(receiverAddress, amount);
     if (leftOverAmount === 0) {
@@ -217,6 +243,16 @@ class TransactionManager {
     }
   };
 
+  /**
+   * This function will create new transaction objects
+   * @param {string} receiverAddress
+   * @param {number} amount
+   * @param {string} privateKey
+   * @param {array} unspentTxOuts
+   * @param {string} description
+   * @param {number} fee
+   * @return {obj} returns a new transaction object
+   */
   createTransaction (receiverAddress, amount, privateKey, unspentTxOuts, description = '', fee = 0.0001) {
     const myAddress = this.getPublicKey(privateKey);
     const myUnspentTxOuts = unspentTxOuts.filter((uTxO) => uTxO.address === myAddress);
@@ -248,6 +284,11 @@ class TransactionManager {
     return tx;
   };
 
+  /**
+   * This function will take a raw transaction and format it to our desired Transaction format
+   * @param {obj} rawTransaction
+   * @return {obj} returns a formatted transaction.
+   */
   transactionFormatter = (rawTransaction) => {
     const rawData = {
       txIns: rawTransaction.txIns,
@@ -265,6 +306,13 @@ class TransactionManager {
     );
   }
 
+  /**
+   * This function validate transactions structure and if transactions are valid
+   *  updates the unspentTxOs
+   * @param {array} aTransactions
+   * @param {array} aUnspentTxOuts
+   * @param {number} aTransactions
+   */
   processTransactions = (aTransactions, aUnspentTxOuts, blockIndex) => {
     if (!this.isValidTransactionsStructure(aTransactions)) {
       return null;
@@ -277,18 +325,28 @@ class TransactionManager {
     return this.updateUnspentTxOuts(aTransactions, aUnspentTxOuts);
   };
 
+  // converts binary to hex values
   toHexString (byteArray) {
     return Array.from(byteArray, (byte) => {
       return ('0' + (byte & 0xFF).toString(16)).slice(-2);
     }).join('');
   };
 
+  /**
+   * Gets the corresponding public key from private key
+   * @param {string} aPrivateKey
+   */
   getPublicKey  (aPrivateKey) {
     return ec.keyFromPrivate(aPrivateKey, 'hex').getPublic().encode('hex');
   };
 
+  /**
+   * This function validates a transaction.
+   * @param {obj} transaction
+   * @param {array} aUnspentTxOuts
+   * @returns {bool} returns a true if transaction is valid
+   */
   validateTransaction (transaction, aUnspentTxOuts) {
-
     if (this.getTransactionId(transaction) !== transaction.txid) {
       console.log('invalid tx id: ' + transaction.txid);
       return false;
@@ -319,6 +377,12 @@ class TransactionManager {
     return true;
   };
 
+  /**
+   * Validates if the transactions with in a do not contain duplicate txIns
+   * while also filtering out coinbase transactions.
+   * @param {array} aTransactions
+   * @param {array} aUnspentTxOuts
+   */
   validateBlockTransactions  (aTransactions, aUnspentTxOuts) {
     // check for duplicate txIns. Each txIn can be included only once
     const txIns = _(aTransactions)
@@ -336,6 +400,10 @@ class TransactionManager {
       .reduce((a, b) => (a && b), true);
   };
 
+  /**
+   * Checks if there are any duplicate txIns objects
+   * @param {obj} txIns
+   */
   hasDuplicates (txIns) {
     const groups = _.countBy(txIns, (txIn) => txIn.txOutId + txIn.txOutId);
     return _(groups)
@@ -350,6 +418,12 @@ class TransactionManager {
       .includes(true);
   };
 
+  /**
+   * This function validates coinbase transaction which have different structures
+   * than normal transactions.
+   * @param {obj} transaction
+   * @param {number} blockIndex
+   */
   validateCoinbaseTx (transaction, blockIndex) {
     if (transaction == null) {
       console.log('the first transaction in the block must be coinbase transaction');
@@ -391,6 +465,10 @@ class TransactionManager {
     return key.verify(transaction.txid, txIn.signature);
   };
 
+  /**
+   * Runs various validation checks on a particular txIn.
+   * @param {obj} txIn
+   */
   isValidTxInStructure (txIn) {
     if (txIn == null) {
       console.log('txIn is null');
@@ -409,6 +487,10 @@ class TransactionManager {
     }
   };
 
+  /**
+   * Runs various validation checks on a particular txOut.
+   * @param {obj} txOut
+   */
   isValidTxOutStructure (txOut) {
     if (txOut == null) {
       console.log('txOut is null');
@@ -427,12 +509,20 @@ class TransactionManager {
     }
   };
 
+  /**
+   * Used in validate and array of Transactions
+   * @param {array} transactions
+   */
   isValidTransactionsStructure (transactions) {
     return transactions
       .map(this.isValidTransactionStructure.bind(this))
       .reduce((checkedTransactions, uncheckedTransaction) => (checkedTransactions && uncheckedTransaction), true);
   };
 
+  /**
+   * Runs various checks to validate a particular transaction object.
+   * @param {obj} transaction
+   */
   isValidTransactionStructure (transaction) {
     if (typeof transaction.txid !== 'string') {
       console.log('transactionId missing');
@@ -460,7 +550,10 @@ class TransactionManager {
     return true;
   }
 
-  // valid address is a valid ecdsa public key in the 04 + X-coordinate + Y-coordinate format
+  /**
+   * valid address is a valid ecdsa public key in the 04 + X-coordinate + Y-coordinate format
+   * @param {string} address
+   */
   isValidAddress (address) {
     if (address.length !== 130) {
       console.log('invalid public key length');
