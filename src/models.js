@@ -1,7 +1,7 @@
 /**
- * These our data models that will be used throughout the app.
- * Each of these classes outline the properties we expect them to contain.
- * These models should be consistent with our db schema.
+ * These are data models that will be used throughout the app.
+ * Each of these classes should outline the properties they are expected to contain.
+ * These models should be consistent with the db schema.
  */
 class Address {
   constructor(id, name, address) {
