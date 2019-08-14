@@ -1,0 +1,13 @@
+// ToDo: this is a sample file to test the PR and will be removed/reverted back to the original
+button {
+  background-color: lightblue;
+  border: 1px solid black;
+  border-radius: 4px;
+  color: grey;
+  cursor: pointer;
+  font-size: 18px;
+
+  &.red {
+    background-color: lightcoral;
+  }
+}

@@ -20,6 +20,11 @@ const Main = () => {
         className='main-rct-component__plugin-item'
         role='button'
       />
+      <PluginInjector
+        wrappedByDiv
+        className='main-rct-component__plugin-item'
+        role='test'
+      />
     </Fragment>
   );
 };

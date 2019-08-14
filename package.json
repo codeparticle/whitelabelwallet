@@ -92,9 +92,11 @@
   ],
   "scripts": {
     "start": "yarn run dev",
-    "dev": "NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --progress --colors",
-    "dev:electron": "TYPE=electron NODE_ENV=development electron main.js & TYPE=electron NODE_ENV=development webpack-dev-server --config config/webpack.electron-dev.config.js --progress --colors",
+    "dev": "run-p web node-server:dev mock-server:dev",
+    "dev:electron": "run-p electron node-server:dev mock-server:dev",
     "dev:mobile": "yarn build && npx cap serve",
+    "electron": "TYPE=electron NODE_ENV=development electron main.js & TYPE=electron NODE_ENV=development webpack-dev-server --config config/webpack.electron-dev.config.js --progress --colors",
+    "web": "NODE_ENV=development webpack-dev-server --config config/webpack.dev.config.js --progress --colors",
     "build": "NODE_ENV=production webpack --display-error-details --config config/webpack.prod.config.js --progress --colors",
     "build:mobile": "yarn build && npx cap copy",
     "build:electron": "concurrently 'npm run build:electron-main' 'npm run build:electron-renderer'",
@@ -203,6 +205,7 @@
     "body-parser": "1.18.3",
     "case": "^1.6.1",
     "connected-react-router": "^6.4.0",
+    "crypto-js": "^3.1.9-1",
     "decompress": "4.2.0",
     "electron-debug": "2.0.0",
     "electron-dl": "1.12.0",
@@ -211,6 +214,7 @@
     "express-http-proxy": "^1.5.1",
     "fast-memoize": "2.5.1",
     "fix-path": "2.1.0",
+    "fs": "^0.0.1-security",
     "fs-extra": "5.0.0",
     "grid-styled": "2.0.0-12",
     "intl": "1.2.5",
@@ -244,6 +248,7 @@
     "ts-loader": "^6.0.4"
   },
   "devDependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.5.0",
     "@intervolga/optimize-cssnano-plugin": "1.0.6",
     "autoprefixer": "7.2.6",
     "autoprefixer-loader": "3.2.0",

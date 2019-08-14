@@ -1,6 +1,7 @@
 node_modules/
 .DS_Store
 .idea
+package-lock.json
 build/
 installers/
 .vscode/
@@ -26,5 +27,6 @@ tools/translations/*
 *.tar
 
 npm-debug\.log
+yarn-error.log
 
 port-status

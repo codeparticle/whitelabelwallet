@@ -10,7 +10,6 @@ const {
   API_URL,
   EXPRESS_PORT,
   ORIGIN_URL,
-  PORT: APP_PORT,
   RUN_PROD_SERVER,
 } = process.env;
 
@@ -25,7 +24,7 @@ const buildDirectory = path.resolve(__dirname, '../../build');
 
 app.use(express.static(buildDirectory));
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', `${ORIGIN_URL}:${APP_PORT}`);
+  res.setHeader('Access-Control-Allow-Origin', `${ORIGIN_URL}`);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -34,7 +33,11 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/*', proxy(API_URL, {
-  proxyReqPathResolver: req => req.baseUrl.replace('/api', ''),
+  proxyReqPathResolver: req => {
+    const queryParams = req.url.split('?')[1] || '';
+
+    return `${req.baseUrl.replace('/api', '')}${queryParams ? `?${queryParams}` : ''}`;
+  },
 }));
 
 app.get('/ping', (req, res) => res.end('OK'));
