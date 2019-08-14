@@ -4,7 +4,7 @@ import { Button } from '@codeparticle/whitelabelwallet.styleguide';
 import './index.scss';
 
 const TestRouteTrigger = withRouter(({ history }) => (
-  <Button className='test-route-trigger' onClick={() => history.push('/test-route')}>Go to Test Route</Button>
+  <Button className='test-route-trigger' onClick={() => history.push('/login')}>Go to Test Route</Button>
 ));
 
 const TestRoute = ({ manager }) => {

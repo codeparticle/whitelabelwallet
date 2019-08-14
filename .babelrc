@@ -11,6 +11,7 @@
   "plugins": [
     "transform-async-to-generator",
     "transform-inline-environment-variables",
+    "styled-jsx/babel",
     ["transform-runtime", {
       "helpers": false,
       "polyfill": false,

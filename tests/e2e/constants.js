@@ -6,11 +6,11 @@ function getDataSelector (selector) {
 }
 
 export const routes = {
-  base: 'http://localhost:8080/',
+  base: 'http://localhost:8080/login',
 };
 
 export const main = {
   selectors: {
-    test: getDataSelector('test'),
+    test: getDataSelector('auth-page'),
   },
 };
