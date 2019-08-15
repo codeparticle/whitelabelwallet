@@ -7,12 +7,14 @@ import PropTypes from 'prop-types';
 import { TextInput, AuthCheckbox } from '@codeparticle/whitelabelwallet.styleguide';
 import { space2, space4 } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
 import { AUTH_CONSTANTS } from 'lib/constants';
+import { auth } from 'e2e/constants';
 
 const { SIGNUP } = AUTH_CONSTANTS;
 
 export function AuthForm({
   accepted,
   confirmPassword,
+  inputErrors,
   password,
   onSubmit,
   setAccepted,
@@ -23,7 +25,6 @@ export function AuthForm({
   type,
   username,
 }) {
-
   function onChangeHandler(e, fn) {
     if (e) {
       e.preventDefault();
@@ -33,9 +34,11 @@ export function AuthForm({
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} data-selector={`auth.form-${type}`}>
       <TextInput
         className="auth-form-input"
+        data-selector={auth.selectors.username.raw}
+        hasError={inputErrors.USERNAME}
         label={messages.username}
         useAltTheme
         onChange={(e) => onChangeHandler(e, setUsername)}
@@ -43,6 +46,8 @@ export function AuthForm({
       />
       <TextInput
         className="auth-form-input"
+        data-selector={auth.selectors.password.raw}
+        hasError={inputErrors.PASSWORD}
         type="password"
         useAltTheme
         label={messages.password}
@@ -53,13 +58,18 @@ export function AuthForm({
         <Fragment>
           <TextInput
             className="auth-form-input"
+            data-selector={auth.selectors.confirm.raw}
+            hasError={inputErrors.CONFIRMED_PASSWORD}
             type="password"
             useAltTheme
             label={messages.confirmPassword}
             onChange={(e) => onChangeHandler(e, setConfirmPassword)}
             value={confirmPassword}
           />
-          <div className="checkbox-container">
+          <div
+            className="checkbox-container"
+            data-selector={auth.selectors.tos.raw}
+          >
             <AuthCheckbox
               checked={accepted}
               label={messages.tos}
@@ -96,6 +106,7 @@ export function AuthForm({
 
 AuthForm.propTypes = {
   confirmPassword: PropTypes.string.isRequired,
+  inputErrors: PropTypes.objectOf(PropTypes.bool).isRequired,
   messages: PropTypes.object.isRequired,
   password: PropTypes.string.isRequired,
   setConfirmPassword: PropTypes.func.isRequired,

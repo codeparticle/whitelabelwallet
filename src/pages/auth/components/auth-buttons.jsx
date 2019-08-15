@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@codeparticle/whitelabelwallet.styleguide';
 import { space4 } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
 import { AUTH_CONSTANTS } from 'lib/constants';
+import { auth } from 'e2e/constants';
 
 const { LOGIN, SIGNUP } = AUTH_CONSTANTS;
 
@@ -32,12 +33,14 @@ export function AuthButtons({
   return (
     <div className="auth-page-buttons">
       <Button
+        data-selector={auth.selectors.btnPrimary.raw}
         onClick={onSubmit}
         variant="primary"
       >
         {messages.btnPrimary}
       </Button>
       <Button
+        data-selector={auth.selectors.btnSecondary.raw}
         onClick={handleSecondaryClick}
         variant="tertiary"
       >
