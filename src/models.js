@@ -4,8 +4,7 @@
  * These models should be consistent with the db schema.
  */
 class Address {
-  constructor(id, name, address) {
-    this.id = id,
+  constructor(name, address) {
     this.name = name,
     this.address = address;
   }
