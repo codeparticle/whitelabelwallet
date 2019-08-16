@@ -119,7 +119,7 @@
     "test:update": "NODE_ENV=test jest -u",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint ./src ./plugins ./tests ./ci && npm run lint-css",
+    "lint": "eslint ./src ./plugins ./tests **/*.jsx ./ci && npm run lint-css",
     "lint-css": "stylelint '**/*.scss'",
     "lint-css-autofix": "stylelint '**/*.scss' --fix",
     "lint-autofix": "run-p lint-css-autofix eslint-autofix",
