@@ -25,7 +25,18 @@ const BlueButton = () => {
   };
 
   const testFunc = async () => {
-    console.log(blockchainManager.getAddressDetails('msytcG5HYYoZvSBYvJfxEvw9nKNmBjPzzc'));
+    // address details
+    // console.log(await blockchainManager.getAddressDetails(blockchainManager.getMyAddress()));
+
+    // address balance
+    // console.log(await blockchainManager.getBalanceForAddress(blockchainManager.getMyAddress()));
+
+    // getTranasctions
+    // const tx = await blockchainManager.getTransactions();
+    // console.log(tx);
+
+    // transaction details
+    // console.log(await blockchainManager.getTransactionDetails('ad28688c0d719ac101d8a25a97c8a03acdf6fc229f0ba41188f27c1f21760766'));
   };
 
   const getBalance = async () => {
