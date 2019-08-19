@@ -4,21 +4,21 @@
  * These models should be consistent with the db schema.
  */
 class Address {
-  constructor(name, address) {
+  constructor(name = '', address) {
     this.name = name,
     this.address = address;
   }
 }
 
 class Transaction {
-  constructor(id, amount, description, rawData, fee, senderAddress, recipientAddress) {
-    this.id = id,
+  constructor(txid, amount, description, rawData, fee, senderAddresses, recipientAddresses) {
+    this.txid = txid,
     this.amount = amount,
     this.description = description;
     this.rawData = rawData;
     this.fee = fee;
-    this.senderAddress = senderAddress;
-    this.recipientAddress = recipientAddress;
+    this.senderAddresses = senderAddresses;
+    this.recipientAddresses = recipientAddresses;
   }
 }
 

@@ -1,8 +1,14 @@
 import * as bitcoin from 'bitcoinjs-lib';
 import { api } from 'rdx/api';
-import { Address } from 'models';
+import { Address, Transaction } from 'models';
 import { ApiBlockchainManager } from 'api/blockchain-manager';
 import { walletManager } from 'api/bitcoin/wallet';
+import { urls } from 'api/bitcoin/constants';
+
+const {
+  ADDRESS_DETAILS,
+  TX_DETAILS,
+} = urls;
 
 class  BitcoinBlockchainManager  extends ApiBlockchainManager {
 // This class instance is always fetched using "BitcoinBlockchainManager.instance"
@@ -27,16 +33,70 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
   }
 
   getAddressDetails = async (addressParam) => {
-    const url = `https://api.blockcypher.com/v1/btc/test3/addrs/${addressParam}/full?limit=50`;
-    const addressDetails = await api.get(url);
-    // const rawAddressData = {
-    //   name: rawAddressData.name ? rawAddressData.name : '',
-    //   address: rawAddressData.address,
-    // };
-    console.log('========\n', 'addressDetails', addressDetails, '\n========');
-    // const address = new Address({ ...rawAddressData });
-    // console.log('========\n', 'address', address, '\n========');
-    // return address;
+    const rawAddress = (await api.get(`${ADDRESS_DETAILS}${addressParam}`)).data.address;
+    const address = new Address('', rawAddress);
+    return address;
+  }
+
+  getTransactions = async () => {
+    // DOES THIS WORK?
+    const rawTxsData = (await api.get(`https://api.blockcypher.com/v1/btc/test3/txs`)).data;
+    console.log('========\n', 'rawTxsData', rawTxsData, '\n========');
+    const transactions = rawTxsData.map(this.bitcoinTransactionFormatter);
+    console.log('========\n', 'transactions', transactions, '\n========');
+    return transactions;
+  }
+
+  getTransactionDetails = async (txid) => {
+    const rawTxData = (await  api.get(`${TX_DETAILS}${txid}`)).data;
+    return this.bitcoinTransactionFormatter(rawTxData);
+  }
+
+  getBalanceForAddress = async (addressParam) => {
+    const balanceData = (await api.get(`${ADDRESS_DETAILS}${addressParam}`)).data.balance;
+    console.log('========\n', 'balanceData', balanceData, '\n========');
+    return balanceData;
+  }
+
+  sendToAddress = () => {
+    const tx = new bitcoin.TransactionBuilder();
+  }
+
+  bitcoinTransactionFormatter = (rawTx) => {
+    const senderAddresses = this.addressAggregator(rawTx.inputs);
+    const recipientAddresses = this.addressAggregator(rawTx.outputs);
+    const tx = new Transaction(
+      rawTx.hash,
+      rawTx.total,
+      '',
+      { txIns: rawTx.inputs, txOuts: rawTx.outputs },
+      rawTx.fees,
+      senderAddresses,
+      recipientAddresses,
+    );
+    // console.log('========\n', 'tx', tx, '\n========');
+    return tx;
+  }
+
+  getMyAddress = () => {
+    console.log('========\n', 'walletManager.addr', walletManager.addr, '\n========');
+    return walletManager.addr;
+  }
+
+  addressAggregator(txData) {
+    const aggregateData = txData.map((group) => {
+      if (group.addresses !== undefined && group.addresses !== null) {
+        return group.addresses.map(address => address);
+      }
+      return null;
+    }).reduce((allAddresses, currentAddress) => {
+      if (allAddresses !== null) {
+        return allAddresses.concat(currentAddress);
+      }
+      return allAddresses;
+    });
+
+    return aggregateData;
   }
 
 

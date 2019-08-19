@@ -62,7 +62,6 @@ class BlockchainManager extends ApiBlockchainManager {
    * @return {Promise} Will return a promise that resolves to an Address model containing
    * the address details. Address example below:
    * {
-   *     id: id,
    *     name: name,
    *     address: address
    * }
