@@ -6,8 +6,9 @@ import { walletManager } from 'api/bitcoin/wallet';
 import { urls } from 'api/bitcoin/constants';
 
 const {
-  ADDRESS_DETAILS,
-  TX_DETAILS,
+  ADDRESS,
+  BROADCAST_TRANSACTION,
+  TRANSACTIONS,
 } = urls;
 
 class  BitcoinBlockchainManager  extends ApiBlockchainManager {
@@ -26,40 +27,61 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
   // generates a testnet Address
   generateAddress = (name = '') => {
     const keyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
-    const { testnetAddress } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
-    const address = new Address(name, testnetAddress);
-    console.log('========\n', 'address', address, '\n========');
-    return address;
+    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
+    const testnetAddress = new Address(name, address);
+    console.log('========\n', 'address', testnetAddress, '\n========');
+    return testnetAddress;
   }
 
+  // gets details for a specific address
   getAddressDetails = async (addressParam) => {
-    const rawAddress = (await api.get(`${ADDRESS_DETAILS}${addressParam}`)).data.address;
+    const rawAddress = (await api.get(`${ADDRESS}/${addressParam}`)).data.address;
     const address = new Address('', rawAddress);
     return address;
   }
 
+  // gets recent unconfirmed transactions;
   getTransactions = async () => {
-    // DOES THIS WORK?
-    const rawTxsData = (await api.get(`https://api.blockcypher.com/v1/btc/test3/txs`)).data;
-    console.log('========\n', 'rawTxsData', rawTxsData, '\n========');
+    const rawTxsData = (await api.get(TRANSACTIONS)).data;
     const transactions = rawTxsData.map(this.bitcoinTransactionFormatter);
-    console.log('========\n', 'transactions', transactions, '\n========');
     return transactions;
   }
 
+  // get details of specific transaction
   getTransactionDetails = async (txid) => {
-    const rawTxData = (await  api.get(`${TX_DETAILS}${txid}`)).data;
+    const rawTxData = (await  api.get(`${TRANSACTIONS}/${txid}`)).data;
     return this.bitcoinTransactionFormatter(rawTxData);
   }
 
+  // get balance for an address
   getBalanceForAddress = async (addressParam) => {
-    const balanceData = (await api.get(`${ADDRESS_DETAILS}${addressParam}`)).data.balance;
-    console.log('========\n', 'balanceData', balanceData, '\n========');
+    const balanceData = (await api.get(`${ADDRESS}/${addressParam}`)).data.balance;
     return balanceData;
   }
 
-  sendToAddress = () => {
-    const tx = new bitcoin.TransactionBuilder();
+  // sends 49000 satoshis to a randomly generated testnet address
+  sendToAddress = async (previousHash, uTxOIndex) => {
+    const receiverTestKeyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
+    const { address: receiverAddress } = bitcoin.payments.p2pkh({ pubkey: receiverTestKeyPair.publicKey, network: walletManager.network });
+    const myKeyPair = bitcoin.ECPair.fromWIF(walletManager.pk, walletManager.network);
+    const totalFunds = await this.getBalanceForAddress(walletManager.addr);
+    const fundsToKeep = totalFunds - 50000;
+    const transactionFee = 1000;
+    const amountToSend = totalFunds - fundsToKeep - transactionFee;
+    const tx = new bitcoin.TransactionBuilder(walletManager.network);
+    tx.addInput(previousHash, uTxOIndex);
+    tx.addOutput(receiverAddress, amountToSend);
+    tx.addOutput(walletManager.addr, fundsToKeep);
+    tx.sign(0, myKeyPair);
+    const rawTxHex = tx.build().toHex();
+    const newTxData = (await api.post(BROADCAST_TRANSACTION, { 'tx': rawTxHex })).data.tx;
+    const transaction = this.bitcoinTransactionFormatter(newTxData);
+    console.log('========\n', 'transaction', transaction, '\n========');
+    return transaction;
+  }
+
+  rng = () => {
+    return Buffer.from('YT8dAtK4d16A3P1z+TpwB2jJ4aFH3g9M1EioIBkLEV4=', 'base64');
   }
 
   bitcoinTransactionFormatter = (rawTx) => {
@@ -74,12 +96,10 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
       senderAddresses,
       recipientAddresses,
     );
-    // console.log('========\n', 'tx', tx, '\n========');
     return tx;
   }
 
   getMyAddress = () => {
-    console.log('========\n', 'walletManager.addr', walletManager.addr, '\n========');
     return walletManager.addr;
   }
 
