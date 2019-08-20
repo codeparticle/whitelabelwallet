@@ -14,7 +14,7 @@ const BlueButton = () => {
 
   const createTransactions = async () => {
     // change the params passed to sendToAddress: add new tx hash and uTxO index
-    blockchainManager.sendToAddress('0788258fe484d2de3b306e16abef232737397c2ce1a95d8c85070fd5f1ed590b', 1);
+    blockchainManager.sendToAddress('0788258fe484d2de3b306e16abef232737397c2ce1a95d8c85070fd5f1ed590b', 0);
   };
 
   const testFunc = async () => {
