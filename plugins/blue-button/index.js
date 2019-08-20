@@ -12,61 +12,38 @@ const BlueButton = () => {
     walletManager.initialize();
   };
 
-  const generateToAddress = () => {
-    blockchainManager.generateAddress();
-  };
   const createTransactions = async () => {
-    const address = await blockchainManager.getLatestAddress();
-    blockchainManager.sendToAddress(address, 10);
-  };
-
-  const createCoinBaseTx = () => {
-    blockchainManager.generateNextBlock();
+    // change the params passed to sendToAddress: add new tx hash and uTxO index
+    blockchainManager.sendToAddress('0788258fe484d2de3b306e16abef232737397c2ce1a95d8c85070fd5f1ed590b', 1);
   };
 
   const testFunc = async () => {
-    // address details
-    // console.log(await blockchainManager.getAddressDetails(blockchainManager.getMyAddress()));
-
-    // address balance
-    // console.log(await blockchainManager.getBalanceForAddress(blockchainManager.getMyAddress()));
-
-    // getTranasctions
-    // const tx = await blockchainManager.getTransactions();
-    // console.log(tx);
-
-    // transaction details
-    // console.log(await blockchainManager.getTransactionDetails('ad28688c0d719ac101d8a25a97c8a03acdf6fc229f0ba41188f27c1f21760766'));
+    console.log(await blockchainManager.getAddressDetails(blockchainManager.getMyAddress()));
   };
 
   const getBalance = async () => {
-    console.log(await blockchainManager.getBalanceForAddress(walletManager.getPublicFromWallet(), await blockchainManager.getUnspentTxOs()));
+    console.log(await blockchainManager.getBalanceForAddress(blockchainManager.getMyAddress())); // 2803717
   };
 
   return (
     <Fragment>
       <strong>
-        {'Test Mock Blockchain'}
+        {'Bitcoin P.O.C'}
       </strong>
       <br/>
-      {'step 1 generate wallet/private key(if you dont have one already) '}
+      {'Step 1: generate wallet/private key(if you dont have one already) '}
       <button onClick={generateWallet}>
         Create Wallet used for Transactions
       </button>
       <br/>
-      {'step 2 add a coin(50 units) to your wallet available to spend '}
-      <button onClick={createCoinBaseTx}>
-        Add 50 units
-      </button>
+      {'Step 2: add some bitcoins to your new address '}
+      <a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank">using this faucet</a>
       <br/>
-      {'step 3 generate to address '}
-      <button onClick={generateToAddress}>
-        Generate To Address
-      </button>
+      {'Step 3: update params passed to function on line 17 of this file'}
       <br/>
-      {'step 4 send 10 units to an address '}
+      {'Step 4: Send some bitcoin '}
       <button onClick={createTransactions}>
-        Send 10 units
+        Send bitcoin
       </button>
       <br/>
       <br/>
