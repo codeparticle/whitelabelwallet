@@ -1,14 +1,33 @@
-import { SendFundsPage } from './pages';
+import { svgs } from '@codeparticle/whitelabelwallet.styleguide';
 
-export const SendFundsPlugin = () => [
-  {
-    role: 'main-route',
-    components: [
-      {
-        path: '/send',
-        component: SendFundsPage,
-        exact: true,
-      },
-    ],
-  },
-];
+import pluginId from './plugin-id';
+import { SendFundsPage } from './pages';
+import { addLocales } from './translations/add-locales';
+import { SEND_FUNDS } from './translations/keys';
+
+export const SendFundsPlugin = (store) => {
+  store.dispatch(addLocales());
+
+  return [
+    {
+      role: 'main-route',
+      components: [
+        {
+          path: `/${pluginId}`,
+          component: SendFundsPage,
+          exact: true,
+        },
+      ],
+    },
+    {
+      role: 'main-route-link',
+      components: [
+        {
+          label: SEND_FUNDS.NAV_ITEM,
+          Icon: svgs.icons.SvgSend,
+          path: `/${pluginId}`,
+        },
+      ],
+    },
+  ];
+};

@@ -1,11 +1,11 @@
 import { svgs } from '@codeparticle/whitelabelwallet.styleguide';
 
 import pluginId from './plugin-id';
-import { ContactsPage } from './pages';
+import { TransactionHistoryPage } from './pages';
 import { addLocales } from './translations/add-locales';
-import { CONTACTS } from './translations/keys';
-
-export const ContactsPlugin = (store) => {
+import { TRANSACTION_HISTORY } from './translations/keys';
+console.log(svgs.icons);
+export const TransactionHistoryPlugin = (store) => {
   store.dispatch(addLocales());
 
   return [
@@ -14,7 +14,7 @@ export const ContactsPlugin = (store) => {
       components: [
         {
           path: `/${pluginId}`,
-          component: ContactsPage,
+          component: TransactionHistoryPage,
           exact: true,
         },
       ],
@@ -23,8 +23,8 @@ export const ContactsPlugin = (store) => {
       role: 'main-route-link',
       components: [
         {
-          label: CONTACTS.NAV_ITEM,
-          Icon: svgs.icons.SvgContact,
+          label: TRANSACTION_HISTORY.NAV_ITEM,
+          Icon: svgs.icons.SvgWallet,
           path: `/${pluginId}`,
         },
       ],

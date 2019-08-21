@@ -1,5 +1,7 @@
 @import 'src/styles/index.scss';
 
+$icon-size: 35px;
+
 .header-button-group-rct-component {
   display: flex;
 
@@ -8,8 +10,8 @@
   }
 
   &__icon {
-    height: 35px;
-    width: 35px;
+    height: $icon-size;
+    width: $icon-size;
 
     path {
       fill: $slate;

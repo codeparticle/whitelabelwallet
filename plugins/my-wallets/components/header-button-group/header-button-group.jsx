@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
 import {
   Button,
   Icon,
@@ -15,8 +14,14 @@ const { SvgSettings, SvgUserAccount } = svgs.icons;
 const { WALLETS } = TRANSLATION_KEYS;
 
 /**
+  @typedef props
+  @type {Object}
+  @property {Object} intl
+*/
+
+/**
   Renders a Header Button Group
-  @param {Function} $0.formatMessage - intl function
+  @param {props} props
   @returns {Node} - rendered Header Button Group
 */
 const HeaderButtonGroup = ({ formatMessage }) => {
