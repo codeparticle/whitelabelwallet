@@ -31,9 +31,9 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
    */
   generateAddress = (name = '') => {
     const keyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
-    const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
-    const testnetAddress = new Address(name, address);
-    return testnetAddress;
+    const { address: testnetAddress } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
+    const address = new Address(name, testnetAddress);
+    return address;
   }
 
   /**
@@ -78,29 +78,23 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
 
   /**
    * This method sends a fix value of 49000 satoshis to a randomly generated testnet address.
-   * Some values are hard coded for testing purposes
+   * Transactions params must include: amount, totalFundsAvailable, fee, and receiverAddress.
    * @param {string} previousHash
    * @param {number} uTxOIndex
+   * @param {obj} transactionParams
    * @return {number} returns number value.
    */
-  sendToAddress = async (previousHash, uTxOIndex) => {
-    // generate a receiver testnet address
-    const receiverTestKeyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
-    const { address: receiverAddress } = bitcoin.payments.p2pkh({ pubkey: receiverTestKeyPair.publicKey, network: walletManager.network });
-
+  sendToAddress = async (previousHash, uTxOIndex, transactionParams) => {
     // get your wallet's key pair from your private key.
     const myKeyPair = bitcoin.ECPair.fromWIF(walletManager.pk, walletManager.network);
 
-    // set up the transactions variables: the fees, amount to keep, and amount to send;
-    const totalFunds = await this.getBalanceForAddress(walletManager.addr);
-    const fundsToKeep = totalFunds - 50000;
-    const transactionFee = 1000;
-    const amountToSend = totalFunds - fundsToKeep - transactionFee;
+    // calculate change amount;
+    const fundsToKeep = transactionParams.totalFunds - transactionParams.fee - transactionParams.amount;
 
     // create a new Transaction using bitcoin-lib.js transaction builder.
     const tx = new bitcoin.TransactionBuilder(walletManager.network);
     tx.addInput(previousHash, uTxOIndex);
-    tx.addOutput(receiverAddress, amountToSend);
+    tx.addOutput(transactionParams.receiverAddress, transactionParams.amount);
     tx.addOutput(walletManager.addr, fundsToKeep);
     tx.sign(0, myKeyPair);
     const rawTxHex = tx.build().toHex();
