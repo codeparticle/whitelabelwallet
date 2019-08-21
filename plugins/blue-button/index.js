@@ -13,8 +13,15 @@ const BlueButton = () => {
   };
 
   const createTransactions = async () => {
+    const transactionParams = {
+      receiverAddress: blockchainManager.generateAddress().address,
+      totalFunds: await blockchainManager.getBalanceForAddress(blockchainManager.getMyAddress()),
+      fee: 1000,
+      amount: 49000,
+    };
+
     // change the params passed to sendToAddress: add new tx hash and uTxO index
-    blockchainManager.sendToAddress('0788258fe484d2de3b306e16abef232737397c2ce1a95d8c85070fd5f1ed590b', 0);
+    blockchainManager.sendToAddress('4b256fad25f54752070cee9208d66eb7a0b03b5caec9b11dc50320301c8bf013', 0, transactionParams);
   };
 
   const testFunc = async () => {
