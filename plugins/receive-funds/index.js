@@ -1,14 +1,33 @@
-import { ReceiveFundsPage } from './pages';
+import { svgs } from '@codeparticle/whitelabelwallet.styleguide';
 
-export const ReceiveFundsPlugin = () => [
-  {
-    role: 'main-route',
-    components: [
-      {
-        path: '/receive',
-        component: ReceiveFundsPage,
-        exact: true,
-      },
-    ],
-  },
-];
+import pluginId from './plugin-id';
+import { ReceiveFundsPage } from './pages';
+import { addLocales } from './translations/add-locales';
+import { RECEIVE_FUNDS } from './translations/keys';
+
+export const ReceiveFundsPlugin = (store) => {
+  store.dispatch(addLocales());
+
+  return [
+    {
+      role: 'main-route',
+      components: [
+        {
+          path: `/${pluginId}`,
+          component: ReceiveFundsPage,
+          exact: true,
+        },
+      ],
+    },
+    {
+      role: 'main-route-link',
+      components: [
+        {
+          label: RECEIVE_FUNDS.NAV_ITEM,
+          Icon: svgs.icons.SvgReceive,
+          path: `/${pluginId}`,
+        },
+      ],
+    },
+  ];
+};

@@ -1,3 +1,4 @@
 export default {
+  PLUGIN_ADD_LOCALES: 'PLUGIN_ADD_LOCALES',
   SET_LOCALE: 'SET_LOCALE',
 };
