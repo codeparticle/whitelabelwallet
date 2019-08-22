@@ -11,6 +11,14 @@ export class FileManager {
     this.storage.setItem('privateKey', privateKey);
   }
 
+  saveItem(itemName, item) {
+    this.storage.setItem(itemName, item);
+  }
+
+  getItem(itemName) {
+    return this.storage.getItem(itemName) || null;
+  }
+
   getPrivateKey() {
     return this.storage.getItem('privateKey') || null;
   }
