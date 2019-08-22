@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createBrowserHistory } from 'history';
 import configureStore from 'rdx/configure-store';
 import registerServiceWorker from 'lib/register-service-worker';
+import { MediaProvider } from '@codeparticle/whitelabelwallet.styleguide';
 import {
   AuthGuard,
   ConnectedIntlProvider,
@@ -36,16 +37,18 @@ const App = () => {
     <Provider store={store}>
       <ConnectedIntlProvider>
         <ManagerContext.Provider value={manager}>
-          <PersistGate persistor={persistor}>
-            <ConnectedRouter history={history}>
-              <IonApp>
-                <AuthGuard>
-                  <RootHelmet />
-                  <RootRouter />
-                </AuthGuard>
-              </IonApp>
-            </ConnectedRouter>
-          </PersistGate>
+          <MediaProvider>
+            <PersistGate persistor={persistor}>
+              <ConnectedRouter history={history}>
+                <IonApp>
+                  <AuthGuard>
+                    <RootHelmet />
+                    <RootRouter />
+                  </AuthGuard>
+                </IonApp>
+              </ConnectedRouter>
+            </PersistGate>
+          </MediaProvider>
         </ManagerContext.Provider>
       </ConnectedIntlProvider>
     </Provider>

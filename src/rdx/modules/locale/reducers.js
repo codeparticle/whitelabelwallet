@@ -7,18 +7,20 @@ const DEFAULT_LANG = 'en';
 const DEFAULT_MESSAGES = localeData[DEFAULT_LANG];
 
 const setLocale = (pluginLocales = {}, locale) => {
-  const parsedPluginLocales = Object.entries(pluginLocales).map(([, locales]) => {
-    if (locales[locale]) {
-      return locales[locale];
-    } else if (locales[DEFAULT_LANG]) {
-      return locales[DEFAULT_LANG];
-    }
+  const parsedPluginLocales = Object.entries(pluginLocales).reduce((acc, [, locales]) => {
+    Object.keys(locales).forEach((pluginLocale) => {
+      if (!acc[pluginLocale]) {
+        acc[pluginLocale] = {};
+      }
 
-    return null;
-  }).filter((locale) => !!locale);
+      Object.assign(acc[pluginLocale], locales[pluginLocale] || {});
+    });
 
-  const lang = Object.assign({}, ...parsedPluginLocales, localeData[locale] ? locale : DEFAULT_LANG);
-  const mergedMessages = Object.assign({}, DEFAULT_MESSAGES, localeData[locale] || {});
+    return acc;
+  }, {});
+
+  const lang = localeData[locale] ? locale : DEFAULT_LANG;
+  const mergedMessages = Object.assign({}, DEFAULT_MESSAGES, parsedPluginLocales[lang], localeData[lang] || {});
   moment.locale(locale);
 
   return {
@@ -41,12 +43,7 @@ export default {
         [action.key]: action.locales,
       };
 
-      setLocale(pluginLocales, state.lang);
-
-      return {
-        ...state,
-        pluginLocales,
-      };
+      return setLocale(pluginLocales, state.lang);
     },
   },
   {
