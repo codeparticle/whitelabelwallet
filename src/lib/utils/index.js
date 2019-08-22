@@ -15,7 +15,7 @@ import { regexToString } from './regex-to-string';
 import { getLowercaseKeys } from './get-lowercase-keys';
 import { getUrlParameterByName } from './get-url-parameter-by-name';
 import { getQueryString } from './get-query-string';
-import { wrapRouteInErrorBoundary, wrapRoutesInErrorBoundary } from './wrap-route-in-error-boundary';
+import { empty } from './empty';
 
 export {
   arrayToRegex,
@@ -33,6 +33,5 @@ export {
   isRequestAllowed,
   regexToString,
   validFormat,
-  wrapRouteInErrorBoundary,
-  wrapRoutesInErrorBoundary,
+  empty,
 };

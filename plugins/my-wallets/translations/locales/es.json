@@ -1,0 +1,7 @@
+{
+  "plugin.my_wallets.add_wallet_button_label": "Agregar Billetera",
+  "plugin.my_wallets.nav_item": "Mis Billeteras",
+  "plugin.my_wallets.page_header": "Mis Billeteras",
+  "plugin.my_wallets.receive_button_label": "Recibir fondos",
+  "plugin.my_wallets.send_funds_button_label": "Enviar fondos"
+}

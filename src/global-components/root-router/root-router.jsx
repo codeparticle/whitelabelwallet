@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router';
 import { FlashMessages } from 'components';
+import { NavBarContainer } from 'global-components';
 import { connect } from 'react-redux';
 import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
-import { wrapRoutesInErrorBoundary } from 'lib/utils';
+import { wrapRoutesInErrorBoundary } from 'lib/wrap-route-in-error-boundary';
 import { routes } from 'config/routes';
 // IMPORT_PT (routes, and components -- do not remove!)
 
@@ -49,6 +50,7 @@ function getRoutesWithPlugins(routes, plugins) {
 
 const RootRouter = ({ plugins }) => (
   <Fragment>
+    <NavBarContainer />
     <Switch>
       {getRoutesWithPlugins(routes, plugins).map(renderRoute)}
     </Switch>

@@ -3,15 +3,15 @@ import { MyWalletsPlugin } from './my-wallets';
 import { ReceiveFundsPlugin } from './receive-funds';
 import { SendFundsPlugin } from './send-funds';
 import { TestRoutePlugin } from './test-route';
-import { TransactionsPlugin } from './transactions';
+import { TransactionHistoryPlugin } from './transaction-history';
 import { BlueButtonPlugin } from './blue-button';
 
 export const plugins = [
-  ContactsPlugin,
   MyWalletsPlugin,
-  ReceiveFundsPlugin,
+  TransactionHistoryPlugin,
   SendFundsPlugin,
+  ReceiveFundsPlugin,
+  ContactsPlugin,
   TestRoutePlugin,
-  TransactionsPlugin,
   BlueButtonPlugin,
 ];

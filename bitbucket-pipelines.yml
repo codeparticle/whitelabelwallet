@@ -9,7 +9,7 @@ pipelines:
             caches:
             - node
             script:
-            - yarn install
+            - yarn install --frozen-lockfile
             artifacts:
             - node_modules/**
             - public/**

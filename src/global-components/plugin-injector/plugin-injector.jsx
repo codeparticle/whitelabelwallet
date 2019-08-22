@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router';
 import { connect } from 'react-redux';
 import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
-import { wrapRouteInErrorBoundary } from 'lib/utils';
+import { wrapRouteInErrorBoundary } from 'lib/wrap-route-in-error-boundary';
 import PluginInjectorView from './plugin-injector-view';
 
 const PluginInjector = (props) => {

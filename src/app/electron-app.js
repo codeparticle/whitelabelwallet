@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { environment } from 'lib/utils';
 import configureStore from 'rdx/configure-store';
+import { MediaProvider } from '@codeparticle/whitelabelwallet.styleguide';
 import {
   AuthGuard,
   ConnectedIntlProvider,
@@ -71,16 +72,18 @@ const App = () => {
     <Provider store={store}>
       <ConnectedIntlProvider>
         <ManagerContext.Provider value={manager}>
-          <PersistGate persistor={persistor}>
-            <ConnectedRouter history={history}>
-              <AppWithStoreContainer>
-                <AuthGuard>
-                  <RootHelmet />
-                  <RootRouter />
-                </AuthGuard>
-              </AppWithStoreContainer>
-            </ConnectedRouter>
-          </PersistGate>
+          <MediaProvider>
+            <PersistGate persistor={persistor}>
+              <ConnectedRouter history={history}>
+                <AppWithStoreContainer>
+                  <AuthGuard>
+                    <RootHelmet />
+                    <RootRouter />
+                  </AuthGuard>
+                </AppWithStoreContainer>
+              </ConnectedRouter>
+            </PersistGate>
+          </MediaProvider>
         </ManagerContext.Provider>
       </ConnectedIntlProvider>
     </Provider>

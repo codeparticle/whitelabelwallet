@@ -1,0 +1,8 @@
+@import 'src/styles/index.scss';
+
+.page-rct-component {
+  overflow-y: auto;
+  padding: $spacing-l;
+  padding-bottom: 0;
+  width: 100%;
+}
