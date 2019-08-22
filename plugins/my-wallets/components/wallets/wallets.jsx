@@ -4,13 +4,14 @@ import {
   Wallet,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { TRANSLATION_KEYS } from 'translations/keys';
+import { injectIntl, intlShape } from 'react-intl';
 import { empty } from 'lib/utils';
+
+import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+
 import './wallets.scss';
 
 const { SvgCoinSymbol } = svgs.icons;
-
-const { WALLETS } = TRANSLATION_KEYS;
 
 /**
   Renders Wallets
@@ -46,15 +47,20 @@ const renderWallets = (wallets, commonProps) => {
   @param {WalletsProps} props
   @returns {Node} - rendered Wallets
 */
-const Wallets = ({ wallets, formatMessage }) => {
+const WalletsView = ({
+  intl: {
+    formatMessage,
+  },
+  wallets,
+}) => {
   const coinSymbol = <SvgCoinSymbol height="24" width="24" />;
 
   const commonProps = {
     currencySymbol: <span>&#36;</span>,
     coinSymbol,
     messages: {
-      deposit: formatMessage(WALLETS.RECEIVE_FUNDS_BUTTON_LABEL),
-      withdraw: formatMessage(WALLETS.SEND_FUNDS_BUTTON_LABEL),
+      deposit: formatMessage(MY_WALLETS.RECEIVE_FUNDS_BUTTON_LABEL),
+      withdraw: formatMessage(MY_WALLETS.SEND_FUNDS_BUTTON_LABEL),
     },
   };
 
@@ -65,18 +71,20 @@ const Wallets = ({ wallets, formatMessage }) => {
   );
 };
 
-Wallets.propTypes = {
+WalletsView.propTypes = {
+  intl: intlShape.isRequired,
   wallets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
     coinBalance: PropTypes.number,
     coinData: PropTypes.arrayOf(PropTypes.object),
   })),
-  formatMessage: PropTypes.func.isRequired,
 };
 
-Wallets.defaultProps = {
+WalletsView.defaultProps = {
   wallets: [],
 };
+
+const Wallets = injectIntl(WalletsView);
 
 export { Wallets };

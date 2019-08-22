@@ -3,6 +3,7 @@ import appTypes from 'rdx/modules/app/types';
 import authTypes from 'rdx/modules/auth/types';
 import contactsTypes from 'rdx/modules/contacts/types';
 import messageTypes from 'rdx/modules/messages/types';
+import navBarTypes from 'rdx/modules/nav-bar/types';
 import pluginsTypes from 'rdx/modules/plugins/types';
 import routerTypes from 'rdx/modules/router/types';
 import selectedTypes from 'rdx/modules/selected/types';
@@ -16,6 +17,7 @@ const types = {
   ...authTypes,
   ...contactsTypes,
   ...messageTypes,
+  ...navBarTypes,
   ...pluginsTypes,
   ...routerTypes,
   ...selectedTypes,

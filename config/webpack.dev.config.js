@@ -50,7 +50,6 @@ const devConfig = {
     }),
     new webpack.DefinePlugin(env.stringified),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new StyleLintPlugin({
       context: paths.appSrc,
@@ -64,6 +63,7 @@ const devConfig = {
   devServer: {
     hot: true,
     host: '127.0.0.1',
+    headers: { 'Access-Control-Allow-Origin': '*' },
     contentBase: paths.templatesDev,
     port: process.env.PORT || 8080,
     historyApiFallback: true,

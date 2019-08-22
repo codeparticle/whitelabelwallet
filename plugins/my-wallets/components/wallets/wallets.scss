@@ -4,10 +4,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: calc(#{$spacing-l} - #{$spacing-m});
 
   &__wallet-container {
-    padding: $space-3 0;
-    width: calc(50% - #{$space-3});
+    padding-bottom: $spacing-m;
+    width: calc(50% - (#{$spacing-m} / 2));
 
     .wallet {
       max-width: 100%;

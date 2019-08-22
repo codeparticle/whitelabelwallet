@@ -1,5 +1,5 @@
 import types from 'rdx/modules/locale/types';
-import * as locales from './locales';
+import locales from './locales';
 import pluginId from '../plugin-id';
 
 const addLocales = () => {

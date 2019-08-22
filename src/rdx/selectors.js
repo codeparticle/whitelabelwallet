@@ -6,6 +6,7 @@ import routerSelectors from 'rdx/modules/router/selectors';
 import authSelectors from 'rdx/modules/auth/selectors';
 import contactsSelectors from 'rdx/modules/contacts/selectors';
 import messageSelectors from 'rdx/modules/messages/selectors';
+import navBarSelectors from 'rdx/modules/nav-bar/selectors';
 import pluginsSelectors from 'rdx/modules/plugins/selectors';
 import selectedSelectors from 'rdx/modules/selected/selectors';
 import transactionsSelectors from 'rdx/modules/transactions/selectors';
@@ -21,6 +22,7 @@ const selectors = {
   ...routerSelectors,
   ...authSelectors,
   ...messageSelectors,
+  ...navBarSelectors,
   ...pluginsSelectors,
   ...selectedSelectors,
   ...transactionsSelectors,
