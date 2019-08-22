@@ -21,7 +21,7 @@ const BlueButton = () => {
     };
 
     // While testing this change the params passed to sendToAddress: add new tx hash and uTxO index
-    blockchainManager.sendToAddress('39a71be1ccae94f7df02bf9ad982646ab97edda5923e61fbce2b8e1b0ff91aeb', 1, transactionParams);
+    blockchainManager.sendToAddress('39a71be1ccae94f7df02bf9ad982646ab97edda5923e61fbce2b8e1b0ff91aeb', 0, transactionParams);
   };
 
   const testFunc = async () => {
