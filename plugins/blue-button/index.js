@@ -1,62 +1,56 @@
 // ToDo: this is a sample file to test the PR and will be removed/reverted back to the original
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { BlockchainManager } from 'api/mock-blockchain/blockchain';
-import { WalletManager } from 'api/mock-blockchain/wallet';
+import { BitcoinBlockchainManager } from 'api/bitcoin/blockchain';
+import { walletManager } from 'api/bitcoin/wallet';
 import './index.scss';
 
 const BlueButton = () => {
-  const blockchainManager = BlockchainManager.instance;
-  const walletManager = WalletManager.instance;
+  const blockchainManager = BitcoinBlockchainManager.instance;
 
   const generateWallet = () => {
-    walletManager.initWallet();
+    walletManager.initialize();
   };
 
-  const generateToAddress = () => {
-    walletManager.generateToAddress();
-  };
   const createTransactions = async () => {
-    const address = await blockchainManager.getLatestAddress();
-    blockchainManager.sendToAddress(address, 10);
-  };
+    const transactionParams = {
+      receiverAddress: blockchainManager.generateAddress().address,
+      totalFunds: await blockchainManager.getBalanceForAddress(blockchainManager.getMyAddress()),
+      fee: 1000,
+      amount: 49000,
+    };
 
-  const createCoinBaseTx = () => {
-    blockchainManager.generateNextBlock();
+    // While testing this change the params passed to sendToAddress: add new tx hash and uTxO index
+    blockchainManager.sendToAddress('39a71be1ccae94f7df02bf9ad982646ab97edda5923e61fbce2b8e1b0ff91aeb', 0, transactionParams);
   };
 
   const testFunc = async () => {
-    console.log(await blockchainManager.getTransactions());
+    console.log(await blockchainManager.getAddressDetails(blockchainManager.getMyAddress()));
   };
 
   const getBalance = async () => {
-    console.log(await blockchainManager.getBalanceForAddress(walletManager.getPublicFromWallet(), await blockchainManager.getUnspentTxOs()));
+    console.log(await blockchainManager.getBalanceForAddress(blockchainManager.getMyAddress())); // 2803717
   };
 
   return (
     <Fragment>
       <strong>
-        {'Test Mock Blockchain'}
+        {'Bitcoin P.O.C'}
       </strong>
       <br/>
-      {'step 1 generate wallet/private key(if you dont have one already) '}
+      {'Step 1: generate wallet/private key(if you dont have one already) '}
       <button onClick={generateWallet}>
         Create Wallet used for Transactions
       </button>
       <br/>
-      {'step 2 add a coin(50 units) to your wallet available to spend '}
-      <button onClick={createCoinBaseTx}>
-        Add 50 units
-      </button>
+      {'Step 2: add some bitcoins to your new address '}
+      <a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank">using this faucet</a>
       <br/>
-      {'step 3 generate to address '}
-      <button onClick={generateToAddress}>
-        Generate To Address
-      </button>
+      {'Step 3: update params passed to function on line 17 of this file'}
       <br/>
-      {'step 4 send 10 units to an address '}
+      {'Step 4: Send some bitcoin '}
       <button onClick={createTransactions}>
-        Send 10 units
+        Send bitcoin
       </button>
       <br/>
       <br/>
