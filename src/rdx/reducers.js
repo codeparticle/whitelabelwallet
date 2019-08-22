@@ -6,6 +6,7 @@ import authReducers from 'rdx/modules/auth/reducers';
 import contactsReducers from 'rdx/modules/contacts/reducers';
 import localeReducers from 'rdx/modules/locale/reducers';
 import messageReducers from 'rdx/modules/messages/reducers';
+import navBarReducers from 'rdx/modules/nav-bar/reducers';
 import pluginsReducers from 'rdx/modules/plugins/reducers';
 import routerReducers from 'rdx/modules/router/reducers';
 import selectedReducers from 'rdx/modules/selected/reducers';
@@ -22,6 +23,7 @@ export const reducers = {
   ...contactsReducers,
   ...localeReducers,
   ...messageReducers,
+  ...navBarReducers,
   ...pluginsReducers,
   ...routerReducers,
   ...selectedReducers,

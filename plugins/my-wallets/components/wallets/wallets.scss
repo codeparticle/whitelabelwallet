@@ -1,0 +1,21 @@
+@import 'src/styles/index.scss';
+
+.wallets-rct-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: calc(#{$spacing-l} - #{$spacing-m});
+
+  &__wallet-container {
+    padding-bottom: $spacing-m;
+    width: calc(50% - (#{$spacing-m} / 2));
+
+    .wallet {
+      max-width: 100%;
+    }
+
+    @include mquery($width-breakpoint-lg) {
+      width: 100%;
+    }
+  }
+}

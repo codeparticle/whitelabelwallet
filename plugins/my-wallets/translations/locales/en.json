@@ -1,0 +1,7 @@
+{
+  "plugin.my_wallets.add_wallet_button_label": "Add Wallet",
+  "plugin.my_wallets.nav_item": "My Wallets",
+  "plugin.my_wallets.page_header": "My Wallets",
+  "plugin.my_wallets.receive_button_label": "Receive funds",
+  "plugin.my_wallets.send_funds_button_label": "Send funds"
+}
