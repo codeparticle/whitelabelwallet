@@ -53,8 +53,7 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
    */
   getTransactions = async () => {
     const rawTxsData = (await api.get(TRANSACTIONS)).data;
-    const transactions = rawTxsData.map(this.bitcoinTransactionFormatter);
-    return transactions;
+    return rawTxsData.map(this.bitcoinTransactionFormatter);
   }
 
   /**
@@ -72,8 +71,8 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
    * @return {number} returns number value.
    */
   getBalanceForAddress = async (addressParam) => {
-    const balanceData = (await api.get(`${ADDRESS}/${addressParam}`)).data.balance;
-    return balanceData;
+    const { balance } = (await api.get(`${ADDRESS}/${addressParam}`)).data;
+    return balance;
   }
 
   /**
@@ -100,9 +99,8 @@ class  BitcoinBlockchainManager  extends ApiBlockchainManager {
     const rawTxHex = tx.build().toHex();
     const newTxData = (await api.post(BROADCAST_TRANSACTION, { 'tx': rawTxHex })).data.tx;
 
-    // Format the newly created transaction;
-    const transaction = this.bitcoinTransactionFormatter(newTxData);
-    return transaction;
+    // return formatted the newly created transaction;
+    return this.bitcoinTransactionFormatter(newTxData);
   }
 
   /**
