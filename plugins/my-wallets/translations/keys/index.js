@@ -36,7 +36,7 @@ export const MY_WALLETS = defineMessages({
   MULTI_ADDRESS_LABEL: {
     id: 'plugin.my_wallets.multi_address_label',
     description: 'label for multi address question',
-    defaultMessage: 'My Wallets',
+    defaultMessage: 'Is this a multi-address wallet?',
   },
   NAV_ITEM: {
     id: 'plugin.my_wallets.nav_item',
