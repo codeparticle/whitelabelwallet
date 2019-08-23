@@ -1,49 +1,11 @@
-@import 'src/styles/index.scss';
-
-$icon-size: 24px;
-
 .page-header {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: calc(#{$spacing-m} - #{$spacing-xs});
 
-  & > div {
-    align-items: center;
-    display: flex;
-    margin-bottom: $spacing-xs;
-  }
-
-  &__title {
-    color: $slate;
-    font-size: $font-size-lg-1;
-    font-weight: $font-weight-bold;
+  h2 {
+    // WLW typography sets unwanted margin on the title
     margin: 0;
-    margin-right: $spacing-m;
   }
 
-  &__action-buttons {
-    margin-right: $spacing-m;
-  }
-
-  &__nav-bar-trigger {
-    margin-right: $spacing-s;
-  }
-
-  &__icons {
-    align-items: center;
-    display: flex;
-
-    button:first-child {
-      margin-right: $spacing-m;
-    }
-  }
-
-  &__icon {
-    height: $icon-size;
-    min-width: $icon-size;
+  .page-header__icon {
     padding: 0;
-    width: $icon-size;
   }
 }
