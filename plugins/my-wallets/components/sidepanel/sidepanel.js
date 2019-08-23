@@ -19,34 +19,36 @@ const SidepanelContent = ({ translations }) => {
   const [isMultiAddress, setIsMultiAddress] = useState(false);
   const onNicknameChange = e => setNickname(e.target.value);
   return (
-    <div className='content-background'>
-      <div className='content-container'>
-        <TextInput
-          label={translations.walletNickname}
-          placeholder={translations.walletPlaceholder}
-          value={nickname}
-          onChange={onNicknameChange}
-        />
-        <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
-        <div className='button-box'>
-          <Button
-            onClick={console.log('footer button clicked')}
-            variant='slate'
-            id='generate-code'
-          >
-            {translations.generateButton}
-          </Button>
-        </div>
-        <p className='keep-secret-text'>{translations.keepSecret}</p>
-        <div className='multi-address-prompt'>
-          <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
-          <ToggleSwitch
-            id='multi-address-btn'
-            onClick={()=> {
-              setIsMultiAddress(!isMultiAddress)
-              ;
-            }}
+    <div className='wrapper'>
+      <div className='content-background'>
+        <div className='content-container'>
+          <TextInput
+            label={translations.walletNickname}
+            placeholder={translations.walletPlaceholder}
+            value={nickname}
+            onChange={onNicknameChange}
           />
+          <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
+          <div className='button-box'>
+            <Button
+              onClick={console.log('footer button clicked')}
+              variant='slate'
+              id='generate-code'
+            >
+              {translations.generateButton}
+            </Button>
+          </div>
+          <p className='keep-secret-text'>{translations.keepSecret}</p>
+          <div className='multi-address-prompt'>
+            <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
+            <ToggleSwitch
+              id='multi-address-btn'
+              onClick={()=> {
+                setIsMultiAddress(!isMultiAddress)
+                ;
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

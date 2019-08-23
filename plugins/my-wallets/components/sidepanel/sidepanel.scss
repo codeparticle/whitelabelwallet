@@ -1,9 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .content-background {
   background: white;
   display: flex;
   flex-direction: column;
   height: auto;
   width: 100%;
+  overflow: hidden;
+  flex: 1;
 }
 
 .content-container {
@@ -45,9 +52,14 @@
 }
 
 .content-footer {
+  background: #F4FAFC;
   display: flex;
   height: auto;
   justify-content: flex-end;
   padding: 23px 40px;
   width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right:0;
 }
