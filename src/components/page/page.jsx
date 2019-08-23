@@ -5,10 +5,20 @@ import { PageHeader } from 'components/page-header';
 import './page.scss';
 
 /**
+  @typedef headerProps
+  @type {Object}
+  @property {Node} PrimaryAction
+  @property {Node} SecondaryAction
+  @property {string} title
+  @property {string} to - only needed for 'secondary' type
+  @property {string} type - 'primary' or 'secondary'
+ */
+
+/**
   @typedef props
   @type {Object}
   @property {Node} children
-  @property {Object} headerProps - props passed to the PageHeader
+  @property {headerProps} headerProps - props passed to the PageHeader
 */
 
 /**

@@ -1,13 +1,22 @@
 import React from 'react';
 import { injectIntl, intlShape } from 'react-intl';
-import { Button } from '@codeparticle/whitelabelwallet.styleguide';
+import { Button, Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
+import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { empty } from 'lib/utils';
 
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { Wallets } from 'plugins/my-wallets/components';
 
+const { SvgAdd } = svgs.icons;
+
 import './my-wallets.scss';
+
+const AddWalletIcon = ({ collapsed, iconProps }) => (
+  <Visible when={collapsed}>
+    <Icon onClick={empty} icon={<SvgAdd {...iconProps} />} />
+  </Visible>
+);
 
 /**
   Renders My Wallet Page
@@ -20,7 +29,7 @@ const MyWallets = ({
 }) => {
   // Load wallets from local DB
   const wallets = [];
-  const actionButtons = (
+  const AddWallet = () => (
     <Button
       onClick={empty}
       variant="primary"
@@ -33,8 +42,9 @@ const MyWallets = ({
   return (
     <Page
       headerProps={{
-        actionButtons,
-        title: MY_WALLETS.PAGE_HEADER,
+        PrimaryAction: AddWalletIcon,
+        SecondaryAction: AddWallet,
+        title: formatMessage(MY_WALLETS.PAGE_HEADER),
       }}
     >
       <Wallets wallets={wallets} />
