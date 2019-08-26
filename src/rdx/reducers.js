@@ -3,7 +3,6 @@ import activeRequestsReducers from 'rdx/modules/active-requests/reducers';
 import apiReducers from 'rdx/modules/api/reducers';
 import appReducers from 'rdx/modules/app/reducers';
 import authReducers from 'rdx/modules/auth/reducers';
-import contactsReducers from 'rdx/modules/contacts/reducers';
 import localeReducers from 'rdx/modules/locale/reducers';
 import messageReducers from 'rdx/modules/messages/reducers';
 import navBarReducers from 'rdx/modules/nav-bar/reducers';
@@ -20,7 +19,6 @@ export const reducers = {
   ...apiReducers,
   ...appReducers,
   ...authReducers,
-  ...contactsReducers,
   ...localeReducers,
   ...messageReducers,
   ...navBarReducers,

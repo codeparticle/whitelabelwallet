@@ -1,0 +1,12 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.contact-list {
+  $min-card-width: 405px;
+
+  display: grid;
+  grid-gap: $space-4;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax($min-card-width, 1fr));
+  justify-items: center;
+  margin-top: $space-4;
+}

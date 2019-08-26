@@ -6,5 +6,8 @@ export const CONTACTS_STATEMENTS = {
     address nvarchar(200)
   );`,
   INSERT: {},
-  SELECT: {},
+  SELECT: {
+    ALL: `select * from Contacts`,
+    VALUE: (value) => `select * from Contacts where name like "${value}%" or address like "${value}%"`,
+  },
 };

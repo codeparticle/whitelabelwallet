@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {
   PageHeader as PageHeaderView,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { space4 } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
 import {
   BackButton,
   HeaderActionButtons,
@@ -41,6 +42,13 @@ const PageHeader = ({
   return (
     <div className="page-header">
       <PageHeaderView {...pageHeaderProps} />
+      <style jsx>
+        {`
+          .page-header {
+            margin-bottom: ${space4};
+          }
+        `}
+      </style>
     </div>
   );
 };
