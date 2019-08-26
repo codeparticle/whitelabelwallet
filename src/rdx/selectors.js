@@ -4,7 +4,6 @@ import appSelectors from 'rdx/modules/app/selectors';
 import localeSelectors from 'rdx/modules/locale/selectors';
 import routerSelectors from 'rdx/modules/router/selectors';
 import authSelectors from 'rdx/modules/auth/selectors';
-import contactsSelectors from 'rdx/modules/contacts/selectors';
 import messageSelectors from 'rdx/modules/messages/selectors';
 import navBarSelectors from 'rdx/modules/nav-bar/selectors';
 import pluginsSelectors from 'rdx/modules/plugins/selectors';
@@ -17,7 +16,6 @@ const selectors = {
   ...activeRequestsSelectors,
   ...apiSelectors,
   ...appSelectors,
-  ...contactsSelectors,
   ...localeSelectors,
   ...routerSelectors,
   ...authSelectors,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { injectIntl, intlShape } from 'react-intl';
-import { Button, Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
+import { Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
-import { Page } from 'components';
+import { HeaderButton, Page } from 'components';
 import { empty } from 'lib/utils';
 
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
@@ -30,13 +30,11 @@ const MyWallets = ({
   // Load wallets from local DB
   const wallets = [];
   const AddWallet = () => (
-    <Button
+    <HeaderButton
+      label={formatMessage(MY_WALLETS.ADD_WALLET_BUTTON_LABEL)}
+      Icon={SvgAdd}
       onClick={empty}
-      variant="primary"
-      size="sm"
-    >
-      {formatMessage(MY_WALLETS.ADD_WALLET_BUTTON_LABEL)}
-    </Button>
+    />
   );
 
   return (

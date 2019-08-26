@@ -206,4 +206,14 @@ export class DatabaseManager {
     const statement = STMT.USER_SETTINGS.SELECT.ALL;
     return this.query({ statement });
   }
+
+  getContacts() {
+    const statement = STMT.CONTACTS.SELECT.ALL;
+    return this.query({ statement });
+  }
+
+  getContactsByValue(value = '') {
+    const statement = STMT.CONTACTS.SELECT.VALUE(value);
+    return this.query({ statement });
+  }
 }
