@@ -1,118 +1,64 @@
+/**
+ * @fileoverview PageHeader wrapper for more consistent implementation in WLW
+ * @author Gabriel Womble
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Icon,
-  svgs,
-  useMedia,
+  PageHeader as PageHeaderView,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { IconVariants } from '@codeparticle/whitelabelwallet.styleguide/dist/components/icon';
-import { injectIntl, intlShape } from 'react-intl';
-import cn from 'classnames';
-import { Visible } from '@codeparticle/react-visible';
-import { connect } from 'react-redux';
-import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
-import { parseIntlText } from 'translations/keys';
-import { empty } from 'lib/utils';
+import {
+  BackButton,
+  HeaderActionButtons,
+  NavTrigger,
+} from 'components';
+import { VARIANTS } from 'lib/constants';
 import './page-header.scss';
 
-const {
-  SvgMenu,
-  SvgSettings,
-  SvgUserAccount,
-} = svgs.icons;
+const { PRIMARY, SECONDARY } = VARIANTS;
 
-/**
-  @typedef props
-  @type {Object}
-  @property {Object} intl
-*/
-
-/**
-  Renders a Header Button Group
-  @param {props} props
-  @returns {Node} - rendered Header Button Group
-*/
-const PageHeaderView = ({
-  actionButtons,
-  hideIcons,
-  intl,
-  isTabletNavBarOpen,
+const PageHeader = ({
+  PrimaryAction,
+  SecondaryAction,
   title,
-  toggleMobileNavBar,
-  toggleTabletNavBar,
+  to,
+  type,
 }) => {
-  const { isMobile, isDesktop, isWideScreen } = useMedia();
-  const onTriggerClick = () => {
-    isMobile ? toggleMobileNavBar(true) : toggleTabletNavBar(!isTabletNavBarOpen);
+  function NavigationButton(props) {
+    return type === PRIMARY
+      ? <NavTrigger {...props} />
+      : <BackButton to={to} {...props} />;
+  }
+
+  const pageHeaderProps = {
+    IconButtons: HeaderActionButtons,
+    NavigationButton,
+    PrimaryAction,
+    SecondaryAction,
+    title,
   };
-  const navBarTriggerVariant = !isMobile && isTabletNavBarOpen ? IconVariants.PRIMARY : IconVariants.SLATE;
 
   return (
     <div className="page-header">
-      <div>
-        <Visible when={!isDesktop && !isWideScreen}>
-          <Icon
-            className={cn('page-header__icon', 'page-header__nav-bar-trigger')}
-            onClick={onTriggerClick}
-            variant={navBarTriggerVariant}
-            icon={<SvgMenu />}
-          />
-        </Visible>
-        <h1 className="page-header__title">
-          {parseIntlText(intl, title)}
-        </h1>
-      </div>
-      <div>
-        <div className="page-header__action-buttons">
-          {actionButtons}
-        </div>
-        <Visible when={!hideIcons}>
-          <div className="page-header__icons">
-            <Visible when={!isMobile}>
-              <Icon
-                className="page-header__icon"
-                variant={IconVariants.SLATE}
-                onClick={empty}
-                icon={<SvgSettings />}
-              />
-            </Visible>
-            <Icon
-              className="page-header__icon"
-              variant={IconVariants.SLATE}
-              onClick={empty}
-              icon={<SvgUserAccount />}
-            />
-          </div>
-        </Visible>
-      </div>
+      <PageHeaderView {...pageHeaderProps} />
     </div>
   );
 };
 
-PageHeaderView.defaultProps = {
-  actionButtons: null,
-  hideIcons: false,
+PageHeader.defaultProps = {
+  to: '/',
+  type: PRIMARY,
 };
 
-PageHeaderView.propTypes = {
-  actionButtons: PropTypes.oneOfType([PropTypes.node, PropTypes.element]),
-  hideIcons: PropTypes.bool,
-  intl: intlShape.isRequired,
-  isTabletNavBarOpen: PropTypes.bool.isRequired,
-  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
-  toggleMobileNavBar: PropTypes.func.isRequired,
-  toggleTabletNavBar: PropTypes.func.isRequired,
+PageHeader.propTypes = {
+  PrimaryAction: PropTypes.func,
+  SecondaryAction: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  to: PropTypes.string,
+  type: PropTypes.oneOf([
+    PRIMARY,
+    SECONDARY,
+  ]),
 };
-
-const actionsMapper = getRdxActionMapper([
-  'toggleMobileNavBar',
-  'toggleTabletNavBar',
-]);
-
-const stateMapper = getRdxSelectionMapper({
-  isTabletNavBarOpen: 'getIsTabletNavBarOpen',
-});
-
-const PageHeader = connect(stateMapper, actionsMapper)(injectIntl(PageHeaderView));
 
 export { PageHeader };
