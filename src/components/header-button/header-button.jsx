@@ -1,6 +1,5 @@
 /**
  * @fileoverview Button pattern for the PageHeader
- * TODO: Remove & replace usage w/ styleguide when WLW-105 (in styleguide) gets published
  * @author Gabriel Womble
  */
 import React, { Fragment } from 'react';

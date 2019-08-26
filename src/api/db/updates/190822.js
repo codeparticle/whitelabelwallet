@@ -1,6 +1,5 @@
 /**
  * @fileoverview Mock contacts update
- * TODO: WLW-107 Remove mock update, implement add contact
  * @author Gabriel Womble
  */
 
