@@ -97,6 +97,8 @@ export class DatabaseManager {
 
   // Contains nested methods to insert single rows of data using the query method
   insert() {
+    const run = true;
+
     return {
       /**
        * Insert default user setting into the sqlite DB
@@ -109,6 +111,16 @@ export class DatabaseManager {
         ];
 
         return this.bulkInsert({ statementArr });
+      },
+      /**
+       * Insert into the sqlite DB one row of contact data
+       */
+      contact: ({ id, name, address, description }) => {
+        return this.query({
+          statement: STMT.CONTACTS.INSERT.NEW,
+          params: [id, name, address, description],
+          run,
+        });
       },
     };
   }

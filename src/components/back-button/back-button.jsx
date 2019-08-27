@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { PROP_TYPES } from 'lib/constants';
 import {
-  Icon,
+  IconButton,
   IconVariants,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
@@ -25,7 +25,7 @@ function BackButtonView({
   };
 
   return (
-    <Icon
+    <IconButton
       className="page-header__icon"
       onClick={onClick}
       variant={IconVariants.SLATE}

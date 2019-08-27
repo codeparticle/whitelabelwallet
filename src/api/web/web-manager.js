@@ -1,3 +1,5 @@
+// TODO: Update this manager and electron-render-manager
+// to extend a shared interface
 import { DatabaseManager, UpdateManager } from '../db';
 import { EncryptionManager } from '../encryption-manager';
 import { FileManager } from './file-manager';
@@ -18,6 +20,16 @@ export class WebManager {
   }
 
   /**
+   * Sets the manager user
+   */
+  setUser(username, password) {
+    this.username = username;
+    this.password = password;
+
+    return this;
+  }
+
+  /**
    * Generates a new DB
    */
   generateDatabase() {
@@ -32,25 +44,23 @@ export class WebManager {
 
   /**
    * Attempt to import database based on login credentials
-   * @param {string} username : username fetched from login page
-   * @param {string} password : password passed in by user
    */
-  loadDatabase(username, password) {
+  loadDatabase() {
     // retrive dbFile encrypted
-    const dbFile = this.fileManager.getDatabaseFile(username, password);
+    const dbFile = this.fileManager.getDatabaseFile(this.username, this.password);
 
     return new Promise((resolve) => {
       if (!dbFile) {
         return resolve(false);
       }
 
-      const decodedBinary = EncryptionManager.prepToLoadDatabase(username, password, dbFile);
+      const decodedBinary = EncryptionManager.prepToLoadDatabase(this.username, this.password, dbFile);
       const dbBinary = EncryptionManager.encodeBinary(decodedBinary);
 
       this.startDatabaseManager(dbBinary);
       UpdateManager().then((updated) => {
         if (updated) {
-          this.saveDatabase(username, password);
+          this.saveDatabase(this.username, this.password);
         }
 
         resolve(true);
@@ -60,25 +70,21 @@ export class WebManager {
 
   /**
    * Saves the current DB given the user information
-   * @param {string} username : username fetched from login page
-   * @param {string} password : password passed in by user
    */
-  saveDatabase(username, password) {
+  saveDatabase() {
     return new Promise(resolve => {
       const dbBinary = this.databaseManager.exportDatabase();
-      const serializedBinary = EncryptionManager.prepToSaveDatabase(username, password, dbBinary);
-      this.fileManager.storeDatabaseFile(username, password, serializedBinary);
+      const serializedBinary = EncryptionManager.prepToSaveDatabase(this.username, this.password, dbBinary);
+      this.fileManager.storeDatabaseFile(this.username, this.password, serializedBinary);
       resolve(true);
     });
   }
 
   /**
    * Checks the database exists
-   * @param {string} username : username fetched from login page
-   * @param {string} password : password passed in by user
    */
-  checkDatabaseExists(username, password) {
-    const dbFile = this.fileManager.getDatabaseFile(username, password);
+  checkDatabaseExists() {
+    const dbFile = this.fileManager.getDatabaseFile(this.username, this.password);
 
     return new Promise((resolve) => {
       if (dbFile) {
@@ -90,7 +96,7 @@ export class WebManager {
       let userNameExists = false;
 
       Object.keys(this.storage).forEach((keyName) => {
-        const hasUsername = keyName.indexOf(username) !== -1;
+        const hasUsername = keyName.indexOf(this.username) !== -1;
 
         if (hasUsername) {
           userNameExists = true;
