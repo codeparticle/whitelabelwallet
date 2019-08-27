@@ -1,0 +1,16 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.add-contact {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-4;
+  width: 100%;
+}
+
+// TODO: Remove flex: 1 shorthand from
+// input and textarea in styleguide
+.no-flex > div {
+  flex: 0;
+}
