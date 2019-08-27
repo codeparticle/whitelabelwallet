@@ -45,6 +45,17 @@ export class ElectronRendererManager {
   }
 
   /**
+   * Sets the manager user
+   */
+  setUser(username, password) {
+    log.debug('ElectronRendererManager::setUser called');
+    this.username = username;
+    this.password = password;
+
+    return this;
+  }
+
+  /**
    * Generates a new DB
    */
   generateDatabase() {
@@ -60,10 +71,8 @@ export class ElectronRendererManager {
 
   /**
    * Attempt to import database based on login credentials
-   * @param {string} username : username fetched from login page
-   * @param {string} password : password passed in by user
    */
-  loadDatabase(username, password) {
+  loadDatabase() {
     log.debug('ElectronRendererManager::loadDatabase called');
 
     return new Promise(resolve => {
@@ -75,7 +84,7 @@ export class ElectronRendererManager {
           this.startDatabaseManager(dbBinary);
           UpdateManager().then((updated) => {
             if (updated) {
-              this.saveDatabase(username, password);
+              this.saveDatabase(this.username, this.password);
             }
           });
         } else {
@@ -86,17 +95,15 @@ export class ElectronRendererManager {
         resolve(imported);
       });
 
-      ipcRenderer.send(FETCH_DATABASE, username, password);
+      ipcRenderer.send(FETCH_DATABASE, this.username, this.password);
       ipcRenderer.send(DELETE_LOGS, log.transports.file.file);
     });
   }
 
   /**
    * Saves the current DB given the user information
-   * @param {string} username : username fetched from login page
-   * @param {string} password : password passed in by user
    */
-  saveDatabase(username, password) {
+  saveDatabase() {
     log.debug('ElectronRendererManager::saveDatabase called');
     const dbBinary = this.databaseManager.exportDatabase();
 
@@ -107,16 +114,14 @@ export class ElectronRendererManager {
         resolve(saved);
       });
 
-      ipcRenderer.send(SAVE_DATABASE, username, password, dbBinary);
+      ipcRenderer.send(SAVE_DATABASE, this.username, this.password, dbBinary);
     });
   }
 
   /**
    * Checks the database exists
-   * @param {string} username : username fetched from login page
-   * @param {string} password : password passed in by user
    */
-  checkDatabaseExists(username, password) {
+  checkDatabaseExists() {
     log.debug('ElectronRendererManager::checkDatabase called');
 
     return new Promise(resolve => {
@@ -124,7 +129,7 @@ export class ElectronRendererManager {
         resolve(exists);
       });
 
-      ipcRenderer.send(CHECK_DATABASE, username, password);
+      ipcRenderer.send(CHECK_DATABASE, this.username, this.password);
     });
   }
 }

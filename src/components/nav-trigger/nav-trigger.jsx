@@ -6,7 +6,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Icon,
+  IconButton,
   IconVariants,
   useMedia,
   svgs,
@@ -33,7 +33,7 @@ function NavTriggerView({
 
   return (
     <Visible when={!(isDesktop || isWideScreen)}>
-      <Icon
+      <IconButton
         className="page-header__icon"
         onClick={onTriggerClick}
         variant={navBarTriggerVariant}

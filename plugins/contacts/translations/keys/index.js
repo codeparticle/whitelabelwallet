@@ -26,4 +26,24 @@ export const CONTACTS = defineMessages({
     description: 'Search component placeholder text',
     defaultMessage: 'Search Contacts...',
   },
+  LABEL_ADDRESS: {
+    id: 'plugin.contacts.label_address',
+    description: 'Address label text',
+    defaultMessage: 'Address',
+  },
+  LABEL_NAME: {
+    id: 'plugin.contacts.label_name',
+    description: 'Name label text',
+    defaultMessage: 'Name',
+  },
+  LABEL_DESCRIPTION: {
+    id: 'plugin.contacts.label_description',
+    description: 'Description label text',
+    defaultMessage: 'Description',
+  },
+  CREATE_CONTACT: {
+    id: 'plugin.contacts.create_contact',
+    description: 'Create Contact text',
+    defaultMessage: 'Create Contact',
+  },
 });

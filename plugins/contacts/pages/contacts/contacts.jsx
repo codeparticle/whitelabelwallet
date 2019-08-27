@@ -2,18 +2,18 @@
  * @fileoverview Contacts Plugin Base Page
  * @author Gabriel Womble
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import { Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
+import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { useManager } from 'lib/hooks';
 import { empty } from 'lib/utils';
-import { Page, HeaderButton } from 'components';
+import { Page } from 'components';
 
 import { CONTACTS } from 'plugins/contacts/translations/keys';
-import { ContactList, SearchContacts } from 'plugins/contacts/components';
+import { AddContact, ContactList, SearchContacts } from 'plugins/contacts/components';
 import { setContacts } from 'plugins/contacts/rdx/actions';
 import { getContacts } from 'plugins/contacts/rdx/selectors';
 
@@ -30,7 +30,7 @@ function AddContactIcon({
 }) {
   return (
     <Visible when={collapsed}>
-      <Icon onClick={empty} icon={<SvgAdd {...iconProps} />} />
+      <IconButton onClick={empty} icon={<SvgAdd {...iconProps} />} />
     </Visible>
   );
 }
@@ -40,6 +40,7 @@ const ContactsPageView = ({
   intl,
   ...props
 }) => {
+  const [isAddPanelOpen, setIsAddPanelOpen] = useState(false);
   const { formatMessage } = intl;
   const manager = useManager();
 
@@ -52,7 +53,7 @@ const ContactsPageView = ({
       <HeaderButton
         Icon={SvgAdd}
         label={formatMessage(CONTACTS.ADD_CONTACT)}
-        onClick={empty}
+        onClick={() => setIsAddPanelOpen(true)}
       />
     );
   }
@@ -72,6 +73,13 @@ const ContactsPageView = ({
         contacts={contacts}
         formatMessage={formatMessage}
         manager={manager}
+      />
+      <AddContact
+        formatMessage={formatMessage}
+        isOpen={isAddPanelOpen}
+        manager={manager}
+        setIsOpen={setIsAddPanelOpen}
+        setContacts={props.setContacts}
       />
     </Page>
   );

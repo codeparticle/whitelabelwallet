@@ -2,7 +2,6 @@ export { BackButton } from './back-button';
 export { ErrorBoundary } from './error-boundary';
 export { FlashMessages } from './flash-messages';
 export { HeaderActionButtons } from './header-action-buttons';
-export { HeaderButton } from './header-button';
 export { Main } from './main';
 export { NavTrigger } from './nav-trigger';
 export { NotFound } from './not-found';
