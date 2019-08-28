@@ -1,5 +1,6 @@
 /**
  * @fileoverview A reusable back button pattern
+ * @author Gabriel Womble
  */
 import React from 'react';
 import PropTypes from 'prop-types';

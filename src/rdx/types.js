@@ -1,7 +1,6 @@
 import activeRequestsTypes from 'rdx/modules/active-requests/types';
 import appTypes from 'rdx/modules/app/types';
 import authTypes from 'rdx/modules/auth/types';
-import contactsTypes from 'rdx/modules/contacts/types';
 import messageTypes from 'rdx/modules/messages/types';
 import navBarTypes from 'rdx/modules/nav-bar/types';
 import pluginsTypes from 'rdx/modules/plugins/types';
@@ -15,7 +14,6 @@ const types = {
   ...activeRequestsTypes,
   ...appTypes,
   ...authTypes,
-  ...contactsTypes,
   ...messageTypes,
   ...navBarTypes,
   ...pluginsTypes,
