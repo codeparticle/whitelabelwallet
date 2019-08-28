@@ -32,6 +32,7 @@ const environment = {
   platform,
   productName: packageInfo.productName,
   secret: process.env.REACT_APP_SECRET,
+  stringEncryptionSecret: process.env.REACT_APP_STRING_ENCRYPTION_PASSWORD,
   version: packageInfo.version,
 };
 
