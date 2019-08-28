@@ -2,7 +2,6 @@ import activeRequestsActions from 'rdx/modules/active-requests/actions';
 import apiActions from 'rdx/modules/api/actions';
 import appActions from 'rdx/modules/app/actions';
 import authActions from 'rdx/modules/auth/actions';
-import contactsActions from 'rdx/modules/contacts/actions';
 import messageActions from 'rdx/modules/messages/actions';
 import navBarActions from 'rdx/modules/nav-bar/actions';
 import pluginsActions from 'rdx/modules/plugins/actions';
@@ -17,7 +16,6 @@ const actions = {
   ...apiActions,
   ...appActions,
   ...authActions,
-  ...contactsActions,
   ...messageActions,
   ...navBarActions,
   ...pluginsActions,

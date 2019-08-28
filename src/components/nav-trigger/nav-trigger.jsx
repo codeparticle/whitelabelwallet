@@ -1,3 +1,7 @@
+/**
+ * @fileoverview NavButton Pattern used w/ PageHeader
+ * @author Gabriel Womble
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
