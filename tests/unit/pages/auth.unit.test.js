@@ -26,7 +26,7 @@ describe('AuthPage Test', () => {
     });
 
     it('should render the correct form elements', () => {
-      expect(wrapper.find('AuthCheckbox')).toHaveLength(0);
+      expect(wrapper.find('LabeledCheckbox')).toHaveLength(0);
       expect(wrapper.find('Button')).toHaveLength(2);
       expect(wrapper.find('TextInput')).toHaveLength(2);
     });
@@ -46,7 +46,7 @@ describe('AuthPage Test', () => {
     });
 
     it('should render the correct form elements', () => {
-      expect(wrapper.find('AuthCheckbox')).toHaveLength(1);
+      expect(wrapper.find('LabeledCheckbox')).toHaveLength(1);
       expect(wrapper.find('Button')).toHaveLength(2);
       expect(wrapper.find('TextInput')).toHaveLength(3);
     });

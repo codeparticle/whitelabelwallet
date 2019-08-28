@@ -3,63 +3,86 @@
   flex-direction: column;
   height: 100%;
 }
+
 .content-background {
   background: white;
   display: flex;
   flex-direction: column;
-  height: auto;
-  width: 100%;
-  overflow: hidden;
   flex: 1;
+  height: auto;
+  overflow: hidden;
+  width: 100%;
 }
 
 .content-container {
   height: 100%;
+  overflow-x: hidden;
   padding: 25px;
   width: 100%;
-  overflow-x: hidden;
 
   .generate-label {
     display: inline-block;
     margin-top: 7%;
   }
 
+  .generate-code-wrapper {
+    border-radius: 6px;
+    min-height: 180px;
+    position: relative;
+  }
+
   .button-box {
     align-items: center;
     background: #F4FAFC;
-    border-radius: 6px;
     display: flex;
-    height: 180px;
+    height: 170px;
     justify-content: center;
+    position: absolute;
     width: 100%;
+
+    button {
+      height: 40px;
+      z-index: 10;
+    }
   }
 
   .keep-secret-text {
     font-family: Lato;
+    font-size: 11px;
     font-style: normal;
     font-weight: normal;
-    font-size: 11px;
     line-height: 15px;
   }
 
   .multi-address-prompt {
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    margin-bottom: 18%;
     margin-top: 4%;
-    margin-bottom: 18%
   }
-}
 
-.content-footer {
-  background: #F4FAFC;
-  display: flex;
-  height: auto;
-  justify-content: flex-end;
-  padding: 23px 40px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right:0;
+  .fade-out {
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+    visibility: hidden;
+  }
+
+  .fade-in {
+    opacity: 1;
+    transition: visibility 1.5s, opacity 1.5s;
+    visibility: visible;
+  }
+
+  .pass-phrase-wrapper {
+    display: flex;
+    height: auto;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+  }
+
+  .hide {
+    visibility: hidden;
+  }
 }

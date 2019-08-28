@@ -48,7 +48,7 @@ const MyWallets = ({
     multiAddressLabel: formatMessage(MY_WALLETS.MULTI_ADDRESS_LABEL),
     newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TITLE),
     newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE),
-    recoveryCode: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
+    recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_BUTTON),
     walletNickname: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
     walletPlaceholder: formatMessage(MY_WALLETS.WALLET_PLACEHOLDER),
   };
