@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import {
   Button,
+  DeterministicPassPhrase,
   Overlay,
   TextInput,
   ToggleSwitch,
@@ -14,10 +15,45 @@ import './sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
 
-const SidepanelContent = ({ translations }) => {
+const SidepanelContent = ({
+  translations,
+  showButton,
+  isOpen,
+  isShuffled,
+  toggleDisabledButton,
+}) => {
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
+  const [isButtonVisible, setIsButtonVisible] = useState(showButton);
   const onNicknameChange = e => setNickname(e.target.value);
+  const fadeButtonOut = () => {
+    setIsButtonVisible(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (!isOpen) {
+        setIsButtonVisible(true);
+      }
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    toggleDisabledButton(isButtonVisible);
+  }, [isButtonVisible]);
+
+  const generateArray = () => {
+    const arr = [];
+    for (let i = 0; i < 24; i += 1) {
+      arr.push(`Word: ${i + 1}`);
+    }
+
+    return arr;
+  };
+
+  const wordArray = generateArray();
+  const onCompletion = () => console.log('completed');
+
   return (
     <div className='wrapper'>
       <div className='content-background'>
@@ -29,14 +65,24 @@ const SidepanelContent = ({ translations }) => {
             onChange={onNicknameChange}
           />
           <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
-          <div className='button-box'>
-            <Button
-              onClick={console.log('footer button clicked')}
-              variant='slate'
-              id='generate-code'
-            >
-              {translations.generateButton}
-            </Button>
+          <div className='generate-code-wrapper'>
+            <div className={`button-box ${isButtonVisible ? '' : 'fade-out hide'}`}>
+              <Button
+                onClick={fadeButtonOut}
+                variant='slate'
+                id='generate-code'
+              >
+                {translations.generateButton}
+              </Button>
+            </div>
+            <div className={`pass-phrase-wrapper fade-in`}>
+              <DeterministicPassPhrase
+                isBlurred={isButtonVisible}
+                isShuffled={isShuffled}
+                onCompletion={onCompletion}
+                wordArray={wordArray}
+              />
+            </div>
           </div>
           <p className='keep-secret-text'>{translations.keepSecret}</p>
           <div className='multi-address-prompt'>
@@ -55,36 +101,38 @@ const SidepanelContent = ({ translations }) => {
   );
 };
 
-const SidepanelFooter = ({ translations }) => {
-  return (
-    <div className='content-footer'>
-      <Button
-        onClick={console.log('footer button clicked')}
-        variant='primary'
-      >
-        {translations.continueButton}
-      </Button>
-    </div>
-
-  );
-};
 
 const SidepanelView = ({
   isOpen,
   onClose,
+  showButton,
   translations,
+  isShuffled,
 }) => {
+  const [isDisabled, setIsDisabled] = useState(true);
+  const toggleDisabledButton = (isButtonVisible) => {
+    setIsDisabled(isButtonVisible);
+  };
+
   return (
     <Overlay
       onClose={onClose}
       isOpen={isOpen}
+      hasCancelButton={false}
       type={'sidepanel'}
+      disableFooterButton={isDisabled}
       title={translations.newWalletTitle}
       subTitle={translations.newWalletSubTitle}
       Icon={SvgWallet}
     >
-      <SidepanelContent translations={translations} />
-      <SidepanelFooter translations={translations}/>
+      <SidepanelContent
+        translations={translations}
+        isShuffled={isShuffled}
+        showButton={showButton}
+        isOpen={isOpen}
+        toggleDisabledButton={toggleDisabledButton}
+
+      />
     </Overlay>
   );
 };

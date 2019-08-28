@@ -21,7 +21,8 @@ export const MY_WALLETS = defineMessages({
     description: 'keep secret text',
     defaultMessage: `*Please ensure you write this
     down and keep it safe incase you need to recover your wallet.
-    You will not be able to do so without it.`,
+    You will not be able to do so without it. Make sure no one is looking before
+    you generate a code.`,
   },
   NEW_WALLET_TITLE: {
     id: 'plugin.my_wallets.new_wallet_title',
