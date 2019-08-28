@@ -5,6 +5,8 @@ if (process.env.NODE_ENV === 'development') {
   require('electron-reload')(__dirname);
 }
 
+require('dotenv').config();
+
 const { environment } = require('./src/lib/utils/environment');
 
 // Fixes process.env.PATH variable

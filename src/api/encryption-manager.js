@@ -1,3 +1,4 @@
+import { environment } from 'lib/utils/environment';
 const crypto = require('crypto');
 const atob = require('atob');
 
@@ -105,7 +106,7 @@ export class EncryptionManager {
   static getAuthentication() {
     return {
       algorithm: 'aes-256-ctr',
-      password: process.env.STRING_ENCRYPTION_PASSWORD,
+      password: environment.stringEncryptionSecret,
     };
   }
 
