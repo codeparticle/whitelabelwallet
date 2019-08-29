@@ -35,6 +35,8 @@ const SidepanelContent = ({
     return () => {
       if (!isOpen) {
         setIsButtonVisible(true);
+        setIsMultiAddress(false);
+        setNickname('');
       }
     };
   }, [isOpen]);
