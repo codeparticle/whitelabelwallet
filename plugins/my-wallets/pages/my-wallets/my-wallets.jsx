@@ -68,6 +68,7 @@ const MyWallets = ({
       <Wallets wallets={wallets} />
       <WalletSidepanel
         onClose={onClose}
+        intl
         translations={sidepanelTranslations}
         isOpen={isOpenValue} />
     </Page>

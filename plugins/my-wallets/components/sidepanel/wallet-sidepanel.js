@@ -22,6 +22,7 @@ const WalletSidepanelContent = ({
   isOpen,
   translations,
   toggleDisabledButton,
+  step,
 }) => {
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
@@ -55,45 +56,58 @@ const WalletSidepanelContent = ({
   const wordArray =  BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
   const onCompletion = () => console.log('completed');
 
-  return (
-    <div className='content-container'>
-      <TextInput
-        label={translations.walletNickname}
-        placeholder={translations.walletPlaceholder}
-        value={nickname}
-        onChange={onNicknameChange}
-      />
-      <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
-      <div className='generate-code-wrapper'>
-        <div className={`button-box ${isButtonVisible ? '' : 'fade-out hide'}`}>
-          <Button
-            onClick={fadeButtonOut}
-            variant='slate'
-            id='generate-code'
-          >
-            {translations.generateButton}
-          </Button>
-        </div>
-        <div className={`pass-phrase-wrapper fade-in`}>
-          <DeterministicPassPhrase
-            isBlurred={isButtonVisible}
-            onCompletion={onCompletion}
-            wordArray={wordArray}
+  switch (step) {
+    case 1:
+      return (
+        <div className='content-container'>
+          <TextInput
+            label={translations.walletNickname}
+            placeholder={translations.walletPlaceholder}
+            value={nickname}
+            onChange={onNicknameChange}
           />
+          <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
+          <div className='generate-code-wrapper'>
+            <div className={`button-box ${isButtonVisible ? '' : 'fade-out hide'}`}>
+              <Button
+                onClick={fadeButtonOut}
+                variant='slate'
+                id='generate-code'
+              >
+                {translations.generateButton}
+              </Button>
+            </div>
+            <div className={`pass-phrase-wrapper fade-in`}>
+              <DeterministicPassPhrase
+                isBlurred={isButtonVisible}
+                onCompletion={onCompletion}
+                wordArray={wordArray}
+              />
+            </div>
+          </div>
+          <p className='keep-secret-text'>{translations.keepSecret}</p>
+          <div className='multi-address-prompt'>
+            <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
+            <ToggleSwitch
+              id='multi-address-btn'
+              onClick={()=> {
+                setIsMultiAddress(!isMultiAddress);
+              }}
+            />
+          </div>
         </div>
-      </div>
-      <p className='keep-secret-text'>{translations.keepSecret}</p>
-      <div className='multi-address-prompt'>
-        <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
-        <ToggleSwitch
-          id='multi-address-btn'
-          onClick={()=> {
-            setIsMultiAddress(!isMultiAddress);
-          }}
-        />
-      </div>
-    </div>
-  );
+      );
+    case 2:
+      return (
+        <div className='content-container'>
+          <div>{'Step 2'}</div>
+        </div>
+      );
+    default:
+      return (
+        <div>{'So much nothing'}</div>
+      );
+  }
 };
 
 WalletSidepanelContent.propTypes = {
@@ -110,12 +124,13 @@ const WalletSidepanelView = ({
   onClose,
   translations,
 }) => {
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [walletData, setWalletData] = useState({
+  const initialSate = {
     currentStep: 1,
     multiAddress: null,
     nickname: '',
-  });
+  };
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [walletData, setWalletData] = useState(initialSate);
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
   };
@@ -129,6 +144,10 @@ const WalletSidepanelView = ({
       ...newData,
     });
   };
+
+  useEffect(() => {
+    setWalletData(initialSate);
+  }, [isOpen]);
 
 
   return (
@@ -151,6 +170,7 @@ const WalletSidepanelView = ({
         toggleDisabledButton={toggleDisabledButton}
         handleDataChange={handleDataChange}
         createNewWallet={createNewWallet}
+        step={walletData.currentStep}
       />
     </Overlay>
   );

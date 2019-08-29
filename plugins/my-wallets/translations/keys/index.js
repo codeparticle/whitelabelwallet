@@ -32,7 +32,7 @@ export const MY_WALLETS = defineMessages({
   NEW_WALLET_SUB_TITLE: {
     id: 'plugin.my_wallets.new_wallet_sub_title',
     description: 'new wallet sub title',
-    defaultMessage: `Step 1 of 3`,
+    defaultMessage: `Step {currentStep} of 3`,
   },
   MULTI_ADDRESS_LABEL: {
     id: 'plugin.my_wallets.multi_address_label',
