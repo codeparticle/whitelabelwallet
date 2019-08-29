@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import {
@@ -9,6 +10,8 @@ import {
   ToggleSwitch,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { createNewWallet } from 'plugins/my-wallets/rdx/actions';
+import { getNewWallet } from 'plugins/my-wallets/rdx/selectors';
 
 
 import './sidepanel.scss';
@@ -16,10 +19,10 @@ import './sidepanel.scss';
 const { SvgWallet } = svgs.icons;
 
 const SidepanelContent = ({
-  translations,
-  showButton,
+  handleDataChange,
   isOpen,
-  isShuffled,
+  showButton,
+  translations,
   toggleDisabledButton,
 }) => {
   const [nickname, setNickname] = useState('');
@@ -41,6 +44,17 @@ const SidepanelContent = ({
   useEffect(() => {
     toggleDisabledButton(isButtonVisible);
   }, [isButtonVisible]);
+
+  useEffect(() => {
+    toggleDisabledButton(isButtonVisible);
+  }, [isButtonVisible]);
+
+  useEffect(() => {
+    handleDataChange({
+      multiAddress: isMultiAddress,
+      nickname,
+    });
+  }, [nickname, isMultiAddress]);
 
   const generateArray = () => {
     const arr = [];
@@ -78,7 +92,6 @@ const SidepanelContent = ({
             <div className={`pass-phrase-wrapper fade-in`}>
               <DeterministicPassPhrase
                 isBlurred={isButtonVisible}
-                isShuffled={isShuffled}
                 onCompletion={onCompletion}
                 wordArray={wordArray}
               />
@@ -103,21 +116,40 @@ const SidepanelContent = ({
 
 
 const SidepanelView = ({
+  createNewWallet,
   isOpen,
   onClose,
   showButton,
   translations,
-  isShuffled,
 }) => {
   const [isDisabled, setIsDisabled] = useState(true);
+  const [walletData, setWalletData] = useState({
+    currentStep: 1,
+    multiAddress: null,
+    nickname: '',
+  });
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
   };
+  const handleSubmit = (newWalletData) => {
+    createNewWallet(newWalletData);
+  };
+
+  const handleDataChange = (newData) => {
+    setWalletData({
+      ...walletData,
+      ...newData,
+    });
+  };
+
 
   return (
     <Overlay
       onClose={onClose}
       isOpen={isOpen}
+      onClick={() => {
+        handleSubmit(walletData);
+      }}
       hasCancelButton={false}
       type={'sidepanel'}
       disableFooterButton={isDisabled}
@@ -127,11 +159,11 @@ const SidepanelView = ({
     >
       <SidepanelContent
         translations={translations}
-        isShuffled={isShuffled}
         showButton={showButton}
         isOpen={isOpen}
         toggleDisabledButton={toggleDisabledButton}
-
+        handleDataChange={handleDataChange}
+        createNewWallet={createNewWallet}
       />
     </Overlay>
   );
@@ -141,8 +173,21 @@ SidepanelView.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   translations: PropTypes.object.isRequired,
+  createNewWallet: PropTypes.func.isRequired,
 };
 
-const Sidepanel = injectIntl(SidepanelView);
+const mapDispatchToProps = {
+  createNewWallet,
+};
+
+const mapSateToProps =  (state) => {
+  const newWallet = getNewWallet(state);
+
+  return {
+    newWallet,
+  };
+};
+
+const Sidepanel = connect(mapSateToProps, mapDispatchToProps) (injectIntl(SidepanelView));
 
 export { Sidepanel };
