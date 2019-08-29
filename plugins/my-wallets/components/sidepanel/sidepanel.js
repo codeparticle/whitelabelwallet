@@ -12,8 +12,6 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { createNewWallet } from 'plugins/my-wallets/rdx/actions';
 import { getNewWallet } from 'plugins/my-wallets/rdx/selectors';
-
-
 import './sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
@@ -21,9 +19,9 @@ const { SvgWallet } = svgs.icons;
 const SidepanelContent = ({
   handleDataChange,
   isOpen,
-  showButton,
   translations,
   toggleDisabledButton,
+  showButton,
 }) => {
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
@@ -69,46 +67,42 @@ const SidepanelContent = ({
   const onCompletion = () => console.log('completed');
 
   return (
-    <div className='wrapper'>
-      <div className='content-background'>
-        <div className='content-container'>
-          <TextInput
-            label={translations.walletNickname}
-            placeholder={translations.walletPlaceholder}
-            value={nickname}
-            onChange={onNicknameChange}
-          />
-          <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
-          <div className='generate-code-wrapper'>
-            <div className={`button-box ${isButtonVisible ? '' : 'fade-out hide'}`}>
-              <Button
-                onClick={fadeButtonOut}
-                variant='slate'
-                id='generate-code'
-              >
-                {translations.generateButton}
-              </Button>
-            </div>
-            <div className={`pass-phrase-wrapper fade-in`}>
-              <DeterministicPassPhrase
-                isBlurred={isButtonVisible}
-                onCompletion={onCompletion}
-                wordArray={wordArray}
-              />
-            </div>
-          </div>
-          <p className='keep-secret-text'>{translations.keepSecret}</p>
-          <div className='multi-address-prompt'>
-            <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
-            <ToggleSwitch
-              id='multi-address-btn'
-              onClick={()=> {
-                setIsMultiAddress(!isMultiAddress)
-                ;
-              }}
-            />
-          </div>
+    <div className='content-container'>
+      <TextInput
+        label={translations.walletNickname}
+        placeholder={translations.walletPlaceholder}
+        value={nickname}
+        onChange={onNicknameChange}
+      />
+      <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
+      <div className='generate-code-wrapper'>
+        <div className={`button-box ${isButtonVisible ? '' : 'fade-out hide'}`}>
+          <Button
+            onClick={fadeButtonOut}
+            variant='slate'
+            id='generate-code'
+          >
+            {translations.generateButton}
+          </Button>
         </div>
+        <div className={`pass-phrase-wrapper fade-in`}>
+          <DeterministicPassPhrase
+            isBlurred={isButtonVisible}
+            onCompletion={onCompletion}
+            wordArray={wordArray}
+          />
+        </div>
+      </div>
+      <p className='keep-secret-text'>{translations.keepSecret}</p>
+      <div className='multi-address-prompt'>
+        <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
+        <ToggleSwitch
+          id='multi-address-btn'
+          onClick={()=> {
+            setIsMultiAddress(!isMultiAddress)
+            ;
+          }}
+        />
       </div>
     </div>
   );
@@ -132,6 +126,7 @@ const SidepanelView = ({
     setIsDisabled(isButtonVisible);
   };
   const handleSubmit = (newWalletData) => {
+    setWalletData({ ...walletData, currentStep: 2 });
     createNewWallet(newWalletData);
   };
 
