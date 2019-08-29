@@ -1,10 +1,12 @@
+import { EncryptionManager } from '../encryption-manager';
+
 export class FileManager {
   constructor(storage) {
     this.storage = storage;
   }
 
   getKeyName(username, password) {
-    return `whitelabelwallet:${username}:${password}`;
+    return EncryptionManager.encryptString(`whitelabelwallet:${username}:${password}`);
   }
 
   savePrivateKey(privateKey) {

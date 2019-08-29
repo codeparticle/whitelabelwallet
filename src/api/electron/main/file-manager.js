@@ -46,7 +46,9 @@ export class FileManager {
 
   // retrieve full file name extended from wallets path
   getFullFileName(filename) {
-    return this.getWalletPath() + filename + '.awd';
+    const encryptedFilename = EncryptionManager.encryptString(filename);
+
+    return this.getWalletPath() + encryptedFilename + '.awd';
   }
 
   // checks if the file given exists already

@@ -18691,6 +18691,11 @@ sql.js@0.4.0:
   resolved "https://registry.npmjs.org/sql.js/-/sql.js-0.4.0.tgz#23be9635520eb0ff43a741e7e830397266e88445"
   integrity sha1-I76WNVIOsP9Dp0Hn6DA5cmbohEU=
 
+sqlstring-sqlite@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/sqlstring-sqlite/-/sqlstring-sqlite-0.1.1.tgz#c8c61810663f2e59a6b0d737b70a8752bda3a078"
+  integrity sha1-yMYYEGY/LlmmsNc3twqHUr2joHg=
+
 sshpk@^1.7.0:
   version "1.16.1"
   resolved "https://registry.npmjs.org/sshpk/-/sshpk-1.16.1.tgz#fb661c0bef29b39db40769ee39fa70093d6f6877"
