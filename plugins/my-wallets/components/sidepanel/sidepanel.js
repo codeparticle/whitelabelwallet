@@ -101,8 +101,7 @@ const SidepanelContent = ({
         <ToggleSwitch
           id='multi-address-btn'
           onClick={()=> {
-            setIsMultiAddress(!isMultiAddress)
-            ;
+            setIsMultiAddress(!isMultiAddress);
           }}
         />
       </div>
