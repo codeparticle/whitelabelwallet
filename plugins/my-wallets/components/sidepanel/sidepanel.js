@@ -126,9 +126,8 @@ const SidepanelView = ({
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
   };
-  const handleSubmit = (newWalletData) => {
+  const handleSubmit = () => {
     setWalletData({ ...walletData, currentStep: 2 });
-    createNewWallet(newWalletData);
   };
 
   const handleDataChange = (newData) => {
