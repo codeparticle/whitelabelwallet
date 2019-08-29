@@ -1,8 +1,11 @@
 import React,  { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { HeaderButton, Page } from 'components';
+import { clearData } from 'plugins/my-wallets/rdx/actions';
 import { empty } from 'lib/utils';
 
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
@@ -26,12 +29,14 @@ const MyWallets = ({
   intl: {
     formatMessage,
   },
+  clearData,
 }) => {
   // Load wallets from local DB
   const wallets = [];
   const isOpen = false;
   const onClose = ()=> {
     setIsOpenValue(false);
+    clearData();
   };
   const [isOpenValue, setIsOpenValue] = useState(isOpen);
   const AddWallet = () => (
@@ -72,8 +77,13 @@ const MyWallets = ({
 
 MyWallets.propTypes = {
   intl: intlShape.isRequired,
+  clearData: PropTypes.func.isRequired,
 };
 
-const MyWalletsPage = injectIntl(MyWallets);
+const mapDispatchToProps = {
+  clearData,
+};
+
+const MyWalletsPage = connect(null, mapDispatchToProps)(injectIntl(MyWallets));
 
 export { MyWalletsPage };

@@ -11,6 +11,9 @@ export function newWalletReducer(state = initialSate, action) {
     case types.NEW_WALLET: {
       return { ...state, ...action.payload };
     }
+    case types.CLEAR: {
+      return { ...initialSate };
+    }
     default:
       return state;
   }
