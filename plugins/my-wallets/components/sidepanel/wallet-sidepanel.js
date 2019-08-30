@@ -12,6 +12,7 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { createNewWallet } from 'plugins/my-wallets/rdx/actions';
 import { getNewWallet } from 'plugins/my-wallets/rdx/selectors';
+import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
@@ -51,16 +52,7 @@ const WalletSidepanelContent = ({
     });
   }, [nickname, isMultiAddress]);
 
-  const generateArray = () => {
-    const arr = [];
-    for (let i = 0; i < 24; i += 1) {
-      arr.push(`Word: ${i + 1}`);
-    }
-
-    return arr;
-  };
-
-  const wordArray = generateArray();
+  const wordArray =  BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
   const onCompletion = () => console.log('completed');
 
   return (
