@@ -1,0 +1,28 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$text-area-height: 150px;
+
+.contact-sidepanel {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $space-4;
+  width: 100%;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &__text-input {
+    margin: $space-2 0;
+    width: 100%;
+  }
+
+  &__text-area {
+    height: $text-area-height;
+    margin: $space-2 0;
+    width: 100%;
+  }
+}

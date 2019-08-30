@@ -33,14 +33,14 @@ export function AuthButtons({
   return (
     <div className="auth-page-buttons">
       <Button
-        data-selector={auth.selectors.btnPrimary.raw}
+        dataSelector={auth.selectors.btnPrimary.raw}
         onClick={onSubmit}
         variant="primary"
       >
         {messages.btnPrimary}
       </Button>
       <Button
-        data-selector={auth.selectors.btnSecondary.raw}
+        dataSelector={auth.selectors.btnSecondary.raw}
         onClick={handleSecondaryClick}
         variant="tertiary"
       >

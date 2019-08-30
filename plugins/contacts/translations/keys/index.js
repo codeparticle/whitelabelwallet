@@ -46,4 +46,19 @@ export const CONTACTS = defineMessages({
     description: 'Create Contact text',
     defaultMessage: 'Create Contact',
   },
+  EDIT_CONTACT: {
+    id: 'plugin.contacts.edit_contact',
+    description: 'Edit contact text',
+    defaultMessage: 'Edit Contact',
+  },
+  DELETE_CONTACT: {
+    id: 'plugin.contacts.delete_contact',
+    description: 'Delete contact text',
+    defaultMessage: 'Delete Contact',
+  },
+  SAVE_CHANGES: {
+    id: 'plugin.contacts.save_changes',
+    description: 'Save changes text',
+    defaultMessage: 'Save Changes',
+  },
 });
