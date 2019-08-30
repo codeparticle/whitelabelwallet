@@ -1,17 +1,22 @@
+@import 'src/styles/index.scss';
+
+$generate-code-wrapper-height: 180px;
+$button-box-height: 170px;
+$button-height: 40px;
+
 .content-container {
   height: 100%;
-  overflow-x: hidden;
-  padding: 25px;
+  padding: $space-6;
   width: 100%;
 
   .generate-label {
     display: inline-block;
-    margin-top: 7%;
+    margin-top: $space-8;
   }
 
   .generate-code-wrapper {
-    border-radius: 6px;
-    min-height: 180px;
+    border-radius: $border-radius-3;
+    min-height: $generate-code-wrapper-height;
     position: relative;
   }
 
@@ -19,13 +24,13 @@
     align-items: center;
     background: #F4FAFC;
     display: flex;
-    height: 170px;
+    height: $button-box-height;
     justify-content: center;
     position: absolute;
     width: 100%;
 
     button {
-      height: 40px;
+      height: $button-height;
       z-index: 10;
     }
   }
@@ -42,8 +47,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 18%;
-    margin-top: 4%;
+    margin-top: $space-5;
   }
 
   .fade-out {

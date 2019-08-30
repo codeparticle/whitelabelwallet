@@ -1,1 +1,1 @@
-export { Sidepanel } from './sidepanel';
+export { WalletSidepanel } from './wallet-sidepanel';
