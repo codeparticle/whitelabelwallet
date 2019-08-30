@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import {
   Button,
   DeterministicPassPhrase,
@@ -13,6 +13,7 @@ import {
 import { createNewWallet } from 'plugins/my-wallets/rdx/actions';
 import { getNewWallet } from 'plugins/my-wallets/rdx/selectors';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
+import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
@@ -20,13 +21,22 @@ const { SvgWallet } = svgs.icons;
 const WalletSidepanelContent = ({
   handleDataChange,
   isOpen,
+  isShuffled,
   translations,
   toggleDisabledButton,
   step,
 }) => {
+  const generateDefaultWords = () => {
+    const arr = [];
+    for (let i = 0; i < 24; i += 1) {
+      arr.push('...');
+    }
+    return arr;
+  };
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const [wordArray, setWordArray] = useState(generateDefaultWords());
   const onNicknameChange = e => setNickname(e.target.value);
   const fadeButtonOut = () => {
     setIsButtonVisible(false);
@@ -44,6 +54,9 @@ const WalletSidepanelContent = ({
 
   useEffect(() => {
     toggleDisabledButton(isButtonVisible);
+    if (!isButtonVisible) {
+      setWordArray(BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase()));
+    }
   }, [isButtonVisible]);
 
   useEffect(() => {
@@ -53,7 +66,6 @@ const WalletSidepanelContent = ({
     });
   }, [nickname, isMultiAddress]);
 
-  const wordArray =  BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
   const onCompletion = () => console.log('completed');
 
   switch (step) {
@@ -80,6 +92,7 @@ const WalletSidepanelContent = ({
             <div className={`pass-phrase-wrapper fade-in`}>
               <DeterministicPassPhrase
                 isBlurred={isButtonVisible}
+                isShuffled={isShuffled}
                 onCompletion={onCompletion}
                 wordArray={wordArray}
               />
@@ -100,7 +113,16 @@ const WalletSidepanelContent = ({
     case 2:
       return (
         <div className='content-container'>
-          <div>{'Step 2'}</div>
+          <label htmlFor='generate-code'>{translations.recoveryCode}</label>
+          <div className='generate-code-wrapper'>
+            <div className={`pass-phrase-wrapper`}>
+              <DeterministicPassPhrase
+                isBlurred={isButtonVisible}
+                onCompletion={onCompletion}
+                wordArray={wordArray}
+              />
+            </div>
+          </div>
         </div>
       );
     default:
@@ -121,6 +143,9 @@ WalletSidepanelContent.propTypes = {
 const WalletSidepanelView = ({
   createNewWallet,
   isOpen,
+  intl: {
+    formatMessage,
+  },
   onClose,
   translations,
 }) => {
@@ -130,6 +155,7 @@ const WalletSidepanelView = ({
     nickname: '',
   };
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isShuffled, setIsShuffled] = useState(false);
   const [walletData, setWalletData] = useState(initialSate);
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
@@ -149,6 +175,12 @@ const WalletSidepanelView = ({
     setWalletData(initialSate);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (walletData.currentStep === 2) {
+      setIsShuffled(true);
+    }
+  }, [walletData]);
+
 
   return (
     <Overlay
@@ -161,12 +193,13 @@ const WalletSidepanelView = ({
       type={'sidepanel'}
       disableFooterButton={isDisabled}
       title={translations.newWalletTitle}
-      subTitle={translations.newWalletSubTitle}
+      subTitle={formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE, { currentStep: walletData.currentStep || 1 })}
       Icon={SvgWallet}
     >
       <WalletSidepanelContent
         translations={translations}
         isOpen={isOpen}
+        isShuffled={isShuffled}
         toggleDisabledButton={toggleDisabledButton}
         handleDataChange={handleDataChange}
         createNewWallet={createNewWallet}
@@ -177,6 +210,7 @@ const WalletSidepanelView = ({
 };
 
 WalletSidepanelView.propTypes = {
+  intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   translations: PropTypes.object.isRequired,
