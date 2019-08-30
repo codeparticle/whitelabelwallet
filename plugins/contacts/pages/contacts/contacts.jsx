@@ -8,39 +8,36 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
+import { VARIANTS } from 'lib/constants';
 import { useManager } from 'lib/hooks';
-import { empty } from 'lib/utils';
 import { Page } from 'components';
 
 import { CONTACTS } from 'plugins/contacts/translations/keys';
-import { AddContact, ContactList, SearchContacts } from 'plugins/contacts/components';
+import { ContactSidepanel, ContactList, SearchContacts } from 'plugins/contacts/components';
 import { setContacts } from 'plugins/contacts/rdx/actions';
+import { fetchContacts } from 'plugins/contacts/helpers';
 import { getContacts } from 'plugins/contacts/rdx/selectors';
 
+const { ADD } = VARIANTS;
 const { SvgAdd } = svgs.icons;
 
-async function fetchContacts(manager, setFn) {
-  const res = await manager.databaseManager.getContacts();
-  setFn(res);
-}
-
-function AddContactIcon({
-  collapsed,
-  iconProps,
-}) {
-  return (
-    <Visible when={collapsed}>
-      <IconButton onClick={empty} icon={<SvgAdd {...iconProps} />} />
-    </Visible>
-  );
-}
+/**
+ * Initial Contact Object shape
+ */
+const initialSelectedContact = {
+  name: '',
+  address: '',
+  description: '',
+};
 
 const ContactsPageView = ({
   contacts,
   intl,
   ...props
 }) => {
-  const [isAddPanelOpen, setIsAddPanelOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [panelType, setPanelType] = useState(ADD);
+  const [selectedContact, setSelectedContact] = useState(initialSelectedContact);
   const { formatMessage } = intl;
   const manager = useManager();
 
@@ -48,13 +45,47 @@ const ContactsPageView = ({
     fetchContacts(manager, props.setContacts);
   }, [props.setContacts]);
 
+  /**
+   * Function sets sidepanel data, and then opens the sidepanel
+   * @param {string} type - add || edit
+   * @param {Object} contact - required for type edit
+   */
+  function openPanel(type, contact = initialSelectedContact) {
+    setSelectedContact(contact);
+    setPanelType(type);
+    setIsPanelOpen(true);
+  }
+
+  const onAdd = () => openPanel(ADD);
+
+  /**
+   * Button that triggers the Add Contact sidepanel
+   * Only visible when PageHeader isn't collapsed
+   */
   function AddContactButton() {
     return (
       <HeaderButton
         Icon={SvgAdd}
         label={formatMessage(CONTACTS.ADD_CONTACT)}
-        onClick={() => setIsAddPanelOpen(true)}
+        onClick={onAdd}
       />
+    );
+  }
+
+  /**
+ * IconButton that triggers the Add Contact sidepanel
+ * @returns {Node} AddContactIcon
+ * @param {boolean} collapsed - boolean received from PageHeader
+ * @param {Object} IconProps - height and width for icon, received from PageHeader
+ */
+  function AddContactIcon({
+    collapsed,
+    iconProps,
+  }) {
+    return (
+      <Visible when={collapsed}>
+        <IconButton onClick={onAdd} icon={<SvgAdd {...iconProps} />} />
+      </Visible>
     );
   }
 
@@ -72,13 +103,16 @@ const ContactsPageView = ({
       <ContactList
         contacts={contacts}
         formatMessage={formatMessage}
+        openPanel={openPanel}
         manager={manager}
       />
-      <AddContact
+      <ContactSidepanel
+        selectedContact={selectedContact}
         formatMessage={formatMessage}
-        isOpen={isAddPanelOpen}
+        isOpen={isPanelOpen}
         manager={manager}
-        setIsOpen={setIsAddPanelOpen}
+        panelType={panelType}
+        setIsOpen={setIsPanelOpen}
         setContacts={props.setContacts}
       />
     </Page>
