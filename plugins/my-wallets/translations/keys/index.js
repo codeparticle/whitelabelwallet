@@ -24,9 +24,9 @@ export const MY_WALLETS = defineMessages({
     You will not be able to do so without it. Make sure no one is looking before
     you generate a code.`,
   },
-  NEW_WALLET_TITLE: {
+  NEW_WALLET_TEXT: {
     id: 'plugin.my_wallets.new_wallet_title',
-    description: 'new wallet title',
+    description: 'new wallet text to used in various places',
     defaultMessage: `New Wallet`,
   },
   NEW_WALLET_SUB_TITLE: {
@@ -68,10 +68,5 @@ export const MY_WALLETS = defineMessages({
     id: 'plugin.my_wallets.wallet_nickname_label',
     description: 'Wallet Nickname label',
     defaultMessage: 'Wallet Nickname',
-  },
-  WALLET_PLACEHOLDER: {
-    id: 'plugin.my_wallets.wallet_placeholder',
-    description: 'New Wallet placeholder text',
-    defaultMessage: 'New Wallet',
   },
 });

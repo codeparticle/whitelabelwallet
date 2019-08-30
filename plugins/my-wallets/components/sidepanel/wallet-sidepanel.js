@@ -12,20 +12,19 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { createNewWallet } from 'plugins/my-wallets/rdx/actions';
 import { getNewWallet } from 'plugins/my-wallets/rdx/selectors';
-import './sidepanel.scss';
+import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
 
-const SidepanelContent = ({
+const WalletSidepanelContent = ({
   handleDataChange,
   isOpen,
   translations,
   toggleDisabledButton,
-  showButton,
 }) => {
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
-  const [isButtonVisible, setIsButtonVisible] = useState(showButton);
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
   const onNicknameChange = e => setNickname(e.target.value);
   const fadeButtonOut = () => {
     setIsButtonVisible(false);
@@ -40,10 +39,6 @@ const SidepanelContent = ({
       }
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    toggleDisabledButton(isButtonVisible);
-  }, [isButtonVisible]);
 
   useEffect(() => {
     toggleDisabledButton(isButtonVisible);
@@ -109,12 +104,18 @@ const SidepanelContent = ({
   );
 };
 
+WalletSidepanelContent.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  handleDataChange: PropTypes.func.isRequired,
+  translations: PropTypes.object.isRequired,
+  toggleDisabledButton: PropTypes.func.isRequired,
+};
 
-const SidepanelView = ({
+
+const WalletSidepanelView = ({
   createNewWallet,
   isOpen,
   onClose,
-  showButton,
   translations,
 }) => {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -152,9 +153,8 @@ const SidepanelView = ({
       subTitle={translations.newWalletSubTitle}
       Icon={SvgWallet}
     >
-      <SidepanelContent
+      <WalletSidepanelContent
         translations={translations}
-        showButton={showButton}
         isOpen={isOpen}
         toggleDisabledButton={toggleDisabledButton}
         handleDataChange={handleDataChange}
@@ -164,7 +164,7 @@ const SidepanelView = ({
   );
 };
 
-SidepanelView.propTypes = {
+WalletSidepanelView.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   translations: PropTypes.object.isRequired,
@@ -183,6 +183,6 @@ const mapSateToProps =  (state) => {
   };
 };
 
-const Sidepanel = connect(mapSateToProps, mapDispatchToProps) (injectIntl(SidepanelView));
+const WalletSidepanel = connect(mapSateToProps, mapDispatchToProps) (injectIntl(WalletSidepanelView));
 
-export { Sidepanel };
+export { WalletSidepanel };
