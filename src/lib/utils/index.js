@@ -10,7 +10,7 @@ import { getQueryString } from './get-query-string';
 import { getUrlParameterByName } from './get-url-parameter-by-name';
 import { isRequestAllowed } from './is-request-allowed';
 import { regexToString } from './regex-to-string';
-import { safeString } from './strings';
+import { safeString, unescape } from './strings';
 
 export {
   arrayToRegex,
@@ -26,4 +26,5 @@ export {
   isRequestAllowed,
   regexToString,
   safeString,
+  unescape,
 };

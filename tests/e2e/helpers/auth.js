@@ -5,7 +5,6 @@
 import {
   auth,
   common,
-  main,
   routes,
 } from 'e2e/constants';
 
@@ -44,7 +43,5 @@ export const login = (async (page) => {
  * @param {Class} page - puppeteer page class
  */
 export const logout = (async (page) => {
-  await page.waitForSelector(main.selectors.logout.attr);
-  await page.click(main.selectors.logout.attr);
-  await page.waitForSelector(auth.selectors.page.attr);
+  await page.goto(routes.login);
 });

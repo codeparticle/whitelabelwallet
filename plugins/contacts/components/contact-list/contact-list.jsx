@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Contact } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
-import { empty } from 'lib/utils';
+import { empty, unescape } from 'lib/utils';
 
 import { CONTACTS } from 'plugins/contacts/translations/keys';
 import { contacts as e2e } from 'e2e/constants';
@@ -30,10 +30,17 @@ function ContactList({
   }, [contacts]);
 
   return (
-    <div className="contact-list">
+    <div className="contact-list" data-selector={e2e.selectors.contactList.raw}>
       {contactList.map((contact, index) => {
-        const { address, name } = contact;
-        const onEdit = () => openPanel(EDIT, contact);
+        const { address, description, name } = contact;
+        const onEdit = () => {
+          const rawContact = {
+            ...contact,
+            description: unescape(description),
+          };
+
+          openPanel(EDIT, rawContact);
+        };
 
         return (
           <Contact
