@@ -9,7 +9,6 @@ import navBarSelectors from 'rdx/modules/nav-bar/selectors';
 import pluginsSelectors from 'rdx/modules/plugins/selectors';
 import selectedSelectors from 'rdx/modules/selected/selectors';
 import transactionsSelectors from 'rdx/modules/transactions/selectors';
-import walletsSelectors from 'rdx/modules/wallets/selectors';
 // IMPORT_PT (for script -- do not remove!)
 
 const selectors = {
@@ -24,7 +23,6 @@ const selectors = {
   ...pluginsSelectors,
   ...selectedSelectors,
   ...transactionsSelectors,
-  ...walletsSelectors,
 // INSERTION_PT (for script -- do not remove!)
 };
 

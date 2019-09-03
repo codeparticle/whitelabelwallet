@@ -923,12 +923,13 @@
   dependencies:
     "@types/react" "^16.8.15"
 
-"@codeparticle/whitelabelwallet.styleguide@^0.3.10":
-  version "0.3.10"
-  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.3.10.tgz#acec33852d43c22c8bb8514869d45f56f4407aa5"
-  integrity sha1-rOwzhS1DwiyLuFFIadRfVvRAeqU=
+"@codeparticle/whitelabelwallet.styleguide@^0.3.12":
+  version "0.3.12"
+  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.3.12.tgz#17e0cba470628778ae5ecb2b92018018af8f8cff"
+  integrity sha1-F+DLpHBih3iuXssrkgGAGK+PjP8=
   dependencies:
     "@codeparticle/react-sidenav" "^0.3.2"
+    "@codeparticle/react-visible" "^1.2.2"
     "@sambego/storybook-state" "1.3.4"
     "@storybook/addon-actions" "5.1.3"
     "@storybook/addon-backgrounds" "5.1.3"
@@ -1807,6 +1808,11 @@
   version "10.12.18"
   resolved "https://registry.npmjs.org/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
+
+"@types/node@11.11.6":
+  version "11.11.6"
+  resolved "https://registry.npmjs.org/@types/node/-/node-11.11.6.tgz#df929d1bb2eee5afdda598a41930fe50b43eaa6a"
+  integrity sha512-Exw4yUWMBXM3X+8oqzJNRqZSwUAaS4+7NdvHqQuFi/d+synz++xmX3QIf+BFqneW8N31R8Ky+sikfZUXq07ggQ==
 
 "@types/node@^10.12.18":
   version "10.14.16"
@@ -4524,6 +4530,16 @@ bip32@^2.0.4:
     tiny-secp256k1 "^1.1.0"
     typeforce "^1.11.5"
     wif "^2.0.6"
+
+bip39@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/bip39/-/bip39-3.0.2.tgz#2baf42ff3071fc9ddd5103de92e8f80d9257ee32"
+  integrity sha512-J4E1r2N0tUylTKt07ibXvhpT2c5pyAFgvuA5q1H9uDy6dEGpjV8jmymh3MTYJDLCNbIVClSB9FbND49I6N24MQ==
+  dependencies:
+    "@types/node" "11.11.6"
+    create-hash "^1.1.0"
+    pbkdf2 "^3.0.9"
+    randombytes "^2.0.1"
 
 bip66@^1.1.0:
   version "1.1.5"
@@ -14769,7 +14785,7 @@ pause-stream@0.0.11:
   dependencies:
     through "~2.3"
 
-pbkdf2@^3.0.3:
+pbkdf2@^3.0.3, pbkdf2@^3.0.9:
   version "3.0.17"
   resolved "https://registry.npmjs.org/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
   integrity sha512-U/il5MsrZp7mGg3mSQfn742na2T+1/vHDCG5/iTI3X9MKUuYUZVLQhyRsg06mCgDBTd57TxzgZt7P+fYfjRLtA==
