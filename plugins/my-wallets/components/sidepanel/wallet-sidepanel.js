@@ -48,6 +48,7 @@ const WalletSidepanelContent = ({
         setIsButtonVisible(true);
         setIsMultiAddress(false);
         setNickname('');
+        setWordArray(generateDefaultWords());
       }
     };
   }, [isOpen]);
@@ -70,21 +71,22 @@ const WalletSidepanelContent = ({
 
   switch (step) {
     case 1:
+      console.log('========\n', 'wordArray', wordArray, '\n========');
       return (
-        <div className='content-container'>
+        <div className="content-container">
           <TextInput
             label={translations.walletNickname}
             placeholder={translations.walletPlaceholder}
             value={nickname}
             onChange={onNicknameChange}
           />
-          <label className='generate-label' htmlFor='generate-code'>{translations.recoveryCode}</label>
-          <div className='generate-code-wrapper'>
+          <label className="generate-label" htmlFor="generate-code">{translations.recoveryCode}</label>
+          <div className="generate-code-wrapper">
             <div className={`button-box ${isButtonVisible ? '' : 'fade-out hide'}`}>
               <Button
                 onClick={fadeButtonOut}
-                variant='slate'
-                id='generate-code'
+                variant="slate"
+                id="generate-code"
               >
                 {translations.generateButton}
               </Button>
@@ -98,11 +100,11 @@ const WalletSidepanelContent = ({
               />
             </div>
           </div>
-          <p className='keep-secret-text'>{translations.keepSecret}</p>
-          <div className='multi-address-prompt'>
-            <label htmlFor='multi-address-btn' className='multi-address-text'>{translations.multiAddressLabel}</label>
+          <p className="small-grey-text">{translations.keepSecret}</p>
+          <div className="multi-address-prompt">
+            <label htmlFor="multi-address-btn" className="multi-address-text">{translations.multiAddressLabel}</label>
             <ToggleSwitch
-              id='multi-address-btn'
+              id="multi-address-btn"
               onClick={()=> {
                 setIsMultiAddress(!isMultiAddress);
               }}
@@ -111,18 +113,21 @@ const WalletSidepanelContent = ({
         </div>
       );
     case 2:
+      console.log('========\n', 'wordArray step 2', wordArray, '\n========');
       return (
-        <div className='content-container'>
-          <label htmlFor='generate-code'>{translations.recoveryCode}</label>
-          <div className='generate-code-wrapper'>
+        <div className="content-container">
+          <label htmlFor="generate-code">{translations.confirmRecoveryLabel}</label>
+          <div className="generate-code-wrapper">
             <div className={`pass-phrase-wrapper`}>
               <DeterministicPassPhrase
                 isBlurred={isButtonVisible}
                 onCompletion={onCompletion}
+                isShuffled={isShuffled}
                 wordArray={wordArray}
               />
             </div>
           </div>
+          <p className="small-grey-text">{translations.confirmRecoveryPrompt}</p>
         </div>
       );
     default:
