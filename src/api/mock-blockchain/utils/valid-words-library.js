@@ -15,7 +15,7 @@ import { wordlists as englishWordlists } from 'bip39';
  */
 
 const wordlists = englishWordlists;
-
+// TODO:  change the word list based on the language settings.
 // add additional language here:
 // example: wordlists.german = [word list array];
 
