@@ -1,0 +1,4 @@
+export default {
+  NEW_WALLET: 'WALLETS/NEW_WALLET',
+  CLEAR: 'WALLETS/CLEAR_WALLET_DATA',
+};

@@ -4,7 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, AuthCheckbox } from '@codeparticle/whitelabelwallet.styleguide';
+import { TextInput, LabeledCheckbox } from '@codeparticle/whitelabelwallet.styleguide';
 import { space2, space4 } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
 import { AUTH_CONSTANTS } from 'lib/constants';
 import { auth } from 'e2e/constants';
@@ -70,7 +70,7 @@ export function AuthForm({
             className="checkbox-container"
             data-selector={auth.selectors.tos.raw}
           >
-            <AuthCheckbox
+            <LabeledCheckbox
               checked={accepted}
               label={messages.tos}
               onChange={setAccepted}

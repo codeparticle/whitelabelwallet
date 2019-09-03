@@ -7,7 +7,6 @@ import pluginsTypes from 'rdx/modules/plugins/types';
 import routerTypes from 'rdx/modules/router/types';
 import selectedTypes from 'rdx/modules/selected/types';
 import transactionsTypes from 'rdx/modules/transactions/types';
-import walletsTypes from 'rdx/modules/wallets/types';
 // IMPORT_PT (for script -- do not remove!)
 
 const types = {
@@ -20,7 +19,6 @@ const types = {
   ...routerTypes,
   ...selectedTypes,
   ...transactionsTypes,
-  ...walletsTypes,
 // INSERTION_PT (for script -- do not remove!)
 };
 

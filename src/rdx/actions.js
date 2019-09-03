@@ -8,7 +8,6 @@ import pluginsActions from 'rdx/modules/plugins/actions';
 import routerActions from 'rdx/modules/router/actions';
 import selectedActions from 'rdx/modules/selected/actions';
 import transactionsActions from 'rdx/modules/transactions/actions';
-import walletsActions from 'rdx/modules/wallets/actions';
 // IMPORT_PT (for script -- do not remove!)
 
 const actions = {
@@ -22,7 +21,6 @@ const actions = {
   ...routerActions,
   ...selectedActions,
   ...transactionsActions,
-  ...walletsActions,
 // INSERTION_PT (for script -- do not remove!)
 };
 

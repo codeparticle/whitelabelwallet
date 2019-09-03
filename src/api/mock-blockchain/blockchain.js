@@ -1,5 +1,7 @@
 import * as CryptoJS from 'crypto-js';
 import  _ from 'lodash';
+import * as bip39 from 'bip39';
+import wordlists from 'api/mock-blockchain/utils/valid-words-library';
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants';
 import { ApiBlockchainManager } from 'api/blockchain-manager';
@@ -38,6 +40,50 @@ class BlockchainManager extends ApiBlockchainManager {
   // Used to reset a "BlockchainManager.instance"
   static resetInstance() {
     this._instance = null;
+  }
+
+  /**
+   * Creates a bip39 mnemonic phrase that will be used
+   * when creating a new wallet.
+   */
+  static generateSecretPhrase() {
+    // see valid-words-library for list of available languages
+    let secretPhraseSet = new Set([]);
+    let secretPhrase = '';
+
+    while (secretPhraseSet.size !== 24) {
+      secretPhrase = bip39.generateMnemonic(256, null, wordlists.english);
+      secretPhraseSet = new Set(this.phraseToArray(secretPhrase));
+    }
+
+    return secretPhrase;
+  }
+
+  /**
+   * Converts an array to a bip39 mnemonic phrase
+   * @param {string} phrase
+   */
+  static arrayToPhrase(phrase) {
+    return phrase.join(' ');
+  }
+
+  /**
+   * Converts a bip39 mnemonic phrase to an array
+   * @param {string} phrase
+   */
+  static phraseToArray(phrase) {
+    const PhraseWithNoSpacesAround = phrase.replace(/\s*$|^\s+/g, '');
+    const PhraseWithNoBreakLines = PhraseWithNoSpacesAround.replace(/[\n\r]/g, '');
+    return PhraseWithNoBreakLines.split(' ').filter(word => word !== '');
+  }
+
+  /**
+   * Can be used to restore a wallet from a pass phrase
+   * @param {string} phrase
+   */
+  static phraseAuthenticated(phrase) {
+    const phraseArray = this.phraseToArray(phrase);
+    return phraseArray.length === 24;
   }
 
   /**

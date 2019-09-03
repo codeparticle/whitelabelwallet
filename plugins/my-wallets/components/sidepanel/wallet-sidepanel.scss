@@ -1,0 +1,76 @@
+@import 'src/styles/index.scss';
+
+$generate-code-wrapper-height: 180px;
+$button-box-height: 170px;
+$button-height: 40px;
+
+.content-container {
+  height: 100%;
+  padding: $space-6;
+  width: 100%;
+
+  .generate-label {
+    display: inline-block;
+    margin-top: $space-8;
+  }
+
+  .generate-code-wrapper {
+    border-radius: $border-radius-3;
+    min-height: $generate-code-wrapper-height;
+    position: relative;
+  }
+
+  .button-box {
+    align-items: center;
+    background: #F4FAFC;
+    display: flex;
+    height: $button-box-height;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+
+    button {
+      height: $button-height;
+      z-index: 10;
+    }
+  }
+
+  .keep-secret-text {
+    font-family: Lato;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 15px;
+  }
+
+  .multi-address-prompt {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: $space-5;
+  }
+
+  .fade-out {
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+    visibility: hidden;
+  }
+
+  .fade-in {
+    opacity: 1;
+    transition: visibility 1.5s, opacity 1.5s;
+    visibility: visible;
+  }
+
+  .pass-phrase-wrapper {
+    display: flex;
+    height: auto;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+  }
+
+  .hide {
+    visibility: hidden;
+  }
+}

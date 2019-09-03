@@ -1,12 +1,15 @@
-import React from 'react';
+import React,  { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { HeaderButton, Page } from 'components';
+import { clearWalletData } from 'plugins/my-wallets/rdx/actions';
 import { empty } from 'lib/utils';
 
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
-import { Wallets } from 'plugins/my-wallets/components';
+import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 
 const { SvgAdd } = svgs.icons;
 
@@ -26,16 +29,33 @@ const MyWallets = ({
   intl: {
     formatMessage,
   },
+  clearWalletData,
 }) => {
   // Load wallets from local DB
   const wallets = [];
+  const onClose = ()=> {
+    setIsOpenValue(false);
+    clearWalletData();
+  };
+  const [isOpenValue, setIsOpenValue] = useState(false);
   const AddWallet = () => (
     <HeaderButton
       label={formatMessage(MY_WALLETS.ADD_WALLET_BUTTON_LABEL)}
       Icon={SvgAdd}
-      onClick={empty}
+      onClick={() => setIsOpenValue(true)}
     />
   );
+  const sidepanelTranslations = {
+    generateButton: formatMessage(MY_WALLETS.GENERATE_CODE_BUTTON),
+    continueButton: formatMessage(MY_WALLETS.CONTINUE_BUTTON),
+    keepSecret: formatMessage(MY_WALLETS.KEEP_SECRET_TEXT),
+    multiAddressLabel: formatMessage(MY_WALLETS.MULTI_ADDRESS_LABEL),
+    newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
+    newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE),
+    recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_BUTTON),
+    walletNickname: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
+    walletPlaceholder: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
+  };
 
   return (
     <Page
@@ -46,14 +66,23 @@ const MyWallets = ({
       }}
     >
       <Wallets wallets={wallets} />
+      <WalletSidepanel
+        onClose={onClose}
+        translations={sidepanelTranslations}
+        isOpen={isOpenValue} />
     </Page>
   );
 };
 
 MyWallets.propTypes = {
   intl: intlShape.isRequired,
+  clearWalletData: PropTypes.func.isRequired,
 };
 
-const MyWalletsPage = injectIntl(MyWallets);
+const mapDispatchToProps = {
+  clearWalletData,
+};
+
+const MyWalletsPage = connect(null, mapDispatchToProps)(injectIntl(MyWallets));
 
 export { MyWalletsPage };

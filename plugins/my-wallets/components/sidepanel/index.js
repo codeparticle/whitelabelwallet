@@ -1,0 +1,1 @@
+export { WalletSidepanel } from './wallet-sidepanel';
