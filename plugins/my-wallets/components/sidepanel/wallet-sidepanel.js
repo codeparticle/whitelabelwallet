@@ -14,6 +14,7 @@ import { createNewWallet } from 'plugins/my-wallets/rdx/actions';
 import { getNewWallet } from 'plugins/my-wallets/rdx/selectors';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { DEFAULT_WORDS } from 'plugins/my-wallets/components/sidepanel/constants';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
@@ -22,21 +23,15 @@ const WalletSidepanelContent = ({
   handleDataChange,
   isOpen,
   isShuffled,
+  handleCodeConfirmation,
   translations,
   toggleDisabledButton,
   step,
 }) => {
-  const generateDefaultWords = () => {
-    const arr = [];
-    for (let i = 0; i < 24; i += 1) {
-      arr.push('...');
-    }
-    return arr;
-  };
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
-  const [wordArray, setWordArray] = useState(generateDefaultWords());
+  const [wordArray, setWordArray] = useState(DEFAULT_WORDS);
   const onNicknameChange = e => setNickname(e.target.value);
   const fadeButtonOut = () => {
     setIsButtonVisible(false);
@@ -48,7 +43,7 @@ const WalletSidepanelContent = ({
         setIsButtonVisible(true);
         setIsMultiAddress(false);
         setNickname('');
-        setWordArray(generateDefaultWords());
+        setWordArray(DEFAULT_WORDS);
       }
     };
   }, [isOpen]);
@@ -58,6 +53,7 @@ const WalletSidepanelContent = ({
     if (!isButtonVisible) {
       setWordArray(BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase()));
     }
+    console.log('========\n', 'isButtonVisible', isButtonVisible, '\n========');
   }, [isButtonVisible]);
 
   useEffect(() => {
@@ -67,11 +63,13 @@ const WalletSidepanelContent = ({
     });
   }, [nickname, isMultiAddress]);
 
-  const onCompletion = () => console.log('completed');
+  const onCompletion = () => {
+    handleCodeConfirmation();
+  };
 
   switch (step) {
     case 1:
-      console.log('========\n', 'wordArray', wordArray, '\n========');
+      console.log('========\n', 'isOpen', isOpen, '\n========');
       return (
         <div className="content-container">
           <TextInput
@@ -92,13 +90,15 @@ const WalletSidepanelContent = ({
               </Button>
             </div>
             <div className={`pass-phrase-wrapper fade-in`}>
+            </div>
+            {isOpen && (
               <DeterministicPassPhrase
                 isBlurred={isButtonVisible}
                 isShuffled={isShuffled}
                 onCompletion={onCompletion}
                 wordArray={wordArray}
               />
-            </div>
+            )}
           </div>
           <p className="small-grey-text">{translations.keepSecret}</p>
           <div className="multi-address-prompt">
@@ -113,7 +113,7 @@ const WalletSidepanelContent = ({
         </div>
       );
     case 2:
-      console.log('========\n', 'wordArray step 2', wordArray, '\n========');
+      console.log('========\n', 'wordArray', wordArray, '\n========');
       return (
         <div className="content-container">
           <label htmlFor="generate-code">{translations.confirmRecoveryLabel}</label>
@@ -130,6 +130,10 @@ const WalletSidepanelContent = ({
           <p className="small-grey-text">{translations.confirmRecoveryPrompt}</p>
         </div>
       );
+    case 3:
+      return (
+        <div>The Home Stretch</div>
+      );
     default:
       return (
         <div>{'So much nothing'}</div>
@@ -140,6 +144,7 @@ const WalletSidepanelContent = ({
 WalletSidepanelContent.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleDataChange: PropTypes.func.isRequired,
+  handleCodeConfirmation: PropTypes.func.isRequired,
   translations: PropTypes.object.isRequired,
   toggleDisabledButton: PropTypes.func.isRequired,
 };
@@ -162,11 +167,18 @@ const WalletSidepanelView = ({
   const [isDisabled, setIsDisabled] = useState(true);
   const [isShuffled, setIsShuffled] = useState(false);
   const [walletData, setWalletData] = useState(initialSate);
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
   };
   const handleSubmit = () => {
-    setWalletData({ ...walletData, currentStep: 2 });
+    if (walletData.currentStep ===  1) {
+      setWalletData({ ...walletData, currentStep: 2 });
+    } else if (isConfirmed && walletData.currentStep ===  2) {
+      setWalletData({ ...walletData, currentStep: 3 });
+    } else {
+      console.log('Wallet Creation Complete');
+    }
   };
 
   const handleDataChange = (newData) => {
@@ -176,8 +188,13 @@ const WalletSidepanelView = ({
     });
   };
 
+  const handleCodeConfirmation = () => {
+    setIsConfirmed(true);
+  };
+
   useEffect(() => {
     setWalletData(initialSate);
+    setIsConfirmed(false);
   }, [isOpen]);
 
   useEffect(() => {
@@ -206,6 +223,7 @@ const WalletSidepanelView = ({
         isOpen={isOpen}
         isShuffled={isShuffled}
         toggleDisabledButton={toggleDisabledButton}
+        handleCodeConfirmation={handleCodeConfirmation}
         handleDataChange={handleDataChange}
         createNewWallet={createNewWallet}
         step={walletData.currentStep}
