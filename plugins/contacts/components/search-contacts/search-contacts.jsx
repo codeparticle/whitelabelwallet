@@ -5,20 +5,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Search } from '@codeparticle/whitelabelwallet.styleguide';
+import { searchContactsByValue } from 'plugins/contacts/helpers';
 import { CONTACTS } from 'plugins/contacts/translations/keys';
-
-async function searchContactsByName(manager, setFn, value) {
-  const res = await manager.databaseManager.getContactsByValue(value);
-  setFn(res);
-}
 
 export function SearchContacts({
   formatMessage,
   manager,
   setContacts,
 }) {
-  function onSubmit(name) {
-    searchContactsByName(manager, setContacts, name);
+  function onSubmit(value) {
+    searchContactsByValue(manager, setContacts, value);
   }
 
   return (

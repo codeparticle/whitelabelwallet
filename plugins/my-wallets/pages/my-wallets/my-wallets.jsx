@@ -2,12 +2,12 @@ import React,  { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import { Icon, svgs } from '@codeparticle/whitelabelwallet.styleguide';
+import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
-import { HeaderButton, Page } from 'components';
-import { clearWalletData } from 'plugins/my-wallets/rdx/actions';
+import { Page } from 'components';
 import { empty } from 'lib/utils';
 
+import { clearWalletData } from 'plugins/my-wallets/rdx/actions';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 
@@ -17,7 +17,7 @@ import './my-wallets.scss';
 
 const AddWalletIcon = ({ collapsed, iconProps }) => (
   <Visible when={collapsed}>
-    <Icon onClick={empty} icon={<SvgAdd {...iconProps} />} />
+    <IconButton onClick={empty} icon={<SvgAdd {...iconProps} />} />
   </Visible>
 );
 
