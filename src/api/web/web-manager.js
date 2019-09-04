@@ -1,11 +1,13 @@
 // TODO: Update this manager and electron-render-manager
 // to extend a shared interface
-import { DatabaseManager, UpdateManager } from '../db';
-import { EncryptionManager } from '../encryption-manager';
+import { DatabaseManager, UpdateManager } from 'api/db';
+import { RenderManager } from 'api/render-manager';
+import { EncryptionManager } from 'api/encryption-manager';
 import { FileManager } from './file-manager';
 
-export class WebManager {
+export class WebManager extends RenderManager {
   constructor() {
+    super();
     this.storage = window.localStorage;
     this.fileManager = new FileManager(this.storage);
   }
@@ -17,16 +19,6 @@ export class WebManager {
   startDatabaseManager(dbFile) {
     DatabaseManager.file = dbFile;
     this.databaseManager = DatabaseManager.instance;
-  }
-
-  /**
-   * Sets the manager user
-   */
-  setUser(username, password) {
-    this.username = username;
-    this.password = password;
-
-    return this;
   }
 
   /**
