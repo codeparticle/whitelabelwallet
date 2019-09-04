@@ -16,6 +16,7 @@ import {
   ManagerContext,
 } from 'global-components';
 import { WebManager } from 'api/web';
+import './app.scss';
 
 const { SplashScreen } = Plugins;
 

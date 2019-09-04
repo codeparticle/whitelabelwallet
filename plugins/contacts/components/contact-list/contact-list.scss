@@ -1,4 +1,5 @@
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
 
 .contact-list {
   $min-card-width: 405px;
@@ -9,4 +10,9 @@
   grid-template-columns: repeat(auto-fit, minmax($min-card-width, 1fr));
   justify-items: center;
   margin-top: $space-4;
+
+  @include mquery($width-breakpoint-xs) {
+    grid-gap: $space-1;
+    grid-template-columns: 1fr;
+  }
 }
