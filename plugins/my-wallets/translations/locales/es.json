@@ -1,7 +1,17 @@
 {
   "plugin.my_wallets.add_wallet_button_label": "Agregar Billetera",
+  "plugin.my_wallets.confirm_recovery_code_label": "Confirmar código de recuperación",
+  "plugin.my_wallets.confirm_recovery_prompt": "Haga clic en las palabras de su código de recuperación en el orden correcto para confirmar",
+  "plugin.my_wallets.continue_button": "Continuar",
+  "plugin.my_wallets.generate_code_button": "Generar codigo",
+  "plugin.my_wallets.keep_secret_text": "*Asegúrese de escribir esto y mantenerlo seguro en caso de que necesite recuperar su billetera. No podrás hacerlo sin él. Asegúrese de que nadie esté mirando antes de generar un código.",
+  "plugin.my_wallets.multi_address_label": "¿Es esta una billetera de múltiples direcciones?",
   "plugin.my_wallets.nav_item": "Mis Billeteras",
+  "plugin.my_wallets.new_wallet_title": "Nueva billetera",
+  "plugin.my_wallets.new_wallet_sub_title": "Paso {currentStep} de 3",
   "plugin.my_wallets.page_header": "Mis Billeteras",
   "plugin.my_wallets.receive_button_label": "Recibir fondos",
-  "plugin.my_wallets.send_funds_button_label": "Enviar fondos"
+  "plugin.my_wallets.recovery_code_label": "Códigos de recuperación",
+  "plugin.my_wallets.send_funds_button_label": "Enviar fondos",
+  "plugin.my_wallets.wallet_nickname_label": "Apodo de billetera"
 }
