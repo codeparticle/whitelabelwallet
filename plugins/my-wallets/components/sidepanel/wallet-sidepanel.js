@@ -33,7 +33,6 @@ const WalletSidepanelContent = ({
   const [nickname, setNickname] = useState('');
   const [isMultiAddress, setIsMultiAddress] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
-
   const onNicknameChange = e => setNickname(e.target.value);
   const fadeButtonOut = () => {
     setIsButtonVisible(false);
