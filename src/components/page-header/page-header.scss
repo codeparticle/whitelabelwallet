@@ -1,4 +1,8 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
+
 .page-header {
+  width: 100%;
 
   h2 {
     // WLW typography sets unwanted margin on the title
@@ -7,5 +11,12 @@
 
   .page-header__icon {
     padding: 0;
+  }
+
+  @include mquery($width-breakpoint-xs) {
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
   }
 }
