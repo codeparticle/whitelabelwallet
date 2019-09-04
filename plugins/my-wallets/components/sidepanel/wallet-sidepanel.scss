@@ -72,6 +72,20 @@ $button-height: 40px;
     width: 100%;
   }
 
+  .terms-wrapper {
+    background: #F4FAFC;
+    margin-top: $space-4;
+    padding: $space-4;
+
+    .italic-text {
+      font-family: Lato;
+      font-style: italic;
+      font-weight: normal;
+      font-size: 11px;
+      line-height: $space-5;
+    }
+  }
+
   .hide {
     visibility: hidden;
   }
