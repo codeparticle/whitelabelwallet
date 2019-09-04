@@ -11,7 +11,6 @@ import {
   useMedia,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { Visible } from '@codeparticle/react-visible';
 import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { PROP_TYPES } from 'lib/constants';
 
@@ -25,21 +24,19 @@ function NavTriggerView({
   toggleMobileNavBar,
   toggleTabletNavBar,
 }) {
-  const { isMobile, isDesktop, isWideScreen } = useMedia();
+  const { isMobile } = useMedia();
   const onTriggerClick = () => {
     isMobile ? toggleMobileNavBar(true) : toggleTabletNavBar(!isTabletNavBarOpen);
   };
   const navBarTriggerVariant = !isMobile && isTabletNavBarOpen ? IconVariants.PRIMARY : IconVariants.SLATE;
 
   return (
-    <Visible when={!(isDesktop || isWideScreen)}>
-      <IconButton
-        className="page-header__icon"
-        onClick={onTriggerClick}
-        variant={navBarTriggerVariant}
-        icon={<SvgMenu {...iconProps} />}
-      />
-    </Visible>
+    <IconButton
+      className="page-header__icon"
+      onClick={onTriggerClick}
+      variant={navBarTriggerVariant}
+      icon={<SvgMenu {...iconProps} />}
+    />
   );
 }
 
