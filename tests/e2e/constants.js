@@ -34,6 +34,13 @@ export const auth = {
   },
 };
 
+export const contacts = {
+  selectors: {
+    page: getDataSelector('contacts.page'),
+    contact: getDataSelector('contacts.contact'),
+  },
+};
+
 export const main = {
   selectors: {
     test: getDataSelector('main.test'),

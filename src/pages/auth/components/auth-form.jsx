@@ -37,7 +37,7 @@ export function AuthForm({
     <form onSubmit={onSubmit} data-selector={`auth.form-${type}`}>
       <TextInput
         className="auth-form-input"
-        data-selector={auth.selectors.username.raw}
+        dataSelector={auth.selectors.username.raw}
         hasError={inputErrors.USERNAME}
         label={messages.username}
         useAltTheme
@@ -46,7 +46,7 @@ export function AuthForm({
       />
       <TextInput
         className="auth-form-input"
-        data-selector={auth.selectors.password.raw}
+        dataSelector={auth.selectors.password.raw}
         hasError={inputErrors.PASSWORD}
         type="password"
         useAltTheme
@@ -58,7 +58,7 @@ export function AuthForm({
         <Fragment>
           <TextInput
             className="auth-form-input"
-            data-selector={auth.selectors.confirm.raw}
+            dataSelector={auth.selectors.confirm.raw}
             hasError={inputErrors.CONFIRMED_PASSWORD}
             type="password"
             useAltTheme
@@ -66,12 +66,10 @@ export function AuthForm({
             onChange={(e) => onChangeHandler(e, setConfirmPassword)}
             value={confirmPassword}
           />
-          <div
-            className="checkbox-container"
-            data-selector={auth.selectors.tos.raw}
-          >
+          <div className="checkbox-container">
             <LabeledCheckbox
               checked={accepted}
+              dataSelector={auth.selectors.tos.raw}
               label={messages.tos}
               onChange={setAccepted}
             />

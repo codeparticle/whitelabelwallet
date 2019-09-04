@@ -19,7 +19,7 @@ const MainView = ({ setAuthToken }) => {
     >
       <PageHeader title='Welcome to your React App' />
       <div>
-        <Button data-selector={main.selectors.logout.raw} onClick={() => setAuthToken('')}>Logout</Button>
+        <Button dataSelector={main.selectors.logout.raw} onClick={() => setAuthToken('')}>Logout</Button>
       </div>
       <PluginInjector
         wrappedByDiv

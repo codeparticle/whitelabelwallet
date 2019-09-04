@@ -194,6 +194,62 @@ export class DatabaseManager {
     }).join(', ');
   }
 
+  /* ------------------------------------------- */
+  /* ------------- Contact Queries ------------- */
+  /* ------------------------------------------- */
+
+  /**
+   * Gets the Contacts table
+   * @returns {Array} Contact(s)
+   */
+  getContacts() {
+    const statement = STMT.CONTACTS.SELECT.ALL;
+    return this.query({ statement });
+  }
+
+  /**
+   * Selects contacts that fit the given search value
+   * @returns {Array} Contact(s)
+   * @param {string} value - Value to search by
+   */
+  getContactsByValue(value = '') {
+    const statement = STMT.CONTACTS.SELECT.VALUE(value);
+    return this.query({ statement });
+  }
+
+  /**
+   * Update the contact by ID
+   * @param {number} id the contact ID
+   * @param {Object} cols the data to be updated
+   */
+  updateContactById(id, cols) {
+    return this.update({
+      table: 'Contacts',
+      cols,
+      where: `id=${id}`,
+    });
+  }
+
+  /**
+   * Deletes a single contact by ID
+   * @param {number} id the contact's ID
+   */
+  deleteContactById(id) {
+    return this.delete({
+      table: 'Contacts',
+      where: `id=${id}`,
+    });
+  }
+
+  /* --------------------------------------------- */
+  /* -------------- Updates Queries -------------- */
+  /* --------------------------------------------- */
+
+  /**
+   * Increments the db_version to the next version
+   * @param {Object} cols - the data to be updated
+   * @param {number} lastVersion - most recent db_version
+   */
   updateDbVersion(cols, lastVersion) {
     this.update({
       table: 'Updates',
@@ -202,6 +258,10 @@ export class DatabaseManager {
     });
   }
 
+  /**
+   * Gets the latest update version (used by UpdateManager)
+   * @returns {string} CurrentVersion
+   */
   async getCurrentVersion() {
     const statement = STMT.UPDATES.SELECT.DB_VERSION;
     const [row] = await this.query({ statement });
@@ -209,23 +269,25 @@ export class DatabaseManager {
     return row.db_version;
   }
 
+  /**
+   * Gets the full Updates table
+   * @returns {Array} Updates table
+   */
   getUpdatesTable() {
     const statement = STMT.UPDATES.SELECT.ALL;
     return this.query({ statement });
   }
 
+  /* -------------------------------------------- */
+  /* ----------- UserSettings queries ----------- */
+  /* -------------------------------------------- */
+
+  /**
+   * Gets the UserSettings table
+   * @returns {Array} UserSettings
+   */
   getUserSettings() {
     const statement = STMT.USER_SETTINGS.SELECT.ALL;
-    return this.query({ statement });
-  }
-
-  getContacts() {
-    const statement = STMT.CONTACTS.SELECT.ALL;
-    return this.query({ statement });
-  }
-
-  getContactsByValue(value = '') {
-    const statement = STMT.CONTACTS.SELECT.VALUE(value);
     return this.query({ statement });
   }
 }
