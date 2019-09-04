@@ -29,5 +29,9 @@ $text-area-height: 150px;
 
   @include mquery($width-breakpoint-xs) {
     border-radius: $border-radius-3;
+
+    &__text-area {
+      height: 100%;
+    }
   }
 }

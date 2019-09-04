@@ -13,12 +13,15 @@ const EDIT = 'edit';
 const OVERLAY = 'overlay';
 const SIDEPANEL = 'sidepanel';
 
+const FULL = 'full';
+
 export const VARIANTS = {
   PRIMARY,
   SECONDARY,
   TERTIARY,
   ADD,
   EDIT,
+  FULL,
   OVERLAY,
   SIDEPANEL,
 };
