@@ -30,7 +30,7 @@ import './contact-sidepanel.scss';
 import { contacts as e2e } from 'e2e/constants';
 
 const { NAME, ADDRESS, DESCRIPTION } = FIELDS;
-const { EDIT, OVERLAY, SIDEPANEL } = VARIANTS;
+const { EDIT, OVERLAY, SIDEPANEL, FULL } = VARIANTS;
 const { COMMON: { CANCEL } } = TRANSLATION_KEYS;
 const { SvgUser } = svgs.icons;
 
@@ -189,6 +189,7 @@ function ContactSidepanel({
           <div className="contact-sidepanel__delete">
             <Button
               dataSelector={e2e.selectors.deleteBtn.raw}
+              size={isMobile ? FULL : null}
               onClick={onDelete}
               variant="alert"
             >
