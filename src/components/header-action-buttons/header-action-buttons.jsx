@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import {
-  Icon,
+  IconButton,
   IconVariants,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
@@ -17,7 +17,7 @@ const { iconPropsShape } = PROP_TYPES;
 
 function SettingsButton({ iconProps }) {
   return (
-    <Icon
+    <IconButton
       className="page-header__icon"
       variant={IconVariants.SLATE}
       onClick={empty}
@@ -32,7 +32,7 @@ SettingsButton.propTypes = {
 
 function AccountButton({ iconProps }) {
   return (
-    <Icon
+    <IconButton
       className="page-header__icon"
       variant={IconVariants.SLATE}
       onClick={empty}

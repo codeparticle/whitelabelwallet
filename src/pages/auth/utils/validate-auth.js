@@ -40,7 +40,7 @@ export async function validateAuth({
     return error;
   }
 
-  const exists = await manager.checkDatabaseExists(username, password);
+  const exists = await manager.setUser(username, password).checkDatabaseExists();
 
   if (exists && type === SIGNUP) {
     return {
@@ -60,10 +60,10 @@ export async function validateAuth({
     }
 
     await manager.generateDatabase();
-    await manager.saveDatabase(username, password);
+    await manager.saveDatabase();
   }
 
-  return await manager.loadDatabase(username, password).then((loaded) => {
+  return await manager.loadDatabase().then((loaded) => {
     if (loaded) {
       return jwt.sign({
         data: username,
