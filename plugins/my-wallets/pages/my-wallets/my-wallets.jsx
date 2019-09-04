@@ -46,7 +46,6 @@ const MyWallets = ({
     />
   );
 
-
   return (
     <Page
       headerProps={{
