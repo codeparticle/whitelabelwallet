@@ -38,14 +38,16 @@ const WalletSidepanelContent = ({
     setIsButtonVisible(false);
   };
 
+  function toggleMultiAddress() {
+    setIsMultiAddress(!isMultiAddress);
+  }
+
   useEffect(() => {
-    return () => {
-      if (!isOpen) {
-        setIsButtonVisible(true);
-        setIsMultiAddress(false);
-        setNickname('');
-      }
-    };
+    if (!isOpen) {
+      setIsButtonVisible(true);
+      setIsMultiAddress(false);
+      setNickname('');
+    }
   }, [isOpen]);
 
   useEffect(() => {
@@ -61,10 +63,6 @@ const WalletSidepanelContent = ({
       nickname,
     });
   }, [nickname, isMultiAddress]);
-
-  const onCompletion = () => {
-    handleCodeConfirmation();
-  };
 
   switch (step) {
     case 1:
@@ -91,7 +89,7 @@ const WalletSidepanelContent = ({
               <DeterministicPassPhrase
                 isBlurred={isBlurred}
                 isShuffled={isShuffled}
-                onCompletion={onCompletion}
+                onCompletion={handleCodeConfirmation}
                 wordArray={wordArray}
               />
             </div>
@@ -101,9 +99,7 @@ const WalletSidepanelContent = ({
             <label htmlFor="multi-address-btn" className="multi-address-text">{translations.multiAddressLabel}</label>
             <ToggleSwitch
               id="multi-address-btn"
-              onClick={()=> {
-                setIsMultiAddress(!isMultiAddress);
-              }}
+              onClick={toggleMultiAddress}
             />
           </div>
         </div>
@@ -116,7 +112,7 @@ const WalletSidepanelContent = ({
             <div className={`pass-phrase-wrapper`}>
               <DeterministicPassPhrase
                 isBlurred={isButtonVisible}
-                onCompletion={onCompletion}
+                onCompletion={handleCodeConfirmation}
                 isShuffled={isShuffled}
                 wordArray={wordArray}
               />
@@ -131,7 +127,7 @@ const WalletSidepanelContent = ({
       );
     default:
       return (
-        <div>{'So much nothing'}</div>
+        <div>{null}</div>
       );
   }
 };
@@ -157,10 +153,8 @@ const WalletSidepanelView = ({
     formatMessage,
   },
   onClose,
-  translations,
 }) => {
   const initialSate = {
-    currentStep: 1,
     multiAddress: null,
     nickname: '',
   };
@@ -172,6 +166,7 @@ const WalletSidepanelView = ({
   const [isDisabled, setIsDisabled] = useState(true);
   const [isShuffled, setIsShuffled] = useState(false);
   const [isBlurred, setIsBlurred] = useState(true);
+  const [currentStep, setCurrentStep] = useState(1);
   const [walletData, setWalletData] = useState(initialSate);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [wordArray, setWordArray] = useState(getWords());
@@ -181,10 +176,10 @@ const WalletSidepanelView = ({
   };
 
   const handleSubmit = () => {
-    if (walletData.currentStep ===  1) {
-      setWalletData({ ...walletData, currentStep: 2 });
-    } else if (isConfirmed && walletData.currentStep ===  2) {
-      setWalletData({ ...walletData, currentStep: 3 });
+    if (currentStep ===  1) {
+      setCurrentStep(2);
+    } else if (isConfirmed && currentStep ===  2) {
+      setCurrentStep(3);
     } else {
       console.log('Wallet Creation Complete');
     }
@@ -205,21 +200,36 @@ const WalletSidepanelView = ({
     setIsBlurred(!isBlurred);
   };
 
+  const translations = {
+    generateButton: formatMessage(MY_WALLETS.GENERATE_CODE_BUTTON),
+    continueButton: formatMessage(MY_WALLETS.CONTINUE_BUTTON),
+    confirmRecoveryLabel: formatMessage(MY_WALLETS.CONFIRM_RECOVERY_CODE_LABEL),
+    confirmRecoveryPrompt: formatMessage(MY_WALLETS.CONFIRM_RECOVERY_PROMPT),
+    keepSecret: formatMessage(MY_WALLETS.KEEP_SECRET_TEXT),
+    multiAddressLabel: formatMessage(MY_WALLETS.MULTI_ADDRESS_LABEL),
+    newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
+    newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE, { currentStep: currentStep || 1 }),
+    recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_LABEL),
+    walletNickname: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
+    walletPlaceholder: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
+  };
+
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) {
       setWalletData(initialSate);
       setIsConfirmed(false);
       setIsShuffled(false);
       setIsBlurred(true);
+      setCurrentStep(1);
       setWordArray(getWords());
     }
   }, [isOpen]);
 
   useEffect(() => {
-    if (walletData.currentStep === 2) {
+    if (currentStep === 2) {
       setIsShuffled(true);
     }
-  }, [walletData]);
+  }, [currentStep]);
 
 
   return (
@@ -233,7 +243,7 @@ const WalletSidepanelView = ({
       type={'sidepanel'}
       disableFooterButton={isDisabled}
       title={translations.newWalletTitle}
-      subTitle={formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE, { currentStep: walletData.currentStep || 1 })}
+      subTitle={translations.newWalletSubTitle}
       Icon={SvgWallet}
     >
       <WalletSidepanelContent
@@ -246,7 +256,7 @@ const WalletSidepanelView = ({
         handleDataChange={handleDataChange}
         handleBlurChange={handleBlurChange}
         createNewWallet={createNewWallet}
-        step={walletData.currentStep}
+        step={currentStep}
         wordArray={wordArray}
       />
     </Overlay>
@@ -257,7 +267,6 @@ WalletSidepanelView.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  translations: PropTypes.object.isRequired,
   createNewWallet: PropTypes.func.isRequired,
 };
 
