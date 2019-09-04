@@ -1,10 +1,11 @@
 @import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
 
 $text-area-height: 150px;
 
 .contact-sidepanel {
-  background: white;
+  background: $white;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -24,5 +25,9 @@ $text-area-height: 150px;
     height: $text-area-height;
     margin: $space-2 0;
     width: 100%;
+  }
+
+  @include mquery($width-breakpoint-xs) {
+    border-radius: $border-radius-3;
   }
 }

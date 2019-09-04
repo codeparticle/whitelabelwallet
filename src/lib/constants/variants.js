@@ -10,10 +10,15 @@ const TERTIARY = 'tertiary';
 const ADD = 'add';
 const EDIT = 'edit';
 
+const OVERLAY = 'overlay';
+const SIDEPANEL = 'sidepanel';
+
 export const VARIANTS = {
   PRIMARY,
   SECONDARY,
   TERTIARY,
   ADD,
   EDIT,
+  OVERLAY,
+  SIDEPANEL,
 };
