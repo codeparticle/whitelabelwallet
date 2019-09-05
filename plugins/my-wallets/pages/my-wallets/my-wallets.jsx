@@ -45,17 +45,7 @@ const MyWallets = ({
       onClick={() => setIsOpenValue(true)}
     />
   );
-  const sidepanelTranslations = {
-    generateButton: formatMessage(MY_WALLETS.GENERATE_CODE_BUTTON),
-    continueButton: formatMessage(MY_WALLETS.CONTINUE_BUTTON),
-    keepSecret: formatMessage(MY_WALLETS.KEEP_SECRET_TEXT),
-    multiAddressLabel: formatMessage(MY_WALLETS.MULTI_ADDRESS_LABEL),
-    newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
-    newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE),
-    recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_BUTTON),
-    walletNickname: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
-    walletPlaceholder: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
-  };
+
 
   return (
     <Page
@@ -68,7 +58,7 @@ const MyWallets = ({
       <Wallets wallets={wallets} />
       <WalletSidepanel
         onClose={onClose}
-        translations={sidepanelTranslations}
+        intl
         isOpen={isOpenValue} />
     </Page>
   );
