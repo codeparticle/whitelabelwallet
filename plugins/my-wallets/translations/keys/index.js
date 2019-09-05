@@ -6,6 +6,16 @@ export const MY_WALLETS = defineMessages({
     description: 'Add wallet button label',
     defaultMessage: 'Add Wallet',
   },
+  CONFIRM_RECOVERY_CODE_LABEL: {
+    id: 'plugin.my_wallets.confirm_recovery_code_label',
+    description: 'confirm recovery code label text',
+    defaultMessage: 'Confirm Recovery Code',
+  },
+  CONFIRM_RECOVERY_PROMPT: {
+    id: 'plugin.my_wallets.confirm_recovery_prompt',
+    description: 'confirm recovery code prompt',
+    defaultMessage: 'Click the words from your recovery code in the right order to confirm',
+  },
   CONTINUE_BUTTON: {
     id: 'plugin.my_wallets.continue_button',
     description: 'continue button text',
@@ -32,7 +42,7 @@ export const MY_WALLETS = defineMessages({
   NEW_WALLET_SUB_TITLE: {
     id: 'plugin.my_wallets.new_wallet_sub_title',
     description: 'new wallet sub title',
-    defaultMessage: `Step 1 of 3`,
+    defaultMessage: `Step {currentStep} of 3`,
   },
   MULTI_ADDRESS_LABEL: {
     id: 'plugin.my_wallets.multi_address_label',
@@ -54,8 +64,8 @@ export const MY_WALLETS = defineMessages({
     description: 'Receive button label',
     defaultMessage: 'Receive funds',
   },
-  RECOVERY_CODE_BUTTON: {
-    id: 'plugin.my_wallets.recovery_code_button',
+  RECOVERY_CODE_LABEL: {
+    id: 'plugin.my_wallets.recovery_code_label',
     description: 'recovery code button text',
     defaultMessage: 'Recovery Code',
   },

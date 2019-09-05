@@ -1,6 +1,6 @@
 @import 'src/styles/index.scss';
 
-$generate-code-wrapper-height: 180px;
+$generate-code-wrapper-height: 170px;
 $button-box-height: 170px;
 $button-height: 40px;
 
@@ -15,6 +15,7 @@ $button-height: 40px;
   }
 
   .generate-code-wrapper {
+    background: #F4FAFC;
     border-radius: $border-radius-3;
     min-height: $generate-code-wrapper-height;
     position: relative;
@@ -35,12 +36,13 @@ $button-height: 40px;
     }
   }
 
-  .keep-secret-text {
+  .small-grey-text {
     font-family: Lato;
     font-size: 11px;
     font-style: normal;
     font-weight: normal;
     line-height: 15px;
+    margin-top: $space-4;
   }
 
   .multi-address-prompt {
