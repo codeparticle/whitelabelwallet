@@ -7,6 +7,7 @@ import { useManager } from 'lib/hooks';
 import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { auth } from 'e2e/constants';
 
+import { getUserSettingsAndUpdateState } from './queries';
 import { AuthForm, AuthButtons } from './components';
 import { getTranslations, getType, validateAuth } from './utils';
 import './auth.scss';
@@ -32,6 +33,7 @@ function AuthView({
   intl,
   match,
   setAuthToken,
+  setSettings,
 }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -55,6 +57,7 @@ function AuthView({
     if (validation) {
       if (typeof validation === 'string') {
         setAuthToken(validation);
+        getUserSettingsAndUpdateState(manager, setSettings);
       } else {
         const {
           message,
@@ -156,10 +159,12 @@ AuthView.propTypes = {
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
   setAuthToken: PropTypes.func.isRequired,
+  setSettings: PropTypes.func.isRequired,
 };
 
 const actionsMapper = getRdxActionMapper([
   'setAuthToken',
+  'setSettings',
 ]);
 
 const stateMapper = getRdxSelectionMapper({

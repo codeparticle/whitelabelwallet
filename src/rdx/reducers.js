@@ -9,6 +9,7 @@ import navBarReducers from 'rdx/modules/nav-bar/reducers';
 import pluginsReducers from 'rdx/modules/plugins/reducers';
 import routerReducers from 'rdx/modules/router/reducers';
 import selectedReducers from 'rdx/modules/selected/reducers';
+import settingsReducers from 'rdx/modules/settings/reducers';
 import transactionsReducers from 'rdx/modules/transactions/reducers';
 import { connectRouter } from 'connected-react-router';
 // IMPORT_PT (for script -- do not remove!)
@@ -24,6 +25,7 @@ export const reducers = {
   ...pluginsReducers,
   ...routerReducers,
   ...selectedReducers,
+  ...settingsReducers,
   ...transactionsReducers,
 // INSERTION_PT (for script -- do not remove!)
 };

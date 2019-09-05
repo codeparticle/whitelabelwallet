@@ -5,12 +5,19 @@
 $text-area-height: 150px;
 
 .contact-sidepanel {
-  background: $white;
   display: flex;
   flex-direction: column;
   height: 100%;
   padding: $space-4;
   width: 100%;
+
+  &.light {
+    background: $white;
+  }
+
+  &.dark {
+    background: $dark-bg;
+  }
 
   &:first-child {
     margin-top: 0;

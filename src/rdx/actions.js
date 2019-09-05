@@ -7,6 +7,7 @@ import navBarActions from 'rdx/modules/nav-bar/actions';
 import pluginsActions from 'rdx/modules/plugins/actions';
 import routerActions from 'rdx/modules/router/actions';
 import selectedActions from 'rdx/modules/selected/actions';
+import settingsActions from 'rdx/modules/settings/actions';
 import transactionsActions from 'rdx/modules/transactions/actions';
 // IMPORT_PT (for script -- do not remove!)
 
@@ -20,6 +21,7 @@ const actions = {
   ...pluginsActions,
   ...routerActions,
   ...selectedActions,
+  ...settingsActions,
   ...transactionsActions,
 // INSERTION_PT (for script -- do not remove!)
 };

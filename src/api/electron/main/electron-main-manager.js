@@ -16,6 +16,8 @@ import {
   PERFORM_STARTUP_SETUP,
   SAVE_DATABASE,
   SAVED_DATABASE,
+  REMOVE_DATABASE,
+  REMOVED_DATABASE,
 } from '../ipc-events';
 
 export const initializeElectronMainManager = () => {
@@ -62,5 +64,10 @@ export const initializeElectronMainManager = () => {
   ipcMain.on(SAVE_DATABASE, (event, username, password, db) => {
     fileManager.storeDatabaseFile(username, password, db);
     event.sender.send(SAVED_DATABASE, true);
+  });
+
+  ipcMain.on(REMOVE_DATABASE, (event, username, password) => {
+    fileManager.removeDatabaseFile(username, password);
+    event.sender.send(REMOVED_DATABASE);
   });
 };

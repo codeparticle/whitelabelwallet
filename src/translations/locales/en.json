@@ -28,5 +28,11 @@
   "menu.redo": "Redo",
   "menu.select-all": "Select All",
   "menu.user-manual": "User Manual",
-  "page-not-found": "The Page you requested was not found!"
+  "page-not-found": "The Page you requested was not found!",
+  "settings.change_username": "Change Username",
+  "settings.change_password": "Change Password",
+  "settings.current_password": "Current Password",
+  "settings.new_password": "New Password",
+  "settings.confirm_new_password": "Confirm New Password",
+  "settings.enable_dark_mode": "Enable dark mode?"
 }

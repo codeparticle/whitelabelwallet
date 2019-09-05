@@ -116,6 +116,18 @@ export class FileManager {
     this.storeFile(fullFileName, encryptedDatabase);
   }
 
+  /**
+   * Removes the given DB file on user's fs
+   * @param {string} username : login name of the user
+   * @param {string} password : user's password
+   */
+  removeDatabaseFile(username, password) {
+    const fullFileName = this.getFullFileName(username + password);
+    fs.unlinkSync(fullFileName);
+
+    return true;
+  }
+
   // saves file to local filesystem of the user
   storeFile(filename, data) {
     fs.writeFileSync(filename, data, function (err) {
