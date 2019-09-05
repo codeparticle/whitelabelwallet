@@ -1,0 +1,22 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.settings-sidepanel-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $spacing-s $spacing-xl;
+  width: 100%;
+
+  .sidepanel-item {
+    margin: $spacing-xs 0;
+
+    &.toggle-container {
+      display: flex;
+      flex-direction: column;
+
+      & > label {
+        margin-bottom: $spacing-xs;
+      }
+    }
+  }
+}

@@ -68,4 +68,10 @@ export class RenderManager {
     required('checkDatabaseExists');
   }
 
+  /**
+   * Updates the database name
+   */
+  updateDatabaseName() {
+    required('updateDatabaseName');
+  }
 }

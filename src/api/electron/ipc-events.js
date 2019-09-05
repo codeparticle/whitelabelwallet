@@ -10,3 +10,5 @@ export const OPEN_URL = 'open-url';
 export const PERFORM_STARTUP_SETUP = 'perform-startup-setup';
 export const SAVE_DATABASE = 'save-database';
 export const SAVED_DATABASE = 'saved-database';
+export const REMOVE_DATABASE = 'remove-database';
+export const REMOVED_DATABASE = 'removed-database';

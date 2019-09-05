@@ -28,5 +28,11 @@
   "menu.redo": "Rehacer",
   "menu.select-all": "Seleccionar Todo",
   "menu.user-manual": "Manual de usuario",
-  "page-not-found": "La página que solicitaste no fue encontrada!"
+  "page-not-found": "La página que solicitaste no fue encontrada!",
+  "settings.change_username": "Cambie el Nombre de Usuario",
+  "settings.change_password": "Cambia la Contraseña",
+  "settings.current_password": "Contraseña Actual",
+  "settings.new_password": "Nueva Contraseña",
+  "settings.confirm_new_password": "Confirmar Nueva Contraseña",
+  "settings.enable_dark_mode": "¿Habilitar el modo oscuro?"
 }

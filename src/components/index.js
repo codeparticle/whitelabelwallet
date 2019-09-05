@@ -1,4 +1,5 @@
 export { BackButton } from './back-button';
+export { ChangePasswordFormLayout } from './change-password-form-layout';
 export { ErrorBoundary } from './error-boundary';
 export { FlashMessages } from './flash-messages';
 export { HeaderActionButtons } from './header-action-buttons';
@@ -7,3 +8,5 @@ export { NavTrigger } from './nav-trigger';
 export { NotFound } from './not-found';
 export { Page } from './page';
 export { PageHeader } from './page-header';
+export { ThemeToggle } from './theme-toggle';
+export { SettingsSidepanel } from './settings-sidepanel';
