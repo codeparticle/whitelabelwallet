@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -6,7 +7,10 @@ import {
   TextInput,
   ToggleSwitch,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-sidepanel.scss';
+
+const { TERMS_AND_CONDITIONS_PT2 } = MY_WALLETS;
 
 const WalletSidepanelContent = ({
   handleBlurChange,
@@ -50,7 +54,7 @@ const WalletSidepanelContent = ({
   useEffect(() => {
     handleDataChange({
       multiAddress: isMultiAddress,
-      nickname,
+      name: nickname,
     });
   }, [nickname, isMultiAddress]);
 
@@ -96,6 +100,7 @@ const WalletSidepanelContent = ({
         </div>
       );
     case 2:
+      console.log('========\n', 'wordArray', wordArray, '\n========');
       return (
         <div className="content-container">
           <label htmlFor="generate-code">{translations.confirmRecoveryLabel}</label>
@@ -114,7 +119,15 @@ const WalletSidepanelContent = ({
       );
     case 3:
       return (
-        <div>The Home Stretch</div>
+        <div className="content-container">
+          <label>{translations.disclaimerLabel}</label>
+          <p>{translations.disclaimer}</p>
+          <div className="terms-wrapper">
+            <p className="italic-text">{translations.termsAndConditionsPt1}</p>
+            <p className="section-spacer">{ translations.termsAndConditionsSectionTitle}</p>
+            <p><FormattedMessage {...TERMS_AND_CONDITIONS_PT2} values={{ br: <br />  }} /></p>
+          </div>
+        </div>
       );
     default:
       return (

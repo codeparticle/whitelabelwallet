@@ -99,11 +99,10 @@ export const MY_WALLETS = defineMessages({
   TERMS_AND_CONDITIONS_PT2: {
     id: 'plugin.my_wallets.terms_and_conditions_pt2',
     description: 'text for terms and conditions',
-    defaultMessage: `Some Services may allow you to:
+    defaultMessage: `Some Services may allow you to:{br}
+    Add your own original content or post your content in blog or user comment areas (“Your Content”). Remember that all information that is disclosed in blog, comment or other public areas becomes public information and you should exercise caution when deciding to share any of your personal information as part of Your Content{br}
     
-    Add your own original content or post your content in blog or user comment areas (“Your Content”). Remember that all information that is disclosed in blog, comment or other public areas becomes public information and you should exercise caution when deciding to share any of your personal information as part of Your Content
-    
-    Use the Services as modified with Your Content
+    Use the Services as modified with Your Content{br}
     
     Arrange for third parties to have access to Your Content subject to these Terms of Service`,
   },

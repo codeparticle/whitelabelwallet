@@ -5,8 +5,15 @@ export const WALLETS_STATEMENTS = {
     name nvarchar(200) not null,
     require_password tinyint not null,
     password_hash varchar(100) not null,
-    seed varchar(100) not null
+    seed varchar(100) not null,
+    multi_address tinyint not null
   );`,
-  INSERT: {},
-  SELECT: {},
+  INSERT: {
+    NEW: `insert into Wallets(id, name, coin_id, multi_address, require_password, password_hash, seed)
+    values(?,?,?,?,?,?,?)`,
+  },
+  SELECT: {
+    ALL: `select * from Wallets`,
+    VALUE: (value) => `select * from Wallets where seed like "${value}%"`,
+  },
 };
