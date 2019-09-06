@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
-const getNewWallet = state => get(state, 'newWallet', {});
+const getWallets = state => get(state, 'wallets', []);
 
 export {
-  getNewWallet,
+  getWallets,
 };

@@ -122,6 +122,16 @@ export class DatabaseManager {
           run,
         });
       },
+      /**
+       * Insert into the sqlite DB one row of wallet data
+       */
+      wallet: ({ id, name, coin_id, multi_address, require_password, password_hash, seed }) => {
+        return this.query({
+          statement: STMT.WALLETS.INSERT.NEW,
+          params: [id, name, coin_id, multi_address, require_password, password_hash, seed],
+          run,
+        });
+      },
     };
   }
 
@@ -288,6 +298,19 @@ export class DatabaseManager {
    */
   getUserSettings() {
     const statement = STMT.USER_SETTINGS.SELECT.ALL;
+    return this.query({ statement });
+  }
+
+  /* -------------------------------------------- */
+  /* ----------- Wallet queries ----------- */
+  /* -------------------------------------------- */
+
+  /**
+   * Gets the Wallets table
+   * @returns {Array} Wallet(s)
+   */
+  getWallets() {
+    const statement = STMT.WALLETS.SELECT.ALL;
     return this.query({ statement });
   }
 }

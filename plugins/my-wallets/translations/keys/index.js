@@ -39,6 +39,18 @@ export const MY_WALLETS = defineMessages({
     description: 'new wallet text to used in various places',
     defaultMessage: `New Wallet`,
   },
+  NEW_WALLET_DISCLAIMER: {
+    id: 'plugin.my_wallets.new_wallet_disclaimer',
+    description: 'new wallet disclaimer',
+    defaultMessage: `You are responsible for you wallet and all recovery codes.
+    We will not be able to reissue you a new code without the previous codes.
+    Please take a moment to read and review our Terms of Service:`,
+  },
+  NEW_WALLET_DISCLAIMER_LABEL: {
+    id: 'plugin.my_wallets.new_wallet_disclaimer_label',
+    description: 'new wallet disclaimer label',
+    defaultMessage: `Disclaimer`,
+  },
   NEW_WALLET_SUB_TITLE: {
     id: 'plugin.my_wallets.new_wallet_sub_title',
     description: 'new wallet sub title',
@@ -73,6 +85,31 @@ export const MY_WALLETS = defineMessages({
     id: 'plugin.my_wallets.send_funds_button_label',
     description: 'Send button label',
     defaultMessage: 'Send funds',
+  },
+  TERMS_AND_CONDITIONS_LABEL: {
+    id: 'plugin.my_wallets.terms_and_conditions_label',
+    description: 'label for terms and conditions checkbox',
+    defaultMessage: 'I have read and agree to the Terms of Service',
+  },
+  TERMS_AND_CONDITIONS_PT1: {
+    id: 'plugin.my_wallets.terms_and_conditions_pt1',
+    description: 'text for terms and conditions',
+    defaultMessage: `These terms of service (“Terms of Service”) govern your use of John Wiley & Sons, Inc. and its subsidiaries’ (“Wiley”) websites, services and applications (the “Services”). By using or accessing the Services, you agree to be bound by these Terms of Service, as updated from time to time in accordance with Section 12 below. There may be instances when we offer additional terms specific to a product, application or service. To the extent such additional terms conflict with these Terms of Service, the additional terms associated with the product, application or service, with respect to your use of the product, application or service, will prevail. References to “us,” “we,” and “our” mean John Wiley & Sons, Inc.`,
+  },
+  TERMS_AND_CONDITIONS_PT2: {
+    id: 'plugin.my_wallets.terms_and_conditions_pt2',
+    description: 'text for terms and conditions',
+    defaultMessage: `Some Services may allow you to:{br}
+    Add your own original content or post your content in blog or user comment areas (“Your Content”). Remember that all information that is disclosed in blog, comment or other public areas becomes public information and you should exercise caution when deciding to share any of your personal information as part of Your Content{br}
+    
+    Use the Services as modified with Your Content{br}
+    
+    Arrange for third parties to have access to Your Content subject to these Terms of Service`,
+  },
+  TERMS_AND_CONDITIONS_SECTION_TITLE: {
+    id: 'plugin.my_wallets.terms_and_conditions_section_title',
+    description: 'text for terms and conditions',
+    defaultMessage: `1. USING THE SERVICES`,
   },
   WALLET_NICKNAME_LABEL: {
     id: 'plugin.my_wallets.wallet_nickname_label',

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -6,7 +7,10 @@ import {
   TextInput,
   ToggleSwitch,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-sidepanel.scss';
+
+const { TERMS_AND_CONDITIONS_PT2 } = MY_WALLETS;
 
 const WalletSidepanelContent = ({
   handleBlurChange,
@@ -49,10 +53,11 @@ const WalletSidepanelContent = ({
 
   useEffect(() => {
     handleDataChange({
-      multiAddress: isMultiAddress,
-      nickname,
+      multi_address: isMultiAddress ? 1 : 0,
+      name: nickname,
     });
   }, [nickname, isMultiAddress]);
+  // Todo: need to add support for wallet passwords (WLW-146)
 
   switch (step) {
     case 1:
@@ -114,7 +119,15 @@ const WalletSidepanelContent = ({
       );
     case 3:
       return (
-        <div>The Home Stretch</div>
+        <div className="content-container">
+          <label>{translations.disclaimerLabel}</label>
+          <p>{translations.disclaimer}</p>
+          <div className="terms-wrapper">
+            <p className="italic-text">{translations.termsAndConditionsPt1}</p>
+            <p className="section-spacer">{ translations.termsAndConditionsSectionTitle}</p>
+            <p><FormattedMessage {...TERMS_AND_CONDITIONS_PT2} values={{ br: <br />  }} /></p>
+          </div>
+        </div>
       );
     default:
       return (

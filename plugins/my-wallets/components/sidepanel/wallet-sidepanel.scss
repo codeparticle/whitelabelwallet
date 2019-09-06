@@ -3,6 +3,7 @@
 $generate-code-wrapper-height: 170px;
 $button-box-height: 170px;
 $button-height: 40px;
+$italic-text-size: 11px;
 
 .content-container {
   height: 100%;
@@ -15,7 +16,7 @@ $button-height: 40px;
   }
 
   .generate-code-wrapper {
-    background: #F4FAFC;
+    background: $tint-blue;
     border-radius: $border-radius-3;
     min-height: $generate-code-wrapper-height;
     position: relative;
@@ -23,7 +24,7 @@ $button-height: 40px;
 
   .button-box {
     align-items: center;
-    background: #F4FAFC;
+    background: $tint-blue;
     display: flex;
     height: $button-box-height;
     justify-content: center;
@@ -70,6 +71,24 @@ $button-height: 40px;
     justify-content: center;
     position: absolute;
     width: 100%;
+  }
+
+  .terms-wrapper {
+    background: $tint-blue;
+    margin-top: $space-4;
+    padding: $space-4;
+
+    .italic-text {
+      font-family: Lato;
+      font-style: italic;
+      font-weight: normal;
+      font-size: $italic-text-size;
+      line-height: $space-5;
+    }
+
+    .section-spacer {
+      margin: $space-4 0;
+    }
   }
 
   .hide {
