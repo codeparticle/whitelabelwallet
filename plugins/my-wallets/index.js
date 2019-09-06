@@ -2,13 +2,13 @@ import { svgs } from '@codeparticle/whitelabelwallet.styleguide';
 
 import pluginId from './plugin-id';
 import { MyWalletsPage } from './pages';
-import { newWalletReducer } from './rdx/reducers';
+import { walletsReducer } from './rdx/reducers';
 import { addLocales } from './translations/add-locales';
 import { MY_WALLETS } from './translations/keys';
 
 export const MyWalletsPlugin = (store) => {
   store.dispatch(addLocales());
-  store.injectPluginReducer('newWallet', newWalletReducer);
+  store.injectPluginReducer('wallets', walletsReducer);
 
   return [
     {
