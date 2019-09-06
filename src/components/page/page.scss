@@ -1,8 +1,21 @@
 @import 'src/styles/index.scss';
 
+$mobile-navbar-offset: 120px;
+
 .page-rct-component {
+  display: flex;
+  background: $cloud;
+  flex-direction: column;
   overflow-y: auto;
-  padding: $spacing-l;
-  padding-bottom: 0;
   width: 100%;
+
+  &__content {
+    padding: 0 $spacing-l $spacing-l;
+    width: 100%;
+
+    @include mquery($width-breakpoint-xs) {
+      margin-top: $mobile-navbar-offset;
+      padding: $spacing-l;
+    }
+  }
 }
