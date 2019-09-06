@@ -6,7 +6,6 @@ import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.s
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { empty } from 'lib/utils';
-import { useManager } from 'lib/hooks';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
@@ -44,7 +43,6 @@ const MyWallets = ({
       onClick={() => setIsOpenValue(true)}
     />
   );
-  const manager = useManager();
 
   return (
     <Page
@@ -59,7 +57,6 @@ const MyWallets = ({
         onClose={onClose}
         intl
         isOpen={isOpenValue}
-        manager={manager}
         setIsOpenValue={setIsOpenValue}
         setWallets={props.setWallets}/>
     </Page>

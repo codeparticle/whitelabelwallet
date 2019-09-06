@@ -6,34 +6,55 @@ import {
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
+import { useManager } from 'lib/hooks';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
 import { WalletSidepanelContent } from 'plugins/my-wallets/components/sidepanel/wallet-sidepanel-content';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
+const initialSate = {
+  multi_address: 0,
+  name: '',
+  seed: [],
+  coin_id: 1,
+  require_password: 0,
+  password_hash: '',
+};
+
+function getTranslations(formatMessage, currentStep) {
+  return {
+    continueButton: formatMessage(MY_WALLETS.CONTINUE_BUTTON),
+    confirmRecoveryLabel: formatMessage(MY_WALLETS.CONFIRM_RECOVERY_CODE_LABEL),
+    confirmRecoveryPrompt: formatMessage(MY_WALLETS.CONFIRM_RECOVERY_PROMPT),
+    disclaimer: formatMessage(MY_WALLETS.NEW_WALLET_DISCLAIMER),
+    disclaimerLabel: formatMessage(MY_WALLETS.NEW_WALLET_DISCLAIMER_LABEL),
+    generateButton: formatMessage(MY_WALLETS.GENERATE_CODE_BUTTON),
+    keepSecret: formatMessage(MY_WALLETS.KEEP_SECRET_TEXT),
+    multiAddressLabel: formatMessage(MY_WALLETS.MULTI_ADDRESS_LABEL),
+    newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
+    newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE, { currentStep: currentStep || 1 }),
+    recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_LABEL),
+    termsAndConditionsLabel: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_LABEL),
+    termsAndConditionsPt1: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_PT1),
+    termsAndConditionsSectionTitle: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_SECTION_TITLE),
+    walletNickname: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
+    walletPlaceholder: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
+  };
+}
 
 const WalletSidepanelView = ({
   isOpen,
   intl: {
     formatMessage,
   },
-  manager,
   setWallets,
   onClose,
 }) => {
   const getWords = () => {
     return BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
   };
-
-  const initialSate = {
-    multi_address: 0,
-    name: '',
-    seed: [],
-    coin_id: 1,
-    require_password: 0,
-    password_hash: '',
-  };
+  const manager = useManager();
   const [wordArray, setWordArray] = useState(getWords());
   const [isDisabled, setIsDisabled] = useState(true);
   const [isShuffled, setIsShuffled] = useState(false);
@@ -72,24 +93,7 @@ const WalletSidepanelView = ({
     setIsBlurred(!isBlurred);
   };
 
-  const translations = {
-    continueButton: formatMessage(MY_WALLETS.CONTINUE_BUTTON),
-    confirmRecoveryLabel: formatMessage(MY_WALLETS.CONFIRM_RECOVERY_CODE_LABEL),
-    confirmRecoveryPrompt: formatMessage(MY_WALLETS.CONFIRM_RECOVERY_PROMPT),
-    disclaimer: formatMessage(MY_WALLETS.NEW_WALLET_DISCLAIMER),
-    disclaimerLabel: formatMessage(MY_WALLETS.NEW_WALLET_DISCLAIMER_LABEL),
-    generateButton: formatMessage(MY_WALLETS.GENERATE_CODE_BUTTON),
-    keepSecret: formatMessage(MY_WALLETS.KEEP_SECRET_TEXT),
-    multiAddressLabel: formatMessage(MY_WALLETS.MULTI_ADDRESS_LABEL),
-    newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
-    newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE, { currentStep: currentStep || 1 }),
-    recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_LABEL),
-    termsAndConditionsLabel: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_LABEL),
-    termsAndConditionsPt1: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_PT1),
-    termsAndConditionsSectionTitle: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_SECTION_TITLE),
-    walletNickname: formatMessage(MY_WALLETS.WALLET_NICKNAME_LABEL),
-    walletPlaceholder: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
-  };
+  const translations = getTranslations(formatMessage, currentStep);
 
   useEffect(() => {
     if (!isOpen) {
@@ -144,7 +148,6 @@ const WalletSidepanelView = ({
 WalletSidepanelView.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  manager: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   setWallets: PropTypes.func.isRequired,
 };
