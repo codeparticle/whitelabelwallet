@@ -58,6 +58,7 @@ const WalletSidepanelView = ({
     return BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
   };
   const manager = useManager();
+  const { isMobile } = useMedia();
   const [wordArray, setWordArray] = useState(getWords());
   const [isDisabled, setIsDisabled] = useState(true);
   const [isShuffled, setIsShuffled] = useState(false);

@@ -1,9 +1,11 @@
 @import 'src/styles/index.scss';
 
-$generate-code-wrapper-height: 170px;
 $button-box-height: 170px;
 $button-height: 40px;
+$generate-code-wrapper-height: 170px;
 $italic-text-size: 11px;
+$overlay-header-mobile-height: 269px;
+$word-button-mobile-text-size: 10px;
 
 .content-container {
   height: 100%;
@@ -94,4 +96,36 @@ $italic-text-size: 11px;
   .hide {
     visibility: hidden;
   }
+}
+
+@include mquery($width-breakpoint-xs) {
+
+  .overlay > div:first-child {
+    height: $overlay-header-mobile-height;
+  }
+  
+  .sidepanel-content {
+    background: $white;
+    border-radius: $border-radius-3;
+
+    .content-container {
+      padding: $space-3 0px;
+
+      .generate-label,
+      .multi-address-prompt,
+      .small-grey-text,
+      .wallet-nickname {
+        color: $slate;
+        padding: 0px $space-2;
+      }
+
+      .generate-label {
+        margin-top: $space-5;
+      }
+
+      .generate-code-wrapper p {
+        font-size: $word-button-mobile-text-size;
+      }
+    }
+  } 
 }
