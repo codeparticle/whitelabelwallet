@@ -53,7 +53,7 @@ const WalletSidepanelContent = ({
 
   useEffect(() => {
     handleDataChange({
-      multiAddress: isMultiAddress,
+      multi_address: isMultiAddress ? 1 : 0,
       name: nickname,
     });
   }, [nickname, isMultiAddress]);
@@ -100,7 +100,6 @@ const WalletSidepanelContent = ({
         </div>
       );
     case 2:
-      console.log('========\n', 'wordArray', wordArray, '\n========');
       return (
         <div className="content-container">
           <label htmlFor="generate-code">{translations.confirmRecoveryLabel}</label>
