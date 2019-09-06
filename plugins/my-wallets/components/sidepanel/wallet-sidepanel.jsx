@@ -25,22 +25,22 @@ const WalletSidepanelView = ({
   const getWords = () => {
     return BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
   };
+
+  const initialSate = {
+    multi_address: 0,
+    name: '',
+    seed: [],
+    coin_id: 1,
+    require_password: 0,
+    password_hash: '',
+  };
   const [wordArray, setWordArray] = useState(getWords());
   const [isDisabled, setIsDisabled] = useState(true);
   const [isShuffled, setIsShuffled] = useState(false);
   const [isBlurred, setIsBlurred] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const initialSate = {
-    multiAddress: null,
-    name: '',
-    seed: BlockchainManager.arrayToPhrase(wordArray),
-    coinId: 1,
-    requirePassword: 0,
-    password: '',
-  };
   const [walletData, setWalletData] = useState(initialSate);
-  console.log('========\n', 'walletData', walletData, '\n========');
 
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
@@ -50,11 +50,10 @@ const WalletSidepanelView = ({
     if (currentStep ===  1) {
       setCurrentStep(2);
     } else if (isConfirmed && currentStep ===  2) {
+      setWalletData({ ...walletData, seed: BlockchainManager.arrayToPhrase(wordArray) });
       setCurrentStep(3);
     } else if (currentStep === 3) {
-      console.log('Wallet Creation Complete');
-      console.log('========\n', 'walletData', walletData, '\n========');
-      // createWalletAndUpdateList(manager, setWallets, walletData).then(onClose);
+      createWalletAndUpdateList(manager, setWallets, walletData).then(onClose);
     }
   };
 

@@ -29,6 +29,7 @@ const MyWallets = ({
   intl: {
     formatMessage,
   },
+  ...props
 }) => {
   // Load wallets from local DB
   const wallets = [];
@@ -60,7 +61,7 @@ const MyWallets = ({
         isOpen={isOpenValue}
         manager={manager}
         setIsOpenValue={setIsOpenValue}
-        setWallets={setWallets}/>
+        setWallets={props.setWallets}/>
     </Page>
   );
 };
