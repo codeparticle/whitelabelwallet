@@ -8,6 +8,8 @@ import { Search } from '@codeparticle/whitelabelwallet.styleguide';
 import { searchContactsByValue } from 'plugins/contacts/helpers';
 import { CONTACTS } from 'plugins/contacts/translations/keys';
 
+import { contacts as e2e } from 'e2e/constants';
+
 export function SearchContacts({
   formatMessage,
   manager,
@@ -18,7 +20,11 @@ export function SearchContacts({
   }
 
   return (
-    <Search onSubmit={onSubmit} placeholder={formatMessage(CONTACTS.SEARCH)} />
+    <Search
+      dataSelector={e2e.selectors.searchInput.raw}
+      onSubmit={onSubmit}
+      placeholder={formatMessage(CONTACTS.SEARCH)}
+    />
   );
 }
 

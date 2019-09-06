@@ -28,10 +28,11 @@ import './page.scss';
 */
 const Page = ({
   children,
+  dataSelector,
   headerProps,
 }) => {
   return (
-    <main className="page-rct-component">
+    <main className="page-rct-component" data-selector={dataSelector}>
       <PageHeader {...headerProps} />
       {children}
     </main>
@@ -39,10 +40,12 @@ const Page = ({
 };
 
 Page.defaultProps = {
+  dataSelector: 'page',
   headerProps: {},
 };
 
 Page.propTypes = {
+  dataSelector: PropTypes.string,
   headerProps: PropTypes.shape({
     actionButtons: PropTypes.oneOfType([PropTypes.node, PropTypes.element]),
     hideIcons: PropTypes.bool,

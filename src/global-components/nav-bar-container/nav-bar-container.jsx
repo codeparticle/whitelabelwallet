@@ -6,6 +6,8 @@ import { NavBar, useMedia } from '@codeparticle/whitelabelwallet.styleguide';
 import { getRdxSelectionMapper, getRdxActionMapper } from 'rdx/utils/props-mapping';
 import './nav-bar-container.scss';
 
+import { common as e2e } from 'e2e/constants';
+
 /**
   @typedef NavBarContainerProps
   @type {Object}
@@ -44,6 +46,7 @@ const NavBarView = ({
 
   return (
     <NavBar
+      dataSelector={e2e.selectors.navBar.raw}
       navItems={navItems}
       isOpen={isMobile ? isMobileNavBarOpen : isTabletNavBarOpen}
       onClose={closeMobileNavBar}

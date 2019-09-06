@@ -14,6 +14,8 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { VARIANTS } from 'lib/constants';
+import { safeString } from 'lib/utils';
+
 import {
   createContactAndUpdateList,
   deleteContactAndUpdateList,
@@ -23,6 +25,8 @@ import { CONTACTS } from 'plugins/contacts/translations/keys';
 import { validateContactForm } from './validate-contact-form';
 import { FIELDS } from './constants';
 import './contact-sidepanel.scss';
+
+import { contacts as e2e } from 'e2e/constants';
 
 const { NAME, ADDRESS, DESCRIPTION } = FIELDS;
 const { EDIT } = VARIANTS;
@@ -90,7 +94,14 @@ function ContactSidepanel({
     setInputErrors(hasError || initialInputErrorState);
 
     if (!hasError) {
-      query(manager, setContacts, contact).then(onClose);
+      const { description, ...restContact } = contact;
+
+      const escapedContact = {
+        ...restContact,
+        description: safeString(description),
+      };
+
+      query(manager, setContacts, escapedContact).then(onClose);
     }
   }
 
@@ -132,6 +143,7 @@ function ContactSidepanel({
   return (
     <Overlay
       cancelButtonText={formatMessage(CANCEL)}
+      dataSelector={e2e.selectors.sidepanel.raw}
       footerButtonText={formatMessage(sidepanelTranslations.footerMessage)}
       Icon={Icon}
       isOpen={isOpen}
@@ -144,6 +156,7 @@ function ContactSidepanel({
       <div className="contact-sidepanel">
         <div className="contact-sidepanel__text-input">
           <TextInput
+            dataSelector={e2e.selectors.nameInput.raw}
             hasError={inputErrors[NAME]}
             label={formatMessage(CONTACTS.LABEL_NAME)}
             value={contact.name}
@@ -152,6 +165,7 @@ function ContactSidepanel({
         </div>
         <div className="contact-sidepanel__text-input">
           <TextInput
+            dataSelector={e2e.selectors.addressInput.raw}
             hasError={inputErrors[ADDRESS]}
             label={formatMessage(CONTACTS.LABEL_ADDRESS)}
             value={contact.address}
@@ -160,6 +174,7 @@ function ContactSidepanel({
         </div>
         <div className="contact-sidepanel__text-area">
           <TextArea
+            dataSelector={e2e.selectors.descInput.raw}
             label={formatMessage(CONTACTS.LABEL_DESCRIPTION)}
             value={contact.description}
             onChange={(e) => onChange(e, DESCRIPTION)}
@@ -167,7 +182,11 @@ function ContactSidepanel({
         </div>
         <Visible when={panelType === EDIT}>
           <div className="contact-sidepanel__delete">
-            <Button onClick={onDelete} variant="alert">
+            <Button
+              dataSelector={e2e.selectors.deleteBtn.raw}
+              onClick={onDelete}
+              variant="alert"
+            >
               {formatMessage(CONTACTS.DELETE_CONTACT)}
             </Button>
           </div>

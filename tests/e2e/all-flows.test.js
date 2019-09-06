@@ -18,12 +18,14 @@ const timeout = 15000;
 
 const guiMode = {
   args: chromeArgs,
+  devtools: true,
   headless: false,
-  devtools: false,
+  slowMo: 5,
 };
 const noGui = {
   args: chromeArgs,
   headless: true,
+  slowMo: 5,
 };
 
 /**
@@ -83,15 +85,15 @@ beforeEach(async () => {
   }
 });
 
-/**
- * Signs out the user after each test
- */
-afterEach(async () => {
-  await page.waitFor(500);
-  await helpers.logout(page);
-});
+describe('Web E2E', () => {
+  describe('Authentication', () => {
+    puppetHandle('Signup Test', flows.signupTest);
+    puppetHandle('Login Test', flows.loginTest);
+  });
 
-describe('Web E2E -- Authentication', () => {
-  puppetHandle('Signup Test', flows.signupTest);
-  puppetHandle('Login Test', flows.loginTest);
+  describe('Contacts Plugin', () => {
+    puppetHandle('New Contact Test', flows.newContactTest);
+    puppetHandle('Edit Contact Test', flows.editContactTest);
+    puppetHandle('Delete Contact Test', flows.deleteContactTest);
+  });
 });
