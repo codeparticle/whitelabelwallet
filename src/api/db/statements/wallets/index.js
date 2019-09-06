@@ -14,6 +14,5 @@ export const WALLETS_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Wallets`,
-    VALUE: (value) => `select * from Wallets where seed like "${value}%"`,
   },
 };
