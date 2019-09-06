@@ -11,6 +11,7 @@ import {
   TextArea,
   TextInput,
   svgs,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { VARIANTS } from 'lib/constants';
@@ -29,7 +30,7 @@ import './contact-sidepanel.scss';
 import { contacts as e2e } from 'e2e/constants';
 
 const { NAME, ADDRESS, DESCRIPTION } = FIELDS;
-const { EDIT } = VARIANTS;
+const { EDIT, OVERLAY, SIDEPANEL } = VARIANTS;
 const { COMMON: { CANCEL } } = TRANSLATION_KEYS;
 const { SvgUser } = svgs.icons;
 
@@ -71,9 +72,13 @@ function ContactSidepanel({
 }) {
   // TODO: Update HEADER component to automatically pass height & width
   const Icon = ({ fill }) => <SvgUser height={130} width={130} fill={fill} />;
+  const { isMobile } = useMedia();
   const [contact, setContact] = useState(selectedContact);
   const [inputErrors, setInputErrors] = useState(initialInputErrorState);
   const sidepanelTranslations = getSidepanelTranslations(panelType);
+  const panelVariant = isMobile
+    ? OVERLAY
+    : SIDEPANEL;
 
   useEffect(() => {
     setContact(selectedContact);
@@ -151,7 +156,7 @@ function ContactSidepanel({
       onClick={onSubmit}
       onClose={onClose}
       title={formatMessage(sidepanelTranslations.headerMessage)}
-      type="sidepanel"
+      type={panelVariant}
     >
       <div className="contact-sidepanel">
         <div className="contact-sidepanel__text-input">
