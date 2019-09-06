@@ -40,7 +40,10 @@ const MyWallets = ({
     <HeaderButton
       label={formatMessage(MY_WALLETS.ADD_WALLET_BUTTON_LABEL)}
       Icon={SvgAdd}
-      onClick={() => setIsOpenValue(true)}
+      onClick={() => {
+        console.log('========\n', 'firing', '\n========');
+        setIsOpenValue(true);
+      }}
     />
   );
 
