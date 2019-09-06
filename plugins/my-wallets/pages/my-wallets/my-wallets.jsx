@@ -5,7 +5,6 @@ import { injectIntl, intlShape } from 'react-intl';
 import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
-import { empty } from 'lib/utils';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
@@ -13,12 +12,6 @@ import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 const { SvgAdd } = svgs.icons;
 
 import './my-wallets.scss';
-
-const AddWalletIcon = ({ collapsed, iconProps }) => (
-  <Visible when={collapsed}>
-    <IconButton onClick={empty} icon={<SvgAdd {...iconProps} />} />
-  </Visible>
-);
 
 /**
   Renders My Wallet Page
@@ -36,15 +29,18 @@ const MyWallets = ({
     setIsOpenValue(false);
   };
   const [isOpenValue, setIsOpenValue] = useState(false);
+  const onClick = () => setIsOpenValue(true);
   const AddWallet = () => (
     <HeaderButton
       label={formatMessage(MY_WALLETS.ADD_WALLET_BUTTON_LABEL)}
       Icon={SvgAdd}
-      onClick={() => {
-        console.log('========\n', 'firing', '\n========');
-        setIsOpenValue(true);
-      }}
+      onClick={onClick}
     />
+  );
+  const AddWalletIcon = ({ collapsed, iconProps }) => (
+    <Visible when={collapsed}>
+      <IconButton onClick={onClick} icon={<SvgAdd {...iconProps} />} />
+    </Visible>
   );
 
   return (

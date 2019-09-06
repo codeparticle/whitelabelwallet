@@ -67,6 +67,7 @@ const WalletSidepanelContent = ({
             label={translations.walletNickname}
             placeholder={translations.walletPlaceholder}
             value={nickname}
+            className='wallet-nickname'
             onChange={onNicknameChange}
           />
           <label className="generate-label" htmlFor="generate-code">{translations.recoveryCode}</label>
