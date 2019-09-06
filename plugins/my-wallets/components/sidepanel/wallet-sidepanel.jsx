@@ -4,15 +4,18 @@ import { injectIntl, intlShape } from 'react-intl';
 import {
   Overlay,
   svgs,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { useManager } from 'lib/hooks';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
 import { WalletSidepanelContent } from 'plugins/my-wallets/components/sidepanel/wallet-sidepanel-content';
+import { VARIANTS } from 'plugins/my-wallets/components/sidepanel/constants';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
+const { OVERLAY, SIDEPANEL } = VARIANTS;
 const initialSate = {
   multi_address: 0,
   name: '',
@@ -62,6 +65,7 @@ const WalletSidepanelView = ({
   const [currentStep, setCurrentStep] = useState(1);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [walletData, setWalletData] = useState(initialSate);
+  const panelVariant = isMobile  ? OVERLAY : SIDEPANEL;
 
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
@@ -123,7 +127,7 @@ const WalletSidepanelView = ({
       checkBoxLabel={translations.termsAndConditionsLabel}
       hasCancelButton={false}
       hasCheckbox={currentStep === 3}
-      type={'sidepanel'}
+      type={panelVariant}
       disableFooterButton={isDisabled}
       title={translations.newWalletTitle}
       subTitle={translations.newWalletSubTitle}
