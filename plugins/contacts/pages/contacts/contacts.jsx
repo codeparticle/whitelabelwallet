@@ -18,6 +18,8 @@ import { setContacts } from 'plugins/contacts/rdx/actions';
 import { fetchContacts } from 'plugins/contacts/helpers';
 import { getContacts } from 'plugins/contacts/rdx/selectors';
 
+import { contacts as e2e } from 'e2e/constants';
+
 const { ADD } = VARIANTS;
 const { SvgAdd } = svgs.icons;
 
@@ -65,6 +67,7 @@ const ContactsPageView = ({
   function AddContactButton() {
     return (
       <HeaderButton
+        dataSelector={e2e.selectors.addBtn.raw}
         Icon={SvgAdd}
         label={formatMessage(CONTACTS.ADD_CONTACT)}
         onClick={onAdd}
@@ -84,17 +87,25 @@ const ContactsPageView = ({
   }) {
     return (
       <Visible when={collapsed}>
-        <IconButton onClick={onAdd} icon={<SvgAdd {...iconProps} />} />
+        <IconButton
+          dataSelector={e2e.selectors.addBtn.raw}
+          onClick={onAdd}
+          icon={<SvgAdd {...iconProps}/>}
+        />
       </Visible>
     );
   }
 
   return (
-    <Page headerProps={{
-      PrimaryAction: AddContactIcon,
-      SecondaryAction: AddContactButton,
-      title: formatMessage(CONTACTS.TITLE),
-    }}>
+    <Page
+      dataSelector={e2e.selectors.page.raw}
+      headerProps={{
+        dataSelector: e2e.selectors.header.raw,
+        PrimaryAction: AddContactIcon,
+        SecondaryAction: AddContactButton,
+        title: formatMessage(CONTACTS.TITLE),
+      }}
+    >
       <SearchContacts
         formatMessage={formatMessage}
         manager={manager}

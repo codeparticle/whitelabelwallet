@@ -15,6 +15,16 @@ const safeString = (str) => {
   return SqlString.escape(str).slice(1, -1);
 };
 
+/**
+ * Function that 'un-escapes' a string from the db.
+ * @returns {string} Un-escaped string
+ * @param {string} str string to be un-escaped
+ */
+const unescape = (str) => {
+  return str.replace(/\'\'/g, '\'');
+};
+
 export {
+  unescape,
   safeString,
 };
