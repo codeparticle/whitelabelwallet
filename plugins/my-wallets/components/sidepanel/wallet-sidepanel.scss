@@ -114,20 +114,28 @@ $word-button-mobile-text-size: 10px;
       .generate-label,
       .multi-address-prompt,
       .small-grey-text,
+      .confirm-recovery-label,
       .wallet-nickname {
         color: $slate;
         padding: 0px $space-2;
       }
 
-      .generate-label {
+      .generate-label,
+      .confirm-recovery-label {
         margin-top: $space-5;
+      }
+
+      .small-grey-text {
+        margin-top: 0px;
       }
 
       .generate-code-wrapper {
         background: white;
+
         div > div {
           border-radius: 0px;
         }
+
         p {
           font-size: $word-button-mobile-text-size;
         }

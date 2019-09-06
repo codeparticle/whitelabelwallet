@@ -104,7 +104,7 @@ const WalletSidepanelContent = ({
     case 2:
       return (
         <div className="content-container">
-          <label htmlFor="generate-code">{translations.confirmRecoveryLabel}</label>
+          <label className="confirm-recovery-label" htmlFor="generate-code">{translations.confirmRecoveryLabel}</label>
           <div className="generate-code-wrapper">
             <div className={`pass-phrase-wrapper`}>
               <DeterministicPassPhrase
