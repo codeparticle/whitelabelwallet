@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { THEME_KEYS, ToggleSwitch } from '@codeparticle/whitelabelwallet.styleguide';
 import { getRdxActionMapper } from 'rdx/utils/props-mapping';
 import { TRANSLATION_KEYS } from 'translations/keys';
+import { settings as e2e } from 'e2e/constants';
 
 const { SETTINGS } = TRANSLATION_KEYS;
 const { ENABLE_DARK_MODE } = SETTINGS;
@@ -35,6 +36,7 @@ function ThemeToggleView({
         <span>{formatMessage(ENABLE_DARK_MODE)}</span>
       </label>
       <ToggleSwitch
+        dataSelector={e2e.selectors.themeToggle.raw}
         onClick={toggleDarkMode}
         value={isDarkMode}
       />
