@@ -57,6 +57,7 @@ const WalletSidepanelContent = ({
       name: nickname,
     });
   }, [nickname, isMultiAddress]);
+  // Todo: need to add support for wallet passwords (WLW-146)
 
   switch (step) {
     case 1:
