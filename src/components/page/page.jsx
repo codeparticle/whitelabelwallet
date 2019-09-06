@@ -34,7 +34,9 @@ const Page = ({
   return (
     <main className="page-rct-component" data-selector={dataSelector}>
       <PageHeader {...headerProps} />
-      {children}
+      <section className="page-rct-component__content">
+        {children}
+      </section>
     </main>
   );
 };

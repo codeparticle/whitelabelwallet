@@ -6,8 +6,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   PageHeader as PageHeaderView,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { space4 } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
 import {
   BackButton,
   HeaderActionButtons,
@@ -25,31 +25,29 @@ const PageHeader = ({
   to,
   type,
 }) => {
+  const { isMobile, isDesktop, isWideScreen } = useMedia();
+  const useAltTheme = (type === PRIMARY && isMobile);
+  const hideNavButton = ((isDesktop || isWideScreen) && type === PRIMARY);
   function NavigationButton(props) {
     return type === PRIMARY
       ? <NavTrigger {...props} />
       : <BackButton to={to} {...props} />;
   }
 
+
   const pageHeaderProps = {
     IconButtons: HeaderActionButtons,
-    NavigationButton,
+    NavigationButton: hideNavButton ? null : NavigationButton,
     PrimaryAction,
     SecondaryAction,
     title,
+    useAltTheme,
   };
 
   return (
-    <div className="page-header">
+    <header className="page-header">
       <PageHeaderView {...pageHeaderProps} />
-      <style jsx>
-        {`
-          .page-header {
-            margin-bottom: ${space4};
-          }
-        `}
-      </style>
-    </div>
+    </header>
   );
 };
 
