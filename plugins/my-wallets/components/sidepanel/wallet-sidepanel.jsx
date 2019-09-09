@@ -11,7 +11,7 @@ import { useManager } from 'lib/hooks';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
 import { WalletSidepanelContent } from 'plugins/my-wallets/components/sidepanel/wallet-sidepanel-content';
-import { VARIANTS } from 'plugins/my-wallets/components/sidepanel/constants';
+import { VARIANTS } from 'lib/constants';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
