@@ -4,7 +4,11 @@ $button-box-height: 170px;
 $button-height: 40px;
 $generate-code-wrapper-height: 170px;
 $italic-text-size: 11px;
+$mobile-disclaimer-padding-bottom: 26px;
 $overlay-header-mobile-height: 269px;
+$terms-mobile-height: 260px;
+$terms-mobile-container-height: 340px;
+$terms-mobile-padding: 34px;
 $word-button-mobile-text-size: 10px;
 
 .content-container {
@@ -89,12 +93,20 @@ $word-button-mobile-text-size: 10px;
     }
 
     .section-spacer {
+      font-weight: bold;
       margin: $space-4 0;
     }
   }
 
   .hide {
     visibility: hidden;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
   }
 }
 
@@ -140,6 +152,63 @@ $word-button-mobile-text-size: 10px;
           font-size: $word-button-mobile-text-size;
         }
       }
+
+      .mobile-terms-wrapper {
+        height: $terms-mobile-height;
+        color: $cool-grey-dark;
+
+        .disclaimer {
+          padding: 0px $space-4 $mobile-disclaimer-padding-bottom;
+        }
+        
+        .terms-box {
+          align-items: center;
+          background: $tint-blue;
+          border-bottom-left-radius: $border-radius-3;
+          border-bottom-right-radius: $border-radius-3;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: $terms-mobile-padding;
+
+          button {
+            font-size: $font-size-sm-2;
+          }
+        }
+
+        .terms-wrapper {
+          margin-top: 0px;
+          padding: 0px;
+        }
+
+        .mobile-checkbox {
+          display: flex;
+          justify-content: center;
+          margin-top: $space-6;
+
+          span {
+            color: $cool-grey-dark;
+          } 
+        }
+      }
     }
   } 
+
+  .shrink .react-sidenav-container .react-sidenav  .sidepanel-content {
+    flex-grow: 0;
+    flex-basis: $terms-mobile-height;
+
+    .content-container {
+      padding: $space-3 0 0 0;
+    }
+  }
+
+  .expand .react-sidenav-container .react-sidenav  .sidepanel-content {
+    flex-grow: 0;
+    flex-basis: $terms-mobile-container-height;
+
+    .content-container {
+      padding: 0;
+    }
+  }
 }
