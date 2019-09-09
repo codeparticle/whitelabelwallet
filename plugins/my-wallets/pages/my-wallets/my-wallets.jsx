@@ -2,7 +2,7 @@ import React,  { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.styleguide';
+import { HeaderButton, IconButton, svgs, useMedia } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { useManager } from 'lib/hooks';
@@ -30,13 +30,16 @@ const MyWallets = ({
 }) => {
   const [isOpenValue, setIsOpenValue] = useState(false);
   const manager = useManager();
+  const { isMobile } = useMedia();
 
   useEffect(() => {
     fetchWallets(manager, props.setWallets);
   }, [props.setWallets]);
 
-  const onClose = ()=> {
-    setIsOpenValue(false);
+  const onClose = (eventData)=> {
+    if (eventData === undefined || !eventData.outsideClick || !isMobile) {
+      setIsOpenValue(false);
+    }
   };
 
   const onClick = () => setIsOpenValue(true);
@@ -67,7 +70,6 @@ const MyWallets = ({
         onClose={onClose}
         intl
         isOpen={isOpenValue}
-        setIsOpenValue={setIsOpenValue}
         setWallets={props.setWallets}/>
     </Page>
   );
