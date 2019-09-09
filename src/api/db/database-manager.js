@@ -172,9 +172,12 @@ export class DatabaseManager {
    * Update data into the sqlite DB utilizing the query method
    * @param {object} the table name, the columns to be updated, and an optional where clause
    */
-  update({ table, cols, where } = {}) {
+  update({ table, cols, where = null } = {}) {
     const setClause = this.flattenObjectToSetClause(cols);
-    const statement = `update ${table} set ${setClause} where ${where};`;
+    const whereClause = where
+      ? `where ${where}`
+      : '';
+    const statement = `update ${table} set ${setClause} ${whereClause};`;
     return this.query({
       statement,
       run: true,
@@ -296,9 +299,23 @@ export class DatabaseManager {
    * Gets the UserSettings table
    * @returns {Array} UserSettings
    */
-  getUserSettings() {
+  async getUserSettings() {
     const statement = STMT.USER_SETTINGS.SELECT.ALL;
-    return this.query({ statement });
+    const [res] = await this.query({ statement });
+
+    return res;
+  }
+
+  /**
+   * Updates the user's theme
+   * @param {string} theme
+   */
+  updateUserTheme(theme) {
+    const cols = { theme };
+    return this.update({
+      table: 'UserSettings',
+      cols,
+    });
   }
 
   /* -------------------------------------------- */

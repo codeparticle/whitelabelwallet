@@ -61,22 +61,58 @@ export class WebManager extends RenderManager {
   }
 
   /**
-   * Saves the current DB given the user information
+   * Creates a renamed copy of the current DBfile, and deletes the old one.
+   * Both parameters default to the respective current user value incase one
+   * or the other is a null value. This is useful when a user wishes to rename
+   * the account username, but keep the same password. It also works for the inverse
+   * scenario.
+   * @param {string} username - desired username
+   * @param {string} password - desired password
    */
-  saveDatabase() {
+  updateDatabaseName(username = this.username, password = this.password) {
+    this.checkDatabaseExists(username, password).then((exists) => {
+      if (exists) {
+        return false;
+      }
+
+      this.saveDatabase(username, password).then(() => {
+        this.fileManager.removeDatabaseFile(this.username, this.password);
+        this.setUser(username, password);
+      });
+
+      return true;
+    });
+  }
+
+  /**
+   * Saves the current DB given the user information
+   * Params should only be specified when used via updateDatabaseName
+   * @param {string} username
+   * @param {string} password
+   */
+  saveDatabase(username, password) {
+    username = username || this.username;
+    password = password || this.password;
+
     return new Promise(resolve => {
       const dbBinary = this.databaseManager.exportDatabase();
-      const serializedBinary = EncryptionManager.prepToSaveDatabase(this.username, this.password, dbBinary);
-      this.fileManager.storeDatabaseFile(this.username, this.password, serializedBinary);
+      const serializedBinary = EncryptionManager.prepToSaveDatabase(username, password, dbBinary);
+      this.fileManager.storeDatabaseFile(username, password, serializedBinary);
       resolve(true);
     });
   }
 
   /**
    * Checks the database exists
+   * Params should only be specified when used via updateDatabaseName
+   * @param {string} username
+   * @param {string} password
    */
-  checkDatabaseExists() {
-    const dbFile = this.fileManager.getDatabaseFile(this.username, this.password);
+  checkDatabaseExists(username, password) {
+    username = username || this.username;
+    password = password || this.password;
+
+    const dbFile = this.fileManager.getDatabaseFile(username, password);
 
     return new Promise((resolve) => {
       if (dbFile) {
@@ -88,7 +124,7 @@ export class WebManager extends RenderManager {
       let userNameExists = false;
 
       Object.keys(this.storage).forEach((keyName) => {
-        const hasUsername = keyName.indexOf(this.username) !== -1;
+        const hasUsername = keyName.indexOf(username) !== -1;
 
         if (hasUsername) {
           userNameExists = true;

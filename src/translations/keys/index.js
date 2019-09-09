@@ -4,6 +4,7 @@ import { COMMON } from './common';
 import { FORM } from './form';
 import { HELMET } from './helmet';
 import { MENU } from './menu';
+import { SETTINGS } from './settings';
 
 export const parseIntlText = (intl, text) => {
   if (typeof text === 'object' && text.id) {
@@ -37,5 +38,6 @@ export const TRANSLATION_KEYS = {
   FORM,
   HELMET,
   MENU,
+  SETTINGS,
   ...APP_MESSAGES,
 };

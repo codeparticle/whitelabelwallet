@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PageHeader } from 'components/page-header';
+import { THEME_KEYS, useTheme } from '@codeparticle/whitelabelwallet.styleguide';
+import { cloud, darkBg } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
 
 import './page.scss';
 
@@ -31,12 +33,24 @@ const Page = ({
   dataSelector,
   headerProps,
 }) => {
+  const themeName = useTheme('name');
+  const background = themeName === THEME_KEYS.LIGHT
+    ? cloud
+    : darkBg;
+
   return (
     <main className="page-rct-component" data-selector={dataSelector}>
       <PageHeader {...headerProps} />
       <section className="page-rct-component__content">
         {children}
       </section>
+      <style jsx>
+        {`
+          .page-rct-component {
+            background: ${background} !important;
+          }
+        `}
+      </style>
     </main>
   );
 };
