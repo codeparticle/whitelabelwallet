@@ -11,6 +11,7 @@ import { MediaProvider } from '@codeparticle/whitelabelwallet.styleguide';
 import {
   AuthGuard,
   ConnectedIntlProvider,
+  ConnectedThemeProvider,
   RootHelmet,
   RootRouter,
   ManagerContext,
@@ -39,16 +40,18 @@ const App = () => {
       <ConnectedIntlProvider>
         <ManagerContext.Provider value={manager}>
           <MediaProvider>
-            <PersistGate persistor={persistor}>
-              <ConnectedRouter history={history}>
-                <IonApp>
-                  <AuthGuard>
-                    <RootHelmet />
-                    <RootRouter />
-                  </AuthGuard>
-                </IonApp>
-              </ConnectedRouter>
-            </PersistGate>
+            <ConnectedThemeProvider>
+              <PersistGate persistor={persistor}>
+                <ConnectedRouter history={history}>
+                  <IonApp>
+                    <AuthGuard>
+                      <RootHelmet />
+                      <RootRouter />
+                    </AuthGuard>
+                  </IonApp>
+                </ConnectedRouter>
+              </PersistGate>
+            </ConnectedThemeProvider>
           </MediaProvider>
         </ManagerContext.Provider>
       </ConnectedIntlProvider>

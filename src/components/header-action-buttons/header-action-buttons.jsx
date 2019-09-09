@@ -2,12 +2,13 @@
  * @fileoverview Pattern for Header Action Buttons
  * @author Gabriel Womble
  */
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   IconButton,
   IconVariants,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { SettingsSidepanel } from 'components';
 import { PROP_TYPES } from 'lib/constants';
 import { empty } from 'lib/utils';
 
@@ -16,13 +17,23 @@ const { SvgSettings, SvgUserAccount } = svgs.icons;
 const { iconPropsShape } = PROP_TYPES;
 
 function SettingsButton({ iconProps }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSettingspanel = () => setIsOpen(!isOpen);
+
   return (
-    <IconButton
-      className="page-header__icon"
-      variant={IconVariants.SLATE}
-      onClick={empty}
-      icon={<SvgSettings {...iconProps} />}
-    />
+    <Fragment>
+      <IconButton
+        className="page-header__icon"
+        variant={IconVariants.SLATE}
+        onClick={toggleSettingspanel}
+        icon={<SvgSettings {...iconProps} />}
+      />
+      <SettingsSidepanel
+        isOpen={isOpen}
+        onClose={toggleSettingspanel}
+      />
+    </Fragment>
   );
 }
 

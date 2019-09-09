@@ -12,6 +12,7 @@ import {
   TextInput,
   svgs,
   useMedia,
+  useTheme,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { VARIANTS } from 'lib/constants';
@@ -72,6 +73,7 @@ function ContactSidepanel({
 }) {
   // TODO: Update HEADER component to automatically pass height & width
   const Icon = ({ fill }) => <SvgUser height={130} width={130} fill={fill} />;
+  const themeName = useTheme('name');
   const { isMobile } = useMedia();
   const [contact, setContact] = useState(selectedContact);
   const [inputErrors, setInputErrors] = useState(initialInputErrorState);
@@ -158,7 +160,7 @@ function ContactSidepanel({
       title={formatMessage(sidepanelTranslations.headerMessage)}
       type={panelVariant}
     >
-      <div className="contact-sidepanel">
+      <div className={`contact-sidepanel ${themeName}`}>
         <div className="contact-sidepanel__text-input">
           <TextInput
             dataSelector={e2e.selectors.nameInput.raw}

@@ -10,6 +10,8 @@ import {
   PERFORM_STARTUP_SETUP,
   SAVE_DATABASE,
   SAVED_DATABASE,
+  REMOVE_DATABASE,
+  REMOVED_DATABASE,
 } from 'api/electron/ipc-events';
 import { DatabaseManager, UpdateManager } from 'api/db';
 import { RenderManager } from 'api/render-manager';
@@ -91,9 +93,47 @@ export class ElectronRendererManager extends RenderManager {
   }
 
   /**
-   * Saves the current DB given the user information
+   * Creates a renamed copy of the current DBfile, and deletes the old one.
+   * Both parameters default to the respective current user value incase one
+   * or the other is a null value. This is useful when a user wishes to rename
+   * the account username, but keep the same password. It also works for the inverse
+   * scenario.
+   * @param {string} username - desired username
+   * @param {string} password - desired password
    */
-  saveDatabase() {
+  updateDatabaseName(username = this.username, password = this.password) {
+    this.checkDatabaseExists(username, password).then((exists) => {
+      if (exists) {
+        return false;
+      }
+
+      this.saveDatabase(username, password).then(() => {
+        return new Promise(resolve => {
+          ipcRenderer.once(REMOVED_DATABASE, (event, removed) => {
+            log.debug('ElectronRendererManager::removeDatabase database removed');
+
+            this.setUser(username, password);
+            resolve(removed);
+          });
+
+          ipcRenderer.send(REMOVE_DATABASE, this.username, this.password);
+        });
+      });
+
+      return true;
+    });
+  }
+
+  /**
+   * Saves the current DB given the user information
+   * Params should only be specified when used via updateDatabaseName
+   * @param {string} username
+   * @param {string} password
+   */
+  saveDatabase(username, password) {
+    username = username || this.username;
+    password = password || this.password;
+
     log.debug('ElectronRendererManager::saveDatabase called');
     const dbBinary = this.databaseManager.exportDatabase();
 
@@ -104,14 +144,20 @@ export class ElectronRendererManager extends RenderManager {
         resolve(saved);
       });
 
-      ipcRenderer.send(SAVE_DATABASE, this.username, this.password, dbBinary);
+      ipcRenderer.send(SAVE_DATABASE, username, password, dbBinary);
     });
   }
 
   /**
    * Checks the database exists
+   * Params should only be specified when used via updateDatabaseName
+   * @param {string} username
+   * @param {string} password
    */
-  checkDatabaseExists() {
+  checkDatabaseExists(username, password) {
+    username = username || this.username;
+    password = password || this.password;
+
     log.debug('ElectronRendererManager::checkDatabase called');
 
     return new Promise(resolve => {
@@ -119,7 +165,7 @@ export class ElectronRendererManager extends RenderManager {
         resolve(exists);
       });
 
-      ipcRenderer.send(CHECK_DATABASE, this.username, this.password);
+      ipcRenderer.send(CHECK_DATABASE, username, password);
     });
   }
 }

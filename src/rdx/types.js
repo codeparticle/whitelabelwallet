@@ -6,6 +6,7 @@ import navBarTypes from 'rdx/modules/nav-bar/types';
 import pluginsTypes from 'rdx/modules/plugins/types';
 import routerTypes from 'rdx/modules/router/types';
 import selectedTypes from 'rdx/modules/selected/types';
+import settingsTypes from 'rdx/modules/settings/types';
 import transactionsTypes from 'rdx/modules/transactions/types';
 // IMPORT_PT (for script -- do not remove!)
 
@@ -18,6 +19,7 @@ const types = {
   ...pluginsTypes,
   ...routerTypes,
   ...selectedTypes,
+  ...settingsTypes,
   ...transactionsTypes,
 // INSERTION_PT (for script -- do not remove!)
 };

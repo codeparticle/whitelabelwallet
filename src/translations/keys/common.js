@@ -46,4 +46,14 @@ export const COMMON = defineMessages({
     description: 'Terms of Service text',
     defaultMessage: 'Terms of Service',
   },
+  SETTINGS: {
+    id: 'common.settings',
+    description: 'Settings text',
+    defaultMessage: 'Settings',
+  },
+  SAVE_CHANGES: {
+    id: 'common.save_changes',
+    description: 'Save Changes text',
+    defaultMessage: 'Save Changes',
+  },
 });
