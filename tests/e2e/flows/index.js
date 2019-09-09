@@ -7,13 +7,21 @@ import {
   editContactTest,
   newContactTest,
 } from './contacts';
+import {
+  changePasswordTest,
+  renameUserTest,
+  toggleThemeTest,
+} from './settings';
 
 const flows = {
+  changePasswordTest,
   deleteContactTest,
   editContactTest,
   loginTest,
-  signupTest,
   newContactTest,
+  renameUserTest,
+  signupTest,
+  toggleThemeTest,
 };
 
 export default flows;

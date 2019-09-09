@@ -69,7 +69,10 @@ export class WebManager extends RenderManager {
    * @param {string} username - desired username
    * @param {string} password - desired password
    */
-  updateDatabaseName(username = this.username, password = this.password) {
+  updateDatabaseName(username, password) {
+    username = username || this.username;
+    password = password || this.password;
+
     this.checkDatabaseExists(username, password).then((exists) => {
       if (exists) {
         return false;
