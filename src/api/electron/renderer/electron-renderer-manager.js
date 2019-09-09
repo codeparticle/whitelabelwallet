@@ -10,12 +10,13 @@ import {
   PERFORM_STARTUP_SETUP,
   SAVE_DATABASE,
   SAVED_DATABASE,
-} from '../ipc-events';
-import { DatabaseManager, UpdateManager } from '../../db';
+} from 'api/electron/ipc-events';
+import { DatabaseManager, UpdateManager } from 'api/db';
+import { RenderManager } from 'api/render-manager';
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
-export class ElectronRendererManager {
+export class ElectronRendererManager extends RenderManager {
   // transmit event to main manager to perform startup functions
   performStartupService() {
     ipcRenderer.send(PERFORM_STARTUP_SETUP);
@@ -42,17 +43,6 @@ export class ElectronRendererManager {
     log.debug('ElectronRendererService::startDatabaseManager called');
     DatabaseManager.file = dbFile;
     this.databaseManager = DatabaseManager.instance;
-  }
-
-  /**
-   * Sets the manager user
-   */
-  setUser(username, password) {
-    log.debug('ElectronRendererManager::setUser called');
-    this.username = username;
-    this.password = password;
-
-    return this;
   }
 
   /**
