@@ -123,8 +123,14 @@ $word-button-mobile-text-size: 10px;
         margin-top: $space-5;
       }
 
-      .generate-code-wrapper p {
-        font-size: $word-button-mobile-text-size;
+      .generate-code-wrapper {
+        background: white;
+        div > div {
+          border-radius: 0px;
+        }
+        p {
+          font-size: $word-button-mobile-text-size;
+        }
       }
     }
   } 
