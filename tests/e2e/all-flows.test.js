@@ -96,4 +96,10 @@ describe('Web E2E', () => {
     puppetHandle('Edit Contact Test', flows.editContactTest);
     puppetHandle('Delete Contact Test', flows.deleteContactTest);
   });
+
+  describe('Settings Page', () => {
+    puppetHandle('Rename User Test', flows.renameUserTest);
+    puppetHandle('Change Password Test', flows.changePasswordTest);
+    puppetHandle('Toggle Theme Test', flows.toggleThemeTest);
+  });
 });

@@ -11,6 +11,7 @@ import {
 import { SettingsSidepanel } from 'components';
 import { PROP_TYPES } from 'lib/constants';
 import { empty } from 'lib/utils';
+import { settings as e2e } from 'e2e/constants';
 
 const { SvgSettings, SvgUserAccount } = svgs.icons;
 
@@ -25,6 +26,7 @@ function SettingsButton({ iconProps }) {
     <Fragment>
       <IconButton
         className="page-header__icon"
+        dataSelector={e2e.selectors.openBtn.raw}
         variant={IconVariants.SLATE}
         onClick={toggleSettingspanel}
         icon={<SvgSettings {...iconProps} />}

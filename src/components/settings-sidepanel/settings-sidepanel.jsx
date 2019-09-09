@@ -16,6 +16,7 @@ import { ChangePasswordFormLayout, ThemeToggle } from 'components';
 import { VARIANTS } from 'lib/constants';
 import { useManager } from 'lib/hooks';
 import { TRANSLATION_KEYS } from 'translations/keys';
+import { settings as e2e } from 'e2e/constants';
 
 import { validateSettings } from './validate-settings';
 import './settings-sidepanel.scss';
@@ -81,6 +82,7 @@ function SettingsSidepanelView({
 
   return (
     <Overlay
+      dataSelector={e2e.selectors.sidepanel.raw}
       footerButtonText={formatMessage(COMMON.SAVE_CHANGES)}
       isOpen={isOpen}
       Icon={Icon}
@@ -93,6 +95,7 @@ function SettingsSidepanelView({
       <div className="settings-sidepanel-content">
         <div className="sidepanel-item">
           <TextInput
+            dataSelector={e2e.selectors.username.raw}
             label={formatMessage(SETTINGS.CHANGE_USERNAME)}
             hasError={inputErrors.username}
             onChange={onUsernameChange}

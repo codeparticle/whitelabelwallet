@@ -21,7 +21,7 @@ export const common = {
   },
   values: {
     username: 'E2ETesting',
-    password: 'Secr3t!',
+    password: 'Secr3t',
   },
 };
 
@@ -77,5 +77,26 @@ export const main = {
   selectors: {
     test: getDataSelector('main.test'),
     logout: getDataSelector('main.logout'),
+  },
+};
+
+export const settings = {
+  selectors: {
+    sidepanel: getDataSelector('settings.sidepanel'),
+    openBtn: getDataSelector('settings.open-btn'),
+    username: getDataSelector('settings.username'),
+    changePassword: getDataSelector('settings.change-password'),
+    currentPassword: getDataSelector('settings.current-password'),
+    newPassword: getDataSelector('settings.new-password'),
+    confirmedPassword: getDataSelector('settings.confirmed-password'),
+    themeToggle: getDataSelector('settings.theme-toggle'),
+    themeToggleTrue: getDataSelector('settings.theme-toggle-true'),
+    saveBtn: getDataSelector('settings.sidepanel-footer-btn'),
+  },
+  values: {
+    newUsername: 'Renamed',
+    newPassword: 'Changed',
+    currentUsername: common.values.username,
+    currentPassword: common.values.password,
   },
 };

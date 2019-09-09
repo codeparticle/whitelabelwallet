@@ -8,6 +8,7 @@ import { Visible } from '@codeparticle/react-visible';
 import { Button, TextInput } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { TRANSLATION_KEYS } from 'translations/keys';
+import { settings as e2e } from 'e2e/constants';
 
 const { SECONDARY } = VARIANTS;
 const { SETTINGS } = TRANSLATION_KEYS;
@@ -59,18 +60,20 @@ function ChangePasswordFormLayout({
         {inputFields.map(({ key, label }) => (
           <div className="sidepanel-item" key={key}>
             <TextInput
-              name={key}
-              label={formatMessage(label)}
+              dataSelector={e2e.selectors[key].raw}
               hasError={inputErrors[key]}
+              label={formatMessage(label)}
+              name={key}
               onChange={onChange}
-              value={passwordFields[key]}
               type="password"
+              value={passwordFields[key]}
             />
           </div>
         ))}
       </Visible>
       <div className="sidepanel-item change-password-button">
         <Button
+          dataSelector={e2e.selectors.changePassword.raw}
           onClick={toggleEditPassword}
           variant={SECONDARY}
         >
