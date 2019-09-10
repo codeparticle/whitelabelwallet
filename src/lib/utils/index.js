@@ -9,6 +9,7 @@ import { getLowercaseKeys } from './get-lowercase-keys';
 import { getQueryString } from './get-query-string';
 import { getUrlParameterByName } from './get-url-parameter-by-name';
 import { isRequestAllowed } from './is-request-allowed';
+import { mapInputErrors } from './map-input-errors';
 import { regexToString } from './regex-to-string';
 import { safeString, unescape } from './strings';
 
@@ -24,6 +25,7 @@ export {
   getQueryString,
   getUrlParameterByName,
   isRequestAllowed,
+  mapInputErrors,
   regexToString,
   safeString,
   unescape,
