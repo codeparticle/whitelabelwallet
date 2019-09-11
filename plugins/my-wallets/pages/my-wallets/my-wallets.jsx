@@ -1,11 +1,14 @@
-import React,  { useState } from 'react';
+import React,  { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { HeaderButton, IconButton, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
+import { useManager } from 'lib/hooks';
+import { fetchWallets } from 'plugins/my-wallets/helpers';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
+import { getWallets } from 'plugins/my-wallets/rdx/selectors';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 
@@ -18,18 +21,26 @@ import './my-wallets.scss';
   @returns {Node} - rendered My Wallet Page
 */
 const MyWallets = ({
+  history,
   intl: {
     formatMessage,
   },
+  wallets,
   ...props
 }) => {
-  // Load wallets from local DB
-  const wallets = [];
+  const [isOpenValue, setIsOpenValue] = useState(false);
+  const manager = useManager();
+
+  useEffect(() => {
+    fetchWallets(manager, props.setWallets);
+  }, [props.setWallets]);
+
   const onClose = ()=> {
     setIsOpenValue(false);
   };
-  const [isOpenValue, setIsOpenValue] = useState(false);
+
   const onClick = () => setIsOpenValue(true);
+
   const AddWallet = () => (
     <HeaderButton
       label={formatMessage(MY_WALLETS.ADD_WALLET_BUTTON_LABEL)}
@@ -51,7 +62,7 @@ const MyWallets = ({
         title: formatMessage(MY_WALLETS.PAGE_HEADER),
       }}
     >
-      <Wallets wallets={wallets} />
+      <Wallets history={history} wallets={wallets} />
       <WalletSidepanel
         onClose={onClose}
         intl
@@ -63,14 +74,24 @@ const MyWallets = ({
 };
 
 MyWallets.propTypes = {
+  history: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   setWallets: PropTypes.func.isRequired,
+  wallets: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  const wallets = getWallets(state);
+
+  return {
+    wallets,
+  };
 };
 
 const mapDispatchToProps = {
   setWallets,
 };
 
-const MyWalletsPage = connect(null, mapDispatchToProps)(injectIntl(MyWallets));
+const MyWalletsPage = connect(mapStateToProps, mapDispatchToProps)(injectIntl(MyWallets));
 
 export { MyWalletsPage };

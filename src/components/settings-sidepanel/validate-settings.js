@@ -4,6 +4,7 @@
  */
 import { rules, validateObject } from '@codeparticle/formal';
 import { REGEXES } from 'lib/constants';
+import { mapInputErrors } from 'lib/utils';
 
 const { REGEX_INPUT } = REGEXES;
 const { isNonEmptyString, matchesRegex } = rules;
@@ -89,17 +90,5 @@ export function validateSettings({
 
   const validateForm = validateObject(validationObject);
 
-  const { errors = {}, hasErrors = false } = validateForm(formFields);
-
-  if (hasErrors) {
-    const inputErrors = {};
-    Object.keys(formFields).forEach((field) => {
-      if (errors[field]) {
-        inputErrors[field] = true;
-      }
-    });
-    return inputErrors;
-  }
-
-  return false;
+  return mapInputErrors(validateForm, formFields);
 }

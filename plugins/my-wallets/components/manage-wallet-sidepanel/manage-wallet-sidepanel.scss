@@ -1,0 +1,21 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$text-area-height: 150px;
+
+.manage-wallet-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $spacing-l $spacing-xl;
+  width: 100%;
+
+  &__text-input,
+  &__text-area {
+    margin: $spacing-xs 0;
+    width: 100%;
+  }
+
+  &__text-area {
+    height: $text-area-height;
+  }
+}

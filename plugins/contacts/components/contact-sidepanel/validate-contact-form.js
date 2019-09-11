@@ -4,6 +4,7 @@
  */
 import { rules, validateObject } from '@codeparticle/formal';
 import { VALIDATIONS } from './constants';
+import { mapInputErrors } from 'lib/utils';
 
 const {
   ADDRESS_MIN_LENGTH,
@@ -27,17 +28,5 @@ export function validateContactForm({
     address,
   };
 
-  const { errors = {}, hasErrors = false } = validateForm(formFields);
-
-  if (hasErrors) {
-    const inputErrors = {};
-    Object.keys(formFields).forEach((field) => {
-      if (errors[field]) {
-        inputErrors[field] = true;
-      }
-    });
-    return inputErrors;
-  }
-
-  return false;
+  return mapInputErrors(validateForm, formFields);
 };
