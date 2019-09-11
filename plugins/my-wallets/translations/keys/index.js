@@ -21,6 +21,11 @@ export const MY_WALLETS = defineMessages({
     description: 'continue button text',
     defaultMessage: 'Continue',
   },
+  DESCRIPTION_LABEL: {
+    id: 'plugin.my_wallets.description_label',
+    description: 'Description label text',
+    defaultMessage: 'Description',
+  },
   GENERATE_CODE_BUTTON: {
     id: 'plugin.my_wallets.generate_code_button',
     description: 'generate code button text',
@@ -33,6 +38,16 @@ export const MY_WALLETS = defineMessages({
     down and keep it safe incase you need to recover your wallet.
     You will not be able to do so without it. Make sure no one is looking before
     you generate a code.`,
+  },
+  MANAGE_WALLET_BUTTON_LABEL: {
+    id: 'plugin.my_wallets.manage_wallet_button_label',
+    description: 'Manage button text',
+    defaultMessage: 'Manage',
+  },
+  MANAGE_WALLET_PANEL_LABEL: {
+    id: 'plugin.my_wallets.manage_wallet_panel_label',
+    description: 'Manage wallet panel text',
+    defaultMessage: 'Manage Wallet',
   },
   NEW_WALLET_TEXT: {
     id: 'plugin.my_wallets.new_wallet_title',

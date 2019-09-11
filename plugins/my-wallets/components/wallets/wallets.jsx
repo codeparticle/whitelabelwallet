@@ -8,32 +8,12 @@ import { injectIntl, intlShape } from 'react-intl';
 import { empty } from 'lib/utils';
 
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { ROUTES } from 'plugins/my-wallets/helpers';
 
 import './wallets.scss';
 
+const { PLUGIN, OVERVIEW } = ROUTES;
 const { SvgCoinSymbol } = svgs.icons;
-
-/**
-  Renders Wallets
-  @param {Array} wallets - wallets to render
-  @param {Object} commonProps - common props for Wallet Component
-  @returns {Node} - rendered Wallets
-*/
-const renderWallets = (wallets, commonProps) => {
-  return wallets.map(wallet => {
-    const walletProps = {
-      ...wallet,
-      ...commonProps,
-      onDeposit: empty,
-      onWithdraw: empty,
-    };
-    return (
-      <div key={wallet.id} className="wallets-rct-component__wallet-container">
-        <Wallet {...walletProps} />
-      </div>
-    );
-  });
-};
 
 /**
   @typedef WalletsProps
@@ -48,6 +28,7 @@ const renderWallets = (wallets, commonProps) => {
   @returns {Node} - rendered Wallets
 */
 const WalletsView = ({
+  history,
   intl: {
     formatMessage,
   },
@@ -64,14 +45,36 @@ const WalletsView = ({
     },
   };
 
+  const onDeposit = empty;
+  const onWithdraw = empty;
+
+  function onEditHandler({ id }) {
+    history.push(`${PLUGIN}/${id}/${OVERVIEW}`);
+  }
+
   return (
     <div className="wallets-rct-component">
-      {renderWallets(wallets, commonProps)}
+      {wallets.map((wallet) => {
+        const onEdit = () => onEditHandler(wallet);
+
+        return (
+          <div key={wallet.id} className="wallets-rct-component__wallet-container">
+            <Wallet
+              {...commonProps}
+              onDeposit={onDeposit}
+              onEdit={onEdit}
+              onWithdraw={onWithdraw}
+              title={wallet.name}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };
 
 WalletsView.propTypes = {
+  history: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   wallets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

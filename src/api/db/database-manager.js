@@ -319,7 +319,7 @@ export class DatabaseManager {
   }
 
   /* -------------------------------------------- */
-  /* ----------- Wallet queries ----------- */
+  /* -------------- Wallet queries -------------- */
   /* -------------------------------------------- */
 
   /**
@@ -329,5 +329,29 @@ export class DatabaseManager {
   getWallets() {
     const statement = STMT.WALLETS.SELECT.ALL;
     return this.query({ statement });
+  }
+
+  /**
+   * Gets a single Wallet by ID
+   * @returns {Object} Wallet
+   */
+  async getWalletById(id) {
+    const statement = STMT.WALLETS.SELECT.ID(id);
+    const [res] = await this.query({ statement });
+
+    return res;
+  }
+
+  /**
+   * Update the wallet by ID
+   * @param {number} id the wallet's ID
+   * @param {Object} cols the data to be updated
+   */
+  updateWalletById(id, cols) {
+    return this.update({
+      table: 'Wallets',
+      cols,
+      where: `id=${id}`,
+    });
   }
 }
