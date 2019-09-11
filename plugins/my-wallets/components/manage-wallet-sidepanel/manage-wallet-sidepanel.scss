@@ -1,6 +1,8 @@
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
 
 $text-area-height: 150px;
+$text-area-mobile-height: 250px;
 
 .manage-wallet-content {
   display: flex;
@@ -13,9 +15,17 @@ $text-area-height: 150px;
   &__text-area {
     margin: $spacing-xs 0;
     width: 100%;
+
+    @include mquery($width-breakpoint-xs) {
+      margin: $spacing-s 0;
+    }
   }
 
   &__text-area {
     height: $text-area-height;
+
+    @include mquery($width-breakpoint-xs) {
+      height: $text-area-mobile-height;
+    }
   }
 }
