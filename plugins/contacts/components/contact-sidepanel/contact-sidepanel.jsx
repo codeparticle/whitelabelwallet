@@ -16,7 +16,7 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { VARIANTS } from 'lib/constants';
-import { safeString } from 'lib/utils';
+import { getSidepanelVariant, safeString } from 'lib/utils';
 
 import {
   createContactAndUpdateList,
@@ -31,7 +31,7 @@ import './contact-sidepanel.scss';
 import { contacts as e2e } from 'e2e/constants';
 
 const { NAME, ADDRESS, DESCRIPTION } = FIELDS;
-const { EDIT, OVERLAY, SIDEPANEL, FULL } = VARIANTS;
+const { EDIT, FULL } = VARIANTS;
 const { COMMON: { CANCEL } } = TRANSLATION_KEYS;
 const { SvgUser } = svgs.icons;
 
@@ -78,9 +78,7 @@ function ContactSidepanel({
   const [contact, setContact] = useState(selectedContact);
   const [inputErrors, setInputErrors] = useState(initialInputErrorState);
   const sidepanelTranslations = getSidepanelTranslations(panelType);
-  const panelVariant = isMobile
-    ? OVERLAY
-    : SIDEPANEL;
+  const panelVariant = getSidepanelVariant({ isMobile });
 
   useEffect(() => {
     setContact(selectedContact);
