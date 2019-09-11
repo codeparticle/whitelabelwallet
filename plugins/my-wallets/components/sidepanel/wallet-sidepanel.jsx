@@ -110,12 +110,13 @@ const WalletSidepanelView = ({
   const isMobileDisclaimerPage = (mobileTermsOfServiceButtonVisible && (currentStep === 3) && isMobile);
   const disableFooter = isDisabled || (currentStep === 3 && !termsOfServiceAgreed);
   const getClassNames = () => {
+    const defaultClass = 'new-wallet';
     if (isMobileDisclaimerPage) {
-      return 'shrink';
+      return `${defaultClass} shrink`;
     } else if (currentStep === 3 && isMobile) {
-      return 'expand';
+      return `${defaultClass} expand`;
     }
-    return '';
+    return defaultClass;
   };
 
   useEffect(() => {
