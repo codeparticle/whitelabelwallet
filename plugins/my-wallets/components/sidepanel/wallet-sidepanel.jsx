@@ -81,6 +81,7 @@ const WalletSidepanelView = ({
       setCurrentStep(2);
     } else if (isConfirmed && currentStep ===  2) {
       setWalletData({ ...walletData, seed: BlockchainManager.arrayToPhrase(wordArray) });
+      setIsDisabled(true);
       setCurrentStep(3);
     } else if (currentStep === 3) {
       createWalletAndUpdateList(manager, setWallets, walletData).then(onClose);
@@ -104,6 +105,11 @@ const WalletSidepanelView = ({
 
   const handleMobileTermsClick = () => {
     setMobileTermsOfServiceButtonVisible(false);
+  };
+
+  const handleMobileTermsChecked = () => {
+    setTermsOfServiceAgreed(!termsOfServiceAgreed);
+    setIsDisabled(false);
   };
 
   const translations = getTranslations(formatMessage, currentStep);
@@ -163,6 +169,7 @@ const WalletSidepanelView = ({
           handleDataChange={handleDataChange}
           handleBlurChange={handleBlurChange}
           handleMobileTermsClick={handleMobileTermsClick}
+          handleMobileTermsChecked={handleMobileTermsChecked}
           toggleDisabledButton={toggleDisabledButton}
           translations={translations}
           type={panelVariant}
