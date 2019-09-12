@@ -1,10 +1,10 @@
-@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
-@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
+@import 'src/styles/index.scss';
 
 $text-area-height: 150px;
 $text-area-mobile-height: 250px;
 
 .manage-wallet-content {
+  border-radius: $border-radius-3;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -28,4 +28,12 @@ $text-area-mobile-height: 250px;
       height: $text-area-mobile-height;
     }
   }
+}
+
+.light .manage-wallet-content {
+  background: $white;
+}
+
+.dark .manage-wallet-content {
+  background: $dark-bg;
 }
