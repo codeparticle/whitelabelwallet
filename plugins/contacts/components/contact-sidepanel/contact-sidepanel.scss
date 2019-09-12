@@ -11,14 +11,6 @@ $text-area-height: 150px;
   padding: $space-4;
   width: 100%;
 
-  &.light {
-    background: $white;
-  }
-
-  &.dark {
-    background: $dark-bg;
-  }
-
   &:first-child {
     margin-top: 0;
   }
@@ -41,4 +33,12 @@ $text-area-height: 150px;
       height: 100%;
     }
   }
+}
+
+.light .contact-sidepanel {
+  background: $white;
+}
+
+.dark .contact-sidepanel {
+  background: $dark-bg;
 }

@@ -8,20 +8,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Overlay,
-  TextInput,
   svgs,
+  TextInput,
+  useMedia,
+  useTheme,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { ChangePasswordFormLayout, ThemeToggle } from 'components';
-import { VARIANTS } from 'lib/constants';
 import { useManager } from 'lib/hooks';
+import { getSidepanelVariant } from 'lib/utils';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { settings as e2e } from 'e2e/constants';
 
 import { validateSettings } from './validate-settings';
 import './settings-sidepanel.scss';
 
-const { SIDEPANEL } = VARIANTS;
 const { COMMON, SETTINGS } = TRANSLATION_KEYS;
 const { SvgSettings } = svgs.icons;
 
@@ -45,11 +46,16 @@ function SettingsSidepanelView({
   theme,
 }) {
   const manager = useManager();
+  const { isMobile } = useMedia();
+  const { name } = useTheme();
+
   const [username, setUsername] = useState(manager.username);
   const [passwordFields, setPasswordFields] = useState(initialPasswordFields);
   const [inputErrors, setInputErrors] = useState(initialInputErrors);
-  const Icon = ({ fill }) => <SvgSettings height={130} width={130} fill={fill} />;
+
   const { formatMessage } = intl;
+  const panelVariant = getSidepanelVariant({ isMobile });
+  const Icon = ({ fill }) => <SvgSettings height={130} width={130} fill={fill} />;
 
   function onUsernameChange(e) {
     if (e) {
@@ -90,9 +96,9 @@ function SettingsSidepanelView({
       onClick={handleSave}
       onClose={onClose}
       title={formatMessage(COMMON.SETTINGS)}
-      type={SIDEPANEL}
+      type={panelVariant}
     >
-      <div className="settings-sidepanel-content">
+      <div className={`settings-sidepanel-content ${name}`}>
         <div className="sidepanel-item">
           <TextInput
             dataSelector={e2e.selectors.username.raw}
@@ -104,6 +110,7 @@ function SettingsSidepanelView({
         </div>
         <ChangePasswordFormLayout
           formatMessage={formatMessage}
+          isMobile={isMobile}
           inputErrors={inputErrors}
           passwordFields={passwordFields}
           setPasswordFields={setPasswordFields}

@@ -56,8 +56,9 @@ function AuthView({
   useEffect(() => {
     if (validation) {
       if (typeof validation === 'string') {
-        setAuthToken(validation);
-        getUserSettingsAndUpdateState(manager, setSettings);
+        getUserSettingsAndUpdateState(manager, setSettings).then(() => {
+          setAuthToken(validation);
+        });
       } else {
         const {
           message,
