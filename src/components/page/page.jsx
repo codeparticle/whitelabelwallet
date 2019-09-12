@@ -41,7 +41,7 @@ const Page = ({
   return (
     <main className="page-rct-component" data-selector={dataSelector}>
       <PageHeader {...headerProps} />
-      <section className="page-rct-component__content">
+      <section className={`page-rct-component__content ${themeName}`}>
         {children}
       </section>
       <style jsx>
