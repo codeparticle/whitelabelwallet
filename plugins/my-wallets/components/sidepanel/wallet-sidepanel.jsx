@@ -9,6 +9,7 @@ import {
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { useManager } from 'lib/hooks';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { COMMON } from 'translations/keys/common';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
 import { WalletSidepanelContent } from 'plugins/my-wallets/components/sidepanel/wallet-sidepanel-content';
 import { VARIANTS } from 'lib/constants';
@@ -38,6 +39,7 @@ function getTranslations(formatMessage, currentStep) {
     newWalletTitle: formatMessage(MY_WALLETS.NEW_WALLET_TEXT),
     newWalletSubTitle: formatMessage(MY_WALLETS.NEW_WALLET_SUB_TITLE, { currentStep: currentStep || 1 }),
     recoveryCode: formatMessage(MY_WALLETS.RECOVERY_CODE_LABEL),
+    termsOfService: formatMessage(COMMON.TOS),
     termsAndConditionsLabel: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_LABEL),
     termsAndConditionsPt1: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_PT1),
     termsAndConditionsSectionTitle: formatMessage(MY_WALLETS.TERMS_AND_CONDITIONS_SECTION_TITLE),
@@ -65,6 +67,8 @@ const WalletSidepanelView = ({
   const [isBlurred, setIsBlurred] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [termsOfServiceAgreed, setTermsOfServiceAgreed] = useState(false);
+  const [mobileTermsOfServiceButtonVisible, setMobileTermsOfServiceButtonVisible] = useState(true);
   const [walletData, setWalletData] = useState(initialSate);
   const panelVariant = isMobile  ? OVERLAY : SIDEPANEL;
 
@@ -77,6 +81,7 @@ const WalletSidepanelView = ({
       setCurrentStep(2);
     } else if (isConfirmed && currentStep ===  2) {
       setWalletData({ ...walletData, seed: BlockchainManager.arrayToPhrase(wordArray) });
+      setIsDisabled(true);
       setCurrentStep(3);
     } else if (currentStep === 3) {
       createWalletAndUpdateList(manager, setWallets, walletData).then(onClose);
@@ -98,7 +103,27 @@ const WalletSidepanelView = ({
     setIsBlurred(!isBlurred);
   };
 
+  const handleMobileTermsClick = () => {
+    setMobileTermsOfServiceButtonVisible(false);
+  };
+
+  const handleMobileTermsChecked = () => {
+    setTermsOfServiceAgreed(!termsOfServiceAgreed);
+    setIsDisabled(false);
+  };
+
   const translations = getTranslations(formatMessage, currentStep);
+  const isMobileDisclaimerPage = (mobileTermsOfServiceButtonVisible && (currentStep === 3) && isMobile);
+  const disableFooter = isDisabled || (currentStep === 3 && !termsOfServiceAgreed);
+  const getClassNames = () => {
+    const defaultClass = 'new-wallet';
+    if (isMobileDisclaimerPage) {
+      return `${defaultClass} shrink`;
+    } else if (currentStep === 3 && isMobile) {
+      return `${defaultClass} expand`;
+    }
+    return defaultClass;
+  };
 
   useEffect(() => {
     if (!isOpen) {
@@ -107,6 +132,7 @@ const WalletSidepanelView = ({
       setIsShuffled(false);
       setIsBlurred(true);
       setCurrentStep(1);
+      setTermsOfServiceAgreed(false);
       setWordArray(getWords());
     }
   }, [isOpen]);
@@ -117,36 +143,42 @@ const WalletSidepanelView = ({
     }
   }, [currentStep]);
 
-
   return (
-    <Overlay
-      onClose={onClose}
-      isOpen={isOpen}
-      onClick={() => {
-        handleSubmit(walletData);
-      }}
-      checkBoxLabel={translations.termsAndConditionsLabel}
-      hasCancelButton={false}
-      hasCheckbox={currentStep === 3}
-      type={panelVariant}
-      disableFooterButton={isDisabled}
-      title={translations.newWalletTitle}
-      subTitle={translations.newWalletSubTitle}
-      Icon={SvgWallet}
-    >
-      <WalletSidepanelContent
+    <div className={getClassNames()}>
+      <Overlay
+        onClose={onClose}
         isOpen={isOpen}
-        isShuffled={isShuffled}
-        isBlurred={isBlurred}
-        handleCodeConfirmation={handleCodeConfirmation}
-        handleDataChange={handleDataChange}
-        handleBlurChange={handleBlurChange}
-        toggleDisabledButton={toggleDisabledButton}
-        translations={translations}
-        step={currentStep}
-        wordArray={wordArray}
-      />
-    </Overlay>
+        onClick={() => {
+          handleSubmit(walletData);
+        }}
+        checkBoxLabel={translations.termsAndConditionsLabel}
+        hasCancelButton={false}
+        hasCheckbox={currentStep === 3}
+        hasFooter={!isMobileDisclaimerPage}
+        type={panelVariant}
+        disableFooterButton={disableFooter}
+        title={translations.newWalletTitle}
+        subTitle={translations.newWalletSubTitle}
+        Icon={SvgWallet}
+      >
+        <WalletSidepanelContent
+          isOpen={isOpen}
+          isShuffled={isShuffled}
+          isBlurred={isBlurred}
+          handleCodeConfirmation={handleCodeConfirmation}
+          handleDataChange={handleDataChange}
+          handleBlurChange={handleBlurChange}
+          handleMobileTermsClick={handleMobileTermsClick}
+          handleMobileTermsChecked={handleMobileTermsChecked}
+          toggleDisabledButton={toggleDisabledButton}
+          translations={translations}
+          type={panelVariant}
+          step={currentStep}
+          showMobileTermsButton={mobileTermsOfServiceButtonVisible}
+          wordArray={wordArray}
+        />
+      </Overlay>
+    </div>
   );
 };
 
