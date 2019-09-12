@@ -22,6 +22,7 @@ const WalletSidepanelContent = ({
   handleCodeConfirmation,
   handleDataChange,
   handleMobileTermsClick,
+  handleMobileTermsChecked,
   isBlurred,
   isOpen,
   isShuffled,
@@ -64,6 +65,13 @@ const WalletSidepanelContent = ({
       handleBlurChange();
     }
   }, [isButtonVisible]);
+
+  useEffect(() => {
+    if (isChecked) {
+      handleMobileTermsChecked();
+    }
+  }, [isChecked]);
+
 
   useEffect(() => {
     handleDataChange({
@@ -198,6 +206,7 @@ WalletSidepanelContent.propTypes = {
   handleDataChange: PropTypes.func.isRequired,
   handleCodeConfirmation: PropTypes.func.isRequired,
   handleMobileTermsClick: PropTypes.func.isRequired,
+  handleMobileTermsChecked: PropTypes.func.isRequired,
   isBlurred: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
   isShuffled: PropTypes.bool.isRequired,
