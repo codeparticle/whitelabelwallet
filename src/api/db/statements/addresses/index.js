@@ -6,11 +6,14 @@ export const ADDRESSES_STATEMENTS = {
     name nvarchar(200),
     created_date datetime,
     last_modified_date int,
-    is_active tinyint not null,
+    is_active tinyint default 1,
     balance decimal(16,8),
     parent_id integer,
     foreign key (wallet_id) references Wallets(id) on delete cascade
   );`,
-  INSERT: {},
+  INSERT: {
+    NEW: `insert into Addresses(id, wallet_id, address, name, is_active, balance, parent_id)
+    values(?,?,?,?,?,?,?)`,
+  },
   SELECT: {},
 };
