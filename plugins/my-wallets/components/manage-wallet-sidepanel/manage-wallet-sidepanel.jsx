@@ -4,14 +4,15 @@
  */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Visible } from '@codeparticle/react-visible';
 import {
   Overlay,
   TextInput,
   TextArea,
   svgs,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { VARIANTS } from 'lib/constants';
-import { safeString, unescape } from 'lib/utils';
+import { getSidepanelVariant, safeString, unescape } from 'lib/utils';
 import { TRANSLATION_KEYS } from 'translations/keys';
 
 import { updateWalletAndUpdateState } from 'plugins/my-wallets/helpers';
@@ -26,7 +27,6 @@ const {
   WALLET_NICKNAME_LABEL,
 } = MY_WALLETS;
 const { SvgWallet } = svgs.icons;
-const { SIDEPANEL } = VARIANTS;
 
 const NAME = 'name';
 const DESCRIPTION = 'description';
@@ -50,6 +50,8 @@ function ManageWalletSidepanel({
 }) {
   const [walletFields, setWalletFields] = useState(initialWalletFields);
   const [inputErrors, setInputErrors] = useState(initialInputErrors);
+  const { isMobile } = useMedia();
+  const panelVariant = getSidepanelVariant({ isMobile });
 
   useEffect(() => {
     const { name, description = '' } = wallet;
@@ -97,7 +99,7 @@ function ManageWalletSidepanel({
       onClose={onClose}
       title={wallet.name || ''}
       subTitle={formatMessage(MANAGE_WALLET_PANEL_LABEL)}
-      type={SIDEPANEL}
+      type={panelVariant}
     >
       <div className="manage-wallet-content">
         <TextInput
@@ -116,6 +118,15 @@ function ManageWalletSidepanel({
           value={walletFields[DESCRIPTION]}
         />
       </div>
+      <Visible when={isMobile}>
+        <style jsx>
+          {`
+            :global(.sidepanel-content) {
+              flex: 0 !important;
+            }
+          `}
+        </style>
+      </Visible>
     </Overlay>
   );
 }
