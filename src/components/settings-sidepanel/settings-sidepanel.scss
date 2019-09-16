@@ -1,11 +1,30 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
 
 .settings-sidepanel-content {
+  border-radius: $border-radius-3;
   display: flex;
   flex-direction: column;
   height: 100%;
   padding: $spacing-s $spacing-xl;
   width: 100%;
+
+  &.light {
+    background: $white;
+
+    & label {
+      color: $slate;
+    }
+  }
+
+  &.dark {
+    background: $dark-bg;
+
+    & label {
+      color: $grey;
+    }
+  }
 
   .sidepanel-item {
     margin: $spacing-xs 0;
@@ -17,6 +36,10 @@
       & > label {
         margin-bottom: $spacing-xs;
       }
+    }
+
+    @include mquery($width-breakpoint-xs) {
+      margin: $spacing-s 0;
     }
   }
 }
