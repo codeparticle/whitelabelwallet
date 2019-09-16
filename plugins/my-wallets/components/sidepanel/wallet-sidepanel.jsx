@@ -8,15 +8,15 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { BlockchainManager } from 'api/mock-blockchain/blockchain';
 import { useManager } from 'lib/hooks';
+import { getSidepanelVariant } from 'lib/utils';
+
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { COMMON } from 'translations/keys/common';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
 import { WalletSidepanelContent } from 'plugins/my-wallets/components/sidepanel/wallet-sidepanel-content';
-import { VARIANTS } from 'lib/constants';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
-const { OVERLAY, SIDEPANEL } = VARIANTS;
 const initialSate = {
   multi_address: 0,
   name: '',
@@ -70,7 +70,7 @@ const WalletSidepanelView = ({
   const [termsOfServiceAgreed, setTermsOfServiceAgreed] = useState(false);
   const [mobileTermsOfServiceButtonVisible, setMobileTermsOfServiceButtonVisible] = useState(true);
   const [walletData, setWalletData] = useState(initialSate);
-  const panelVariant = isMobile  ? OVERLAY : SIDEPANEL;
+  const panelVariant = getSidepanelVariant({ isMobile });
 
   const toggleDisabledButton = (isButtonVisible) => {
     setIsDisabled(isButtonVisible);
