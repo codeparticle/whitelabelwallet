@@ -10,7 +10,7 @@ import { VARIANTS } from 'lib/constants';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { settings as e2e } from 'e2e/constants';
 
-const { SECONDARY } = VARIANTS;
+const { SECONDARY, SLATE } = VARIANTS;
 const { SETTINGS } = TRANSLATION_KEYS;
 const {
   CONFIRM_NEW_PASSWORD,
@@ -21,10 +21,12 @@ const {
 function ChangePasswordFormLayout({
   formatMessage,
   inputErrors,
+  isMobile,
   passwordFields,
   setPasswordFields,
 }) {
   const [showEditPassword, setShowEditPassword] = useState(false);
+  const buttonVariant = isMobile ? SLATE : SECONDARY;
 
   const toggleEditPassword = () => setShowEditPassword(!showEditPassword);
 
@@ -75,7 +77,8 @@ function ChangePasswordFormLayout({
         <Button
           dataSelector={e2e.selectors.changePassword.raw}
           onClick={toggleEditPassword}
-          variant={SECONDARY}
+          variant={buttonVariant}
+          size={isMobile ? 'full' : ''}
         >
           {formatMessage(SETTINGS.CHANGE_PASSWORD)}
         </Button>
@@ -94,6 +97,7 @@ function ChangePasswordFormLayout({
 ChangePasswordFormLayout.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   inputErrors: PropTypes.object.isRequired,
+  isMobile: PropTypes.bool.isRequired,
   passwordFields: PropTypes.object.isRequired,
   setPasswordFields: PropTypes.func.isRequired,
 };

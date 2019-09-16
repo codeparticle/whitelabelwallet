@@ -3,9 +3,7 @@
  * @author Gabriel Womble
  */
 
-const PRIMARY = 'primary';
-const SECONDARY = 'secondary';
-const TERTIARY = 'tertiary';
+import { ButtonVariants } from '@codeparticle/whitelabelwallet.styleguide';
 
 const ADD = 'add';
 const EDIT = 'edit';
@@ -16,9 +14,7 @@ const SIDEPANEL = 'sidepanel';
 const FULL = 'full';
 
 export const VARIANTS = {
-  PRIMARY,
-  SECONDARY,
-  TERTIARY,
+  ...ButtonVariants,
   ADD,
   EDIT,
   FULL,
