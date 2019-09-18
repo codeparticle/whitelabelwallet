@@ -7,7 +7,7 @@ export const WALLETS_STATEMENTS = {
     password_hash varchar(100) not null,
     seed varchar(100) not null,
     multi_address tinyint not null,
-    description nvarchar(500)
+    description blob default ''
   );`,
   INSERT: {
     NEW: `insert into Wallets(id, name, coin_id, multi_address, require_password, password_hash, seed)
