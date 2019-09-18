@@ -348,6 +348,17 @@ export class DatabaseManager {
   }
 
   /**
+   * Gets the last created Wallet
+   * @returns {Object} Most recent wallet
+   */
+  async getLastWallet() {
+    const statement = STMT.WALLETS.SELECT.LAST_ID;
+    const [res] = await this.query({ statement });
+
+    return res;
+  }
+
+  /**
    * Gets a single Wallet by ID
    * @returns {Object} Wallet
    */
@@ -369,5 +380,18 @@ export class DatabaseManager {
       cols,
       where: `id=${id}`,
     });
+  }
+
+  /* --------------------------------------------- */
+  /* -------------- Address queries -------------- */
+  /* --------------------------------------------- */
+
+  /**
+   * Gets the Addresses table
+   * @returns {Array} Address(es)
+   */
+  getAddresses() {
+    const statement = STMT.ADDRESSES.SELECT.ALL;
+    return this.query({ statement });
   }
 }

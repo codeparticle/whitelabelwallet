@@ -15,5 +15,7 @@ export const ADDRESSES_STATEMENTS = {
     NEW: `insert into Addresses(id, wallet_id, address, name, is_active, balance, parent_id)
     values(?,?,?,?,?,?,?)`,
   },
-  SELECT: {},
+  SELECT: {
+    ALL: `select * from Addresses`,
+  },
 };
