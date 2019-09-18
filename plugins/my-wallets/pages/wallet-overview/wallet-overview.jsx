@@ -12,8 +12,10 @@ import {
   ButtonVariants,
   IconButton,
   IconVariants,
+  List,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { red, green } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
 import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
 
@@ -23,6 +25,7 @@ import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
 import { getWalletById, ROUTES } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-overview.scss';
+
 
 const { SvgPencil } = svgs.icons;
 const { MANAGE_WALLET_BUTTON_LABEL } = MY_WALLETS;
@@ -90,18 +93,18 @@ function WalletOverviewView({
 
   function customAmountRenderer({ data, column }) {
     const color = data.type === 'payment'
-      ? 'red'
-      : 'green';
+      ? red
+      : green;
 
     return (
       <Fragment>
         <p>{column}</p>
-        <style jsx="true">
+        <style jsx>
           {`
-            p {
-              color: ${color};
-            }
-          `}
+              p {
+                color: ${color};
+              }
+            `}
         </style>
       </Fragment>
     );
@@ -120,7 +123,6 @@ function WalletOverviewView({
       title: 'Date',
       gridColumns: '1 / 3',
       property: 'date',
-      customRenderer: Text,
     },
     {
       title: 'Address',
@@ -136,7 +138,7 @@ function WalletOverviewView({
       title: 'Amount',
       gridColumns: '12',
       property: 'amount',
-
+      customRenderer: customAmountRenderer,
     },
   ];
 
@@ -185,7 +187,8 @@ function WalletOverviewView({
         </div>
         <div className="list-wrapper">
           <List
-            id="my-list"
+            id="wallet-list"
+            isStriped
             columnDefs={columnDefs}
             onRowClicked={onRowClicked}
             rowData={dataSet}

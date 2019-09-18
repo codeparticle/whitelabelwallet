@@ -3,5 +3,23 @@
 .page-content-container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 360px 1fr;
+
+    .chart-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        .wallet-data {
+            align-self: flex-start;
+        }
+    }
+
+    .list-wrapper {
+        background: white;
+    }
+    
+    .wallet-balance-data, .list-wrapper {
+        padding: $space-6;
+    }
 }
