@@ -1,9 +1,11 @@
 @import 'src/styles/index.scss';
 
+$chart-section-height: 360px;
+
 .page-content-container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 360px 1fr;
+    grid-template-rows: $chart-section-height 1fr;
 
     .chart-wrapper {
         display: flex;
