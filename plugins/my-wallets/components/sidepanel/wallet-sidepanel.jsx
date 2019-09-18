@@ -6,10 +6,8 @@ import {
   svgs,
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { BlockchainManager } from 'api/mock-blockchain/blockchain';
-import { useManager } from 'lib/hooks';
 import { getSidepanelVariant } from 'lib/utils';
-
+import { WalletManager } from 'api';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { COMMON } from 'translations/keys/common';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
@@ -57,9 +55,8 @@ const WalletSidepanelView = ({
   onClose,
 }) => {
   const getWords = () => {
-    return BlockchainManager.phraseToArray(BlockchainManager.generateSecretPhrase());
+    return WalletManager.generateSecretPhrase();
   };
-  const manager = useManager();
   const { isMobile } = useMedia();
   const [wordArray, setWordArray] = useState(getWords());
   const [isDisabled, setIsDisabled] = useState(true);
@@ -80,11 +77,12 @@ const WalletSidepanelView = ({
     if (currentStep ===  1) {
       setCurrentStep(2);
     } else if (isConfirmed && currentStep ===  2) {
-      setWalletData({ ...walletData, seed: BlockchainManager.arrayToPhrase(wordArray) });
+      const seed = WalletManager.getBlockchainManager(walletData.coin_id).arrayToPhrase(wordArray);
+      setWalletData({ ...walletData, seed });
       setIsDisabled(true);
       setCurrentStep(3);
     } else if (currentStep === 3) {
-      createWalletAndUpdateList(manager, setWallets, walletData).then(onClose);
+      createWalletAndUpdateList(walletData, setWallets).then(onClose);
     }
   };
 

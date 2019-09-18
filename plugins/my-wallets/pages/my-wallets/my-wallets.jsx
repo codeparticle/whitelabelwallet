@@ -6,7 +6,6 @@ import { HeaderButton, IconButton, svgs, useMedia } from '@codeparticle/whitelab
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { VARIANTS } from 'lib/constants';
-import { useManager } from 'lib/hooks';
 import { fetchWallets } from 'plugins/my-wallets/helpers';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
 import { getWallets } from 'plugins/my-wallets/rdx/selectors';
@@ -31,11 +30,10 @@ const MyWallets = ({
   ...props
 }) => {
   const [isOpenValue, setIsOpenValue] = useState(false);
-  const manager = useManager();
   const { isMobile } = useMedia();
 
   useEffect(() => {
-    fetchWallets(manager, props.setWallets);
+    fetchWallets(props.setWallets);
   }, [props.setWallets]);
 
   const onClose = (eventData)=> {
