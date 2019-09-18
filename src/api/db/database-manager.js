@@ -1,5 +1,8 @@
 import { STATEMENTS as STMT } from './statements';
 import * as sqlClient from 'sql.js/js/sql';
+import { environment } from 'lib/utils';
+
+const { isMock } = environment;
 
 export class DatabaseManager {
   /**
@@ -44,7 +47,12 @@ export class DatabaseManager {
       promises.push(this.query({ statement: STMT[table].CREATE, run }));
     });
 
-    return Promise.all(promises).then(() => this.insert().appDefaults());
+    return Promise.all(promises).then(() => this.insert().appDefaults()).then(() => {
+      if (isMock()) {
+        const { insertMocks } = require('./mocks/insert-mocks');
+        insertMocks();
+      }
+    });
   }
 
   /**
@@ -111,6 +119,16 @@ export class DatabaseManager {
         ];
 
         return this.bulkInsert({ statementArr });
+      },
+      /**
+       * Insert into the sqlite DB one row of address data
+       */
+      address: ({ id, wallet_id, address, name, balance, parent_id }) => {
+        return this.query({
+          statement: STMT.ADDRESSES.INSERT.NEW,
+          params: [id, wallet_id, address, name, balance, parent_id],
+          run,
+        });
       },
       /**
        * Insert into the sqlite DB one row of contact data

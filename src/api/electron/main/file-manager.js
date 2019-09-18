@@ -2,6 +2,9 @@ import { app } from 'electron';
 import fs from 'fs';
 import os from 'os';
 import { EncryptionManager } from '../../encryption-manager';
+import { environment } from 'lib/utils';
+
+const { encryptionString } = environment;
 
 /**
  * Deals with all communication with user's local filesystem for the electron app
@@ -46,7 +49,8 @@ export class FileManager {
 
   // retrieve full file name extended from wallets path
   getFullFileName(filename) {
-    const encryptedFilename = EncryptionManager.encryptString(filename);
+    const appendedFilename = `${encryptionString}${filename}`;
+    const encryptedFilename = EncryptionManager.encryptString(appendedFilename);
 
     return this.getWalletPath() + encryptedFilename + '.awd';
   }

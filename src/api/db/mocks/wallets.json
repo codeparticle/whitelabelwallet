@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "coin_id": 0,
+    "name": "Datagen funds",
+    "require_password": false,
+    "password_hash": "",
+    "seed": "robot try glare curious vendor piece noble saddle wasp middle elegant lady lucky remember diesel clown drama program flip tunnel wing lunch edit side",
+    "multi_address": 0,
+    "description": "Officia sit amet velit consectetur officia ullamco ut quis est ex cupidatat est. Nostrud laborum excepteur cupidatat aute eu incididunt ullamco eiusmod Lorem do ullamco."
+  },
+  {
+    "id": 2,
+    "coin_id": 0,
+    "name": "Minga funds",
+    "require_password": false,
+    "password_hash": "",
+    "seed": "bone banner debris process kid pole narrow outdoor dress trash work floor traffic candy connect wear list prosper bike repair stomach system pottery tip",
+    "multi_address": 1,
+    "description": "Consequat quis consectetur eiusmod reprehenderit Lorem elit dolor excepteur eu enim mollit do do non. Veniam in dolore velit est nostrud irure Lorem est."
+  },
+  {
+    "id": 3,
+    "coin_id": 0,
+    "name": "Futurize funds",
+    "require_password": false,
+    "password_hash": "",
+    "seed": "deer echo vintage silent behind apology idea since collect sock social slice cricket teach oblige cliff ball eager lunar place street damp comfort torch",
+    "multi_address": 1,
+    "description": "In commodo est quis eiusmod officia Lorem magna consectetur consectetur elit exercitation amet do. Cupidatat labore mollit consequat exercitation enim ullamco veniam dolor deserunt."
+  },
+  {
+    "id": 4,
+    "coin_id": 0,
+    "name": "Kyagoro funds",
+    "require_password": false,
+    "password_hash": "",
+    "seed": "kind impulse stock payment mammal tone frost lottery hint snap smart renew city unable area diesel expose point trend wool print ethics topple shell",
+    "multi_address": 0,
+    "description": "Excepteur anim magna veniam elit. Ullamco ullamco ut occaecat reprehenderit magna laboris."
+  },
+  {
+    "id": 5,
+    "coin_id": 0,
+    "name": "Xiix funds",
+    "require_password": false,
+    "password_hash": "",
+    "seed": "click voice drama elephant recipe tomorrow squirrel relax phrase sail tent glimpse adult during point become awkward chase wear broken sorry lawsuit symptom sea",
+    "multi_address": 0,
+    "description": "Deserunt ea ex consequat aute Lorem sit ex ullamco cillum voluptate amet eiusmod ullamco anim. Reprehenderit sit ex voluptate nulla velit amet nisi incididunt."
+  },
+  {
+    "id": 6,
+    "coin_id": 0,
+    "name": "Sunclipse funds",
+    "require_password": false,
+    "password_hash": "",
+    "seed": "explain rally raise clock shine stone lottery quick battle name clarify ripple nose void smile swap hour sausage silk balance outdoor harbor fine shield",
+    "multi_address": 1,
+    "description": "Deserunt sunt officia ad pariatur non reprehenderit dolor aliqua ea. Veniam ullamco eiusmod cillum exercitation ullamco laborum exercitation duis esse fugiat et deserunt consectetur ea."
+  }
+]
