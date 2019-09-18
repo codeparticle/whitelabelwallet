@@ -16,7 +16,6 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
-import { useManager } from 'lib/hooks';
 
 import { setSelectedWallet } from 'plugins/my-wallets/rdx/actions';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
@@ -64,10 +63,9 @@ function WalletOverviewView({
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const { name } = selectedWallet;
   const { walletId } = match.params;
-  const manager = useManager();
 
   useEffect(() => {
-    getWalletById(manager, props.setSelectedWallet, walletId);
+    getWalletById(walletId, props.setSelectedWallet);
   }, [setSelectedWallet]);
 
   const toggleSidePanel = () => setIsPanelOpen(!isPanelOpen);
@@ -101,7 +99,6 @@ function WalletOverviewView({
       <ManageWalletSidepanel
         formatMessage={formatMessage}
         isOpen={isPanelOpen}
-        manager={manager}
         onClose={toggleSidePanel}
         setSelectedWallet={props.setSelectedWallet}
         wallet={selectedWallet}

@@ -11,7 +11,7 @@ const {
   TRANSACTIONS,
 } = urls;
 
-class  BitcoinBlockchainManager  extends ApiBlockchainManager {
+class BitcoinBlockchainManager extends ApiBlockchainManager {
 // This class instance is always fetched using "BitcoinBlockchainManager.instance"
   static get instance() {
     if (!this._instance) {
