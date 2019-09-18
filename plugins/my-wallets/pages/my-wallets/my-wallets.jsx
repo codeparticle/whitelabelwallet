@@ -10,6 +10,7 @@ import { fetchWallets } from 'plugins/my-wallets/helpers';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
 import { getWallets } from 'plugins/my-wallets/rdx/selectors';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { ROUTES } from 'plugins/my-wallets/helpers';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 import { myWallets as e2e } from 'e2e/constants';
 
@@ -44,6 +45,10 @@ const MyWallets = ({
   };
 
   const onClick = () => setIsOpenValue(true);
+
+  // const handleWalletClick = ({ id }) => {
+  //   history.push(`${PLUGIN}/${id}/${OVERVIEW}`);
+  // };
 
   const AddWallet = () => (
     <HeaderButton
