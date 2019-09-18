@@ -13,6 +13,7 @@ import {
   IconButton,
   IconVariants,
   List,
+  Select,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { red, green } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
@@ -65,8 +66,14 @@ function WalletOverviewView({
   ...props
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
   const { name } = selectedWallet;
   const { walletId } = match.params;
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
@@ -89,6 +96,21 @@ function WalletOverviewView({
         <ManageButton {...buttonProps} />
       </Visible>
     );
+  }
+
+  function SecondaryAction({ collapsed }) {
+    const selectProps = {
+      value: selectedDate,
+      onChange: setSelectedDate,
+      options: options,
+    };
+
+    return (
+      <Visible when={ !collapsed }>
+        <Select {...selectProps} />
+      </Visible>
+    );
+
   }
 
   function customAmountRenderer({ data, column }) {
@@ -167,6 +189,7 @@ function WalletOverviewView({
     <Page
       headerProps={{
         PrimaryAction,
+        SecondaryAction,
         title: name || '',
         to: `/${PLUGIN}`,
         type: SECONDARY,
