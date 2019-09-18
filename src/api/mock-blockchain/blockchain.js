@@ -1,6 +1,7 @@
 import * as CryptoJS from 'crypto-js';
 import  _ from 'lodash';
 import * as bip39 from 'bip39';
+import * as HDKey from 'hdkey';
 import wordlists from 'api/mock-blockchain/utils/valid-words-library';
 import { api } from 'rdx/api';
 import { urls } from 'api/mock-blockchain/constants';
@@ -57,6 +58,23 @@ class BlockchainManager extends ApiBlockchainManager {
     }
 
     return secretPhrase;
+  }
+
+  /**
+   * Base method that returns a single address from seed
+   * @returns {Object} - address and privateKey
+   * @param {string} mnemonicSeed - string seed from wallet
+   */
+  static generateAddressFromSeed(mnemonicSeed) {
+    const seed = bip39.mnemonicToSeedSync(mnemonicSeed);
+    const node = HDKey.fromMasterSeed(seed);
+    const derived = node.derive(`m/44'/0'/0/0`);
+    const { publicKey, privateKey } = derived;
+
+    return {
+      address: publicKey.toString('hex'),
+      privateKey: privateKey.toString('hex'),
+    };
   }
 
   /**

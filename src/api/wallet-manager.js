@@ -15,8 +15,10 @@ class WalletManager {
    * to determine which coin's manager to use
    * For now, just mocking functionality
    */
-  getBlockchainManager() {
-    return BlockchainManager;
+  getBlockchainManager(coinId) {
+    if (coinId === 1) {
+      return BlockchainManager;
+    }
   }
 
   /**
@@ -24,7 +26,17 @@ class WalletManager {
    * @param {Object} wallet - the wallet object to add to the db
    */
   async createWallet(wallet) {
-    await this.manager.databaseManager.insert().wallet(wallet);
+    await this.manager.databaseManager.insert(false).wallet(wallet);
+    const blockchainManager = this.getBlockchainManager(wallet.coin_id);
+    const { address, private_key } = blockchainManager.generateAddressFromSeed(wallet.seed);
+    const insertedWallet = await this.manager.databaseManager.getLastWallet();
+
+    await this.manager.databaseManager.insert().address({
+      address,
+      private_key,
+      wallet_id: insertedWallet.id,
+    });
+
     await this.manager.saveDatabase();
   }
 
@@ -59,7 +71,7 @@ class WalletManager {
    * @returns {Array} - Secret Phrase
    * @param {number} - coinId to determine type coin's blockchainManager
    */
-  generateSecretPhrase(coinId = 0) {
+  generateSecretPhrase(coinId = 1) {
     const blockchainManager = this.getBlockchainManager(coinId);
 
     return blockchainManager.phraseToArray(blockchainManager.generateSecretPhrase());
