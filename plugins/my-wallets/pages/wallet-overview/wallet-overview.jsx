@@ -2,7 +2,7 @@
  * @fileoverview Wallet overview page
  * @author Gabriel Womble
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
@@ -22,6 +22,7 @@ import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
 import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
 import { getWalletById, ROUTES } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import './wallet-overview.scss';
 
 const { SvgPencil } = svgs.icons;
 const { MANAGE_WALLET_BUTTON_LABEL } = MY_WALLETS;
@@ -87,6 +88,79 @@ function WalletOverviewView({
     );
   }
 
+  function customAmountRenderer({ data, column }) {
+    const color = data.type === 'payment'
+      ? 'red'
+      : 'green';
+
+    return (
+      <Fragment>
+        <p>{column}</p>
+        <style jsx="true">
+          {`
+            p {
+              color: ${color};
+            }
+          `}
+        </style>
+      </Fragment>
+    );
+  }
+
+  const chartData = [
+    { x: 1, y: 2 },
+    { x: 2, y: 3 },
+    { x: 3, y: 5 },
+    { x: 4, y: 4 },
+    { x: 5, y: 7 },
+  ];
+
+  const columnDefs = [
+    {
+      title: 'Date',
+      gridColumns: '1 / 3',
+      property: 'date',
+      customRenderer: Text,
+    },
+    {
+      title: 'Address',
+      gridColumns: '4 / 7',
+      property: 'address',
+    },
+    {
+      title: 'Details',
+      gridColumns: '7 / 10',
+      property: 'details',
+    },
+    {
+      title: 'Amount',
+      gridColumns: '12',
+      property: 'amount',
+
+    },
+  ];
+
+  const onRowClicked = () => {
+    console.log('row clicked');
+  };
+
+  const dataSet = [
+    {
+      'date': '2015-02-24 08:23:54',
+      'address': 'Address 3',
+      'details': 'Deposit from Rosales',
+      'type': 'deposit',
+      'amount': 'G 0.96',
+    },
+    {
+      'date': '2016-08-20 03:05:56',
+      'address': 'Address 8',
+      'details': 'Payment to Nieves',
+      'type': 'payment',
+      'amount': 'G 10.36',
+    },
+  ];
+
   return (
     <Page
       headerProps={{
@@ -95,7 +169,29 @@ function WalletOverviewView({
         to: `/${PLUGIN}`,
         type: SECONDARY,
       }}
+      removePadding
     >
+      <div className="page-content-container">
+        <div className="chart-wrapper">
+          {/* <AreaChart
+            colors={['#B8E986']}
+            data={chartData}>
+          </AreaChart> */}
+          <div className="wallet-balance-data">
+            <p>Current Balance</p>
+            <p>G 1,033.1892</p>
+            <span>$5,911.19 USD</span>
+          </div>
+        </div>
+        <div className="list-wrapper">
+          <List
+            id="my-list"
+            columnDefs={columnDefs}
+            onRowClicked={onRowClicked}
+            rowData={dataSet}
+          />
+        </div>
+      </div>
       <ManageWalletSidepanel
         formatMessage={formatMessage}
         isOpen={isPanelOpen}

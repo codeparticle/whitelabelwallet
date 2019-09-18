@@ -48,21 +48,21 @@ const WalletsView = ({
   const onDeposit = empty;
   const onWithdraw = empty;
 
-  function onEditHandler({ id }) {
+  function onWalletClickHandler({ id }) {
     history.push(`${PLUGIN}/${id}/${OVERVIEW}`);
   }
 
   return (
     <div className="wallets-rct-component">
       {wallets.map((wallet) => {
-        const onEdit = () => onEditHandler(wallet);
+        const onClick = () => onWalletClickHandler(wallet);
 
         return (
           <div key={wallet.id} className="wallets-rct-component__wallet-container">
             <Wallet
               {...commonProps}
               onDeposit={onDeposit}
-              onEdit={onEdit}
+              onClick={onClick}
               onWithdraw={onWithdraw}
               title={wallet.name}
             />
