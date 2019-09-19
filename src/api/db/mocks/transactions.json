@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+  "sender_address_id": 1,
+  "receiver_address_id": 2,
+  "amount": 1.00,
+  "fee": 0.001,
+  "transaction_id": 1,
+  "description": "Payment to Jack Gruber",
+  "sender_address": "8d3733ff04e64ebb867d53eb913d3f6a",
+  "receiver_address": "2304cef1fec744e0aca8d83c69907edc",
+  "status": 0,
+  "created_date": "2018-10-07 08:23:19.120",
+  "transaction_type": "payment"
+  },
+  {
+    "id": 2,
+  "sender_address_id": 2,
+  "receiver_address_id": 3,
+  "amount": 1.25,
+  "fee": 0.001,
+  "transaction_id": 2,
+  "description": "Moved to savings",
+  "sender_address": "2304cef1fec744e0aca8d83c69907edc",
+  "receiver_address": "37289c6fd53246f5abccd52f496495c8",
+  "status": 0,
+  "created_date": "2019-07-07 08:26:19.120",
+  "transaction_type": "receive"
+  },
+  {
+    "id": 3,
+  "sender_address_id": 3,
+  "receiver_address_id": 1,
+  "amount": 1.00,
+  "fee": 0.001,
+  "transaction_id": 3,
+  "description": "I owe you",
+  "sender_address": "37289c6fd53246f5abccd52f496495c8",
+  "receiver_address": "8d3733ff04e64ebb867d53eb913d3f6a",
+  "status": 0,
+  "created_date": "2019-09-07 08:26:19.120",
+  "transaction_type": "receive"
+  },
+  {
+    "id": 4,
+  "sender_address_id": 1,
+  "receiver_address_id": 4,
+  "amount": 1.00,
+  "fee": 0.001,
+  "transaction_id": 4,
+  "description": "Payment to Lisa Williams",
+  "sender_address": "8d3733ff04e64ebb867d53eb913d3f6a",
+  "receiver_address": "2304cef1fec744e0aca8d83c69907edc",
+  "status": 0,
+  "created_date": "2018-09-10 08:23:19.120",
+  "transaction_type": "payment"
+  }
+
+]

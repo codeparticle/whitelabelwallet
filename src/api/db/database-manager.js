@@ -139,6 +139,16 @@ export class DatabaseManager {
         });
       },
       /**
+       * Insert into the sqlite DB one row of transaction data
+       */
+      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type }) => {
+        return this.query({
+          statement: STMT.TRANSACTIONS.INSERT.NEW,
+          params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type],
+          run,
+        });
+      },
+      /**
        * Insert into the sqlite DB one row of wallet data
        */
       wallet: ({ id, name, coin_id, multi_address, require_password, password_hash, seed }) => {
@@ -224,6 +234,15 @@ export class DatabaseManager {
   }
 
   /* ------------------------------------------- */
+  /* ------------- Address Queries ------------- */
+  /* ------------------------------------------- */
+
+  getAddressesByWalletId(id) {
+    const statement = STMT.ADDRESSES.SELECT.WALLET_ID(id);
+    return this.query({ statement });
+  }
+
+  /* ------------------------------------------- */
   /* ------------- Contact Queries ------------- */
   /* ------------------------------------------- */
 
@@ -268,6 +287,31 @@ export class DatabaseManager {
       table: 'Contacts',
       where: `id=${id}`,
     });
+  }
+
+
+  /* ------------------------------------------- */
+  /* ------------- Transaction Queries ------------- */
+  /* ------------------------------------------- */
+
+  /**
+   * Selects transactions that fit the given search value
+   * @returns {Array} Transaction(s)
+   * @param {string} value - Value to search by
+   */
+  getTransactionsByValue(value = '') {
+    const statement = STMT.TRANSACTIONS.SELECT.VALUE(value);
+    return this.query({ statement });
+  }
+
+  /**
+   * Selects transactions that contain the given address
+   * @returns {Array} Transaction(s)
+   * @param {string} address - Address value to search by
+   */
+  getTransactionsPerAddress(address = '') {
+    const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address);
+    return this.query({ statement });
   }
 
   /* --------------------------------------------- */
