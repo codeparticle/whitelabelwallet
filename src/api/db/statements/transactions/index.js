@@ -15,6 +15,13 @@ export const TRANSACTIONS_STATEMENTS = {
     foreign key (sender_address_id) references Addresses(id) on delete set null,
     foreign key (receiver_address_id) references Addresses(id) on delete set null
   );`,
-  INSERT: {},
-  SELECT: {},
+  INSERT: {
+    NEW: `insert into Transactions(id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type)
+    values(?,?,?,?,?,?,?,?,?,?,?,?)`,
+  },
+  SELECT: {
+    ALL: `select * from Transactions`,
+    PER_ADDRESS: (address) => `select * from Transactions where sender_address = "${address}" or receiver_address = "${address}"`,
+    VALUE: (value) => `select * from Transactions where description like "${value}%" or sender_address like "${value}%"  or receiver_address like "${value}%"`,
+  },
 };

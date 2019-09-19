@@ -20,10 +20,18 @@ import { red, green } from '@codeparticle/whitelabelwallet.styleguide/styles/col
 import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
 
-import { setSelectedWallet } from 'plugins/my-wallets/rdx/actions';
+import {
+  setSelectedWallet,
+  setSelectedWalletAddresses,
+  setSelectedWalletTransactions,
+} from 'plugins/my-wallets/rdx/actions';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
 import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
-import { getWalletById, ROUTES } from 'plugins/my-wallets/helpers';
+import {
+  getWalletById,
+  getAddressesByWalletId,
+  getTransactionsPerAddress,
+  ROUTES } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-overview.scss';
 
@@ -77,9 +85,14 @@ function WalletOverviewView({
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
+    getAddressesByWalletId(props.setSelectedWalletAddresses, walletId).then((addresses) => fetchTransactions(addresses));
   }, [setSelectedWallet]);
 
   const toggleSidePanel = () => setIsPanelOpen(!isPanelOpen);
+
+  function fetchTransactions(walletAddresses) {
+    return walletAddresses.map((addressData) =>  getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address));
+  }
 
   function PrimaryAction({ collapsed, iconProps }) {
     const buttonProps = {
@@ -250,6 +263,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setSelectedWallet,
+  setSelectedWalletAddresses,
+  setSelectedWalletTransactions,
 };
 
 export const WalletOverviewPage = connect(mapStateToProps, mapDispatchToProps)(injectIntl(WalletOverviewView));
