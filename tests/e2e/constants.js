@@ -16,6 +16,7 @@ export const routes = {
 
 export const common = {
   selectors: {
+    home: getDataSelector('myWallets.page'),
     navBar: getDataSelector('common.nav-bar'),
     pluginContacts: getDataSelector('common.nav-bar-contacts'),
   },
@@ -73,10 +74,12 @@ export const contacts = {
   },
 };
 
-export const main = {
+export const myWallets = {
   selectors: {
-    test: getDataSelector('main.test'),
-    logout: getDataSelector('main.logout'),
+    page: getDataSelector('myWallets.page'),
+  },
+  values: {
+    header: 'My Wallets',
   },
 };
 

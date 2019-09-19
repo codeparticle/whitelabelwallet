@@ -1,9 +1,11 @@
 import * as bitcoin from 'bitcoinjs-lib';
+import * as bip39 from 'bip39';
+import * as bip32 from 'bip32';
 import { api } from 'rdx/api';
 import { Address, Transaction } from 'models';
-import { ApiBlockchainManager } from 'api/blockchain-manager';
-import { walletManager } from 'api/bitcoin/wallet';
-import { urls } from 'api/bitcoin/constants';
+import { ApiBlockchainManager } from 'api/blockchain/api-blockchain-manager';
+import { walletManager } from 'api/blockchain/bitcoin/wallet';
+import { BIP32, NETWORK, urls } from 'api/blockchain/bitcoin/constants';
 
 const {
   ADDRESS,
@@ -22,6 +24,24 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
   // Used to reset a "BitcoinBlockchainManager.instance"
   static resetInstance() {
     this._instance = null;
+  }
+
+  /**
+   * Base method that returns a single address from seed
+   * @returns {Object} - address and privateKey
+   * @param {string} mnemonicSeed - string seed from wallet
+   */
+  static generateAddressFromSeed(mnemonicSeed, account = 0, changeChain = BIP32.CHANGE_CHAIN.EXTERNAL) {
+    const seed = bip39.mnemonicToSeedSync(mnemonicSeed);
+    const node = bip32.fromSeed(seed);
+    const derived = node.derivePath(`${BIP32.DERIVATION_PATH_BASE}/${account}'/${changeChain}`);
+    const { publicKey, privateKey } = derived;
+    const { address } = bitcoin.payments.p2pkh({ pubkey: publicKey, network: bitcoin.networks[NETWORK] });
+
+    return {
+      address,
+      privateKey: privateKey.toString('hex'),
+    };
   }
 
   /**
