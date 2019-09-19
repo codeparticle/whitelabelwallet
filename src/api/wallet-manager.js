@@ -2,7 +2,8 @@
  * @fileoverview Coin agnostic wallet actions
  * @author Gabriel Womble
  */
-import { BlockchainManager } from 'api/mock-blockchain/blockchain';
+import { BLOCKCHAIN_MANAGERS } from 'api/blockchain';
+import { getManagerKey } from 'api/blockchain/utils';
 import { manager } from 'app';
 
 class WalletManager {
@@ -11,14 +12,12 @@ class WalletManager {
   }
 
   /**
-   * Function that will accept a coinId as parameter
-   * to determine which coin's manager to use
-   * For now, just mocking functionality
+   * @returns {Class} blockchainManager class to use
+   * @param {number} coinId - used to determine which manager to use
    */
   getBlockchainManager(coinId) {
-    if (coinId === 1) {
-      return BlockchainManager;
-    }
+    const managerKey = getManagerKey(coinId);
+    return BLOCKCHAIN_MANAGERS[managerKey];
   }
 
   /**
@@ -28,7 +27,7 @@ class WalletManager {
   async createWallet(wallet) {
     await this.manager.databaseManager.insert(false).wallet(wallet);
     const blockchainManager = this.getBlockchainManager(wallet.coin_id);
-    const { address, private_key } = blockchainManager.generateAddressFromSeed(wallet.seed);
+    const { address, privateKey: private_key } = blockchainManager.generateAddressFromSeed(wallet.seed);
     const insertedWallet = await this.manager.databaseManager.getLastWallet();
 
     await this.manager.databaseManager.insert().address({
@@ -71,9 +70,8 @@ class WalletManager {
    * @returns {Array} - Secret Phrase
    * @param {number} - coinId to determine type coin's blockchainManager
    */
-  generateSecretPhrase(coinId = 1) {
+  generateSecretPhrase(coinId) {
     const blockchainManager = this.getBlockchainManager(coinId);
-
     return blockchainManager.phraseToArray(blockchainManager.generateSecretPhrase());
   }
 }

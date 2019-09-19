@@ -8,18 +8,20 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { getSidepanelVariant } from 'lib/utils';
 import { WalletManager } from 'api';
-import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { getCoinId } from 'api/blockchain/utils';
 import { COMMON } from 'translations/keys/common';
+
+import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { createWalletAndUpdateList } from 'plugins/my-wallets/helpers';
 import { WalletSidepanelContent } from 'plugins/my-wallets/components/sidepanel/wallet-sidepanel-content';
 import './wallet-sidepanel.scss';
 
 const { SvgWallet } = svgs.icons;
-const initialSate = {
+const initialState = {
   multi_address: 0,
   name: '',
   seed: [],
-  coin_id: 1,
+  coin_id: getCoinId(),
   require_password: 0,
   password_hash: '',
 };
@@ -54,8 +56,8 @@ const WalletSidepanelView = ({
   setWallets,
   onClose,
 }) => {
-  const getWords = () => {
-    return WalletManager.generateSecretPhrase();
+  const getWords = (coinId = initialState.coin_id) => {
+    return WalletManager.generateSecretPhrase(coinId);
   };
   const { isMobile } = useMedia();
   const [wordArray, setWordArray] = useState(getWords());
@@ -66,7 +68,7 @@ const WalletSidepanelView = ({
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [termsOfServiceAgreed, setTermsOfServiceAgreed] = useState(false);
   const [mobileTermsOfServiceButtonVisible, setMobileTermsOfServiceButtonVisible] = useState(true);
-  const [walletData, setWalletData] = useState(initialSate);
+  const [walletData, setWalletData] = useState(initialState);
   const panelVariant = getSidepanelVariant({ isMobile });
 
   const toggleDisabledButton = (isButtonVisible) => {
@@ -125,7 +127,7 @@ const WalletSidepanelView = ({
 
   useEffect(() => {
     if (!isOpen) {
-      setWalletData(initialSate);
+      setWalletData(initialState);
       setIsConfirmed(false);
       setIsShuffled(false);
       setIsBlurred(true);
