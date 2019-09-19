@@ -26,7 +26,11 @@ import {
   setSelectedWalletTransactions,
 } from 'plugins/my-wallets/rdx/actions';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
-import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
+import {
+  getSelectedWallet,
+  getSelectedWalletAddresses,
+  getSelectedWalletTransactions,
+} from 'plugins/my-wallets/rdx/selectors';
 import {
   getWalletById,
   getAddressesByWalletId,
@@ -71,8 +75,10 @@ function WalletOverviewView({
   },
   match,
   selectedWallet,
+  selectedWalletTransactions,
   ...props
 }) {
+  console.log('========\n', 'selectedWallet', selectedWallet, '\n========');
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const { name } = selectedWallet;
@@ -177,6 +183,11 @@ function WalletOverviewView({
     },
   ];
 
+  const removeAddressColumn = (columns) => {
+    columns.splice(1, 1);
+    return columns;
+  };
+
   const onRowClicked = () => {
     console.log('row clicked');
   };
@@ -225,7 +236,7 @@ function WalletOverviewView({
           <List
             id="wallet-list"
             isStriped
-            columnDefs={columnDefs}
+            columnDefs={selectedWallet.multi_address === 1 ? columnDefs : removeAddressColumn(columnDefs)}
             onRowClicked={onRowClicked}
             rowData={dataSet}
           />
@@ -246,6 +257,7 @@ WalletOverviewView.propTypes = {
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
   selectedWallet: PropTypes.object,
+  selectedWalletTransactions: PropTypes.array,
   setSelectedWallet: PropTypes.func.isRequired,
 };
 
@@ -255,9 +267,11 @@ WalletOverviewView.defaultProps = {
 
 const mapStateToProps = (state) => {
   const selectedWallet = getSelectedWallet(state);
+  const selectedWalletTransactions = getSelectedWalletTransactions(state);
 
   return {
     selectedWallet,
+    selectedWalletTransactions,
   };
 };
 
