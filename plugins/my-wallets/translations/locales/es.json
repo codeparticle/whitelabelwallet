@@ -3,6 +3,7 @@
   "plugin.my_wallets.confirm_recovery_code_label": "Confirmar código de recuperación",
   "plugin.my_wallets.confirm_recovery_prompt": "Haga clic en las palabras de su código de recuperación en el orden correcto para confirmar",
   "plugin.my_wallets.continue_button": "Continuar",
+  "plugin.my_wallets.current_balance": "Saldo Actual",
   "plugin.my_wallets.description_label": "Descripción",
   "plugin.my_wallets.generate_code_button": "Generar codigo",
   "plugin.my_wallets.keep_secret_text": "*Asegúrese de escribir esto y mantenerlo seguro en caso de que necesite recuperar su billetera. No podrás hacerlo sin él. Asegúrese de que nadie esté mirando antes de generar un código.",

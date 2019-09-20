@@ -5,25 +5,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Search } from '@codeparticle/whitelabelwallet.styleguide';
-import { searchTransactionsByValue } from 'plugins/contacts/helpers';
+import { searchTransactionsByValue } from 'plugins/my-wallets/helpers';
+import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+
+const { SEARCH } = MY_WALLETS;
 
 
 export function SearchTransactions({
-  setTransactions,
+  formatMessage,
+  setSelectedWalletTransactions,
 }) {
   function onSubmit(value) {
-    searchTransactionsByValue(setTransactions, value);
+    searchTransactionsByValue(setSelectedWalletTransactions, value);
   }
 
   return (
     <Search
       onSubmit={onSubmit}
-      placeholder={'Replace Me'}
+      placeholder={formatMessage(SEARCH)}
     />
   );
 }
 
 SearchTransactions.propTypes = {
-  formatMessage: PropTypes.func.isRequired,
-  setContacts: PropTypes.func.isRequired,
+  manager: PropTypes.object.isRequired,
+  setSelectedWalletTransactions: PropTypes.func.isRequired,
 };

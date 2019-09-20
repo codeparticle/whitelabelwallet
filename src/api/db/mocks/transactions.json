@@ -2,16 +2,16 @@
   {
     "id": 1,
   "sender_address_id": 1,
-  "receiver_address_id": 2,
-  "amount": 1.00,
+  "receiver_address_id": 1,
+  "amount": 1.25,
   "fee": 0.001,
   "transaction_id": 1,
-  "description": "Payment to Jack Gruber",
+  "description": "Payment to Gabe Womble",
   "sender_address": "8d3733ff04e64ebb867d53eb913d3f6a",
-  "receiver_address": "2304cef1fec744e0aca8d83c69907edc",
+  "receiver_address": "a13297d9456c48e88091e005bc42050d",
   "status": 0,
   "created_date": "2018-10-07 08:23:19.120",
-  "transaction_type": "payment"
+  "transaction_type": "send"
   },
   {
     "id": 2,
@@ -30,30 +30,29 @@
   {
     "id": 3,
   "sender_address_id": 3,
-  "receiver_address_id": 1,
-  "amount": 1.00,
+  "receiver_address_id": 2,
+  "amount": 1.25,
   "fee": 0.001,
   "transaction_id": 3,
-  "description": "I owe you",
+  "description": "Payment to Tyson",
   "sender_address": "37289c6fd53246f5abccd52f496495c8",
-  "receiver_address": "8d3733ff04e64ebb867d53eb913d3f6a",
+  "receiver_address": "08a93087f78141bdb14c878a6c5ac57e",
   "status": 0,
   "created_date": "2019-09-07 08:26:19.120",
-  "transaction_type": "receive"
+  "transaction_type": "send"
   },
   {
     "id": 4,
   "sender_address_id": 1,
   "receiver_address_id": 4,
-  "amount": 1.00,
+  "amount": 1.25,
   "fee": 0.001,
   "transaction_id": 4,
-  "description": "Payment to Lisa Williams",
+  "description": "Payment to Cindy Crawford",
   "sender_address": "8d3733ff04e64ebb867d53eb913d3f6a",
-  "receiver_address": "2304cef1fec744e0aca8d83c69907edc",
+  "receiver_address": "b1bb8570820d4807a3c9bbfe2975d31a",
   "status": 0,
   "created_date": "2018-09-10 08:23:19.120",
-  "transaction_type": "payment"
+  "transaction_type": "send"
   }
-
 ]

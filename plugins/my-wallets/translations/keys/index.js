@@ -21,6 +21,11 @@ export const MY_WALLETS = defineMessages({
     description: 'continue button text',
     defaultMessage: 'Continue',
   },
+  CURRENT_BALANCE_LABEL: {
+    id: 'plugin.my_wallets.current_balance',
+    description: 'current balance text',
+    defaultMessage: 'Current Balance',
+  },
   DESCRIPTION_LABEL: {
     id: 'plugin.my_wallets.description_label',
     description: 'Description label text',
@@ -95,6 +100,11 @@ export const MY_WALLETS = defineMessages({
     id: 'plugin.my_wallets.recovery_code_label',
     description: 'recovery code button text',
     defaultMessage: 'Recovery Code',
+  },
+  SEARCH: {
+    id: 'plugin.transactions.search',
+    description: 'Search component placeholder text',
+    defaultMessage: 'Search Transactions...',
   },
   SEND_FUNDS_BUTTON_LABEL: {
     id: 'plugin.my_wallets.send_funds_button_label',
