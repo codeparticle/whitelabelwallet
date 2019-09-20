@@ -21,11 +21,9 @@ export function walletsReducer(state = {}, action) {
       };
     };
     case types.SET_SELECTED_WALLET_TRANSACTIONS: {
-      console.log('========\n', 'do we need this?', '\n========');
-      state.transactions ? state.transactions : state['transactions'] = [];
       return {
         ...state,
-        transactions: [...state.transactions, action.payload],
+        transactions: action.payload,
       };
     };
     default:

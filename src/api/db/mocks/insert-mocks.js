@@ -19,7 +19,6 @@ export function insertMocks() {
   };
 
   Object.keys(data).forEach((type) => {
-    console.log('========\n', 'delete me later: type', type, '\n========');
     const vals = Object.values(data[type]);
 
     for (let k = 0; k < vals.length - 1; k++) {

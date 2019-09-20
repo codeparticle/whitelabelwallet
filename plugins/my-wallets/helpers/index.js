@@ -5,5 +5,6 @@ export {
   getWalletById,
   getAddressesByWalletId,
   getTransactionsPerAddress,
+  searchTransactionsByValue,
   updateWalletAndUpdateState,
 } from './queries';
