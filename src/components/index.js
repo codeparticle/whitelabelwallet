@@ -4,6 +4,7 @@ export { ErrorBoundary } from './error-boundary';
 export { FlashMessages } from './flash-messages';
 export { HeaderActionButtons } from './header-action-buttons';
 export { Main } from './main';
+export { MobilePage } from './mobile-page';
 export { NavTrigger } from './nav-trigger';
 export { NotFound } from './not-found';
 export { Page } from './page';

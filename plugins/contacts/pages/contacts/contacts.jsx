@@ -20,8 +20,8 @@ import { getContacts } from 'plugins/contacts/rdx/selectors';
 
 import { contacts as e2e } from 'e2e/constants';
 
-const { ADD } = VARIANTS;
-const { SvgAdd } = svgs.icons;
+const { ADD, PRIMARY } = VARIANTS;
+const { SvgAdd, SvgIconContact } = svgs.icons;
 
 /**
  * Initial Contact Object shape
@@ -102,9 +102,22 @@ const ContactsPageView = ({
       headerProps={{
         dataSelector: e2e.selectors.header.raw,
         PrimaryAction: AddContactIcon,
+        Icon: SvgIconContact,
         SecondaryAction: AddContactButton,
         title: formatMessage(CONTACTS.TITLE),
+        type: PRIMARY,
       }}
+      sidepanel={
+        <ContactSidepanel
+          selectedContact={selectedContact}
+          formatMessage={formatMessage}
+          isOpen={isPanelOpen}
+          manager={manager}
+          panelType={panelType}
+          setIsOpen={setIsPanelOpen}
+          setContacts={props.setContacts}
+        />
+      }
     >
       <SearchContacts
         formatMessage={formatMessage}
@@ -116,15 +129,6 @@ const ContactsPageView = ({
         formatMessage={formatMessage}
         openPanel={openPanel}
         manager={manager}
-      />
-      <ContactSidepanel
-        selectedContact={selectedContact}
-        formatMessage={formatMessage}
-        isOpen={isPanelOpen}
-        manager={manager}
-        panelType={panelType}
-        setIsOpen={setIsPanelOpen}
-        setContacts={props.setContacts}
       />
     </Page>
   );
