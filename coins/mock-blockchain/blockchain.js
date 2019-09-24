@@ -3,11 +3,11 @@ import * as bitcoin from 'bitcoinjs-lib';
 import  _ from 'lodash';
 import * as bip39 from 'bip39';
 import * as HDKey from 'hdkey';
-import { TransactionManager } from 'api/blockchain/mock-blockchain/transactions';
-import { WalletManager } from 'api/blockchain/mock-blockchain/wallet';
-import { urls } from 'api/blockchain/mock-blockchain/constants';
+import { TransactionManager } from 'coins/mock-blockchain/transactions';
+import { WalletManager } from 'coins/mock-blockchain/wallet';
+import { urls } from 'coins/mock-blockchain/constants';
 import { api } from 'rdx/api';
-import { ApiBlockchainManager } from 'api/blockchain/api-blockchain-manager';
+import { ApiBlockchainManager } from 'api/api-blockchain-manager';
 import { Address } from 'models';
 
 const {

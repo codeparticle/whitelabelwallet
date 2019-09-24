@@ -69,6 +69,7 @@ module.exports = {
   appWindow: resolveApp('src/window'),
   e2e: resolveApp('tests/e2e'),
   plugins: resolveApp('plugins'),
+  coins: resolveApp('coins'),
   applicationConfig: resolveApp('application-config'),
   delimiter: path.delimiter,
 };

@@ -39,6 +39,7 @@ export default {
     alias: {
       'api': paths.appApi,
       'app': paths.appApp,
+      'coins': paths.coins,
       'components': paths.appComponents,
       'config': paths.appConfig,
       'global-components': paths.appGlobalComponents,
