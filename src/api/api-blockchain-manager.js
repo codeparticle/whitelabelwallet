@@ -1,5 +1,5 @@
 import * as bip39 from 'bip39';
-import wordlists from 'api/blockchain/mock-blockchain/utils/valid-words-library';
+import { wordlists } from 'api/blockchain/utils';
 
 const required = (methodName) => {
   throw new Error(`${methodName} undefined.`);
@@ -23,13 +23,13 @@ class ApiBlockchainManager {
    * Creates a bip39 mnemonic phrase that will be used
    * when creating a new wallet.
    */
-  static generateSecretPhrase() {
+  static generateSecretPhrase(localeCode = 'en') {
     // see valid-words-library for list of available languages
     let secretPhraseSet = new Set([]);
     let secretPhrase = '';
 
     while (secretPhraseSet.size !== 24) {
-      secretPhrase = bip39.generateMnemonic(256, null, wordlists.english);
+      secretPhrase = bip39.generateMnemonic(256, null, wordlists[localeCode]);
       secretPhraseSet = new Set(this.phraseToArray(secretPhrase));
     }
 
@@ -60,7 +60,7 @@ class ApiBlockchainManager {
    * @param {string} phrase
    */
   static phraseToArray(phrase) {
-    return phrase.trim().split(' ').filter(word => word !== '');
+    return phrase.trim().split(' ');
   }
 
   /**

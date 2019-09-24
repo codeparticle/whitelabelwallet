@@ -2,22 +2,12 @@
  * @fileoverview Coin agnostic wallet actions
  * @author Gabriel Womble
  */
-import { BLOCKCHAIN_MANAGERS } from 'api/blockchain';
-import { getManagerKey } from 'api/blockchain/utils';
-import { manager } from 'app';
+import { BlockchainManager, manager } from 'app';
 
 class WalletManager {
   constructor() {
     this.manager = manager;
-  }
-
-  /**
-   * @returns {Class} blockchainManager class to use
-   * @param {number} coinId - used to determine which manager to use
-   */
-  getBlockchainManager(coinId) {
-    const managerKey = getManagerKey(coinId);
-    return BLOCKCHAIN_MANAGERS[managerKey];
+    this.blockchainManager = BlockchainManager;
   }
 
   /**
@@ -26,8 +16,7 @@ class WalletManager {
    */
   async createWallet(wallet) {
     await this.manager.databaseManager.insert(false).wallet(wallet);
-    const blockchainManager = this.getBlockchainManager(wallet.coin_id);
-    const { address, privateKey: private_key } = blockchainManager.generateAddressFromSeed(wallet.seed);
+    const { address, privateKey: private_key } = this.blockchainManager.generateAddressFromSeed(wallet.seed);
     const insertedWallet = await this.manager.databaseManager.getLastWallet();
 
     await this.manager.databaseManager.insert().address({
@@ -68,11 +57,10 @@ class WalletManager {
   /**
    * Function that generates deterministic pass phrase
    * @returns {Array} - Secret Phrase
-   * @param {number} - coinId to determine type coin's blockchainManager
+   * @param {string} - locale code to determine wordlist to use
    */
-  generateSecretPhrase(coinId) {
-    const blockchainManager = this.getBlockchainManager(coinId);
-    return blockchainManager.phraseToArray(blockchainManager.generateSecretPhrase());
+  generateSecretPhrase(locale) {
+    return this.blockchainManager.phraseToArray(this.blockchainManager.generateSecretPhrase(locale));
   }
 }
 

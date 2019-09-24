@@ -1,3 +1,5 @@
+const KEY = 'mock';
+
 const urls = {
   ADDRESS: '/address',
   ADDRESS_DETAILS: '/address?address=',
@@ -13,6 +15,7 @@ const urls = {
 };
 
 export {
+  KEY,
   urls,
 };
 

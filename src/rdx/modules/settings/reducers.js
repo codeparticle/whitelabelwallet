@@ -5,6 +5,7 @@ import { THEME_KEYS } from '@codeparticle/whitelabelwallet.styleguide';
 const { LIGHT } = THEME_KEYS;
 
 export const initialState = {
+  locale: 'en',
   theme: LIGHT,
 };
 
