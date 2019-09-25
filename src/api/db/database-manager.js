@@ -297,11 +297,20 @@ export class DatabaseManager {
   /**
    * Selects transactions that fit the given search value
    * @returns {Array} Transaction(s)
+   * @param {array} addresses - Selected wallet's addresses
    * @param {string} value - Value to search by
    */
-  getTransactionsByValue(value = '') {
-    const statement = STMT.TRANSACTIONS.SELECT.VALUE(value);
-    return this.query({ statement });
+  getTransactionsByValue(addresses, value = '', dateTime) {
+    const queryResults = [];
+    const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    addresses.forEach((addressData) => {
+      const statement = STMT.TRANSACTIONS.SELECT.VALUE(addressData.address, value, filterDate);
+      queryResults.push(this.query({ statement }));
+    });
+
+    return Promise.all(queryResults).then((results) => {
+      return results.flat();
+    });
   }
 
   /**
@@ -309,8 +318,9 @@ export class DatabaseManager {
    * @returns {Array} Transaction(s)
    * @param {string} address - Address value to search by
    */
-  getTransactionsPerAddress(address = '') {
-    const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address);
+  getTransactionsPerAddress(address = '', dateTime) {
+    const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address, filterDate);
     return this.query({ statement });
   }
 

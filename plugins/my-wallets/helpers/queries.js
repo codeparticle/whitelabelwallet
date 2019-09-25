@@ -63,8 +63,8 @@ async function updateWalletAndUpdateState(wallet, setFn) {
  * @param {*} setFn - the function that sets the query response to state
  * @param {*} value - the value to query
  */
-async function searchTransactionsByValue(setFn, value) {
-  const res = await WalletManager.getTransactionsByValue(value);
+async function searchTransactionsByValue(setFn, value, addresses, filterDate = null) {
+  const res = await WalletManager.getTransactionsByValue(addresses, value, filterDate);
   setFn(res);
 }
 
@@ -74,8 +74,8 @@ async function searchTransactionsByValue(setFn, value) {
  * @param {*} setFn - the function that sets the query response to state
  * @param {*} address - the address value to query
  */
-async function getTransactionsPerAddress(setFn, address) {
-  const res = await WalletManager.getTransactionsPerAddress(address);
+async function getTransactionsPerAddress(setFn, address, filterDate = null) {
+  const res = await WalletManager.getTransactionsPerAddress(address, filterDate);
   setFn(res);
 }
 

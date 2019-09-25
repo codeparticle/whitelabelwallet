@@ -3,8 +3,8 @@
  * @author Gabriel Womble, Marc Mathieu
  */
 import React, { useEffect, useState, Fragment } from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
@@ -52,6 +52,11 @@ const { Text } = cellFormatters;
 const {
   MANAGE_WALLET_BUTTON_LABEL,
   CURRENT_BALANCE_LABEL,
+  DATE_OPTION_TODAY,
+  DATE_OPTION_WEEK,
+  DATE_OPTION_MONTH,
+  DATE_OPTION_YEAR,
+  DATE_OPTION_ALL_TIME,
 } = MY_WALLETS;
 
 function ManageButton({ buttonVariant, label, onClick, size }) {
@@ -91,19 +96,43 @@ function WalletOverviewView({
   const { name } = selectedWallet;
   const { walletId } = match.params;
   const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
+    { value: getDateValue('day'), label: formatMessage(DATE_OPTION_TODAY) },
+    { value: getDateValue('week'), label: formatMessage(DATE_OPTION_WEEK) },
+    { value: getDateValue('month'), label: formatMessage(DATE_OPTION_MONTH) },
+    { value: getDateValue('year'), label: formatMessage(DATE_OPTION_YEAR) },
+    { value: getDateValue(), label: formatMessage(DATE_OPTION_ALL_TIME) },
   ];
+
+  useEffect(() => {
+    setSelectedDate(getDateValue());
+  }, []);
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
     getAddressesByWalletId(props.setSelectedWalletAddresses, walletId).then((addresses) => fetchTransactions(addresses));
   }, [setSelectedWallet]);
 
+  useEffect(() => {
+    fetchTransactions(selectedWalletAddresses, selectedDate);
+  }, [selectedDate]);
+
   const toggleSidePanel = () => setIsPanelOpen(!isPanelOpen);
 
-  function fetchTransactions(walletAddresses) {
+  function getDateValue(desiredDate = 'allTime') {
+    let queryDate = null;
+
+    if (desiredDate !== 'allTime') {
+      queryDate = moment().startOf(desiredDate).format('YYYY-MM-DD');
+    }
+
+    return queryDate;
+  }
+
+  function fetchTransactions(walletAddresses, filterDate) {
+    if (filterDate !== null && filterDate !== undefined) {
+      return walletAddresses.map((addressData) =>  getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address, filterDate.value));
+    }
+
     return walletAddresses.map((addressData) =>  getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address));
   }
 
@@ -247,9 +276,9 @@ function WalletOverviewView({
       <div className="page-content-container">
         <div className="search-wrapper">
           <SearchTransactions
-            manager={manager}
             formatMessage={formatMessage}
-            setSelectedWalletTransactions={setSelectedWalletTransactions}
+            setSelectedWalletTransactions={props.setSelectedWalletTransactions}
+            selectedWalletAddresses={selectedWalletAddresses}
           />
         </div>
         <div className="chart-wrapper">
