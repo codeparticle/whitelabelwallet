@@ -10,7 +10,7 @@ export const TRANSACTIONS_STATEMENTS = {
     sender_address varchar(100),
     receiver_address varchar(100),
     status tinyint not null,
-    created_date datetime,
+    created_date datedateTime,
     transaction_type varchar(100),
     foreign key (sender_address_id) references Addresses(id) on delete set null,
     foreign key (receiver_address_id) references Addresses(id) on delete set null
@@ -21,7 +21,7 @@ export const TRANSACTIONS_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Transactions`,
-    PER_ADDRESS: (address) => `select * from Transactions where sender_address = "${address}" or receiver_address = "${address}"`,
-    VALUE: (value) => `select * from Transactions where description like "${value}%" or sender_address like "${value}%"  or receiver_address like "${value}%"`,
+    PER_ADDRESS: (address, dateTime) => `select * from Transactions where (sender_address = "${address}" or receiver_address = "${address}") and created_date >= "${dateTime}"`,
+    VALUE: (address, value, dateTime) => `select * from Transactions where description like "%${value}%" and (sender_address = "${address}" or receiver_address = "${address}") and created_date >= "${dateTime}"`,
   },
 };
