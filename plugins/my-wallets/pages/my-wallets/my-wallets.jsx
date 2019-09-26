@@ -5,6 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import { HeaderButton, IconButton, svgs, useMedia } from '@codeparticle/whitelabelwallet.styleguide';
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
+import { VARIANTS } from 'lib/constants';
 import { useManager } from 'lib/hooks';
 import { fetchWallets } from 'plugins/my-wallets/helpers';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
@@ -12,7 +13,8 @@ import { getWallets } from 'plugins/my-wallets/rdx/selectors';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 
-const { SvgAdd } = svgs.icons;
+const { PRIMARY } = VARIANTS;
+const { SvgAdd, SvgWallet } = svgs.icons;
 
 import './my-wallets.scss';
 
@@ -61,16 +63,21 @@ const MyWallets = ({
     <Page
       headerProps={{
         PrimaryAction: AddWalletIcon,
+        Icon: SvgWallet,
         SecondaryAction: AddWallet,
         title: formatMessage(MY_WALLETS.PAGE_HEADER),
+        type: PRIMARY,
       }}
+      sidepanel={
+        <WalletSidepanel
+          onClose={onClose}
+          intl
+          isOpen={isOpenValue}
+          setWallets={props.setWallets}
+        />
+      }
     >
       <Wallets history={history} wallets={wallets} />
-      <WalletSidepanel
-        onClose={onClose}
-        intl
-        isOpen={isOpenValue}
-        setWallets={props.setWallets}/>
     </Page>
   );
 };
