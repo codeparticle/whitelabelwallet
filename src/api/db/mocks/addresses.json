@@ -8,7 +8,7 @@
     "created_date": "2013-10-07 08:23:19.120",
     "last_modified_date": 1,
     "is_active": 0,
-    "balance": 14.4878
+    "balance": 14.5000
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@
     "created_date": "2013-10-07 08:23:19.120",
     "last_modified_date": 1,
     "is_active": 1,
-    "balance": 12.3778
+    "balance": 12.5000
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "created_date": "2013-10-07 08:23:19.120",
     "last_modified_date": 1,
     "is_active": 0,
-    "balance": 4.1866,
+    "balance": 4.0000,
     "parent_id": 2
   },
   {

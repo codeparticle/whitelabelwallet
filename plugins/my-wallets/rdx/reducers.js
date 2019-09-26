@@ -1,6 +1,11 @@
 import types from './types';
+import { uniqBy } from 'lodash';
 
-export function walletsReducer(state = {}, action) {
+const initialState = {
+  transactions: [],
+};
+
+export function walletsReducer(state = initialState, action) {
   switch (action.type) {
     case types.SET_WALLETS: {
       return {
@@ -23,7 +28,19 @@ export function walletsReducer(state = {}, action) {
     case types.SET_SELECTED_WALLET_TRANSACTIONS: {
       return {
         ...state,
-        transactions: action.payload,
+        transactions: uniqBy([...state.transactions, ...action.payload], transaction => transaction.id),
+      };
+    };
+    case types.SET_SELECTED_TRANSACTIONS_SEARCH_RESULTS: {
+      return {
+        ...state,
+        transactions: uniqBy([...action.payload], transaction => transaction.id),
+      };
+    };
+    case types.CLEAR_SELECTED_WALLET_TRANSACTIONS: {
+      return {
+        ...state,
+        transactions: [],
       };
     };
     default:

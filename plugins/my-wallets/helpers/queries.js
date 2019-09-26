@@ -26,12 +26,11 @@ async function getWalletById(id, setFn) {
 
 /**
  * Function to get a addresses from db by wallet ID
- * @param {Object} manager - the manager object
  * @param {func} setFn - function that sets the res to state
  * @param {number} id - id of wallet to get
  */
 async function getAddressesByWalletId(setFn, id) {
-  const res = await WalletManager.getAddressesByWalletId(id);
+  const res = await WalletManager.getAddressesByWalletId(setFn, id);
   setFn(res);
   return res;
 }
@@ -59,24 +58,34 @@ async function updateWalletAndUpdateState(wallet, setFn) {
 
 /**
  * Function to search a transaction by description
- * @param {Object} manager - the manager object
  * @param {*} setFn - the function that sets the query response to state
  * @param {*} value - the value to query
  */
 async function searchTransactionsByValue(setFn, value, addresses, filterDate = null) {
-  const res = await WalletManager.getTransactionsByValue(addresses, value, filterDate);
+  const res = await WalletManager.searchTransactionsByValue(addresses, value, filterDate);
   setFn(res);
 }
 
 /**
  * Function to get transactions that contain the desired address
- * @param {Object} manager - the manager object
  * @param {*} setFn - the function that sets the query response to state
  * @param {*} address - the address value to query
+ * @param {*} filterDate - date to filter transaction data
  */
 async function getTransactionsPerAddress(setFn, address, filterDate = null) {
-  const res = await WalletManager.getTransactionsPerAddress(address, filterDate);
-  setFn(res);
+  const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
+  if (setFn !== null) {
+    setFn(res);
+  }
+}
+/**
+ * Function to get transactions to display on wallet chart
+ * @param {*} address - the address value to query
+ * @param {*} filterDate - date to filter transaction data
+ */
+async function getTransactionsForChart(address, filterDate) {
+  const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
+  return res;
 }
 
 
@@ -86,6 +95,7 @@ export {
   getAddressesByWalletId,
   getWalletById,
   getTransactionsPerAddress,
+  getTransactionsForChart,
   searchTransactionsByValue,
   updateWalletAndUpdateState,
 };

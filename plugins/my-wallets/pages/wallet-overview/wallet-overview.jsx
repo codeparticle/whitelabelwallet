@@ -2,24 +2,20 @@
  * @fileoverview Wallet overview page
  * @author Gabriel Womble, Marc Mathieu
  */
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
 import {
-  AreaChart,
-  cellFormatters,
   Button,
   ButtonVariants,
   IconButton,
   IconVariants,
-  List,
   Select,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { red, green } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
 import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
 
@@ -27,8 +23,14 @@ import {
   setSelectedWallet,
   setSelectedWalletAddresses,
   setSelectedWalletTransactions,
+  setSelectedWalletTransactionsSearchResults,
 } from 'plugins/my-wallets/rdx/actions';
-import { ManageWalletSidepanel, SearchTransactions }  from 'plugins/my-wallets/components';
+import {
+  ManageWalletSidepanel,
+  SearchTransactions,
+  TransactionsList,
+  WalletChart,
+}  from 'plugins/my-wallets/components';
 import {
   getSelectedWallet,
   getSelectedWalletAddresses,
@@ -38,7 +40,9 @@ import {
   getWalletById,
   getAddressesByWalletId,
   getTransactionsPerAddress,
-  ROUTES } from 'plugins/my-wallets/helpers';
+  ROUTES,
+  SELECT_OPTIONS,
+} from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-overview.scss';
 
@@ -48,7 +52,13 @@ const { PLUGIN } = ROUTES;
 const { SECONDARY } = VARIANTS;
 const { SLATE } = IconVariants;
 const { SLATE_CLEAR } = ButtonVariants;
-const { Text } = cellFormatters;
+const {
+  TODAY,
+  WEEK,
+  MONTH,
+  YEAR,
+  ALL_TIME,
+} = SELECT_OPTIONS;
 const {
   MANAGE_WALLET_BUTTON_LABEL,
   CURRENT_BALANCE_LABEL,
@@ -57,6 +67,7 @@ const {
   DATE_OPTION_MONTH,
   DATE_OPTION_YEAR,
   DATE_OPTION_ALL_TIME,
+  NO_TRANSACTIONS_TEXT,
 } = MY_WALLETS;
 
 function ManageButton({ buttonVariant, label, onClick, size }) {
@@ -81,6 +92,24 @@ function ManageIcon({ iconVariant, iconProps, onClick }) {
   );
 }
 
+function NoTransactions({ formatMessage }) {
+  return (
+    <div className="empty-list">
+      <h1>{formatMessage(NO_TRANSACTIONS_TEXT)}</h1>
+    </div>
+  );
+}
+
+function getSelectOptions (formatMessage, getDateValue) {
+  return [
+    { value: getDateValue(TODAY), label: formatMessage(DATE_OPTION_TODAY) },
+    { value: getDateValue(WEEK), label: formatMessage(DATE_OPTION_WEEK) },
+    { value: getDateValue(MONTH), label: formatMessage(DATE_OPTION_MONTH) },
+    { value: getDateValue(YEAR), label: formatMessage(DATE_OPTION_YEAR) },
+    { value: getDateValue(), label: formatMessage(DATE_OPTION_ALL_TIME) },
+  ];
+}
+
 function WalletOverviewView({
   intl: {
     formatMessage,
@@ -92,20 +121,10 @@ function WalletOverviewView({
   ...props
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(getDateValue());
+  const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { name } = selectedWallet;
   const { walletId } = match.params;
-  const options = [
-    { value: getDateValue('day'), label: formatMessage(DATE_OPTION_TODAY) },
-    { value: getDateValue('week'), label: formatMessage(DATE_OPTION_WEEK) },
-    { value: getDateValue('month'), label: formatMessage(DATE_OPTION_MONTH) },
-    { value: getDateValue('year'), label: formatMessage(DATE_OPTION_YEAR) },
-    { value: getDateValue(), label: formatMessage(DATE_OPTION_ALL_TIME) },
-  ];
-
-  useEffect(() => {
-    setSelectedDate(getDateValue());
-  }, []);
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
@@ -113,15 +132,26 @@ function WalletOverviewView({
   }, [setSelectedWallet]);
 
   useEffect(() => {
-    fetchTransactions(selectedWalletAddresses, selectedDate);
+    if (previousSelectedDate !== selectedDate) {
+      setPreviousSelectedData(selectedDate);
+      fetchTransactions(selectedWalletAddresses, selectedDate);
+    }
   }, [selectedDate]);
 
-  const toggleSidePanel = () => setIsPanelOpen(!isPanelOpen);
+  const toggleSidePanel = () => {
+    setIsPanelOpen(true);
+  };
 
-  function getDateValue(desiredDate = 'allTime') {
+  const onClose = (eventData)=> {
+    if (eventData === undefined || !eventData.outsideClick) {
+      setIsPanelOpen(false);
+    }
+  };
+
+  function getDateValue(desiredDate = ALL_TIME) {
     let queryDate = null;
 
-    if (desiredDate !== 'allTime') {
+    if (desiredDate !== ALL_TIME) {
       queryDate = moment().startOf(desiredDate).format('YYYY-MM-DD');
     }
 
@@ -157,58 +187,16 @@ function WalletOverviewView({
     const selectProps = {
       value: selectedDate,
       onChange: setSelectedDate,
-      options: options,
+      options: getSelectOptions(formatMessage, getDateValue),
       className: 'date-picker',
     };
 
     return (
-      <Visible when={ !collapsed }>
+      <Visible when={!collapsed}>
         <Select {...selectProps} />
       </Visible>
     );
 
-  }
-
-  function customAmountRenderer({ data, column }) {
-    const color = data.transaction_type === 'receive'
-      ? green
-      : red;
-
-    return (
-      <Fragment>
-        <p className="transaction-amount"><SvgCoinSymbol/>{`${column}`}</p>
-        <style jsx>
-          {`
-              p {
-                color: ${color};
-              }
-            `}
-        </style>
-      </Fragment>
-    );
-  }
-
-  function customAddressRenderer({ data }) {
-    const address = data.transaction_type === 'receive'
-      ? data.receiver_address
-      : data.sender_address;
-    const { name = null } = selectedWalletAddresses.find((walletAddress) => walletAddress.address === address) || {};
-
-    return (
-      <Fragment>
-        <Text value={name || ''}/>
-      </Fragment>
-    );
-  }
-
-  function customDateRenderer({ data }) {
-    const formattedDate = moment(data.created_date).format('MMMM Do YYYY, h:mm:ss a');
-
-    return (
-      <Fragment>
-        <Text value={formattedDate} />
-      </Fragment>
-    );
   }
 
   function getBalance() {
@@ -217,49 +205,7 @@ function WalletOverviewView({
     }, 0);
   }
 
-  const chartData = [
-    { x: 1, y: 8 },
-    { x: 2, y: 10 },
-    { x: 3, y: 12 },
-    { x: 4, y: 4 },
-    { x: 5, y: 14 },
-    { x: 6, y: 6 },
-  ];
-
-  const columnDefs = [
-    {
-      title: 'Date',
-      gridColumns: '1 / 3',
-      property: 'created_date',
-      customRenderer: customDateRenderer,
-    },
-    {
-      title: 'Address',
-      gridColumns: '4 / 7',
-      property: 'transaction_type',
-      customRenderer: customAddressRenderer,
-    },
-    {
-      title: 'Details',
-      gridColumns: '7 / 10',
-      property: 'description',
-    },
-    {
-      title: 'Amount',
-      gridColumns: '12',
-      property: 'amount',
-      customRenderer: customAmountRenderer,
-    },
-  ];
-
-  const removeAddressColumn = (columns) => {
-    columns.splice(1, 1);
-    return columns;
-  };
-
-  const onRowClicked = () => {
-    console.log('row clicked');
-  };
+  const haveTransactions =  selectedWalletTransactions.length > 0;
 
   return (
     <Page
@@ -277,36 +223,38 @@ function WalletOverviewView({
         <div className="search-wrapper">
           <SearchTransactions
             formatMessage={formatMessage}
-            setSelectedWalletTransactions={props.setSelectedWalletTransactions}
+            setSelectedWalletTransactionsSearchResults={props.setSelectedWalletTransactionsSearchResults}
             selectedWalletAddresses={selectedWalletAddresses}
           />
         </div>
         <div className="chart-wrapper">
-          <AreaChart
-            colors={[green]}
-            data={chartData}
-            padding={0}>
-          </AreaChart>
+          {selectedWalletTransactions && <WalletChart
+            selectedWalletTransactions={selectedWalletTransactions}
+            selectedWalletAddresses={selectedWalletAddresses}
+            selectedWallet={selectedWallet}/>}
           <div className="wallet-balance-data">
             <p className="current-balance-text">{formatMessage(CURRENT_BALANCE_LABEL)}</p>
             <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
             <span className="usd-value">$5,911.19</span>
           </div>
         </div>
-        <div className="list-wrapper">
-          <List
-            id="wallet-list"
-            isStriped
-            columnDefs={selectedWallet.multi_address === 1 ? columnDefs : removeAddressColumn(columnDefs)}
-            onRowClicked={onRowClicked}
-            rowData={listData}
-          />
+        <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
+          <Visible
+            when={haveTransactions}
+            fallback={<NoTransactions formatMessage={formatMessage}/>
+            }>
+            <TransactionsList
+              selectedWallet={selectedWallet}
+              selectedWalletAddresses={selectedWalletAddresses}
+              selectedWalletTransactions={selectedWalletTransactions} />
+          </Visible>
+
         </div>
       </div>
       <ManageWalletSidepanel
         formatMessage={formatMessage}
         isOpen={isPanelOpen}
-        onClose={toggleSidePanel}
+        onClose={onClose}
         setSelectedWallet={props.setSelectedWallet}
         wallet={selectedWallet}
       />
@@ -342,6 +290,7 @@ const mapDispatchToProps = {
   setSelectedWallet,
   setSelectedWalletAddresses,
   setSelectedWalletTransactions,
+  setSelectedWalletTransactionsSearchResults,
 };
 
 export const WalletOverviewPage = connect(mapStateToProps, mapDispatchToProps)(injectIntl(WalletOverviewView));

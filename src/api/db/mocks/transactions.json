@@ -11,7 +11,8 @@
   "receiver_address": "a13297d9456c48e88091e005bc42050d",
   "status": 0,
   "created_date": "2019-08-07 08:23:19.120",
-  "transaction_type": "send"
+  "transaction_type": "send",
+  "pending_balance": 15.7500
   },
   {
     "id": 2,
@@ -25,7 +26,8 @@
   "receiver_address": "37289c6fd53246f5abccd52f496495c8",
   "status": 0,
   "created_date": "2019-07-07 08:26:19.120",
-  "transaction_type": "receive"
+  "transaction_type": "receive",
+  "pending_balance": 14.5000
   },
   {
     "id": 3,
@@ -35,11 +37,12 @@
   "fee": 0.001,
   "transaction_id": 3,
   "description": "Payment to Tyson",
-  "sender_address": "37289c6fd53246f5abccd52f496495c8",
+  "sender_address": "2304cef1fec744e0aca8d83c69907edc",
   "receiver_address": "08a93087f78141bdb14c878a6c5ac57e",
   "status": 0,
   "created_date": "2019-09-07 08:26:19.120",
-  "transaction_type": "send"
+  "transaction_type": "send",
+  "pending_balance": 14.5000
   },
   {
     "id": 4,
@@ -52,7 +55,8 @@
   "sender_address": "8d3733ff04e64ebb867d53eb913d3f6a",
   "receiver_address": "b1bb8570820d4807a3c9bbfe2975d31a",
   "status": 0,
-  "created_date": "2018-09-10 08:23:19.120",
-  "transaction_type": "send"
+  "created_date": "2019-09-10 08:23:19.120",
+  "transaction_type": "send",
+  "pending_balance": 14.5000
   }
 ]
