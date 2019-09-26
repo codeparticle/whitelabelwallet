@@ -104,9 +104,7 @@ export class DatabaseManager {
   }
 
   // Contains nested methods to insert single rows of data using the query method
-  insert() {
-    const run = true;
-
+  insert(run = true) {
     return {
       /**
        * Insert default user setting into the sqlite DB

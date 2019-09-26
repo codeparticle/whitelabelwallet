@@ -43,7 +43,6 @@ const initialInputErrors = {
 function ManageWalletSidepanel({
   formatMessage,
   isOpen,
-  manager,
   onClose,
   setSelectedWallet,
   wallet,
@@ -87,7 +86,7 @@ function ManageWalletSidepanel({
       description: safeString(description),
     };
 
-    updateWalletAndUpdateState(manager, setSelectedWallet, walletToUpdate).then(onClose);
+    updateWalletAndUpdateState(walletToUpdate, setSelectedWallet).then(onClose);
   }
 
   return (
@@ -134,7 +133,6 @@ function ManageWalletSidepanel({
 ManageWalletSidepanel.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  manager: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   setSelectedWallet: PropTypes.func.isRequired,
   wallet: PropTypes.object.isRequired,
