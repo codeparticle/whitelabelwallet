@@ -13,11 +13,11 @@ const { SEARCH } = MY_WALLETS;
 
 export function SearchTransactions({
   formatMessage,
-  setSelectedWalletTransactions,
+  setSelectedWalletTransactionsSearchResults,
   selectedWalletAddresses,
 }) {
   function onSubmit(value) {
-    searchTransactionsByValue(setSelectedWalletTransactions, value, selectedWalletAddresses);
+    searchTransactionsByValue(setSelectedWalletTransactionsSearchResults, value, selectedWalletAddresses);
   }
 
   return (
@@ -29,7 +29,7 @@ export function SearchTransactions({
 }
 
 SearchTransactions.propTypes = {
-  manager: PropTypes.object.isRequired,
-  setSelectedWalletTransactions: PropTypes.func.isRequired,
+  formatMessage: PropTypes.func.isRequired,
+  setSelectedWalletTransactionsSearchResults: PropTypes.func.isRequired,
   selectedWalletAddresses: PropTypes.array.isRequired,
 };

@@ -61,9 +61,7 @@ class WalletManager {
  * @param {number} id - id of wallet to get
  */
   async getAddressesByWalletId(setFn, id) {
-    const res = await manager.databaseManager.getAddressesByWalletId(id);
-    setFn(res);
-    return res;
+    return await manager.databaseManager.getAddressesByWalletId(id);
   }
 
   /**
@@ -80,19 +78,17 @@ class WalletManager {
  * @param {*} setFn - the function that sets the query response to state
  * @param {*} value - the value to query
  */
-  async  searchTransactionsByValue(setFn, value) {
-    const res = await manager.databaseManager.getTransactionsByValue(value);
-    setFn(res);
+  async  searchTransactionsByValue(addresses, value, filterDate) {
+    return await manager.databaseManager.searchTransactionsForValue(addresses, value, filterDate);
   }
 
   /**
- * Function to get transactions that contain the desired address
- * @param {*} setFn - the function that sets the query response to state
+ * Function to get transactions to display on wallet chart
  * @param {*} address - the address value to query
+ * @param {*} filterDate - date to filter transaction data
  */
-  async getTransactionsPerAddress(setFn, address) {
-    const res = await manager.databaseManager.getTransactionsPerAddress(address);
-    setFn(res);
+  async getTransactionsPerAddressAfterDate(address, filterDate) {
+    return await manager.databaseManager.getTransactionsPerAddressAfterDate(address, filterDate);
   }
 }
 

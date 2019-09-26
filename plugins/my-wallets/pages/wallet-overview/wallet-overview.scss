@@ -1,98 +1,110 @@
 @import 'src/styles/index.scss';
 
 $chart-section-height: 360px;
-$date-picker-width: 260px;
+$date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
 $chart-opacity: 0.5;
 
 .wallet-overview-page {
 
-    .page-content-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto $chart-section-height 1fr;
-        height: 100%;
+  .page-content-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto $chart-section-height 1fr;
+    height: 100%;
     
-        .chart-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            position: relative;
+    .chart-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
 
-            div:first-child {
-                opacity: $chart-opacity;
-            }
+      div:first-child {
+        opacity: $chart-opacity;
+      }
 
-            svg {
+      svg {
 
-                & g[role="presentation"] {
-                    display: none;
-                }
-            }
-
-            .wallet-balance-data {
-                align-self: flex-start;
-                position: absolute;
-            }
+        & g[role='presentation'] {
+          display: none;
         }
-    
-        .list-wrapper {
-            background: $white;
+      }
 
-            .transaction-amount {
-                 display: flex;
-                 align-items: center;
-
-                svg {
-                    margin-right: $space-1;
-
-                    path {
-                        fill: currentColor;
-                    }
-                }
-            }
-        }
-
-        .wallet-balance-data {
-            
-            .current-balance-text {
-                color: $blue-shade;
-                font-size: $font-size-xs-3;
-            }
-
-            .balance {
-                color: $blue-shade;
-                font-size: $font-size-md-2;
-                font-weight: $font-weight-bold;
-                line-height: $line-height-xl;
-
-                svg {
-                    height: $font-size-md-1; 
-                    width: $font-size-md-1; 
-                }
-            }
-
-            .usd-value {
-                color: $blue;
-                font-size: $font-size-xs-3;
-                line-height: $line-height-xs;
-            }
-            
-        }
-        
-        .wallet-balance-data, .list-wrapper, .search-wrapper {
-            padding: $space-8;
-        }
+      .wallet-balance-data {
+        align-self: flex-start;
+        position: absolute;
+      }
     }
     
-    .page-header {
-        
-        .date-picker{
-            width: $date-picker-width;
+    .list-wrapper {
+      background: $white;
+
+      &-empty {
+        align-items: center;
+        background: white;
+        display: flex;
+        justify-content: center;
+
+        h1 {
+          color: $blue-shade;
         }
+      }
+
+      .transaction-amount {
+        align-items: center;
+        display: flex;
+
+        svg {
+          margin-right: $space-1;
+
+          path {
+            fill: currentColor;
+          }
+        }
+      }
     }
 
-    .page-header + section {
-        height: 100%;
+    .wallet-balance-data {
+        
+      .current-balance-text {
+        color: $blue-shade;
+        font-size: $font-size-xs-3;
+      }
+
+      .balance {
+        color: $blue-shade;
+        font-size: $font-size-md-2;
+        font-weight: $font-weight-bold;
+        line-height: $line-height-xl;
+
+        svg {
+          height: $font-size-md-1; 
+          width: $font-size-md-1; 
+        }
+      }
+
+      .usd-value {
+        color: $blue;
+        font-size: $font-size-xs-3;
+        line-height: $line-height-xs;
+      }
+        
     }
         
+    .wallet-balance-data,
+    .list-wrapper,
+    .search-wrapper {
+      padding: $space-8;
+    }
+  }
+    
+  .page-header {
+    
+    .date-picker {
+      width: $date-picker-width;
+    }
+  }
+
+  .page-header + section {
+    height: 100%;
+  }      
 }

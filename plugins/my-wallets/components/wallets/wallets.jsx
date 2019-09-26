@@ -28,6 +28,7 @@ const { SvgCoinSymbol } = svgs.icons;
   @returns {Node} - rendered Wallets
 */
 const WalletsView = ({
+  handleWalletClick,
   history,
   intl: {
     formatMessage,
@@ -49,6 +50,7 @@ const WalletsView = ({
   const onWithdraw = empty;
 
   function onWalletClickHandler({ id }) {
+    handleWalletClick();
     history.push(`${PLUGIN}/${id}/${OVERVIEW}`);
   }
 
@@ -74,6 +76,7 @@ const WalletsView = ({
 };
 
 WalletsView.propTypes = {
+  handleWalletClick: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   wallets: PropTypes.arrayOf(PropTypes.shape({

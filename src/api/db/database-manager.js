@@ -141,10 +141,10 @@ export class DatabaseManager {
       /**
        * Insert into the sqlite DB one row of transaction data
        */
-      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type }) => {
+      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance }) => {
         return this.query({
           statement: STMT.TRANSACTIONS.INSERT.NEW,
-          params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type],
+          params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance],
           run,
         });
       },
@@ -300,7 +300,7 @@ export class DatabaseManager {
    * @param {array} addresses - Selected wallet's addresses
    * @param {string} value - Value to search by
    */
-  getTransactionsByValue(addresses, value = '', dateTime) {
+  searchTransactionsForValue(addresses, value = '', dateTime) {
     const queryResults = [];
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
     addresses.forEach((addressData) => {
@@ -318,9 +318,10 @@ export class DatabaseManager {
    * @returns {Array} Transaction(s)
    * @param {string} address - Address value to search by
    */
-  getTransactionsPerAddress(address = '', dateTime) {
+  getTransactionsPerAddressAfterDate(address = '', dateTime) {
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
     const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address, filterDate);
+
     return this.query({ statement });
   }
 

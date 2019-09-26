@@ -101,15 +101,20 @@ export const MY_WALLETS = defineMessages({
     description: 'new wallet sub title',
     defaultMessage: `Step {currentStep} of 3`,
   },
-  MULTI_ADDRESS_LABEL: {
-    id: 'plugin.my_wallets.multi_address_label',
-    description: 'label for multi address question',
-    defaultMessage: 'Is this a multi-address wallet?',
-  },
   NAV_ITEM: {
     id: 'plugin.my_wallets.nav_item',
     description: 'Nav item label for My Wallets page',
     defaultMessage: 'My Wallets',
+  },
+  NO_TRANSACTIONS_TEXT: {
+    id: 'plugin.my_wallets.no_transactions_text',
+    description: 'Text to display when no transactions are available',
+    defaultMessage: 'No Transactions Available',
+  },
+  MULTI_ADDRESS_LABEL: {
+    id: 'plugin.my_wallets.multi_address_label',
+    description: 'label for multi address question',
+    defaultMessage: 'Is this a multi-address wallet?',
   },
   PAGE_HEADER: {
     id: 'plugin.my_wallets.page_header',
