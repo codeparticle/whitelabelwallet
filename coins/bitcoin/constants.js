@@ -1,6 +1,8 @@
 import { environment } from 'lib/utils';
 const { isDev } = environment;
 
+const KEY = 'btc';
+
 const NETWORK = isDev()
   ? 'testnet'
   : 'bitcoin';
@@ -21,6 +23,7 @@ const BIP32 = {
 
 export {
   BIP32,
+  KEY,
   NETWORK,
   urls,
 };

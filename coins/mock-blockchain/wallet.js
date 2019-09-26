@@ -1,7 +1,7 @@
 import { ec } from 'elliptic';
 import { api } from 'rdx/api';
 import { FileManager } from 'api/web/file-manager';
-import { urls } from 'api/blockchain/mock-blockchain/constants';
+import { urls } from 'coins/mock-blockchain/constants';
 import { Address } from 'models';
 
 const {

@@ -3,9 +3,9 @@ import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
 import { api } from 'rdx/api';
 import { Address, Transaction } from 'models';
-import { ApiBlockchainManager } from 'api/blockchain/api-blockchain-manager';
-import { walletManager } from 'api/blockchain/bitcoin/wallet';
-import { BIP32, NETWORK, urls } from 'api/blockchain/bitcoin/constants';
+import { ApiBlockchainManager } from 'api/api-blockchain-manager';
+import { walletManager } from 'coins/bitcoin/wallet';
+import { BIP32, NETWORK, urls } from 'coins/bitcoin/constants';
 
 const {
   ADDRESS,
