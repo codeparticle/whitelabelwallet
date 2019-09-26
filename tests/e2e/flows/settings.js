@@ -2,11 +2,13 @@
  * @fileoverview Tests related to the settings panel
  * @author Gabriel Womble
  */
-import { settings } from 'e2e/constants';
+import { common, settings } from 'e2e/constants';
 
 const { selectors, values } = settings;
+const { home } = common.selectors;
 
 export const renameUserTest = (async (page, expect) => {
+  await page.waitForSelector(home.attr);
   // Open the panel, wait for sidepanel visible
   await page.click(selectors.openBtn.attr);
   await page.waitForSelector(selectors.sidepanel.attr);
@@ -19,7 +21,7 @@ export const renameUserTest = (async (page, expect) => {
   // Must wait for 500ms so puppeteer doesn't click early and inneffectively
   await page.waitFor(500);
   await page.click(selectors.openBtn.attr);
-  await page.waitForSelector(selectors.sidepanel.attr);
+  await page.waitForSelector(selectors.username.attr);
   await expect(page).toMatchElement(`${selectors.username.attr}[value="${values.newUsername}"]`);
 
   // Undo changes
@@ -28,6 +30,7 @@ export const renameUserTest = (async (page, expect) => {
 });
 
 export const changePasswordTest = (async (page, expect) => {
+  await page.waitForSelector(home.attr);
   // Open the panel, wait for sidepanel visible
   await page.click(selectors.openBtn.attr);
   await page.waitForSelector(selectors.sidepanel.attr);
@@ -56,6 +59,7 @@ export const changePasswordTest = (async (page, expect) => {
 });
 
 export const toggleThemeTest = (async (page, expect) => {
+  await page.waitForSelector(home.attr);
   // Open the panel, wait for sidepanel visible
   await page.click(selectors.openBtn.attr);
   await page.waitForSelector(selectors.sidepanel.attr);

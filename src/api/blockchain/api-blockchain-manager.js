@@ -1,6 +1,8 @@
-const required = () => {
-  throw new Error('Implement Method')
-  ;
+import * as bip39 from 'bip39';
+import wordlists from 'api/blockchain/mock-blockchain/utils/valid-words-library';
+
+const required = (methodName) => {
+  throw new Error(`${methodName} undefined.`);
 };
 
 class ApiBlockchainManager {
@@ -18,10 +20,32 @@ class ApiBlockchainManager {
   }
 
   /**
-   * Returns a bip39 mnemonic phrase that will be used
+   * Creates a bip39 mnemonic phrase that will be used
    * when creating a new wallet.
    */
-  static generateSecretPhrase = required;
+  static generateSecretPhrase() {
+    // see valid-words-library for list of available languages
+    let secretPhraseSet = new Set([]);
+    let secretPhrase = '';
+
+    while (secretPhraseSet.size !== 24) {
+      secretPhrase = bip39.generateMnemonic(256, null, wordlists.english);
+      secretPhraseSet = new Set(this.phraseToArray(secretPhrase));
+    }
+
+    return secretPhrase;
+  }
+
+  /**
+   * Base method that returns a single address from seed
+   * @returns {Object} addressObject
+   * @property {string} address
+   * @property {string} privateKey
+   * @param {string} mnemonicSeed - string seed from wallet
+   */
+  static generateAddressFromSeed() {
+    required('generateAddressFromSeed');
+  }
 
   /**
    * Converts an array to a bip39 mnemonic phrase
@@ -59,7 +83,9 @@ class ApiBlockchainManager {
    *     address: address
    * }
   */
-  getAddressDetails = required;
+  getAddressDetails() {
+    required('getAddressDetails');
+  }
 
   /**
    * This function is used to get all the available transactions.
@@ -75,7 +101,9 @@ class ApiBlockchainManager {
    *     recipientAddress: recipientAddress
    * }, ...]
   */
-  getTransactions = required;
+  getTransactions() {
+    required('getTransactions');
+  }
 
   /**
    * This function is used to get the information about a particular Transaction.
@@ -92,7 +120,9 @@ class ApiBlockchainManager {
    *     recipientAddress: recipientAddress
    * }
   */
-  getTransactionDetails = required;
+  getTransactionDetails() {
+    required('getTransactionDetails');
+  }
 
   /**
    * This get the balance of a particular address
@@ -100,7 +130,9 @@ class ApiBlockchainManager {
    * @param {array} Array of unspentTxOuts
    * @return {Promise} Will return a promise that resolves with the number balance associated to an address.
   */
-  getBalanceForAddress = required;
+  getBalanceForAddress() {
+    required('getBalanceForAddress');
+  }
 
   /**
    * This function will send the specified amount to the desired address.
@@ -119,7 +151,9 @@ class ApiBlockchainManager {
    *     recipientAddress: recipientAddress
    * }
   */
-  sendToAddress = required;
+  sendToAddress() {
+    required('sendToAddress');
+  }
 }
 
 export { ApiBlockchainManager };

@@ -11,6 +11,7 @@ import { setWallets } from 'plugins/my-wallets/rdx/actions';
 import { getWallets } from 'plugins/my-wallets/rdx/selectors';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
+import { myWallets as e2e } from 'e2e/constants';
 
 const { PRIMARY } = VARIANTS;
 const { SvgAdd, SvgWallet } = svgs.icons;
@@ -59,6 +60,7 @@ const MyWallets = ({
 
   return (
     <Page
+      dataSelector={e2e.selectors.page.raw}
       headerProps={{
         PrimaryAction: AddWalletIcon,
         Icon: SvgWallet,

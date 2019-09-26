@@ -1,13 +1,13 @@
 import * as CryptoJS from 'crypto-js';
+import * as bitcoin from 'bitcoinjs-lib';
 import  _ from 'lodash';
 import * as bip39 from 'bip39';
 import * as HDKey from 'hdkey';
-import wordlists from 'api/mock-blockchain/utils/valid-words-library';
+import { TransactionManager } from 'api/blockchain/mock-blockchain/transactions';
+import { WalletManager } from 'api/blockchain/mock-blockchain/wallet';
+import { urls } from 'api/blockchain/mock-blockchain/constants';
 import { api } from 'rdx/api';
-import { urls } from 'api/mock-blockchain/constants';
-import { ApiBlockchainManager } from 'api/blockchain-manager';
-import { TransactionManager } from 'api/mock-blockchain/transactions';
-import { WalletManager } from 'api/mock-blockchain/wallet';
+import { ApiBlockchainManager } from 'api/blockchain/api-blockchain-manager';
 import { Address } from 'models';
 
 const {
@@ -44,23 +44,6 @@ class BlockchainManager extends ApiBlockchainManager {
   }
 
   /**
-   * Creates a bip39 mnemonic phrase that will be used
-   * when creating a new wallet.
-   */
-  static generateSecretPhrase() {
-    // see valid-words-library for list of available languages
-    let secretPhraseSet = new Set([]);
-    let secretPhrase = '';
-
-    while (secretPhraseSet.size !== 24) {
-      secretPhrase = bip39.generateMnemonic(256, null, wordlists.english);
-      secretPhraseSet = new Set(this.phraseToArray(secretPhrase));
-    }
-
-    return secretPhrase;
-  }
-
-  /**
    * Base method that returns a single address from seed
    * @returns {Object} - address and privateKey
    * @param {string} mnemonicSeed - string seed from wallet
@@ -70,9 +53,10 @@ class BlockchainManager extends ApiBlockchainManager {
     const node = HDKey.fromMasterSeed(seed);
     const derived = node.derive(`m/44'/0'/0/0`);
     const { publicKey, privateKey } = derived;
+    const { address } = bitcoin.payments.p2pkh({ pubkey: publicKey, network: bitcoin.networks.testnet });
 
     return {
-      address: publicKey.toString('hex'),
+      address,
       privateKey: privateKey.toString('hex'),
     };
   }

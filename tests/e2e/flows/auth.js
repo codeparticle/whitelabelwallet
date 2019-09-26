@@ -5,7 +5,7 @@
 import {
   auth,
   common,
-  main,
+  myWallets,
   routes,
 } from 'e2e/constants';
 import helpers from 'e2e/helpers';
@@ -26,9 +26,8 @@ export const signupTest = (async (page, expect) => {
   await expect(page).toFill(auth.selectors.confirm.attr, values.password);
   await expect(page).toClick(auth.selectors.tos.attr);
   await expect(page).toClick(auth.selectors.btnPrimary.attr);
-  // TODO: Verify signup w/ non-test page when implemented
-  await page.waitForSelector(main.selectors.test.attr);
-  await expect(page).toMatch('Welcome to your React App');
+  await page.waitForSelector(myWallets.selectors.page.attr);
+  await expect(page).toMatch(myWallets.values.header);
 });
 
 export const loginTest = (async (page, expect) => {
@@ -39,7 +38,6 @@ export const loginTest = (async (page, expect) => {
   await expect(page).toFill(auth.selectors.username.attr, values.username);
   await expect(page).toFill(auth.selectors.password.attr, values.password);
   await expect(page).toClick(auth.selectors.btnPrimary.attr);
-  // TODO: Verify signup w/ non-test page when implemented
-  await page.waitForSelector(main.selectors.test.attr);
-  await expect(page).toMatch('Welcome to your React App');
+  await page.waitForSelector(myWallets.selectors.page.attr);
+  await expect(page).toMatch(myWallets.values.header);
 });
