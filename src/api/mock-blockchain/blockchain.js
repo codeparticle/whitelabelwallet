@@ -60,33 +60,6 @@ class BlockchainManager extends ApiBlockchainManager {
   }
 
   /**
-   * Converts an array to a bip39 mnemonic phrase
-   * @param {string} phrase
-   */
-  static arrayToPhrase(phrase) {
-    return phrase.join(' ');
-  }
-
-  /**
-   * Converts a bip39 mnemonic phrase to an array
-   * @param {string} phrase
-   */
-  static phraseToArray(phrase) {
-    const PhraseWithNoSpacesAround = phrase.replace(/\s*$|^\s+/g, '');
-    const PhraseWithNoBreakLines = PhraseWithNoSpacesAround.replace(/[\n\r]/g, '');
-    return PhraseWithNoBreakLines.split(' ').filter(word => word !== '');
-  }
-
-  /**
-   * Can be used to restore a wallet from a pass phrase
-   * @param {string} phrase
-   */
-  static phraseAuthenticated(phrase) {
-    const phraseArray = this.phraseToArray(phrase);
-    return phraseArray.length === 24;
-  }
-
-  /**
    * Generic helper method to perform get calls to the api
    * @param {string} method
    * @param {string} queryParam

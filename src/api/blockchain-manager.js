@@ -22,23 +22,31 @@ class ApiBlockchainManager {
    * when creating a new wallet.
    */
   static generateSecretPhrase = required;
+
   /**
    * Converts an array to a bip39 mnemonic phrase
    * @param {string} phrase
    */
-  static arrayToPhrase = required;
+  static arrayToPhrase(phrase) {
+    return phrase.join(' ');
+  }
 
   /**
    * Converts a bip39 mnemonic phrase to an array
    * @param {string} phrase
    */
-  static phraseToArray = required;
+  static phraseToArray(phrase) {
+    return phrase.trim().split(' ').filter(word => word !== '');
+  }
 
   /**
    * Can be used to restore a wallet from a pass phrase
    * @param {string} phrase
    */
-  static phraseAuthenticated = required;
+  static phraseAuthenticated(phrase) {
+    const phraseArray = this.phraseToArray(phrase);
+    return phraseArray.length === 24;
+  }
 
   /**
    * This function is used to get the information about a particular Address.
