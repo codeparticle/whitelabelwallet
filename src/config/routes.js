@@ -1,14 +1,14 @@
 import {
   AuthPage,
-  MainPage,
   NotFoundPage,
 } from 'pages';
+import { RedirectToHome } from 'components';
 
 export const routes = [
   {
-    key: 'main',
+    key: 'redirect',
     path: '/',
-    component: MainPage,
+    component: RedirectToHome,
     exact: true,
   },
   {

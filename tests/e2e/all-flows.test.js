@@ -4,7 +4,7 @@ import puppeteer from 'puppeteer';
 import expect from 'expect-puppeteer';
 import { setDefaultOptions } from 'expect-puppeteer';
 
-setDefaultOptions({ timeout: 20000 });
+setDefaultOptions({ timeout: 30000 });
 
 const chromeArgs = [
   '--no-sandbox', '--disable-setuid-sandbox', '--disable-background-timer-throttling',
@@ -14,18 +14,18 @@ const chromeArgs = [
 let browser;
 let page;
 let signedUp = false;
-const timeout = 15000;
+const timeout = 30000;
 
 const guiMode = {
   args: chromeArgs,
   devtools: true,
   headless: false,
-  slowMo: 5,
+  slowMo: 25,
 };
 const noGui = {
   args: chromeArgs,
   headless: true,
-  slowMo: 5,
+  slowMo: 25,
 };
 
 /**
@@ -54,14 +54,13 @@ const puppetHandle = (async (testSubject, testToRun, delay = 1000) => {
  * Instantiates the browser and page classes
  */
 beforeAll(async () => {
+  jest.setTimeout(timeout);
   browser = await puppeteer.launch(useGui(!process.env.NODE_E2E_NO_GUI));
   page = await browser.newPage();
-  page.emulate({
-    viewport: {
-      width:  1100,
-      height: 800,
-    },
-    userAgent: '',
+  page.setViewport({
+    height: 900,
+    width: 1400,
+    deviceScaleFactor: 1,
   });
 });
 

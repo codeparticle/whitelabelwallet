@@ -2,7 +2,7 @@ import * as CryptoJS from 'crypto-js';
 import * as ecdsa from 'elliptic';
 import _ from 'lodash';
 import { api } from 'rdx/api';
-import { urls } from 'api/mock-blockchain/constants.js';
+import { urls } from 'api/blockchain/mock-blockchain/constants.js';
 import { Transaction as FormattedTransaction } from 'models';
 
 const {

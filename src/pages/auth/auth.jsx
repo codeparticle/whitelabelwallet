@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { connect } from 'react-redux';
 import { Logo, svgs, FlashAlert } from '@codeparticle/whitelabelwallet.styleguide';
+import { ROUTES } from 'lib/constants';
 import { useManager } from 'lib/hooks';
 import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { auth } from 'e2e/constants';
@@ -12,6 +13,7 @@ import { AuthForm, AuthButtons } from './components';
 import { getTranslations, getType, validateAuth } from './utils';
 import './auth.scss';
 
+const { MY_WALLETS } = ROUTES;
 const { SvgPoweredBy } = svgs.icons;
 
 const initialInputErrorState = {
@@ -49,7 +51,7 @@ function AuthView({
 
   useEffect(() => {
     if (authToken) {
-      history.push('/');
+      history.push(`/${MY_WALLETS}`);
     }
   }, [authToken]);
 
