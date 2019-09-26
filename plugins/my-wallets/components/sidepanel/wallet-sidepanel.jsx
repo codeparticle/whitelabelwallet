@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import {
   Overlay,
@@ -9,6 +10,7 @@ import {
 import { getSidepanelVariant } from 'lib/utils';
 import { WalletManager } from 'api';
 import { getCoinId } from 'api/blockchain/utils';
+import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { COMMON } from 'translations/keys/common';
 
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
@@ -53,14 +55,15 @@ const WalletSidepanelView = ({
   intl: {
     formatMessage,
   },
+  locale,
   setWallets,
   onClose,
 }) => {
-  const getWords = (coinId = initialState.coin_id) => {
-    return WalletManager.generateSecretPhrase(coinId);
+  const getWords = () => {
+    return WalletManager.generateSecretPhrase(locale);
   };
   const { isMobile } = useMedia();
-  const [wordArray, setWordArray] = useState(getWords());
+  const [wordArray, setWordArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isShuffled, setIsShuffled] = useState(false);
   const [isBlurred, setIsBlurred] = useState(true);
@@ -79,7 +82,7 @@ const WalletSidepanelView = ({
     if (currentStep ===  1) {
       setCurrentStep(2);
     } else if (isConfirmed && currentStep ===  2) {
-      const seed = WalletManager.getBlockchainManager(walletData.coin_id).arrayToPhrase(wordArray);
+      const seed = WalletManager.blockchainManager.arrayToPhrase(wordArray);
       setWalletData({ ...walletData, seed });
       setIsDisabled(true);
       setCurrentStep(3);
@@ -185,10 +188,15 @@ const WalletSidepanelView = ({
 WalletSidepanelView.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   setWallets: PropTypes.func.isRequired,
 };
 
-const WalletSidepanel = injectIntl(WalletSidepanelView);
+const stateMapper = getRdxSelectionMapper({
+  locale: 'getLocale',
+});
+
+const WalletSidepanel = connect(stateMapper)(injectIntl(WalletSidepanelView));
 
 export { WalletSidepanel };

@@ -19,6 +19,7 @@ if (platform === 'darwin' || platform === 'win32' || platform === 'linux' || pla
 
 const environment = {
   allowDebug: () => process.env.ALLOW_DEBUG === true || environment.isDev(),
+  coin: process.env.COIN,
   contributors: packageInfo.contributors,
   current: process.env.NODE_ENV,
   encryptionString: () => process.env.MODE === 'mock' ? 'mock' : 'whitelabelwallet',
