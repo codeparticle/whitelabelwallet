@@ -17,5 +17,6 @@ export const WALLETS_STATEMENTS = {
     ALL: `select * from Wallets`,
     ID: (id) => `select * from Wallets where id = ${id}`,
     LAST_ID: `select * from Wallets order by id desc limit 1`,
+    NAME: `select id, name from Wallets`,
   },
 };
