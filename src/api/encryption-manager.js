@@ -111,6 +111,14 @@ export class EncryptionManager {
   }
 
   /**
+   * Method used to get encryption string for file writing
+   * @returns {string} encryption string
+   */
+  static getEncryptionString() {
+    return environment.encryptionString();
+  }
+
+  /**
    * Method used to encrypt a regular string into a hash
    * @param {string} text
    */
