@@ -14,7 +14,16 @@ const iconPropsShape = PropTypes.shape({
   width: numberOrString,
 }).isRequired;
 
+const renderable = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number,
+  PropTypes.node,
+  PropTypes.func,
+  PropTypes.element,
+]);
+
 export const PROP_TYPES = {
   numberOrString,
   iconPropsShape,
+  renderable,
 };

@@ -9,6 +9,7 @@ import { Visible } from '@codeparticle/react-visible';
 import { List } from '@codeparticle/whitelabelwallet.styleguide';
 
 import { ChildItemRenderer } from 'plugins/send-funds/components';
+import { resetStateHandler } from 'plugins/send-funds/helpers';
 import { setFromAddress } from 'plugins/send-funds/rdx/actions';
 
 const columnDefs = [
@@ -40,11 +41,12 @@ function FromAddressChildListView({ data, ...props }) {
   return (
     <Visible when={shouldShowSubList}>
       <List
-        allowDeselect={false}
         columnDefs={columnDefs}
         customRowStyles={getRowStyles}
         id="from-address-child-list"
+        matchProperty="id"
         rowData={addresses}
+        onDeselect={resetStateHandler(props.setFromAddress)}
         onRowClicked={props.setFromAddress}
         showHeader={false}
       />

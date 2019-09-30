@@ -16,10 +16,15 @@ export const SEND_FUNDS = defineMessages({
     description: 'Generic Balance text',
     defaultMessage: 'Balance',
   },
+  SEND_TO: {
+    id: 'plugin.send_funds.send_to',
+    description: 'Send to text',
+    defaultMessage: 'Send to:',
+  },
   SEND_FROM: {
     id: 'plugin.send_funds.send_from',
     description: 'Send from text',
-    defaultMessage: 'Send From',
+    defaultMessage: 'Send from:',
   },
   TRANSFER_AMOUNT: {
     id: 'plugin.send_funds.transfer_amount',
@@ -40,5 +45,15 @@ export const SEND_FUNDS = defineMessages({
     id: 'plugin.send_funds.raw_address',
     description: 'Raw address label text',
     defaultMessage: 'Raw Address',
+  },
+  SEND_TO_PLACEHOLDER: {
+    id: 'plugin.send_funds.send_to_placeholder',
+    description: 'Placeholder text for send funds send to search',
+    defaultMessage: 'Search or enter address...',
+  },
+  CONFIRM_SEND_TO: {
+    id: 'plugin.send_funds.confirm_send_to',
+    description: 'Formatted message for send funds footer',
+    defaultMessage: 'Confirm transfer of G {amount} to {address}?',
   },
 });
