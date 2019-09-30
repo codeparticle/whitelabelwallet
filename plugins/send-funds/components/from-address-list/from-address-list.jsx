@@ -2,21 +2,24 @@
  * @fileoverview List component that renders wallets
  * @author Gabriel Womble
  */
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List } from '@codeparticle/whitelabelwallet.styleguide';
-import { useManager } from 'lib/hooks';
+import { COMMON } from 'translations/keys/common';
 
 import {
   BalanceRenderer,
   ChildCountRenderer,
   FromAddressChildList,
+  SendFundsSearch,
 } from 'plugins/send-funds/components';
+import { getWalletAddresses, getWalletAddressesByValue, resetStateHandler } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import { setFromAddress } from 'plugins/send-funds/rdx/actions';
 
-const { WALLET, BALANCE } = SEND_FUNDS;
+const { SEARCH_PLACEHOLDER } = COMMON;
+const { WALLET, BALANCE, SEND_FROM } = SEND_FUNDS;
 
 function getColumnDefs(formatMessage) {
   return [
@@ -35,13 +38,11 @@ function getColumnDefs(formatMessage) {
   ];
 }
 
-async function getRowData(manager) {
-  return await manager.databaseManager.getWalletAddresses();
-}
+// Fixes a react `invalid prop supplied to warning`.
+const childList = props => <FromAddressChildList {...props} />;
 
 function FromAddressListView({ formatMessage, ...props }) {
   const [rowData, setRowData] = useState([]);
-  const manager = useManager();
 
   function onRowClicked(data) {
     if (data.addresses.length === 1) {
@@ -49,31 +50,48 @@ function FromAddressListView({ formatMessage, ...props }) {
     }
   }
 
+  async function onSubmit(value) {
+    const res = await getWalletAddressesByValue(value);
+    setRowData(res);
+  }
+
   useEffect(() => {
-    getRowData(manager).then((data) => {
+    getWalletAddresses().then((data) => {
       setRowData(data);
     });
   }, [setRowData]);
 
   return (
-    <div className="from-address-list-container">
-      <List
-        allowDeselect={false}
-        childToRender={FromAddressChildList}
-        columnDefs={getColumnDefs(formatMessage)}
-        id="from-address-list"
-        rowData={rowData}
-        onRowClicked={onRowClicked}
+    <Fragment>
+      <SendFundsSearch
+        area="send-from"
+        label={formatMessage(SEND_FROM)}
+        placeholder={formatMessage(SEARCH_PLACEHOLDER)}
+        onSubmit={onSubmit}
       />
-      <style jsx>
-        {`
-          .from-address-list-container {
-            height: 100%;
-            overflow: hidden;
-          }
-        `}
-      </style>
-    </div>
+      <div className="send-funds-layout__from-address">
+        <div className="from-address-list-container">
+          <List
+            childToRender={childList}
+            columnDefs={getColumnDefs(formatMessage)}
+            id="from-address-list"
+            matchProperty="id"
+            rowData={rowData}
+            onDeselect={resetStateHandler(props.setFromAddress)}
+            onRowClicked={onRowClicked}
+          />
+          <style jsx>
+            {`
+              .from-address-list-container {
+                height: 100%;
+                overflow: hidden;
+                width: 100%;
+              }
+            `}
+          </style>
+        </div>
+      </div>
+    </Fragment>
   );
 }
 

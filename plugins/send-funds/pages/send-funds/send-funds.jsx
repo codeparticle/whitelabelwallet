@@ -6,6 +6,7 @@ import { Page } from 'components';
 
 import {
   FromAddressList,
+  SendFundsFooter,
   ToAddressList,
   TransferAmount,
 } from 'plugins/send-funds/components';
@@ -21,6 +22,8 @@ const initialTransferFields = {
 
 const SendFundsView = ({
   intl: { formatMessage },
+  toAddress,
+  fromAddress,
 }) => {
   const [transferFields, setTransferFields] = useState(initialTransferFields);
 
@@ -29,33 +32,35 @@ const SendFundsView = ({
       headerProps={{
         title: formatMessage(SEND_FUNDS.TITLE),
       }}
-      removePadding
+      contentStyles={{
+        height: '100%',
+        padding: 0,
+      }}
     >
       <div className="send-funds-layout">
-        <div className="send-funds-layout__transfer-amount">
-          <TransferAmount
-            conversionRate={3.14}
-            formatMessage={formatMessage}
-            setTransferFields={setTransferFields}
-            transferFields={transferFields}
-          />
-        </div>
-        <div className="send-funds-layout__from-address">
-          <FromAddressList formatMessage={formatMessage} />
-        </div>
-        <div className="send-funds-layout__to-address">
-          <ToAddressList formatMessage={formatMessage} />
-        </div>
-        <div className="send-funds-layout__footer"></div>
+        <TransferAmount
+          conversionRate={3.14}
+          formatMessage={formatMessage}
+          setTransferFields={setTransferFields}
+          transferFields={transferFields}
+        />
+        <FromAddressList formatMessage={formatMessage} />
+        <ToAddressList formatMessage={formatMessage} />
+        <SendFundsFooter
+          formatMessage={formatMessage}
+          fromAddress={fromAddress}
+          toAddress={toAddress}
+          transferFields={transferFields}
+        />
       </div>
     </Page>
   );
 };
 
 SendFundsView.propTypes = {
-  toAddress: PropTypes.object.isRequired,
   fromAddress: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  toAddress: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {

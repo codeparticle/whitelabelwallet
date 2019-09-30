@@ -33,6 +33,7 @@ import './page.scss';
 */
 const Page = ({
   children,
+  contentStyles,
   dataSelector,
   headerProps,
   sidepanel,
@@ -68,6 +69,7 @@ const Page = ({
       <PageHeader {...headerProps} />
       <section
         className={`page-rct-component__content ${themeName} ${removePadding ? 'remove-padding' : ''}`}
+        style={contentStyles}
       >
         {children}
         {sidepanel}
@@ -86,18 +88,20 @@ const Page = ({
 Page.defaultProps = {
   dataSelector: 'page',
   headerProps: {},
-  removePadding: false,
+  contentStyles: {
+    height: '100%',
+  },
   sidepanel: null,
 };
 
 Page.propTypes = {
   dataSelector: PropTypes.string,
+  contentStyles: PropTypes.object,
   headerProps: PropTypes.shape({
     actionButtons: PropTypes.oneOfType([PropTypes.node, PropTypes.element]),
     hideIcons: PropTypes.bool,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   }).isRequired,
-  removePadding: PropTypes.bool,
   sidepanel: PropTypes.node,
 };
 
