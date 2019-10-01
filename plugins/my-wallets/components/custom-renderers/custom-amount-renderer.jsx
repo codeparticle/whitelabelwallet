@@ -17,10 +17,10 @@ function CustomAmountRenderer({ data, column }) {
       <p className="transaction-amount"><SvgCoinSymbol/>{`${column}`}</p>
       <style jsx>
         {`
-            p {
-              color: ${color};
-            }
-          `}
+          p {
+            color: ${color};
+          }
+        `}
       </style>
     </Fragment>
   );

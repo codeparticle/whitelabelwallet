@@ -75,8 +75,8 @@ class WalletManager {
 
   /**
  * Function to search a transaction by description
- * @param {*} setFn - the function that sets the query response to state
- * @param {*} value - the value to query
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} value - the value to query
  */
   async  searchTransactionsByValue(addresses, value, filterDate) {
     return await manager.databaseManager.searchTransactionsForValue(addresses, value, filterDate);
@@ -84,8 +84,8 @@ class WalletManager {
 
   /**
  * Function to get transactions to display on wallet chart
- * @param {*} address - the address value to query
- * @param {*} filterDate - date to filter transaction data
+ * @param {string} address - the address value to query
+ * @param {object} filterDate - date to filter transaction data
  */
   async getTransactionsPerAddressAfterDate(address, filterDate) {
     return await manager.databaseManager.getTransactionsPerAddressAfterDate(address, filterDate);

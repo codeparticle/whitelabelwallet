@@ -27,13 +27,13 @@
   "status": 0,
   "created_date": "2019-07-07 08:26:19.120",
   "transaction_type": "receive",
-  "pending_balance": 14.5000
+  "pending_balance": 15.7500
   },
   {
     "id": 3,
   "sender_address_id": 3,
   "receiver_address_id": 2,
-  "amount": 1.25,
+  "amount": 2.25,
   "fee": 0.001,
   "transaction_id": 3,
   "description": "Payment to Tyson",
@@ -42,7 +42,7 @@
   "status": 0,
   "created_date": "2019-09-07 08:26:19.120",
   "transaction_type": "send",
-  "pending_balance": 14.5000
+  "pending_balance": 13.5000
   },
   {
     "id": 4,

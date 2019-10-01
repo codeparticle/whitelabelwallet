@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { asyncForEach } from 'lib/utils';
+import { uniqBy } from 'lodash';
 import {
   getTransactionsForChart,
 } from 'plugins/my-wallets/helpers';
@@ -36,13 +37,18 @@ function WalletChart ({
 
     await asyncForEach(selectedWalletAddresses, async (addressData) => {
       const transactionsInTimeRange = await getTransactionsForChart(addressData.address, date3MonthsAgo);
-      availableTransactions = [...transactionsInTimeRange];
+      availableTransactions.push(...transactionsInTimeRange);
     });
 
-    availableTransactions.sort((currentDate, nextDate)=> moment(currentDate).isBefore(moment(nextDate)));
-    const currentBalance = availableTransactions.length > 0 ? availableTransactions[availableTransactions.length - 1].pending_balance : 0;
-    const numberOfRemainingChartPoints = maxNumberOfChartPoints - availableTransactions.length;
-    const chartData = availableTransactions.map((transaction, index) => {
+    availableTransactions = uniqBy(availableTransactions, transaction => transaction.id);
+    const distinctTransactions = availableTransactions.sort((currentDate, nextDate) => moment(currentDate).isBefore(moment(nextDate)));
+
+    const currentBalance = distinctTransactions.length > 0
+      ? distinctTransactions[distinctTransactions.length - 1].pending_balance
+      : 0;
+
+    const numberOfRemainingChartPoints = maxNumberOfChartPoints - distinctTransactions.length;
+    const chartData = distinctTransactions.map((transaction, index) => {
       return { x: index + 1, y: transaction.pending_balance };
     });
 
@@ -57,8 +63,7 @@ function WalletChart ({
     <AreaChart
       colors={colors}
       data={chartDataPoints}
-      padding={0}>
-    </AreaChart>
+      padding={0}/>
   );
 }
 
