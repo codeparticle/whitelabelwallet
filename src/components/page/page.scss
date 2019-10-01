@@ -24,3 +24,14 @@ $mobile-navbar-offset: 120px;
     }
   }
 }
+
+.mobile-page-rct-component {
+
+  .add-button-wrapper {
+
+    div:first-child {
+
+      z-index: $z-index-top;
+    }
+  }
+}
