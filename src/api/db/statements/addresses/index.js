@@ -17,5 +17,6 @@ export const ADDRESSES_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Addresses`,
+    BY_WALLET_ID: (id) => `select * from Addresses where wallet_id=${id}`,
   },
 };

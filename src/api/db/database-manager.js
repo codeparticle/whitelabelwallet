@@ -121,10 +121,10 @@ export class DatabaseManager {
       /**
        * Insert into the sqlite DB one row of address data
        */
-      address: ({ id, wallet_id, address, name, balance, parent_id }) => {
+      address: ({ id, wallet_id, address, name, is_active, balance, parent_id }) => {
         return this.query({
           statement: STMT.ADDRESSES.INSERT.NEW,
-          params: [id, wallet_id, address, name, balance, parent_id],
+          params: [id, wallet_id, address, name, is_active, balance, parent_id],
           run,
         });
       },
@@ -345,6 +345,23 @@ export class DatabaseManager {
   getWallets() {
     const statement = STMT.WALLETS.SELECT.ALL;
     return this.query({ statement });
+  }
+
+  /**
+   * Gets each wallet name and their respective addresses
+   * @returns {Array}
+   */
+  async getWalletAddresses() {
+    const wallets = await this.query({
+      statement: STMT.WALLETS.SELECT.NAME,
+    });
+
+    wallets.forEach(async (wallet) => {
+      const addrStatement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(wallet.id);
+      wallet.addresses = await this.query({ statement: addrStatement });
+    });
+
+    return wallets;
   }
 
   /**
