@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MobilePage, PageHeader } from 'components';
 import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.styleguide';
-import { cloud, darkBg } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
+import { white, darkBg } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
 import { VARIANTS } from 'lib/constants';
 
 const { PRIMARY } = VARIANTS;
@@ -36,11 +36,12 @@ const Page = ({
   dataSelector,
   headerProps,
   sidepanel,
+  removePadding,
 }) => {
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
   const background = themeName === THEME_KEYS.LIGHT
-    ? cloud
+    ? white
     : darkBg;
 
   if (isMobile && headerProps.type === PRIMARY) {
@@ -65,7 +66,9 @@ const Page = ({
   return (
     <main className="page-rct-component" data-selector={dataSelector}>
       <PageHeader {...headerProps} />
-      <section className={`page-rct-component__content ${themeName}`}>
+      <section
+        className={`page-rct-component__content ${themeName} ${removePadding ? 'remove-padding' : ''}`}
+      >
         {children}
         {sidepanel}
       </section>
@@ -83,6 +86,7 @@ const Page = ({
 Page.defaultProps = {
   dataSelector: 'page',
   headerProps: {},
+  removePadding: false,
   sidepanel: null,
 };
 
@@ -93,6 +97,7 @@ Page.propTypes = {
     hideIcons: PropTypes.bool,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   }).isRequired,
+  removePadding: PropTypes.bool,
   sidepanel: PropTypes.node,
 };
 

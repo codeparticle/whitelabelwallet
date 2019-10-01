@@ -1,0 +1,37 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$footer-height: 84px;
+
+.send-funds-layout {
+  display: grid;
+  grid-template-areas: 'transfer-amount transfer-amount' 'from-address to-address' 'footer footer';
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto 1fr $footer-height;
+  height: 100%;
+  width: 100%;
+
+  &__transfer-amount {
+    grid-area: transfer-amount;
+  }
+
+  &__from-address {
+    grid-area: from-address;
+  }
+
+  &__to-address {
+    grid-area: to-address;
+  }
+
+  &__from-address,
+  &__to-address {
+    margin: $spacing-l;
+    overflow: hidden;
+  }
+
+  &__footer {
+    background: $cloud;
+    grid-area: footer;
+    height: $footer-height;
+  }
+}
