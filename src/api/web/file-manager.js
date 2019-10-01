@@ -1,14 +1,11 @@
 import { EncryptionManager } from '../encryption-manager';
-import { environment } from 'lib/utils';
-
-const { encryptionString } = environment;
-
 export class FileManager {
   constructor(storage) {
     this.storage = storage;
   }
 
   getKeyName(username, password) {
+    const encryptionString = EncryptionManager.getEncryptionString();
     return EncryptionManager.encryptString(`${encryptionString}:${username}:${password}`);
   }
 

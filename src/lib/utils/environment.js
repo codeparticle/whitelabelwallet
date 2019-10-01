@@ -22,7 +22,7 @@ const environment = {
   coin: process.env.COIN,
   contributors: packageInfo.contributors,
   current: process.env.NODE_ENV,
-  encryptionString: () => process.env.MODE === 'mock' ? 'mock' : 'whitelabelwallet',
+  encryptionString: () => environment.isMock() ? 'mock' : 'whitelabelwallet',
   homepage: packageInfo.homepage,
   isDev: () => environment.current === 'development',
   isElectron: () => process.env.TYPE === 'electron',
