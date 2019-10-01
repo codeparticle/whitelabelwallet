@@ -6,6 +6,7 @@ import { HeaderButton, IconButton, svgs, useMedia } from '@codeparticle/whitelab
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { VARIANTS } from 'lib/constants';
+import { empty } from 'lib/utils';
 import { fetchWallets } from 'plugins/my-wallets/helpers';
 import { setWallets } from 'plugins/my-wallets/rdx/actions';
 import { getWallets } from 'plugins/my-wallets/rdx/selectors';
@@ -14,7 +15,7 @@ import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
 import { myWallets as e2e } from 'e2e/constants';
 
 const { PRIMARY } = VARIANTS;
-const { SvgAdd, SvgWallet } = svgs.icons;
+const { SvgMagnifyingGlass, SvgWallet, SvgAdd } = svgs.icons;
 
 import './my-wallets.scss';
 
@@ -52,17 +53,18 @@ const MyWallets = ({
       onClick={onClick}
     />
   );
-  const AddWalletIcon = ({ collapsed, iconProps }) => (
+  const SearchWalletsIcon = ({ collapsed, iconProps }) => (
     <Visible when={collapsed}>
-      <IconButton onClick={onClick} icon={<SvgAdd {...iconProps} />} />
+      <IconButton onClick={empty} icon={<SvgMagnifyingGlass {...iconProps} />} />
     </Visible>
   );
 
   return (
     <Page
       dataSelector={e2e.selectors.page.raw}
+      onAddClicked={onClick}
       headerProps={{
-        PrimaryAction: AddWalletIcon,
+        PrimaryAction: SearchWalletsIcon,
         Icon: SvgWallet,
         SecondaryAction: AddWallet,
         title: formatMessage(MY_WALLETS.PAGE_HEADER),
