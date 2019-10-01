@@ -8,7 +8,7 @@ export const ROUTES = {
   OVERVIEW: 'overview',
 };
 
-export const SELECT_OPTIONS = {
+export const DATE_OPTIONS = {
   TODAY: 'day',
   WEEK: 'week',
   MONTH: 'month',

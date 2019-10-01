@@ -56,11 +56,13 @@ function TransactionsList ({
     },
   ];
 
+  const columns = selectedWallet.multi_address === 1 ? columnDefs : removeAddressColumn(columnDefs);
+
   return (
     <List
       id="wallet-list"
       isStriped
-      columnDefs={selectedWallet.multi_address === 1 ? columnDefs : removeAddressColumn(columnDefs)}
+      columnDefs={columns}
       rowData={listData}
       onRowClicked={empty}
     />

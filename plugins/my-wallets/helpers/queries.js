@@ -58,8 +58,8 @@ async function updateWalletAndUpdateState(wallet, setFn) {
 
 /**
  * Function to search a transaction by description
- * @param {*} setFn - the function that sets the query response to state
- * @param {*} value - the value to query
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} value - the value to query
  */
 async function searchTransactionsByValue(setFn, value, addresses, filterDate = null) {
   const res = await WalletManager.searchTransactionsByValue(addresses, value, filterDate);
@@ -68,11 +68,11 @@ async function searchTransactionsByValue(setFn, value, addresses, filterDate = n
 
 /**
  * Function to get transactions that contain the desired address
- * @param {*} setFn - the function that sets the query response to state
- * @param {*} address - the address value to query
- * @param {*} filterDate - date to filter transaction data
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} address - the address value to query
+ * @param {object} filterDate - date to filter transaction data
  */
-async function getTransactionsPerAddress(setFn, address, filterDate = null) {
+async function getTransactionsPerAddress(setFn, address, filterDate) {
   const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
   if (setFn !== null) {
     setFn(res);
@@ -80,8 +80,8 @@ async function getTransactionsPerAddress(setFn, address, filterDate = null) {
 }
 /**
  * Function to get transactions to display on wallet chart
- * @param {*} address - the address value to query
- * @param {*} filterDate - date to filter transaction data
+ * @param {string} address - the address value to query
+ * @param {object} filterDate - date to filter transaction data
  */
 async function getTransactionsForChart(address, filterDate) {
   const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);

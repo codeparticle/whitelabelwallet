@@ -41,7 +41,7 @@ import {
   getAddressesByWalletId,
   getTransactionsPerAddress,
   ROUTES,
-  SELECT_OPTIONS,
+  DATE_OPTIONS,
 } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import './wallet-overview.scss';
@@ -58,7 +58,7 @@ const {
   MONTH,
   YEAR,
   ALL_TIME,
-} = SELECT_OPTIONS;
+} = DATE_OPTIONS;
 const {
   MANAGE_WALLET_BUTTON_LABEL,
   CURRENT_BALANCE_LABEL,
@@ -138,14 +138,13 @@ function WalletOverviewView({
     }
   }, [selectedDate]);
 
-  const toggleSidePanel = () => {
-    setIsPanelOpen(true);
+  const toggleSidePanel = (event) => {
+    event.stopPropagation();
+    setIsPanelOpen(!isPanelOpen);
   };
 
-  const onClose = (eventData)=> {
-    if (eventData === undefined || !eventData.outsideClick) {
-      setIsPanelOpen(false);
-    }
+  const onClose = ()=> {
+    setIsPanelOpen(false);
   };
 
   function getDateValue(desiredDate = ALL_TIME) {
@@ -158,12 +157,12 @@ function WalletOverviewView({
     return queryDate;
   }
 
-  function fetchTransactions(walletAddresses, filterDate) {
-    if (filterDate !== null && filterDate !== undefined) {
-      return walletAddresses.map((addressData) =>  getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address, filterDate.value));
-    }
+  function fetchTransactions(walletAddresses, filterDate = null) {
+    const dateValue = filterDate && filterDate.value
+      ? filterDate.value
+      : null;
 
-    return walletAddresses.map((addressData) =>  getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address));
+    return walletAddresses.map((addressData) => getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address, dateValue));
   }
 
   function PrimaryAction({ collapsed, iconProps }) {
