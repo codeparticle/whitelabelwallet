@@ -1,13 +1,12 @@
-@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
 
 $footer-height: 84px;
 
 .send-funds-layout {
   display: grid;
-  grid-template-areas: 'transfer-amount transfer-amount' 'from-address to-address' 'footer footer';
+  grid-template-areas: 'transfer-amount transfer-amount' 'send-from send-to' 'from-address to-address' 'footer footer';
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto 1fr $footer-height;
+  grid-template-rows: auto auto 1fr $footer-height;
   height: 100%;
   width: 100%;
 
@@ -26,11 +25,11 @@ $footer-height: 84px;
   &__from-address,
   &__to-address {
     margin: $spacing-l;
+    margin-top: 0;
     overflow: hidden;
   }
 
   &__footer {
-    background: $cloud;
     grid-area: footer;
     height: $footer-height;
   }

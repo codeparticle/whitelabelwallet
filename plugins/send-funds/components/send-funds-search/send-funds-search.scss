@@ -1,0 +1,18 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.send-funds-search {
+  margin: $spacing-l;
+  margin-bottom: $spacing-s;
+  max-width: 100%;
+
+  & > h4 {
+    color: $slate;
+    margin: 0;
+    margin-bottom: $spacing-xs;
+  }
+  
+  &__field-container {
+    display: flex;
+  }
+}

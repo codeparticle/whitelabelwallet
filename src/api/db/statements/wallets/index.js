@@ -18,5 +18,14 @@ export const WALLETS_STATEMENTS = {
     ID: (id) => `select * from Wallets where id = ${id}`,
     LAST_ID: `select * from Wallets order by id desc limit 1`,
     NAME: `select id, name from Wallets`,
+    WALLET_ADDRESSES_BY_VALUE: (value) => `
+        select Wallets.id, Wallets.name as wallet_name,
+        Addresses.id as address_id, Addresses.name as address_name, Addresses.address, Addresses.balance
+        from Wallets
+        inner join Addresses
+        on Wallets.id = Addresses.wallet_id
+        where Wallets.name like "${value}%" or Addresses.name like "${value}%"
+        or Addresses.balance like "${value}%" or Addresses.address like "${value}%"
+      `,
   },
 };

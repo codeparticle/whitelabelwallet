@@ -346,10 +346,22 @@ export class DatabaseManager {
     const statement = STMT.WALLETS.SELECT.ALL;
     return this.query({ statement });
   }
+  /**
+    @typedef WalletAddress
+    @type {Object}
+    @property {string} name
+    @property {number} balance
+    @property {string} address
+
+    @typedef WalletAddresses
+    @type {Object}
+    @property {string} name
+    @property {Array.<WalletAddress>} addresses
+   */
 
   /**
    * Gets each wallet name and their respective addresses
-   * @returns {Array}
+   * @returns {Array.<WalletAddresses>} wallets
    */
   async getWalletAddresses() {
     const wallets = await this.query({
@@ -362,6 +374,47 @@ export class DatabaseManager {
     });
 
     return wallets;
+  }
+
+  /**
+   * Queries Wallets and corresponding addresses
+   * by wallet.name, address.name, address.balance,
+   * or address.address, and then returns an array
+   * of matching wallet objects that have an addresses property
+   * @returns {Array.<WalletAddresses>} wallets
+   */
+  async getWalletAddressesByValue(value) {
+    const statement = STMT.WALLETS.SELECT.WALLET_ADDRESSES_BY_VALUE(value);
+    const res = await this.query({ statement });
+    const wallets = {};
+
+    res.forEach((obj) => {
+      const {
+        address_id,
+        address_name,
+        address,
+        balance,
+        id,
+        wallet_name,
+      } = obj;
+
+      if (!wallets[id]) {
+        wallets[id] = {
+          addresses: [],
+          id,
+          name: wallet_name,
+        };
+      }
+
+      wallets[id].addresses.push({
+        name: address_name,
+        address,
+        id: address_id,
+        balance,
+      });
+    });
+
+    return Object.values(wallets);
   }
 
   /**

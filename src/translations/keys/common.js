@@ -56,4 +56,14 @@ export const COMMON = defineMessages({
     description: 'Save Changes text',
     defaultMessage: 'Save Changes',
   },
+  SEARCH_PLACEHOLDER: {
+    id: 'common.search_placeholder',
+    description: 'Search placeholder',
+    defaultMessage: 'Search...',
+  },
+  CONFIRM: {
+    id: 'common.confirm',
+    description: 'Confirm text',
+    defaultMessage: 'Confirm',
+  },
 });
