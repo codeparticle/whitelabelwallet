@@ -6,7 +6,6 @@
     "name": "Datagen address 1",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 0,
     "balance": 14.5000
   },
@@ -17,7 +16,6 @@
     "name": "Minga address 1",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 1,
     "balance": 12.5000
   },
@@ -28,7 +26,6 @@
     "name": "Minga address 2",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 0,
     "balance": 4.0000,
     "parent_id": 2
@@ -40,7 +37,6 @@
     "name": "Futurize address 1",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 0,
     "balance": 9.8269
   },
@@ -51,7 +47,6 @@
     "name": "Futurize address 2",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 1,
     "balance": 0.463,
     "parent_id": 4
@@ -63,7 +58,6 @@
     "name": "Futurize address 3",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 1,
     "balance": 1.8299,
     "parent_id": 5
@@ -75,7 +69,6 @@
     "name": "Kyagoro funds 1",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 1,
     "balance": 17.7448
   },
@@ -86,7 +79,6 @@
     "name": "Xiix funds 1",
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
-    "last_modified_date": 1,
     "is_active": 1,
     "balance": 5.465
   }
