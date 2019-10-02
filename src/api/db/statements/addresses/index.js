@@ -5,7 +5,7 @@ export const ADDRESSES_STATEMENTS = {
     address varchar(100),
     name nvarchar(200) default 'Address',
     create_date datetime default current_timestamp,
-    last_modified_date datetime default current_timestamp,,
+    last_modified_date datetime default current_timestamp,
     is_active tinyint default 1,
     balance decimal(16,8),
     parent_id integer,

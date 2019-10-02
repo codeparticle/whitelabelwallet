@@ -91,7 +91,6 @@ Page.defaultProps = {
   headerProps: {},
   removePadding: false,
   sidepanel: null,
-  removePadding: false,
 };
 
 Page.propTypes = {

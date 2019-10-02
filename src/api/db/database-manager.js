@@ -238,7 +238,7 @@ export class DatabaseManager {
   /* ------------------------------------------- */
 
   getAddressesByWalletId(id) {
-    const statement = STMT.ADDRESSES.SELECT.WALLET_ID(id);
+    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(id);
     return this.query({ statement });
   }
 
