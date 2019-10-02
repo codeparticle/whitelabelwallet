@@ -106,5 +106,37 @@ $chart-opacity: 0.5;
 
   .page-header + section {
     height: 100%;
-  }      
+  }     
+  
+  .dark {
+
+    .page-content-container {
+
+      .list-wrapper {
+        background: $dark-bg;
+      }
+
+      .wallet-balance-data {
+
+        .balance,
+        .usd-value {
+          color: $white;
+        }
+  
+        .balance {
+          
+          svg {
+  
+            path {
+              fill: currentColor;
+            }
+          }
+        }
+  
+        .current-balance-text {
+          color: $cool-grey-dark;
+        }
+      }
+    }
+  }
 }

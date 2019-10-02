@@ -22,13 +22,13 @@ function WalletChart ({
   const [chartDataPoints, setChartDataPoints] = useState([]);
 
   useEffect(() => {
-    if (selectedWalletAddresses.length > 0) {
+    if (selectedWalletTransactions.length > 0) {
       buildChartData();
     }
   }, [selectedWalletTransactions, selectedWallet]);
 
   const buildChartData = async () => {
-    if (selectedWalletTransactions.length === 0) {
+    if (selectedWalletTransactions.length === 0 || selectedWalletAddresses.length === 0) {
       return;
     }
 
