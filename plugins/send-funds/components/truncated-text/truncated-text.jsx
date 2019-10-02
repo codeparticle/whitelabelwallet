@@ -33,11 +33,12 @@ function TruncatedText({ column, value }) {
 
 TruncatedText.propTypes = {
   column: numberOrString,
-  value: numberOrString.isRequired,
+  value: numberOrString,
 };
 
 TruncatedText.defaultProps = {
   column: null,
+  value: '',
 };
 
 export { TruncatedText };

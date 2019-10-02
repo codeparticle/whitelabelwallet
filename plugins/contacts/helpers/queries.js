@@ -6,8 +6,8 @@
 /**
  * Function to search a contact by name or address
  * @param {Object} manager - the manager object
- * @param {*} setFn - the function that sets the query response to state
- * @param {*} value - the value to query
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {func} value - the value to query
  */
 async function searchContactsByValue(manager, setFn, value) {
   const res = await manager.databaseManager.getContactsByValue(value);

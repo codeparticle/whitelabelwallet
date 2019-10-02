@@ -34,7 +34,7 @@ export function TransferAmount({
   });
 
   return (
-    <div>
+    <div className="send-funds-layout__transfer-amount">
       <TransferAmountComponent
         coinDecimalLimit={coinDecimalLimit}
         conversionRate={conversionRate}
