@@ -58,9 +58,9 @@ const SendFundsView = ({
 };
 
 SendFundsView.propTypes = {
-  fromAddress: PropTypes.object.isRequired,
+  fromAddress: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
-  toAddress: PropTypes.object.isRequired,
+  toAddress: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => {

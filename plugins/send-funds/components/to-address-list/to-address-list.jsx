@@ -45,6 +45,12 @@ function ToAddressListView({ formatMessage, ...props }) {
     });
   }, [setRowData]);
 
+  function onRowClicked(data) {
+    const { address } = data;
+
+    props.setToAddress(address);
+  }
+
   function onSubmit(value) {
     getContactsByValue(setRowData, value);
   }
@@ -65,7 +71,7 @@ function ToAddressListView({ formatMessage, ...props }) {
             matchProperty="id"
             rowData={rowData}
             onDeselect={resetStateHandler(props.setToAddress)}
-            onRowClicked={props.setToAddress}
+            onRowClicked={onRowClicked}
           />
           <style jsx>
             {`

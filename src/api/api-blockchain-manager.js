@@ -72,6 +72,10 @@ class ApiBlockchainManager {
     return phraseArray.length === 24;
   }
 
+  createTransaction() {
+    required('createTransaction');
+  }
+
   /**
    * This function is used to get the information about a particular Address.
    * @param {string} addressParam

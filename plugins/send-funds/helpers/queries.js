@@ -3,6 +3,7 @@
  * @author Gabriel Womble
  */
 import { manager } from 'app';
+import { TransactionManager } from 'api';
 
 /**
  * Function that returns an array of wallet objects with an addresses property
@@ -24,6 +25,10 @@ async function getContacts() {
   return await manager.databaseManager.getContacts();
 }
 
+async function createTransaction({ fromAddress, toAddress, amount, memo }) {
+  return TransactionManager.createTransaction({ fromAddress, toAddress, amount, memo });
+}
+
 /**
  * Function to search a contact by name or address
  * @param {func} setFn - the function that sets the query response to state
@@ -35,6 +40,7 @@ async function getContactsByValue(setFn, value) {
 }
 
 export {
+  createTransaction,
   getContacts,
   getContactsByValue,
   getWalletAddresses,
