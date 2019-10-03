@@ -16,7 +16,7 @@ function TransactionsList ({
   selectedWalletAddresses,
   selectedWalletTransactions,
 }) {
-  const listData = selectedWalletTransactions.reverse();
+  const listData = selectedWalletTransactions;
   function addressRenderer ({ data }) {
     return (
       <CustomAddressRenderer

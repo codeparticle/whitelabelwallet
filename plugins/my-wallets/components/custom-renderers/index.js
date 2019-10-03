@@ -1,3 +1,3 @@
-export { CustomAmountRenderer } from './custom-amount-renderer';
-export { CustomAddressRenderer } from './custom-address-renderer';
-export { CustomDateRenderer } from './custom-date-renderer';
+export { CustomAmountRenderer } from './amount-renderer';
+export { CustomAddressRenderer } from './address-renderer';
+export { CustomDateRenderer } from './date-renderer';
