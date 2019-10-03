@@ -25,6 +25,17 @@ async function getWalletById(id, setFn) {
 }
 
 /**
+ * Function to get a addresses from db by wallet ID
+ * @param {func} setFn - function that sets the res to state
+ * @param {number} id - id of wallet to get
+ */
+async function getAddressesByWalletId(setFn, id) {
+  const res = await WalletManager.getAddressesByWalletId(setFn, id);
+  setFn(res);
+  return res;
+}
+
+/**
  * Function that adds a new wallet to the db, and then sets the updated wallet table to state
  * @param {Object} wallet - the wallet object to add to the db
  * @param {func} setFn - function that sets the response to state
@@ -45,9 +56,46 @@ async function updateWalletAndUpdateState(wallet, setFn) {
   await getWalletById(wallet.id, setFn);
 }
 
+/**
+ * Function to search a transaction by description
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} value - the value to query
+ */
+async function searchTransactionsByValue(setFn, value, addresses, filterDate = null) {
+  const res = await WalletManager.searchTransactionsByValue(addresses, value, filterDate);
+  setFn(res);
+}
+
+/**
+ * Function to get transactions that contain the desired address
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} address - the address value to query
+ * @param {object} filterDate - date to filter transaction data
+ */
+async function getTransactionsPerAddress(setFn, address, filterDate) {
+  const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
+  if (setFn !== null) {
+    setFn(res);
+  }
+}
+/**
+ * Function to get transactions to display on wallet chart
+ * @param {string} address - the address value to query
+ * @param {object} filterDate - date to filter transaction data
+ */
+async function getTransactionsForChart(address, filterDate) {
+  const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
+  return res;
+}
+
+
 export {
   createWalletAndUpdateList,
   fetchWallets,
+  getAddressesByWalletId,
   getWalletById,
+  getTransactionsPerAddress,
+  getTransactionsForChart,
+  searchTransactionsByValue,
   updateWalletAndUpdateState,
 };

@@ -21,10 +21,40 @@ export const MY_WALLETS = defineMessages({
     description: 'continue button text',
     defaultMessage: 'Continue',
   },
+  CURRENT_BALANCE_LABEL: {
+    id: 'plugin.my_wallets.current_balance',
+    description: 'current balance text',
+    defaultMessage: 'Current Balance',
+  },
   DESCRIPTION_LABEL: {
     id: 'plugin.my_wallets.description_label',
     description: 'Description label text',
     defaultMessage: 'Description',
+  },
+  DATE_OPTION_TODAY: {
+    id: 'plugin.my_wallets.date_option_today',
+    description: 'Date picker label',
+    defaultMessage: 'Today',
+  },
+  DATE_OPTION_WEEK: {
+    id: 'plugin.my_wallets.date_option_week',
+    description: 'Date picker label',
+    defaultMessage: 'This Week',
+  },
+  DATE_OPTION_MONTH: {
+    id: 'plugin.my_wallets.date_option_month',
+    description: 'Date picker label',
+    defaultMessage: 'This Month',
+  },
+  DATE_OPTION_YEAR: {
+    id: 'plugin.my_wallets.date_option_year',
+    description: 'Date picker label',
+    defaultMessage: 'This Year',
+  },
+  DATE_OPTION_ALL_TIME: {
+    id: 'plugin.my_wallets.date_option_all_time',
+    description: 'Date picker label',
+    defaultMessage: 'All Time',
   },
   GENERATE_CODE_BUTTON: {
     id: 'plugin.my_wallets.generate_code_button',
@@ -71,15 +101,20 @@ export const MY_WALLETS = defineMessages({
     description: 'new wallet sub title',
     defaultMessage: `Step {currentStep} of 3`,
   },
-  MULTI_ADDRESS_LABEL: {
-    id: 'plugin.my_wallets.multi_address_label',
-    description: 'label for multi address question',
-    defaultMessage: 'Is this a multi-address wallet?',
-  },
   NAV_ITEM: {
     id: 'plugin.my_wallets.nav_item',
     description: 'Nav item label for My Wallets page',
     defaultMessage: 'My Wallets',
+  },
+  NO_TRANSACTIONS_TEXT: {
+    id: 'plugin.my_wallets.no_transactions_text',
+    description: 'Text to display when no transactions are available',
+    defaultMessage: 'No Transactions Available',
+  },
+  MULTI_ADDRESS_LABEL: {
+    id: 'plugin.my_wallets.multi_address_label',
+    description: 'label for multi address question',
+    defaultMessage: 'Is this a multi-address wallet?',
   },
   PAGE_HEADER: {
     id: 'plugin.my_wallets.page_header',
@@ -95,6 +130,11 @@ export const MY_WALLETS = defineMessages({
     id: 'plugin.my_wallets.recovery_code_label',
     description: 'recovery code button text',
     defaultMessage: 'Recovery Code',
+  },
+  SEARCH: {
+    id: 'plugin.transactions.search',
+    description: 'Search component placeholder text',
+    defaultMessage: 'Search Transactions...',
   },
   SEND_FUNDS_BUTTON_LABEL: {
     id: 'plugin.my_wallets.send_funds_button_label',
