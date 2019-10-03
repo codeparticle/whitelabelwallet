@@ -38,6 +38,12 @@ function FromAddressChildListView({ data, ...props }) {
   const { addresses = [] } = data;
   const shouldShowSubList = addresses.length > 1;
 
+  function onRowClicked(data) {
+    const { address } = data;
+
+    props.setFromAddress(address);
+  }
+
   return (
     <Visible when={shouldShowSubList}>
       <List
@@ -47,7 +53,7 @@ function FromAddressChildListView({ data, ...props }) {
         matchProperty="id"
         rowData={addresses}
         onDeselect={resetStateHandler(props.setFromAddress)}
-        onRowClicked={props.setFromAddress}
+        onRowClicked={onRowClicked}
         showHeader={false}
       />
     </Visible>

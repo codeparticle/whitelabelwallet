@@ -9,12 +9,12 @@ import { Button, PageFooter } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { COMMON } from 'translations/keys/common';
 
+import { createTransaction, valuesExist } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 
 const { CONFIRM_SEND_TO } = SEND_FUNDS;
 const { CONFIRM } = COMMON;
 const { GREEN } = VARIANTS;
-const notEmpty = obj => typeof obj === 'object' && Object.values(obj).length !== 0;
 
 function SendFundsFooter({
   transferFields,
@@ -23,17 +23,14 @@ function SendFundsFooter({
   toAddress,
 }) {
   const { amount, memo } = transferFields;
-  const { address } = toAddress;
-  const showButton = amount && notEmpty(fromAddress) && notEmpty(toAddress);
+  const parsedAmount = parseFloat(amount);
+  const showButton = valuesExist(parsedAmount, toAddress, fromAddress);
   const message = showButton
-    ? formatMessage(CONFIRM_SEND_TO, { amount, address })
+    ? formatMessage(CONFIRM_SEND_TO, { amount, address: toAddress })
     : '';
 
   function onClick() {
-    console.log('amount: ', amount);
-    console.log('memo: ', memo);
-    console.log('toAddress: ', toAddress);
-    console.log('fromAddress: ', fromAddress);
+    createTransaction({ fromAddress, toAddress, amount: parsedAmount, memo });
   }
 
   return (
@@ -54,9 +51,9 @@ function SendFundsFooter({
 
 SendFundsFooter.propTypes = {
   formatMessage: PropTypes.func.isRequired,
-  fromAddress: PropTypes.object.isRequired,
+  fromAddress: PropTypes.string.isRequired,
   transferFields: PropTypes.object.isRequired,
-  toAddress: PropTypes.object.isRequired,
+  toAddress: PropTypes.string.isRequired,
 };
 
 export { SendFundsFooter };
