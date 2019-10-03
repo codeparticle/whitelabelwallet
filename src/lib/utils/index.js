@@ -1,4 +1,5 @@
 import { arrayToRegex } from './array-to-regex';
+import { asyncForEach } from './async-for-each';
 import { currencyConverter } from './currency-converter';
 import { empty } from './empty';
 import { environment } from './environment';
@@ -16,6 +17,7 @@ import { safeString, unescape } from './strings';
 
 export {
   arrayToRegex,
+  asyncForEach,
   currencyConverter,
   empty,
   environment,

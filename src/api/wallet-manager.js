@@ -55,12 +55,40 @@ class WalletManager {
   }
 
   /**
+ * Function to get a addresses from db by wallet ID
+ * @param {Object} manager - the manager object
+ * @param {func} setFn - function that sets the res to state
+ * @param {number} id - id of wallet to get
+ */
+  async getAddressesByWalletId(setFn, id) {
+    return await manager.databaseManager.getAddressesByWalletId(id);
+  }
+
+  /**
    * Function that generates deterministic pass phrase
    * @returns {Array} - Secret Phrase
    * @param {string} - locale code to determine wordlist to use
    */
   generateSecretPhrase(locale) {
     return this.blockchainManager.phraseToArray(this.blockchainManager.generateSecretPhrase(locale));
+  }
+
+  /**
+ * Function to search a transaction by description
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} value - the value to query
+ */
+  async  searchTransactionsByValue(addresses, value, filterDate) {
+    return await manager.databaseManager.searchTransactionsForValue(addresses, value, filterDate);
+  }
+
+  /**
+ * Function to get transactions to display on wallet chart
+ * @param {string} address - the address value to query
+ * @param {object} filterDate - date to filter transaction data
+ */
+  async getTransactionsPerAddressAfterDate(address, filterDate) {
+    return await manager.databaseManager.getTransactionsPerAddressAfterDate(address, filterDate);
   }
 }
 

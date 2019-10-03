@@ -23,7 +23,8 @@ import './page.scss';
   @typedef props
   @type {Object}
   @property {Node} children
-  @property {headerProps} headerProps - props passed to the PageHeader
+  @property {headerProps} headerProps
+  @property {className} className- props passed to the PageHeader
 */
 
 /**
@@ -38,6 +39,7 @@ const Page = ({
   headerProps,
   sidepanel,
   removePadding,
+  className,
 }) => {
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
@@ -65,7 +67,7 @@ const Page = ({
   }
 
   return (
-    <main className="page-rct-component" data-selector={dataSelector}>
+    <main className={`page-rct-component ${className}`} data-selector={dataSelector}>
       <PageHeader {...headerProps} />
       <section
         className={`page-rct-component__content ${themeName} ${removePadding ? 'remove-padding' : ''}`}
@@ -86,6 +88,7 @@ const Page = ({
 };
 
 Page.defaultProps = {
+  className: '',
   dataSelector: 'page',
   headerProps: {},
   contentStyles: {
@@ -95,6 +98,7 @@ Page.defaultProps = {
 };
 
 Page.propTypes = {
+  className: PropTypes.string,
   dataSelector: PropTypes.string,
   contentStyles: PropTypes.object,
   headerProps: PropTypes.shape({

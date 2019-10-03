@@ -7,7 +7,7 @@ import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { VARIANTS } from 'lib/constants';
 import { fetchWallets } from 'plugins/my-wallets/helpers';
-import { setWallets } from 'plugins/my-wallets/rdx/actions';
+import { setWallets, clearSelectedWalletTransactions } from 'plugins/my-wallets/rdx/actions';
 import { getWallets } from 'plugins/my-wallets/rdx/selectors';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { WalletSidepanel, Wallets } from 'plugins/my-wallets/components';
@@ -44,6 +44,7 @@ const MyWallets = ({
   };
 
   const onClick = () => setIsOpenValue(true);
+  const handleWalletClick = () => props.clearSelectedWalletTransactions();
 
   const AddWallet = () => (
     <HeaderButton
@@ -77,7 +78,7 @@ const MyWallets = ({
         />
       }
     >
-      <Wallets history={history} wallets={wallets} />
+      <Wallets history={history} wallets={wallets} handleWalletClick={handleWalletClick} />
     </Page>
   );
 };
@@ -98,6 +99,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  clearSelectedWalletTransactions,
   setWallets,
 };
 

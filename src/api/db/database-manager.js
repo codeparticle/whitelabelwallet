@@ -139,6 +139,16 @@ export class DatabaseManager {
         });
       },
       /**
+       * Insert into the sqlite DB one row of transaction data
+       */
+      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance }) => {
+        return this.query({
+          statement: STMT.TRANSACTIONS.INSERT.NEW,
+          params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance],
+          run,
+        });
+      },
+      /**
        * Insert into the sqlite DB one row of wallet data
        */
       wallet: ({ id, name, coin_id, multi_address, require_password, password_hash, seed }) => {
@@ -224,6 +234,15 @@ export class DatabaseManager {
   }
 
   /* ------------------------------------------- */
+  /* ------------- Address Queries ------------- */
+  /* ------------------------------------------- */
+
+  getAddressesByWalletId(id) {
+    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(id);
+    return this.query({ statement });
+  }
+
+  /* ------------------------------------------- */
   /* ------------- Contact Queries ------------- */
   /* ------------------------------------------- */
 
@@ -268,6 +287,42 @@ export class DatabaseManager {
       table: 'Contacts',
       where: `id=${id}`,
     });
+  }
+
+
+  /* ------------------------------------------- */
+  /* ------------- Transaction Queries ------------- */
+  /* ------------------------------------------- */
+
+  /**
+   * Selects transactions that fit the given search value
+   * @returns {Array} Transaction(s)
+   * @param {array} addresses - Selected wallet's addresses
+   * @param {string} value - Value to search by
+   */
+  searchTransactionsForValue(addresses, value = '', dateTime) {
+    const queryResults = [];
+    const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    addresses.forEach((addressData) => {
+      const statement = STMT.TRANSACTIONS.SELECT.VALUE(addressData.address, value, filterDate);
+      queryResults.push(this.query({ statement }));
+    });
+
+    return Promise.all(queryResults).then((results) => {
+      return results.flat();
+    });
+  }
+
+  /**
+   * Selects transactions that contain the given address
+   * @returns {Array} Transaction(s)
+   * @param {string} address - Address value to search by
+   */
+  getTransactionsPerAddressAfterDate(address = '', dateTime) {
+    const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address, filterDate);
+
+    return this.query({ statement });
   }
 
   /* --------------------------------------------- */
