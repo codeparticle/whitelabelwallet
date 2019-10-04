@@ -1,0 +1,38 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$btn-height: 58px;
+$btn-border-radius: calc(#{$btn-height} / 2);
+
+.send-funds-mobile-footer {
+  align-items: center;
+  display: flex;
+  grid-area: footer;
+  justify-content: center;
+  padding: $spacing-m;
+  width: 100%;
+
+  button {
+    border-radius: $btn-border-radius;
+    height: $btn-height;
+
+    &:disabled {
+      background: $grey;
+      border-color: $grey;
+      color: $white;
+      pointer-events: nonde;
+
+      &:active {
+        top: 0;
+      }
+    }
+  }
+}
+
+.light .send-funds-mobile-footer {
+  background: $white;
+}
+
+.dark .send-funds-mobile-footer {
+  background: $dark;
+}

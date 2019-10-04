@@ -5,6 +5,18 @@
 
 import { ButtonVariants } from '@codeparticle/whitelabelwallet.styleguide';
 
+/**
+ * ButtonVariants for reference:
+ * PRIMARY
+ * GREEN
+ * SLATE
+ * SECONDARY
+ * ALERT
+ * TEAL
+ * TERTIARY
+ * SLATE_CLEAR
+ */
+
 const ADD = 'add';
 const EDIT = 'edit';
 
