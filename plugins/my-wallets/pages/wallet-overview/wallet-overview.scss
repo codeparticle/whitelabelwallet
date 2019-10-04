@@ -1,6 +1,7 @@
 @import 'src/styles/index.scss';
 
 $chart-section-height: 360px;
+$mobile-chart-section-height: 220px;
 $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
 $chart-opacity: 0.5;
 
@@ -94,6 +95,38 @@ $chart-opacity: 0.5;
     .list-wrapper,
     .search-wrapper {
       padding: $space-8;
+    }
+  }
+
+  .mobile-content-container {
+
+    grid-template-rows: auto $mobile-chart-section-height 1fr;
+
+    .chart-wrapper {
+
+      align-items: center;
+      justify-content: center;
+
+      .wallet-balance-data {
+        align-items: center;
+        align-self: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .balance {
+          font-size: $font-size-lg-1;
+
+          svg {
+            height: $font-size-md-4; 
+            width: $font-size-md-4; 
+          }
+        }
+      }
+    }
+
+    .current-balance-text {
+      display: none;
     }
   }
     
