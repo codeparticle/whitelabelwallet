@@ -1,13 +1,17 @@
 {
-  "plugin.send_funds.title": "Send Funds",
-  "plugin.send_funds.wallet": "Wallet",
   "plugin.send_funds.balance": "Balance",
-  "plugin.send_funds.send_to": "Send to:",
-  "plugin.send_funds.send_from": "Send from:",
-  "plugin.send_funds.transfer_amount": "Transfer Amount",
+  "plugin.send_funds.confirm_send_to": "Confirm transfer of G {amount} to {address}?",
+  "plugin.send_funds.enter_address": "Enter Address",
   "plugin.send_funds.memo": "Memo",
-  "plugin.send_funds.saved_recipient": "Saved Recipient",
   "plugin.send_funds.raw_address": "Raw Address",
+  "plugin.send_funds.saved_recipient": "Saved Recipient",
+  "plugin.send_funds.select_address": "Select Address",
+  "plugin.send_funds.select_from_contacts": "Select from Contacts",
+  "plugin.send_funds.send_from": "Send from:",
   "plugin.send_funds.send_to_placeholder": "Search or enter address...",
-  "plugin.send_funds.confirm_send_to": "Confirm transfer of G {amount} to {address}?"
+  "plugin.send_funds.send_to": "Send to:",
+  "plugin.send_funds.title": "Send Funds",
+  "plugin.send_funds.transfer_amount": "Transfer Amount",
+  "plugin.send_funds.wallet": "Wallet",
+  "plugin.send_funds.write_something": "Write something..."
 }

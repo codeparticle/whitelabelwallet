@@ -25,8 +25,7 @@ const PageHeader = ({
   to,
   type,
 }) => {
-  const { isMobile, isDesktop, isWideScreen } = useMedia();
-  const useAltTheme = (type === PRIMARY && isMobile);
+  const { isDesktop, isWideScreen } = useMedia();
   const hideNavButton = ((isDesktop || isWideScreen) && type === PRIMARY);
   function NavigationButton(props) {
     return type === PRIMARY
@@ -41,7 +40,6 @@ const PageHeader = ({
     PrimaryAction,
     SecondaryAction,
     title,
-    useAltTheme,
   };
 
   return (

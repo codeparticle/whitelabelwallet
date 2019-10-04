@@ -923,10 +923,10 @@
   dependencies:
     "@types/react" "^16.8.15"
 
-"@codeparticle/whitelabelwallet.styleguide@^0.5.4":
-  version "0.5.4"
-  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.5.4.tgz#79fdfbe0adae757c5db99dde376a457e8ebf0833"
-  integrity sha1-ef374K2udXxduZ3eN2pFfo6/CDM=
+"@codeparticle/whitelabelwallet.styleguide@^0.5.5":
+  version "0.5.5"
+  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.5.5.tgz#692d8705f7579036f4b276739574cabc3a3c0f14"
+  integrity sha1-aS2HBfdXkDb0snZzlXTKvDo8DxQ=
   dependencies:
     "@codeparticle/react-sidenav" "^0.3.2"
     "@codeparticle/react-visible" "^1.2.2"
@@ -940,6 +940,7 @@
     case "^1.6.1"
     classnames "^2.2.6"
     colorcolor "^1.1.1"
+    hammerjs "^2.0.8"
     keyboard-only-outlines "^1.0.4"
     lodash "^4.17.11"
     marked "^0.6.3"
@@ -10098,6 +10099,11 @@ gzip-size@5.1.1:
   dependencies:
     duplexer "^0.1.1"
     pify "^4.0.1"
+
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
 
 handle-thing@^2.0.0:
   version "2.0.0"
