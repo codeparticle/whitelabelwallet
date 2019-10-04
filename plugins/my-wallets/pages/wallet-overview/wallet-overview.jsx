@@ -15,6 +15,7 @@ import {
   IconVariants,
   Select,
   svgs,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
@@ -125,6 +126,7 @@ function WalletOverviewView({
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { name } = selectedWallet;
   const { walletId } = match.params;
+  const { isMobile } = useMedia();
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
@@ -218,14 +220,16 @@ function WalletOverviewView({
       removePadding
       className={'wallet-overview-page'}
     >
-      <div className="page-content-container">
-        <div className="search-wrapper">
-          <SearchTransactions
-            formatMessage={formatMessage}
-            setSelectedWalletTransactionsSearchResults={props.setSelectedWalletTransactionsSearchResults}
-            selectedWalletAddresses={selectedWalletAddresses}
-          />
-        </div>
+      <div className={`page-content-container ${isMobile ? 'mobile-content-container' : ''}`}>
+        <Visible when={!isMobile}>
+          <div className="search-wrapper">
+            <SearchTransactions
+              formatMessage={formatMessage}
+              setSelectedWalletTransactionsSearchResults={props.setSelectedWalletTransactionsSearchResults}
+              selectedWalletAddresses={selectedWalletAddresses}
+            />
+          </div>
+        </Visible>
         <div className="chart-wrapper">
           {selectedWalletTransactions && <WalletChart
             selectedWalletTransactions={selectedWalletTransactions}
