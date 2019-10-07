@@ -2,6 +2,8 @@
 
 $chart-section-height: 360px;
 $mobile-chart-section-height: 220px;
+$mobile-list-bottom-position: 70px;
+$mobile-list-row: 118px;
 $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
 $chart-opacity: 0.5;
 
@@ -100,7 +102,7 @@ $chart-opacity: 0.5;
 
   .mobile-content-container {
 
-    grid-template-rows: auto $mobile-chart-section-height 1fr;
+    grid-template-rows: $mobile-chart-section-height 1fr;
 
     .chart-wrapper {
 
@@ -119,14 +121,68 @@ $chart-opacity: 0.5;
 
           svg {
             height: $font-size-md-4; 
-            width: $font-size-md-4; 
+            width: $font-size-md-4;
+
+            path {
+              fill: $grey;
+            }
           }
+        }
+
+        .usd-value {
+          color: $grey;
         }
       }
     }
 
     .current-balance-text {
       display: none;
+    }
+
+    .list-wrapper {
+
+      padding: $space-3;
+
+      .mobile-list {
+        background: white;
+        border-radius: $border-radius-3;
+        bottom: $mobile-list-bottom-position;
+        position: relative;
+
+        .transaction-type {
+
+          path {
+            fill: $light-grey;
+          }
+        }
+
+        .transaction-description {
+          color: $cool-grey-dark;
+          font-size: $font-size-sm-1;
+          font-weight: $font-weight-bold;
+        }
+
+        .transaction-date {
+          font-size: $font-size-xs-1;
+        }
+      }
+
+      .wallet-nav-bar {
+        align-self: center;
+        background: $white;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        width: 100%;
+        z-index: $z-index-top;
+      }
+
+      div[role='row'] {
+        background: $white;
+        margin-top: 0;
+        min-height: $mobile-list-row;
+        padding: 0 $space-4;
+      }
     }
   }
     
@@ -171,5 +227,9 @@ $chart-opacity: 0.5;
         }
       }
     }
+  }
+
+  .hide {
+    display: none;
   }
 }
