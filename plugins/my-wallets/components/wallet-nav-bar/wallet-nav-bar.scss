@@ -1,0 +1,37 @@
+@import 'src/styles/index.scss';
+
+$border-width: 1px; 
+
+.wallet-nav-bar {
+  align-items: center;
+  border-top: $border-width solid $shade;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  .wallet-nav-item {
+
+    padding: $space-5;
+    text-align: center;
+
+    button {
+      margin: 0 auto;
+
+    }
+
+    &:first-child {
+
+      border-right: $border-width solid $shade;
+    }
+
+    &:last-child {
+
+      border-left: $border-width solid $shade;
+    }
+
+    .nav-item-category {
+      
+      color: $cool-grey-dark;
+      text-align: center;
+    }
+  }
+}

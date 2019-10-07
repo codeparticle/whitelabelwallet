@@ -31,6 +31,7 @@ import {
   SearchTransactions,
   TransactionsList,
   WalletChart,
+  WalletNavBar,
 }  from 'plugins/my-wallets/components';
 import {
   getSelectedWallet,
@@ -93,9 +94,9 @@ function ManageIcon({ iconVariant, iconProps, onClick }) {
   );
 }
 
-function NoTransactions({ formatMessage }) {
+function NoTransactions({ formatMessage, isMobile }) {
   return (
-    <div className="empty-list">
+    <div className={`empty-list ${isMobile ? 'hide' : ''}`}>
       <h1>{formatMessage(NO_TRANSACTIONS_TEXT)}</h1>
     </div>
   );
@@ -242,16 +243,22 @@ function WalletOverviewView({
           </div>
         </div>
         <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
-          <Visible
-            when={haveTransactions}
-            fallback={<NoTransactions formatMessage={formatMessage}/>
-            }>
-            <TransactionsList
-              selectedWallet={selectedWallet}
-              selectedWalletAddresses={selectedWalletAddresses}
-              selectedWalletTransactions={selectedWalletTransactions} />
+          <div className={isMobile ? `mobile-list` : ''}>
+            <Visible
+              when={haveTransactions}
+              fallback={<NoTransactions isMobile={isMobile} formatMessage={formatMessage}/>}
+            >
+              <TransactionsList
+                selectedWallet={selectedWallet}
+                selectedWalletAddresses={selectedWalletAddresses}
+                selectedWalletTransactions={selectedWalletTransactions} />
+            </Visible>
+          </div>
+        </div>
+        <div className="wallet-nav-bar-wrapper">
+          <Visible when={isMobile}>
+            <WalletNavBar formatMessage={formatMessage} selectedWallet={selectedWallet}/>
           </Visible>
-
         </div>
       </div>
       <ManageWalletSidepanel

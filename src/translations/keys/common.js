@@ -36,6 +36,16 @@ export const COMMON = defineMessages({
     description: 'Password text',
     defaultMessage: 'Password',
   },
+  RECEIVE: {
+    id: 'common.receive',
+    description: 'Receive text',
+    defaultMessage: 'Receive',
+  },
+  SEND: {
+    id: 'common.send',
+    description: 'Send text',
+    defaultMessage: 'Send',
+  },
   START: {
     id: 'common.start',
     description: 'Start text',
@@ -50,6 +60,11 @@ export const COMMON = defineMessages({
     id: 'common.tos',
     description: 'Terms of Service text',
     defaultMessage: 'Terms of Service',
+  },
+  TRANSACTIONS: {
+    id: 'common.transactions',
+    description: 'Transactions text',
+    defaultMessage: 'Transactions',
   },
   SETTINGS: {
     id: 'common.settings',
