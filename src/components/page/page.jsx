@@ -37,6 +37,7 @@ const Page = ({
   contentStyles,
   dataSelector,
   headerProps,
+  onAddClicked,
   sidepanel,
   removePadding,
   className,
@@ -50,7 +51,7 @@ const Page = ({
   if (isMobile && headerProps.type === PRIMARY) {
     return (
       <main className={`mobile-page-rct-component ${themeName}`}>
-        <MobilePage {...headerProps} dataSelector={dataSelector}>
+        <MobilePage {...headerProps} dataSelector={dataSelector} onAddClicked={onAddClicked}>
           {children}
         </MobilePage>
         {sidepanel}
@@ -95,6 +96,7 @@ Page.defaultProps = {
     height: '100%',
   },
   sidepanel: null,
+  onAddClicked: null,
 };
 
 Page.propTypes = {
