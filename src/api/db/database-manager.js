@@ -121,10 +121,10 @@ export class DatabaseManager {
       /**
        * Insert into the sqlite DB one row of address data
        */
-      address: ({ id, wallet_id, address, name, is_active, balance, parent_id }) => {
+      address: ({ id, wallet_id, address, private_key, name, is_active, balance, parent_id }) => {
         return this.query({
           statement: STMT.ADDRESSES.INSERT.NEW,
-          params: [id, wallet_id, address, name, is_active, balance, parent_id],
+          params: [id, wallet_id, address, private_key, name, is_active, balance, parent_id],
           run,
         });
       },
@@ -518,5 +518,12 @@ export class DatabaseManager {
   getAddresses() {
     const statement = STMT.ADDRESSES.SELECT.ALL;
     return this.query({ statement });
+  }
+
+  async getPrivKeyFromAddress(address) {
+    const statement = STMT.ADDRESSES.SELECT.PRIV_KEY_BY_ADDR(address);
+    const [{ private_key }] = await this.query({ statement });
+
+    return private_key;
   }
 }

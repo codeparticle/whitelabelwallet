@@ -3,6 +3,7 @@ export const ADDRESSES_STATEMENTS = {
     id integer primary key,
     wallet_id integer references Wallets(id),
     address varchar(100),
+    private_key varchar(100),
     name nvarchar(200) default 'Address',
     create_date datetime default current_timestamp,
     last_modified_date datetime default current_timestamp,
@@ -12,11 +13,12 @@ export const ADDRESSES_STATEMENTS = {
     foreign key (wallet_id) references Wallets(id) on delete cascade
   );`,
   INSERT: {
-    NEW: `insert into Addresses(id, wallet_id, address, name, is_active, balance, parent_id)
-    values(?,?,?,?,?,?,?)`,
+    NEW: `insert into Addresses(id, wallet_id, address, private_key, name, is_active, balance, parent_id)
+    values(?,?,?,?,?,?,?,?)`,
   },
   SELECT: {
     ALL: `select * from Addresses`,
     BY_WALLET_ID: (id) => `select * from Addresses where wallet_id=${id}`,
+    PRIV_KEY_BY_ADDR: (addr) => `select private_key from Addresses where address="${addr}"`,
   },
 };

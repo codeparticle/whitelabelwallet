@@ -46,7 +46,9 @@ function FromAddressListView({ formatMessage, ...props }) {
 
   function onRowClicked(data) {
     if (data.addresses.length === 1) {
-      props.setFromAddress(data);
+      const [{ address }] = data.addresses;
+
+      props.setFromAddress(address);
     }
   }
 
