@@ -1,8 +1,8 @@
 import types from './types';
 
 const initialState = {
-  toAddress: {},
-  fromAddress: {},
+  toAddress: '',
+  fromAddress: '',
 };
 
 export function sendFundsReducer(state = initialState, action) {

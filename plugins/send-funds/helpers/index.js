@@ -1,4 +1,5 @@
 export {
+  createTransaction,
   getContacts,
   getContactsByValue,
   getWalletAddresses,
@@ -7,4 +8,5 @@ export {
 
 export {
   resetStateHandler,
+  valuesExist,
 } from './utils';
