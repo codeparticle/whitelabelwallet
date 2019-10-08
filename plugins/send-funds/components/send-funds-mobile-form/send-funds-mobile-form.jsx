@@ -5,11 +5,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Visible } from '@codeparticle/react-visible';
 import { TextArea } from '@codeparticle/whitelabelwallet.styleguide';
 import { ADDRESSES } from 'lib/constants';
 import { TRANSLATION_KEYS } from 'translations/keys';
 
-import { SelectFromAddressesButton, SelectFromContactsButton } from 'plugins/send-funds/components';
+import { SelectFromAddresses, SelectFromContacts } from 'plugins/send-funds/components';
+import { constants } from 'plugins/send-funds/helpers';
 import { setToAddress } from 'plugins/send-funds/rdx/actions';
 import { getToAddress } from 'plugins/send-funds/rdx/selectors';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
@@ -20,6 +22,7 @@ const { ADDRESS_MIN_LENGTH } = ADDRESSES;
 const {
   WRITE_SOMETHING,
 } = SEND_FUNDS;
+const { SELECTING_ADDRESSES, SELECTING_CONTACTS } = constants;
 
 function SendFundsMobileFormView({
   formatMessage,
@@ -29,6 +32,9 @@ function SendFundsMobileFormView({
   ...props
 }) {
   const [address, setAddress] = useState('');
+  const [formSelecting, setFormSelecting] = useState(false);
+
+  const notSelectingType = type => type !== formSelecting;
 
   function onAddressInputchange(e) {
     e.preventDefault();
@@ -62,18 +68,28 @@ function SendFundsMobileFormView({
 
   return (
     <div className="send-funds-mobile-form">
-      <SelectFromAddressesButton formatMessage={formatMessage} />
-      <SelectFromContactsButton
-        formatMessage={formatMessage}
-        inputValue={address}
-        onInputChange={onAddressInputchange}
-      />
-      <TextArea
-        label={formatMessage(DESCRIPTION)}
-        onChange={onTextAreaChange}
-        placeholder={formatMessage(WRITE_SOMETHING)}
-        value={transferFields.memo}
-      />
+      <Visible when={notSelectingType(SELECTING_CONTACTS)}>
+        <SelectFromAddresses
+          formatMessage={formatMessage}
+          setFormSelecting={setFormSelecting}
+        />
+      </Visible>
+      <Visible when={notSelectingType(SELECTING_ADDRESSES)}>
+        <SelectFromContacts
+          formatMessage={formatMessage}
+          inputValue={address}
+          onInputChange={onAddressInputchange}
+          setFormSelecting={setFormSelecting}
+        />
+      </Visible>
+      <Visible when={!formSelecting}>
+        <TextArea
+          label={formatMessage(DESCRIPTION)}
+          onChange={onTextAreaChange}
+          placeholder={formatMessage(WRITE_SOMETHING)}
+          value={transferFields.memo}
+        />
+      </Visible>
     </div>
   );
 }

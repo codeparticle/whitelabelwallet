@@ -7,7 +7,9 @@
   display: flex;
   flex-direction: column;
   grid-area: send-form;
+  max-height: 100%;
   padding: $spacing-m;
+  overflow-y: scroll;
 
   .text-area {
     width: 100%;
