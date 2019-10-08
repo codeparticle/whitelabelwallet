@@ -6,6 +6,7 @@
 export const ROUTES = {
   PLUGIN: 'my-wallets',
   OVERVIEW: 'overview',
+  RECEIVE_FUNDS: 'receive-funds',
 };
 
 export const DATE_OPTIONS = {
