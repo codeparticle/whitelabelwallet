@@ -14,7 +14,11 @@ import { ROUTES } from 'plugins/my-wallets/helpers';
 import './wallet-nav-bar.scss';
 
 const { RECEIVE, SEND, TRANSACTIONS } = TRANSLATION_KEYS.COMMON;
-const { PLUGIN, OVERVIEW } = ROUTES;
+const {
+  PLUGIN,
+  OVERVIEW,
+  RECEIVE_FUNDS,
+} = ROUTES;
 
 const {
   SvgTransactionHistory,
@@ -30,14 +34,15 @@ function WalletNavBarView({
   match,
 }) {
   const onTransactionClick = () => {
-    console.log(match);
-    console.log('========\n', 'match.url', match.url, '\n========');
     const url = `${PLUGIN}/${selectedWallet.id}/${OVERVIEW}`;
-    console.log('========\n', 'url', url, '\n========');
-    console.log('========\n', 'url === match.url', `/${url}` === match.url, '\n========');
-    if (`/${url}` === match.url) {
+    if (`/${url}` !== match.url) {
       history.push(url);
     }
+  };
+
+  const onReceiveClick = () => {
+    console.log('========\n', 'RECEIVE_FUNDS', RECEIVE_FUNDS, '\n========');
+    history.push(`/${RECEIVE_FUNDS}`);
   };
   const onClick = () => console.log('clicked');
   return (
@@ -65,7 +70,7 @@ function WalletNavBarView({
       <div className="wallet-nav-item">
         <IconButton
           dataSelector={dataSelector}
-          onClick={onClick}
+          onClick={onReceiveClick}
           icon={<SvgReceive height="44px" width="44px"/>}
         />
         <div className="category-wrapper">
