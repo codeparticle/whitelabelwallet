@@ -20,5 +20,12 @@ export const ADDRESSES_STATEMENTS = {
     ALL: `select * from Addresses`,
     BY_WALLET_ID: (id) => `select * from Addresses where wallet_id=${id}`,
     PRIV_KEY_BY_ADDR: (addr) => `select private_key from Addresses where address="${addr}"`,
+    FORMATTED_ADDRESS_NAME: (addr) => `
+      select Wallets.name as wallet_name, Addresses.name as address_name
+      from Wallets
+      inner join Addresses
+      on Wallets.id = Addresses.wallet_id
+      where Addresses.address="${addr}"
+    `,
   },
 };

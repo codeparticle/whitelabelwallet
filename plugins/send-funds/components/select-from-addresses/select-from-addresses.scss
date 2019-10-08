@@ -1,0 +1,15 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$input-height: 40px;
+
+.select-from-addresses-input {
+  height: $input-height;
+  margin-bottom: $spacing-l;
+  width: 100%;
+
+  & > div,
+  input[type=text] {
+    height: $input-height;
+    width: 100%;
+  }
+}

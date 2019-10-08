@@ -21,6 +21,11 @@ export const SEND_FUNDS = defineMessages({
     description: 'Memo label text',
     defaultMessage: 'Memo',
   },
+  NUM_ADDRESSES: {
+    id: 'plugin.send_funds.num_addresses',
+    description: 'Number of addresses text',
+    defaultMessage: '{addressCount, plural, one {# Address} other {# Addresses}}',
+  },
   RAW_ADDRESS: {
     id: 'plugin.send_funds.raw_address',
     description: 'Raw address label text',

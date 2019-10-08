@@ -1,5 +1,5 @@
 /**
- * @fileoverview Select from contacts mobile form button
+ * @fileoverview Select from contacts mobile view
  * @author Gabriel Womble
  */
 import React from 'react';
@@ -9,7 +9,7 @@ import { empty } from 'lib/utils';
 
 import { MobileFormButton } from 'plugins/send-funds/components';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
-import './select-from-contacts-button.scss';
+import './select-from-contacts.scss';
 
 const iconSize = 20;
 const { SvgQrCode } = svgs.icons;
@@ -19,7 +19,7 @@ const {
   SEND_TO,
 } = SEND_FUNDS;
 
-function SelectFromContactsButton({
+function SelectFromContacts({
   formatMessage,
   onInputChange,
   inputValue,
@@ -46,10 +46,10 @@ function SelectFromContactsButton({
   );
 }
 
-SelectFromContactsButton.propTypes = {
+SelectFromContacts.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
 };
 
-export { SelectFromContactsButton };
+export { SelectFromContacts };
