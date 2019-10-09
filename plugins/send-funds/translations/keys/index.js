@@ -41,30 +41,10 @@ export const SEND_FUNDS = defineMessages({
     description: 'Select address text',
     defaultMessage: 'Select Address',
   },
-  SELECT_FROM_CONTACTS: {
-    id: 'plugin.send_funds.select_from_contacts',
-    description: 'Select from contacts text',
-    defaultMessage: 'Select from Contacts',
-  },
-  SEND_FROM: {
-    id: 'plugin.send_funds.send_from',
-    description: 'Send from text',
-    defaultMessage: 'Send from:',
-  },
-  SEND_TO: {
-    id: 'plugin.send_funds.send_to',
-    description: 'Send to text',
-    defaultMessage: 'Send to:',
-  },
-  SAVED_RECIPIENT: {
-    id: 'plugin.send_funds.saved_recipient',
-    description: 'Saved recipient label text',
-    defaultMessage: 'Saved Recipient',
-  },
-  SELECT_ADDRESS: {
-    id: 'plugin.send_funds.select_address',
-    description: 'Select address text',
-    defaultMessage: 'Select Address',
+  SELECT_CONTACT: {
+    id: 'plugin.send_funds.select_contact',
+    description: 'Select contact text',
+    defaultMessage: 'Select Contact:',
   },
   SELECT_FROM_CONTACTS: {
     id: 'plugin.send_funds.select_from_contacts',

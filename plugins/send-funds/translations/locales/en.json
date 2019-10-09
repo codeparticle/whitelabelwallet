@@ -7,6 +7,7 @@
   "plugin.send_funds.raw_address": "Raw Address",
   "plugin.send_funds.saved_recipient": "Saved Recipient",
   "plugin.send_funds.select_address": "Select Address",
+  "plugin.send_funds.select_contact": "Select Contact:",
   "plugin.send_funds.select_from_contacts": "Select from Contacts",
   "plugin.send_funds.send_from": "Send from:",
   "plugin.send_funds.send_to_placeholder": "Search or enter address...",
