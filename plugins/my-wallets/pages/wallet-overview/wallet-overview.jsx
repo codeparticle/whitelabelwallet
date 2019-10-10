@@ -124,6 +124,7 @@ function WalletOverviewView({
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDateValue());
+  const [selectedAddress, setSelectedAddress] = useState({});
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { name } = selectedWallet;
   const { walletId } = match.params;
@@ -133,6 +134,10 @@ function WalletOverviewView({
     getWalletById(walletId, props.setSelectedWallet);
     getAddressesByWalletId(props.setSelectedWalletAddresses, walletId).then((addresses) => fetchTransactions(addresses));
   }, [setSelectedWallet]);
+
+  useEffect(() => {
+    setSelectedAddress(selectedWalletAddresses[0]);
+  }, [selectedWalletAddresses]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
@@ -257,7 +262,11 @@ function WalletOverviewView({
         </div>
         <div className="wallet-nav-bar-wrapper">
           <Visible when={isMobile}>
-            <WalletNavBar formatMessage={formatMessage} selectedWallet={selectedWallet}/>
+            <WalletNavBar
+              formatMessage={formatMessage}
+              selectedWallet={selectedWallet}
+              selectedAddress={selectedAddress}
+            />
           </Visible>
         </div>
       </div>

@@ -29,6 +29,7 @@ const {
 
 function WalletNavBarView({
   selectedWallet,
+  selectedAddress,
   dataSelector,
   formatMessage,
   history,
@@ -42,12 +43,10 @@ function WalletNavBarView({
   };
 
   const onReceiveClick = () => {
-    console.log('========\n', 'RECEIVE_FUNDS', RECEIVE_FUNDS, '\n========');
-    history.push(`/${RECEIVE_FUNDS}`);
+    history.push(`/${PLUGIN}/${selectedWallet.id}/${RECEIVE_FUNDS}/${selectedAddress.address}`);
   };
-  const onClick = () => {
-    console.log(SEND_FUNDS);
-    history.push(`/${SEND_FUNDS}`);
+  const onSendClick = () => {
+    history.push(`/${PLUGIN}/${selectedWallet.id}/${SEND_FUNDS}/${selectedAddress.address}`);
   };
   return (
     <div className="wallet-nav-bar">
@@ -64,7 +63,7 @@ function WalletNavBarView({
       <div className="wallet-nav-item">
         <IconButton
           dataSelector={dataSelector}
-          onClick={onClick}
+          onClick={onSendClick}
           icon={<SvgSend height="44px" width="44px"/>}
         />
         <div className="category-wrapper">
@@ -88,7 +87,10 @@ function WalletNavBarView({
 WalletNavBarView.propTypes = {
   dataSelector: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   selectedWallet: PropTypes.object.isRequired,
+  selectedAddress: PropTypes.object.isRequired,
 };
 
 WalletNavBarView.defaultProps = {

@@ -22,16 +22,6 @@ export const SendFundsPlugin = (store) => {
       ],
     },
     {
-      role: 'main-route',
-      components: [
-        {
-          path: `/${pluginId}/secondary-page`,
-          component: SendFundsPage,
-          exact: true,
-        },
-      ],
-    },
-    {
       role: 'main-route-link',
       components: [
         {
