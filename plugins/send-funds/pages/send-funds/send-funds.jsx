@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { injectIntl, intlShape } from 'react-intl';
 import { Page } from 'components';
 import { Visible } from '@codeparticle/react-visible';
 import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.styleguide';
 import { cloud } from '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+import { VARIANTS } from 'lib/constants';
 
 import {
   FromAddressList,
@@ -24,10 +26,13 @@ const initialTransferFields = {
   memo: '',
 };
 
+const { PRIMARY, SECONDARY } = VARIANTS;
+
 const SendFundsView = ({
   intl: { formatMessage },
   toAddress,
   fromAddress,
+  match,
 }) => {
   const [transferFields, setTransferFields] = useState(initialTransferFields);
   const themeName = useTheme('name');
@@ -35,12 +40,14 @@ const SendFundsView = ({
   const mobileBackground = themeName === THEME_KEYS.LIGHT
     ? cloud
     : null;
+  const headerType = match.url.includes('secondary-page') ? SECONDARY : PRIMARY;
 
   return (
     <Page
       background={isMobile ? mobileBackground : null}
       headerProps={{
         title: formatMessage(SEND_FUNDS.TITLE),
+        type: headerType,
       }}
       contentStyles={{
         height: '100%',
@@ -82,6 +89,7 @@ SendFundsView.propTypes = {
   fromAddress: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   toAddress: PropTypes.string.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -94,4 +102,4 @@ const mapStateToProps = state => {
   };
 };
 
-export const SendFundsPage = connect(mapStateToProps)(injectIntl(SendFundsView));
+export const SendFundsPage = connect(mapStateToProps)(injectIntl(withRouter(SendFundsView)));

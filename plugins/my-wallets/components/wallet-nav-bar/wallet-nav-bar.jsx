@@ -18,6 +18,7 @@ const {
   PLUGIN,
   OVERVIEW,
   RECEIVE_FUNDS,
+  SEND_FUNDS,
 } = ROUTES;
 
 const {
@@ -44,7 +45,10 @@ function WalletNavBarView({
     console.log('========\n', 'RECEIVE_FUNDS', RECEIVE_FUNDS, '\n========');
     history.push(`/${RECEIVE_FUNDS}`);
   };
-  const onClick = () => console.log('clicked');
+  const onClick = () => {
+    console.log(SEND_FUNDS);
+    history.push(`/${SEND_FUNDS}`);
+  };
   return (
     <div className="wallet-nav-bar">
       <div className="wallet-nav-item">

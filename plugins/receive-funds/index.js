@@ -20,6 +20,16 @@ export const ReceiveFundsPlugin = (store) => {
       ],
     },
     {
+      role: 'main-route',
+      components: [
+        {
+          path: `/${pluginId}/secondary-page`,
+          component: ReceiveFundsPage,
+          exact: true,
+        },
+      ],
+    },
+    {
       role: 'main-route-link',
       components: [
         {
