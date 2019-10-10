@@ -1,0 +1,8 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.send-funds-mobile-form-btn {
+  display: flex;
+  flex-direction: column;
+  margin: $spacing-s 0;
+  width: 100%;
+}

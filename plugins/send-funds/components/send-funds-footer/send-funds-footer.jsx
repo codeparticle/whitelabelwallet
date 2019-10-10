@@ -9,6 +9,7 @@ import { Button, PageFooter } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { COMMON } from 'translations/keys/common';
 
+import { SendFundsMobileFooter } from 'plugins/send-funds/components';
 import { createTransaction, valuesExist } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 
@@ -17,6 +18,7 @@ const { CONFIRM } = COMMON;
 const { GREEN } = VARIANTS;
 
 function SendFundsFooter({
+  isMobile,
   transferFields,
   formatMessage,
   fromAddress,
@@ -28,9 +30,20 @@ function SendFundsFooter({
   const message = showButton
     ? formatMessage(CONFIRM_SEND_TO, { amount, address: toAddress })
     : '';
+  const btnLabel = formatMessage(CONFIRM);
 
   function onClick() {
     createTransaction({ fromAddress, toAddress, amount: parsedAmount, memo });
+  }
+
+  if (isMobile) {
+    return (
+      <SendFundsMobileFooter
+        isDisabled={!showButton}
+        onClick={onClick}
+        label={btnLabel}
+      />
+    );
   }
 
   return (
@@ -40,7 +53,7 @@ function SendFundsFooter({
         button={
           <Visible when={showButton}>
             <Button onClick={onClick} variant={GREEN} size="lg">
-              {formatMessage(CONFIRM)}
+              {btnLabel}
             </Button>
           </Visible>
         }
@@ -50,6 +63,7 @@ function SendFundsFooter({
 }
 
 SendFundsFooter.propTypes = {
+  isMobile: PropTypes.bool.isRequired,
   formatMessage: PropTypes.func.isRequired,
   fromAddress: PropTypes.string.isRequired,
   transferFields: PropTypes.object.isRequired,

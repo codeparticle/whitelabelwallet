@@ -8,6 +8,8 @@ $footer-height: 84px;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto auto 1fr $footer-height;
   height: 100%;
+  min-width: $width-breakpoint-xs;
+  overflow-x: hidden;
   width: 100%;
 
   &__transfer-amount {
@@ -32,5 +34,12 @@ $footer-height: 84px;
   &__footer {
     grid-area: footer;
     height: $footer-height;
+  }
+
+  @include mquery($width-breakpoint-xs) {
+    grid-template-areas: 'transfer-amount' 'send-form' 'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr $footer-height;
+    min-width: auto;
   }
 }

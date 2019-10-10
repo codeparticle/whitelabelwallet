@@ -33,6 +33,7 @@ import './page.scss';
   @returns {Node} - rendered Page
 */
 const Page = ({
+  background,
   children,
   contentStyles,
   dataSelector,
@@ -44,7 +45,7 @@ const Page = ({
 }) => {
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
-  const background = themeName === THEME_KEYS.LIGHT
+  const defaultBackground = themeName === THEME_KEYS.LIGHT
     ? white
     : darkBg;
 
@@ -58,7 +59,7 @@ const Page = ({
         <style jsx>
           {`
             .mobile-page-rct-component {
-              background: ${background};
+              background: ${background || defaultBackground};
               width: 100%;
             }
           `}
@@ -80,7 +81,7 @@ const Page = ({
       <style jsx>
         {`
           .page-rct-component {
-            background: ${background} !important;
+            background: ${background || defaultBackground};
           }
         `}
       </style>
@@ -90,6 +91,7 @@ const Page = ({
 
 Page.defaultProps = {
   className: '',
+  background: null,
   dataSelector: 'page',
   headerProps: {},
   contentStyles: {
@@ -101,6 +103,7 @@ Page.defaultProps = {
 
 Page.propTypes = {
   className: PropTypes.string,
+  background: PropTypes.string,
   dataSelector: PropTypes.string,
   contentStyles: PropTypes.object,
   headerProps: PropTypes.shape({

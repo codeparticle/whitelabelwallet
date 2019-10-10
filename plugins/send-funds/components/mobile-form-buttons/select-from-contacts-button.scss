@@ -1,0 +1,29 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$input-height: 40px;
+
+.select-from-contacts-input {
+  align-items: center;
+  border-radius: $border-radius-3;
+  display: flex;
+  height: $input-height;
+  justify-content: center;
+  margin-bottom: $spacing-l;
+  padding-right: $spacing-s;
+  width: 100%;
+
+  & > div,
+  input[type=text] {
+    height: $input-height;
+    width: 100%;
+  }
+}
+
+.light .select-from-contacts-input {
+  background: $white;
+}
+
+.dark .select-from-contacts-input {
+  background: $dark;
+}
