@@ -30,17 +30,14 @@ $button-width: 99%;
     }
 
     &:first-child {
-
       border-right: $border-width solid $shade;
     }
 
     &:last-child {
-
       border-left: $border-width solid $shade;
     }
 
     .nav-item-category {
-      
       color: $cool-grey-dark;
       text-align: center;
     }
