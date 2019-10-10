@@ -520,10 +520,27 @@ export class DatabaseManager {
     return this.query({ statement });
   }
 
+  /**
+   * @returns {string} private key
+   * @param {string} address - address value to query
+   */
   async getPrivKeyFromAddress(address) {
     const statement = STMT.ADDRESSES.SELECT.PRIV_KEY_BY_ADDR(address);
     const [{ private_key }] = await this.query({ statement });
 
     return private_key;
+  }
+
+  /**
+   * @returns {string} formattedAddress: 'WalletName - AddressName'
+   * @param {string} address - address value to query
+   */
+  async getFormattedAddressName(address) {
+    const statement = STMT.ADDRESSES.SELECT.FORMATTED_ADDRESS_NAME(address);
+    const [{ wallet_name, address_name }] = await this.query({ statement });
+
+    return address_name
+      ? `${wallet_name} - ${address_name}`
+      : wallet_name;
   }
 }
