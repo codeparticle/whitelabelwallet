@@ -236,6 +236,7 @@ $chart-opacity: 0.5;
   }
 
   @include mquery($width-breakpoint-xs) {
+
     section {
       overflow-y: scroll;
     }

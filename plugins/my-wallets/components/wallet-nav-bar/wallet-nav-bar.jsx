@@ -6,11 +6,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import {
-  IconButton,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { ROUTES } from 'plugins/my-wallets/helpers';
+import { WalletNavBarButton } from 'plugins/my-wallets/components';
 import './wallet-nav-bar.scss';
 
 const { RECEIVE, SEND, TRANSACTIONS } = TRANSLATION_KEYS.COMMON;
@@ -30,7 +30,6 @@ const {
 function WalletNavBarView({
   selectedWallet,
   selectedAddress,
-  dataSelector,
   formatMessage,
   history,
   match,
@@ -51,50 +50,40 @@ function WalletNavBarView({
   return (
     <div className="wallet-nav-bar">
       <div className="wallet-nav-item">
-        <IconButton
-          dataSelector={dataSelector}
-          onClick={onTransactionClick}
+        <WalletNavBarButton
           icon={<SvgTransactionHistory height="44px" width="44px"/>}
+          categoryLabel={formatMessage(TRANSACTIONS)}
+          onClick={onTransactionClick}
         />
-        <div className="category-wrapper">
-          <p className="nav-item-category">{formatMessage(TRANSACTIONS)}</p>
-        </div>
       </div>
       <div className="wallet-nav-item">
-        <IconButton
-          dataSelector={dataSelector}
-          onClick={onSendClick}
+        <WalletNavBarButton
           icon={<SvgSend height="44px" width="44px"/>}
+          categoryLabel={formatMessage(SEND)}
+          onClick={onSendClick}
         />
-        <div className="category-wrapper">
-          <p className="nav-item-category">{formatMessage(SEND)}</p>
-        </div>
       </div>
       <div className="wallet-nav-item">
-        <IconButton
-          dataSelector={dataSelector}
-          onClick={onReceiveClick}
+        <WalletNavBarButton
           icon={<SvgReceive height="44px" width="44px"/>}
+          categoryLabel={formatMessage(RECEIVE)}
+          onClick={onReceiveClick}
         />
-        <div className="category-wrapper">
-          <p className="nav-item-category">{formatMessage(RECEIVE)}</p>
-        </div>
       </div>
     </div>
   );
 }
 
 WalletNavBarView.propTypes = {
-  dataSelector: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   selectedWallet: PropTypes.object.isRequired,
-  selectedAddress: PropTypes.object.isRequired,
+  selectedAddress: PropTypes.object,
 };
 
 WalletNavBarView.defaultProps = {
-  dataSelector: '',
+  selectedAddress: {},
 };
 
 const WalletNavBar = withRouter(WalletNavBarView);
