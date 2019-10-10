@@ -18,6 +18,8 @@ function BackButtonView({
   to,
 }) {
   const onClick = () => {
+    console.log('========\n', 'history', history, '\n========');
+    console.log('========\n', 'to', to, '\n========');
     history.push(to);
   };
 

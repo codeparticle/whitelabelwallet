@@ -46,7 +46,6 @@ import {
   DATE_OPTIONS,
 } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
-import { SendFundsPage } from 'plugin';
 import './wallet-overview.scss';
 
 
