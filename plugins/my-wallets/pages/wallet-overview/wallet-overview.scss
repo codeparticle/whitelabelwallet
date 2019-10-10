@@ -1,11 +1,13 @@
 @import 'src/styles/index.scss';
 
+$address-name-position: 30px;
+$balance-data-bottom-position: 105px;
 $chart-section-height: 360px;
+$carousel-bottom-position: 68px;
 $mobile-chart-section-height: 220px;
 $mobile-list-bottom-position: 70px;
 $mobile-list-row: 118px;
 $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
-$chart-opacity: 0.5;
 
 .wallet-overview-page {
 
@@ -20,10 +22,6 @@ $chart-opacity: 0.5;
       flex-direction: column;
       justify-content: flex-end;
       position: relative;
-
-      div:first-child {
-        opacity: $chart-opacity;
-      }
 
       svg {
 
@@ -110,12 +108,21 @@ $chart-opacity: 0.5;
       align-items: center;
       justify-content: center;
 
+      .selected-address-wrapper {
+        color: $blue-shade;
+        font-size: $font-size-sm-2;
+        position: absolute;
+        top: $address-name-position
+      }
+
       .wallet-balance-data {
         align-items: center;
         align-self: inherit;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding: 0;
+        bottom: $balance-data-bottom-position;
 
         .balance {
           font-size: $font-size-lg-1;
@@ -133,6 +140,12 @@ $chart-opacity: 0.5;
         .usd-value {
           color: $grey;
         }
+      }
+
+      .carousel-wrapper {
+        width: 100%;
+        position: absolute;
+        bottom: $carousel-bottom-position;
       }
     }
 
@@ -235,6 +248,10 @@ $chart-opacity: 0.5;
     }
 
     .mobile-content-container {
+
+      .selected-address-wrapper {
+        color: $white;
+      }
 
       .mobile-list,
       .wallet-nav-bar {

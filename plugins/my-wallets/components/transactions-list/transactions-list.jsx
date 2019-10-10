@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   List,
@@ -15,12 +15,17 @@ import {
 }  from 'plugins/my-wallets/components';
 
 function TransactionsList ({
+  selectedAddress,
   selectedWallet,
   selectedWalletAddresses,
   selectedWalletTransactions,
 }) {
-  const listData = selectedWalletTransactions;
+  const [listData, setListData] = useState([]);
   const { isMobile } = useMedia();
+
+  useEffect(() => {
+    determineListData();
+  }, [selectedAddress]);
   function addressRenderer ({ data }) {
     return (
       <CustomAddressRenderer
@@ -85,6 +90,19 @@ function TransactionsList ({
 
   columns = isMobile ? mobileColDefs : columns;
 
+  function determineListData() {
+    if (!isMobile || selectedWallet.multi_address === 0) {
+      setListData(selectedWalletTransactions);
+      return;
+    }
+
+    const listData = selectedWalletTransactions.filter(transaction => (
+      transaction.sender_address === selectedAddress.address || transaction.receiver_address === selectedAddress.address
+    ));
+
+    setListData(listData);
+  }
+
   return (
     <List
       id="wallet-list"
@@ -98,6 +116,7 @@ function TransactionsList ({
 }
 
 TransactionsList.prototypes = {
+  selectedAddress: PropTypes.object.isRequired,
   selectedWalletAddresses: PropTypes.array.isRequired,
   selectedWalletTransactions: PropTypes.array.isRequired,
   selectedWallet: PropTypes.object.isRequired,
