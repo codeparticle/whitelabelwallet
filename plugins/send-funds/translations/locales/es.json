@@ -7,6 +7,7 @@
   "plugin.send_funds.raw_address": "Dirección sin Procesar",
   "plugin.send_funds.saved_recipient": "Destinatario Guardado",
   "plugin.send_funds.select_address": "Seleccionar Dirección",
+  "plugin.send_funds.select_contact": "Seleccionar un Contacto:",
   "plugin.send_funds.select_from_contacts": "Seleccionar de Contactos",
   "plugin.send_funds.send_from": "Enviado desde:",
   "plugin.send_funds.send_to_placeholder": "Buscar o ingresar dirección...",

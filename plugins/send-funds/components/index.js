@@ -5,6 +5,7 @@ export { FromAddressChildList } from './from-address-child-list';
 export { FromAddressList } from './from-address-list';
 export { MobileFormButton } from './mobile-form-button';
 export { SelectAddresses } from './select-addresses';
+export { SelectContacts } from './select-contacts';
 export { SelectFromAddresses } from './select-from-addresses';
 export { SelectFromContacts } from './select-from-contacts';
 export { SendFundsFooter } from './send-funds-footer';
