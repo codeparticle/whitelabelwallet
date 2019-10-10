@@ -2,6 +2,8 @@
   "plugin.send_funds.balance": "Balance",
   "plugin.send_funds.confirm_send_to": "Confirm transfer of G {amount} to {address}?",
   "plugin.send_funds.enter_address": "Enter Address",
+  "plugin.send_funds.insufficient_funds": "Alert! Insufficient funds. Please select another address to send funds from...",
+  "plugins.send_funds.invalid_address": "Alert! {address} is not a valid address.",
   "plugin.send_funds.memo": "Memo",
   "plugin.send_funds.num_addresses": "{addressCount, plural, one {# Address} other {# Addresses}}",
   "plugin.send_funds.raw_address": "Raw Address",
@@ -10,10 +12,12 @@
   "plugin.send_funds.select_contact": "Select Contact:",
   "plugin.send_funds.select_from_contacts": "Select from Contacts",
   "plugin.send_funds.send_from": "Send from:",
+  "plugin.send_funds.send_successful": "Success! G {amount} has been sent to {formattedName}",
   "plugin.send_funds.send_to_placeholder": "Search or enter address...",
   "plugin.send_funds.send_to": "Send to:",
   "plugin.send_funds.title": "Send Funds",
   "plugin.send_funds.transfer_amount": "Transfer Amount",
+  "plugin.send_funds.view_on_blockchain": "View on Blockchain",
   "plugin.send_funds.wallet": "Wallet",
   "plugin.send_funds.write_something": "Write something..."
 }

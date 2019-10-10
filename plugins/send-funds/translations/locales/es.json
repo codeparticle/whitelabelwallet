@@ -2,6 +2,8 @@
   "plugin.send_funds.balance": "Cuenta",
   "plugin.send_funds.confirm_send_to": "¿Confirmar la transferencia de G {amount} a {address}?",
   "plugin.send_funds.enter_address": "Ingresa la Direccion",
+  "plugin.send_funds.insufficient_funds": "¡Alerta! Fondos insuficientes. Seleccione otra dirección para enviar fondos desde...",
+  "plugins.send_funds.invalid_address": "¡Alerta! {address} no es una dirección válida.",
   "plugin.send_funds.memo": "Descripción",
   "plugin.send_funds.num_addresses": "{addressCount, plural, one {# Dirección} other {# Direcciones}}",
   "plugin.send_funds.raw_address": "Dirección sin Procesar",
@@ -12,8 +14,10 @@
   "plugin.send_funds.send_from": "Enviado desde:",
   "plugin.send_funds.send_to_placeholder": "Buscar o ingresar dirección...",
   "plugin.send_funds.send_to": "Enviar a:",
+  "plugin.send_funds.send_successful": "¡Éxito! G {amount} ha sido enviado a {formattedName}",
   "plugin.send_funds.title": "Enviar Fondos",
   "plugin.send_funds.transfer_amount": "Monto de la transferencia",
+  "plugin.send_funds.view_on_blockchain": "Ver en Blockchain",
   "plugin.send_funds.wallet": "Billetera",
   "plugin.send_funds.write_something": "Escribe Algo..."
 }

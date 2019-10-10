@@ -266,6 +266,20 @@ export class DatabaseManager {
   }
 
   /**
+   * Gets a contact's name from db by address and returns a formatted string
+   * @returns {string} formattedContactName: '{name} - ({address})' or '{address}'
+   * @param {string} contactAddress - the contact's address
+   */
+  async getFormattedContactName(contactAddress) {
+    const statement = STMT.CONTACTS.SELECT.FORMATTED_CONTACT_NAME(contactAddress);
+    const [res] = await this.query({ statement });
+
+    return res && res.name
+      ? `${res.name} - (${contactAddress})`
+      : contactAddress;
+  }
+
+  /**
    * Update the contact by ID
    * @param {number} id the contact ID
    * @param {Object} cols the data to be updated
@@ -518,6 +532,17 @@ export class DatabaseManager {
   getAddresses() {
     const statement = STMT.ADDRESSES.SELECT.ALL;
     return this.query({ statement });
+  }
+
+  /**
+   * @returns {number} balance
+   * @param {string} address - address value to query
+   */
+  async getBalanceByAddress(address) {
+    const statement = STMT.ADDRESSES.SELECT.BALANCE_BY_ADDRESS(address);
+    const [{ balance }] = await this.query({ statement });
+
+    return balance;
   }
 
   /**

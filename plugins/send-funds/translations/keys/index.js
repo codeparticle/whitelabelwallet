@@ -16,6 +16,16 @@ export const SEND_FUNDS = defineMessages({
     description: 'Enter address placeholder text',
     defaultMessage: 'Enter Address',
   },
+  INSUFFICIENT_FUNDS: {
+    id: 'plugin.send_funds.insufficient_funds',
+    description: 'Insufficient funds text',
+    defaultMessage: 'Alert! Insufficient funds. Please select another address to send funds from...',
+  },
+  INVALID_ADDRESS: {
+    id: 'plugins.send_funds.invalid_address',
+    description: 'Invalid address text',
+    defaultMessage: 'Alert! {address} is not a valid address.',
+  },
   MEMO: {
     id: 'plugin.send_funds.memo',
     description: 'Memo label text',
@@ -66,6 +76,11 @@ export const SEND_FUNDS = defineMessages({
     description: 'Placeholder text for send funds send to search',
     defaultMessage: 'Search or enter address...',
   },
+  SEND_SUCCESSFUL: {
+    id: 'plugin.send_funds.send_successful',
+    description: 'Message for successful send transaction',
+    defaultMessage: 'Success! G {amount} has been sent to {formattedName}',
+  },
   TITLE: {
     id: 'plugin.send_funds.title',
     description: 'Send Funds page title and nav link label',
@@ -75,6 +90,11 @@ export const SEND_FUNDS = defineMessages({
     id: 'plugin.send_funds.transfer_amount',
     description: 'Transfer amount label text',
     defaultMessage: 'Transfer Amount',
+  },
+  VIEW_ON_BLOCKCHAIN: {
+    id: 'plugin.send_funds.view_on_blockchain',
+    description: 'View on Blockchain text',
+    defaultMessage: 'View On Blockchain',
   },
   WALLET: {
     id: 'plugin.send_funds.wallet',
