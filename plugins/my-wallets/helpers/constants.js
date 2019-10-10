@@ -10,6 +10,11 @@ export const ROUTES = {
   SEND_FUNDS: 'send-funds',
 };
 
+export const TYPES = {
+  RECEIVE: 'receive',
+  SEND: 'send',
+};
+
 export const DATE_OPTIONS = {
   TODAY: 'day',
   WEEK: 'week',
