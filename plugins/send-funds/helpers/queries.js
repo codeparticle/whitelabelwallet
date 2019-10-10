@@ -39,10 +39,23 @@ async function getContactsByValue(setFn, value) {
   setFn(res);
 }
 
+/**
+ * Function that retrieves formatted address name from DB
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} address - the address to query
+ */
+async function getFormattedAddressName(setFn, address) {
+  if (address) {
+    const res = await manager.databaseManager.getFormattedAddressName(address);
+    setFn(res);
+  }
+}
+
 export {
   createTransaction,
   getContacts,
   getContactsByValue,
+  getFormattedAddressName,
   getWalletAddresses,
   getWalletAddressesByValue,
 };
