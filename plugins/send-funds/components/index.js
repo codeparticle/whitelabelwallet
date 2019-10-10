@@ -8,6 +8,7 @@ export { SelectAddresses } from './select-addresses';
 export { SelectContacts } from './select-contacts';
 export { SelectFromAddresses } from './select-from-addresses';
 export { SelectFromContacts } from './select-from-contacts';
+export { SendFundsFlashAlert } from './send-funds-flash-alert';
 export { SendFundsFooter } from './send-funds-footer';
 export { SendFundsMobileFooter } from './send-funds-mobile-footer';
 export { SendFundsMobileForm } from './send-funds-mobile-form';
