@@ -11,6 +11,11 @@ export const COMMON = defineMessages({
     description: 'Copy text',
     defaultMessage: 'Copy',
   },
+  DESCRIPTION: {
+    id: 'common.description',
+    description: 'Description text',
+    defaultMessage: 'Description',
+  },
   DONE: {
     id: 'common.done',
     description: 'Done text',

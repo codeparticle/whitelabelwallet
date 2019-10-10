@@ -1,3 +1,7 @@
+import { ADDRESSES } from 'lib/constants';
+
+const { ADDRESS_MIN_LENGTH } = ADDRESSES;
+
 const FIELDS = {
   NAME: 'name',
   ADDRESS: 'address',
@@ -5,7 +9,7 @@ const FIELDS = {
 };
 
 const VALIDATIONS = {
-  ADDRESS_MIN_LENGTH: 24,
+  ADDRESS_MIN_LENGTH,
   ADDRESS_REGEX: /^[a-z0-9]+$/i,
   TEXT_REGEX: /^[a-z0-9 ]*$/i,
 };

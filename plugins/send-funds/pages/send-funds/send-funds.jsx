@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Page } from 'components';
+import { Visible } from '@codeparticle/react-visible';
+import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.styleguide';
+import { cloud } from '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 
 import {
   FromAddressList,
   SendFundsFooter,
+  SendFundsMobileForm,
   ToAddressList,
   TransferAmount,
 } from 'plugins/send-funds/components';
@@ -26,9 +30,15 @@ const SendFundsView = ({
   fromAddress,
 }) => {
   const [transferFields, setTransferFields] = useState(initialTransferFields);
+  const themeName = useTheme('name');
+  const { isMobile } = useMedia();
+  const mobileBackground = themeName === THEME_KEYS.LIGHT
+    ? cloud
+    : null;
 
   return (
     <Page
+      background={isMobile ? mobileBackground : null}
       headerProps={{
         title: formatMessage(SEND_FUNDS.TITLE),
       }}
@@ -41,12 +51,23 @@ const SendFundsView = ({
         <TransferAmount
           conversionRate={3.14}
           formatMessage={formatMessage}
+          isMobile={isMobile}
           setTransferFields={setTransferFields}
           transferFields={transferFields}
         />
-        <FromAddressList formatMessage={formatMessage} />
-        <ToAddressList formatMessage={formatMessage} />
+        <Visible when={!isMobile}>
+          <FromAddressList formatMessage={formatMessage} />
+          <ToAddressList formatMessage={formatMessage} />
+        </Visible>
+        <Visible when={isMobile}>
+          <SendFundsMobileForm
+            formatMessage={formatMessage}
+            setTransferFields={setTransferFields}
+            transferFields={transferFields}
+          />
+        </Visible>
         <SendFundsFooter
+          isMobile={isMobile}
           formatMessage={formatMessage}
           fromAddress={fromAddress}
           toAddress={toAddress}

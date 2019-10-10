@@ -1,0 +1,36 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.send-funds-mobile-form {
+  align-items: center;
+  color: $slate;
+  display: flex;
+  flex-direction: column;
+  grid-area: send-form;
+  padding: $spacing-m;
+
+  .text-area {
+    width: 100%;
+  }
+
+  label {
+    margin-bottom: $spacing-s;
+
+    & > span {
+      padding: 0;
+    }
+  }
+}
+
+.light .send-funds-mobile-form {
+  background: $tint-blue;
+
+  input[type=text],
+  textarea {
+    background: $white;
+  }
+}
+
+.dark .send-funds-mobile-form {
+  background: $dark-bg;
+}
