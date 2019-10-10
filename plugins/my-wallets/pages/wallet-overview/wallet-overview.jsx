@@ -11,6 +11,7 @@ import { Visible } from '@codeparticle/react-visible';
 import {
   Button,
   ButtonVariants,
+  Carousel,
   IconButton,
   IconVariants,
   Select,
@@ -124,11 +125,13 @@ function WalletOverviewView({
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDateValue());
-  const [selectedAddress, setSelectedAddress] = useState({});
+  const [selectedAddress, setSelectedAddress] = useState({ name: '' });
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { name } = selectedWallet;
   const { walletId } = match.params;
   const { isMobile } = useMedia();
+  const haveTransactions =  selectedWalletTransactions.length > 0;
+  const isMobileMultiAddress = isMobile && selectedWallet.multi_address === 1;
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
@@ -136,7 +139,10 @@ function WalletOverviewView({
   }, [setSelectedWallet]);
 
   useEffect(() => {
-    setSelectedAddress(selectedWalletAddresses[0]);
+
+    if (selectedWalletAddresses.length > 0) {
+      setSelectedAddress(selectedWalletAddresses[0]);
+    }
   }, [selectedWalletAddresses]);
 
   useEffect(() => {
@@ -153,6 +159,10 @@ function WalletOverviewView({
 
   const onClose = ()=> {
     setIsPanelOpen(false);
+  };
+
+  const onChangeHandler = (data) => {
+    setSelectedAddress(data);
   };
 
   function getDateValue(desiredDate = ALL_TIME) {
@@ -207,19 +217,30 @@ function WalletOverviewView({
   }
 
   function getBalance() {
-    return selectedWalletAddresses.reduce((total, currentAddress) => {
-      return total + currentAddress.balance;
-    }, 0);
+    if (!isMobileMultiAddress) {
+      return selectedWalletAddresses.reduce((total, currentAddress) => {
+        return total + currentAddress.balance;
+      }, 0);
+    }
+
+    return selectedAddress.balance;
   }
 
-  const haveTransactions =  selectedWalletTransactions.length > 0;
+  function getTitle() {
+    if (!isMobileMultiAddress) {
+      return name;
+    }
+
+    return `${name} (${selectedWalletAddresses.length})`;
+  }
+
 
   return (
     <Page
       headerProps={{
         PrimaryAction,
         SecondaryAction,
-        title: name || '',
+        title: getTitle() || '',
         to: `/${PLUGIN}`,
         type: SECONDARY,
       }}
@@ -241,11 +262,21 @@ function WalletOverviewView({
             selectedWalletTransactions={selectedWalletTransactions}
             selectedWalletAddresses={selectedWalletAddresses}
             selectedWallet={selectedWallet}/>}
+          <Visible when={isMobileMultiAddress}>
+            <div className="selected-address-wrapper">
+              <p className="selected-address">{selectedAddress.name  !== '' ? selectedAddress.name : 'Address 1'}</p>
+            </div>
+          </Visible>
           <div className="wallet-balance-data">
             <p className="current-balance-text">{formatMessage(CURRENT_BALANCE_LABEL)}</p>
             <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
             <span className="usd-value">$5,911.19</span>
           </div>
+          <Visible when={isMobileMultiAddress}>
+            <div className="carousel-wrapper">
+              <Carousel dataSet={selectedWalletAddresses} onChange={onChangeHandler} />
+            </div>
+          </Visible>
         </div>
         <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
           <div className={isMobile ? `mobile-list` : ''}>
@@ -254,6 +285,7 @@ function WalletOverviewView({
               fallback={<NoTransactions isMobile={isMobile} formatMessage={formatMessage}/>}
             >
               <TransactionsList
+                selectedAddress={selectedAddress}
                 selectedWallet={selectedWallet}
                 selectedWalletAddresses={selectedWalletAddresses}
                 selectedWalletTransactions={selectedWalletTransactions} />

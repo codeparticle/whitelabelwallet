@@ -9,7 +9,8 @@ import {
 import {
   AreaChart,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { green } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
+
+const chartColor = '#7bc32b57';
 
 function WalletChart ({
   selectedWalletAddresses,
@@ -90,7 +91,7 @@ WalletChart.prototypes = {
 };
 
 WalletChart.defaultProps = {
-  colors: [green],
+  colors: [chartColor],
   minimumNumberOfChartPoints: 6,
 };
 
