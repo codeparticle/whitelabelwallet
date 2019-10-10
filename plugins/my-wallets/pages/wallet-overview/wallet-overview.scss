@@ -40,6 +40,7 @@ $chart-opacity: 0.5;
     
     .list-wrapper {
       background: $white;
+      overflow-y: scroll;
 
       &-empty {
         align-items: center;
@@ -141,6 +142,7 @@ $chart-opacity: 0.5;
 
     .list-wrapper {
 
+      overflow-y: initial;
       padding: $space-3;
 
       .mobile-list {
@@ -167,22 +169,22 @@ $chart-opacity: 0.5;
         }
       }
 
-      .wallet-nav-bar {
-        align-self: center;
-        background: $white;
-        bottom: 0;
-        left: 0;
-        position: fixed;
-        width: 100%;
-        z-index: $z-index-top;
-      }
-
       div[role='row'] {
         background: $white;
         margin-top: 0;
         min-height: $mobile-list-row;
         padding: 0 $space-4;
       }
+    }
+
+    .wallet-nav-bar {
+      align-self: center;
+      background: $white;
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      width: 100%;
+      z-index: $z-index-top;
     }
   }
     
@@ -231,5 +233,11 @@ $chart-opacity: 0.5;
 
   .hide {
     display: none;
+  }
+
+  @include mquery($width-breakpoint-xs) {
+    section {
+      overflow-y: scroll;
+    }
   }
 }
