@@ -26,7 +26,7 @@ const initialTransferFields = {
   memo: '',
 };
 
-const { PRIMARY, SECONDARY } = VARIANTS;
+const { SECONDARY } = VARIANTS;
 
 const SendFundsView = ({
   intl: { formatMessage },
@@ -40,15 +40,25 @@ const SendFundsView = ({
   const mobileBackground = themeName === THEME_KEYS.LIGHT
     ? cloud
     : null;
-  const headerType = match.url.includes('secondary-page') ? SECONDARY : PRIMARY;
+
+  function getHeaderProps() {
+    const headerProps = {
+      title: formatMessage(SEND_FUNDS.TITLE),
+    };
+
+    match.params.address
+      ? headerProps['type'] = SECONDARY
+      : null;
+
+    return headerProps;
+  }
+
+
 
   return (
     <Page
       background={isMobile ? mobileBackground : null}
-      headerProps={{
-        title: formatMessage(SEND_FUNDS.TITLE),
-        type: headerType,
-      }}
+      headerProps={getHeaderProps()}
       contentStyles={{
         height: '100%',
         padding: 0,

@@ -4,14 +4,24 @@ import { withRouter } from 'react-router';
 import { Page } from 'components';
 import { VARIANTS } from 'lib/constants';
 
-const { PRIMARY, SECONDARY } = VARIANTS;
+const { SECONDARY } = VARIANTS;
 
 const ReceiveFundsView = ({ match }) => {
-  // const headerType = match.url.includes('secondary-page') ? SECONDARY : PRIMARY;
-  return (
-    <Page headerProps={{
+
+  function getHeaderProps() {
+    const headerProps = {
       title: 'Receive Funds Page',
-    }} />
+    };
+
+    match.params.address
+      ? headerProps['type'] = SECONDARY
+      : null;
+
+    return headerProps;
+  }
+
+  return (
+    <Page headerProps={getHeaderProps()} />
   );
 };
 
