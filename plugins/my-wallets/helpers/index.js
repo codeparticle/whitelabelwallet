@@ -1,4 +1,4 @@
-export { ROUTES, DATE_OPTIONS } from './constants';
+export { ROUTES, DATE_OPTIONS, TYPES } from './constants';
 export {
   createWalletAndUpdateList,
   fetchWallets,
