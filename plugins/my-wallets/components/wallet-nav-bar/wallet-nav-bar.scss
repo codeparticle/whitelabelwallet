@@ -1,6 +1,8 @@
 @import 'src/styles/index.scss';
 
 $border-width: 1px; 
+$nav-button-height: 102px;
+$button-width: 99%;
 
 .wallet-nav-bar {
   align-items: center;
@@ -10,12 +12,21 @@ $border-width: 1px;
 
   .wallet-nav-item {
 
-    padding: $space-5;
     text-align: center;
 
-    button {
+    .nav-button {
+      background: transparent;
+      color: $cool-grey-dark;
+      height: $nav-button-height;
       margin: 0 auto;
+      width: $button-width;
 
+      svg {
+        
+        path {
+          fill: currentColor;
+        }
+      }
     }
 
     &:first-child {
