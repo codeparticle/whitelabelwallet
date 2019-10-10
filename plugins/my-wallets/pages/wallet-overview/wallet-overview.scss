@@ -228,6 +228,18 @@ $chart-opacity: 0.5;
           color: $cool-grey-dark;
         }
       }
+
+      div[role='row'] {
+        background: $dark-bg;
+      }
+    }
+
+    .mobile-content-container {
+
+      .mobile-list,
+      .wallet-nav-bar {
+        background: $dark-bg;
+      }
     }
   }
 

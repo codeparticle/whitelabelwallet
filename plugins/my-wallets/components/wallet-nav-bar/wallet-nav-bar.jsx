@@ -3,6 +3,7 @@
  * @author Marc Mathieu
  */
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import {
@@ -11,6 +12,7 @@ import {
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { ROUTES } from 'plugins/my-wallets/helpers';
 import { WalletNavBarButton } from 'plugins/my-wallets/components';
+import { setFromAddress } from 'plugins/send-funds/rdx/actions';
 import './wallet-nav-bar.scss';
 
 const { RECEIVE, SEND, TRANSACTIONS } = TRANSLATION_KEYS.COMMON;
@@ -33,6 +35,7 @@ function WalletNavBarView({
   formatMessage,
   history,
   match,
+  ...props
 }) {
   const onTransactionClick = () => {
     const url = `${PLUGIN}/${selectedWallet.id}/${OVERVIEW}`;
@@ -45,6 +48,7 @@ function WalletNavBarView({
     history.push(`/${PLUGIN}/${selectedWallet.id}/${RECEIVE_FUNDS}/${selectedAddress.address}`);
   };
   const onSendClick = () => {
+    props.setFromAddress(selectedAddress.address);
     history.push(`/${PLUGIN}/${selectedWallet.id}/${SEND_FUNDS}/${selectedAddress.address}`);
   };
   return (
@@ -86,6 +90,10 @@ WalletNavBarView.defaultProps = {
   selectedAddress: {},
 };
 
-const WalletNavBar = withRouter(WalletNavBarView);
+const mapDispatchToProps = {
+  setFromAddress,
+};
+
+const WalletNavBar = connect(null, mapDispatchToProps)(withRouter(WalletNavBarView));
 
 export { WalletNavBar };
