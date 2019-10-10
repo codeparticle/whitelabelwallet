@@ -41,6 +41,11 @@ export const SEND_FUNDS = defineMessages({
     description: 'Select address text',
     defaultMessage: 'Select Address',
   },
+  SELECT_CONTACT: {
+    id: 'plugin.send_funds.select_contact',
+    description: 'Select contact text',
+    defaultMessage: 'Select Contact:',
+  },
   SELECT_FROM_CONTACTS: {
     id: 'plugin.send_funds.select_from_contacts',
     description: 'Select from contacts text',

@@ -2,7 +2,7 @@
  * @fileoverview Select from addresses mobile view
  * @author Gabriel Womble
  */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Visible } from '@codeparticle/react-visible';
@@ -41,31 +41,30 @@ function SelectFromAddressesView({
   }, [fromAddress]);
 
   return (
-    <Fragment>
-      <Visible
-        when={!isSelecting}
-        fallback={
-          <SelectAddresses
-            formatMessage={formatMessage}
-            setFormSelecting={setFormSelecting}
-            setFromAddress={props.setFromAddress}
-            setIsSelecting={setIsSelecting}
-          />
-        }>
-        <MobileFormButton
-          btnLabel={formatMessage(SELECT_ADDRESS)}
-          label={formatMessage(SEND_FROM)}
-          onClick={onClick}
-          input={
-            <Visible when={Boolean(addressName)}>
-              <div className="select-from-addresses-input">
-                <TextInput disabled value={addressName} />
-              </div>
-            </Visible>
-          }
+    <Visible
+      when={!isSelecting}
+      fallback={
+        <SelectAddresses
+          formatMessage={formatMessage}
+          setFormSelecting={setFormSelecting}
+          setFromAddress={props.setFromAddress}
+          setIsSelecting={setIsSelecting}
         />
-      </Visible>
-    </Fragment>
+      }
+    >
+      <MobileFormButton
+        btnLabel={formatMessage(SELECT_ADDRESS)}
+        label={formatMessage(SEND_FROM)}
+        onClick={onClick}
+        input={
+          <Visible when={Boolean(addressName)}>
+            <div className="select-from-addresses-input">
+              <TextInput disabled value={addressName} />
+            </div>
+          </Visible>
+        }
+      />
+    </Visible>
   );
 }
 
