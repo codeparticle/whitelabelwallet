@@ -10,6 +10,7 @@ import {
   AreaChart,
 } from '@codeparticle/whitelabelwallet.styleguide';
 
+// TODO: add this to styleGuide colors;
 const chartColor = '#7bc32b57';
 
 function WalletChart ({

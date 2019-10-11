@@ -26,6 +26,7 @@ function TransactionsList ({
   useEffect(() => {
     determineListData();
   }, [selectedAddress]);
+
   function addressRenderer ({ data }) {
     return (
       <CustomAddressRenderer
