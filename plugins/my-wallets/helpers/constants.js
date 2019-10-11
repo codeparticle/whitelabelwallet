@@ -10,7 +10,7 @@ export const ROUTES = {
   SEND_FUNDS: 'send-funds',
 };
 
-export const TYPES = {
+export const TRANSACTION_TYPES = {
   RECEIVE: 'receive',
   SEND: 'send',
 };

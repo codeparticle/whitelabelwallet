@@ -29,6 +29,8 @@ const {
   SvgSend,
 } = svgs.icons;
 
+const SVG_SIZE = '44px';
+
 function WalletNavBarView({
   selectedWallet,
   selectedAddress,
@@ -47,29 +49,31 @@ function WalletNavBarView({
   const onReceiveClick = () => {
     history.push(`/${PLUGIN}/${selectedWallet.id}/${RECEIVE_FUNDS}/${selectedAddress.address}`);
   };
+
   const onSendClick = () => {
     props.setFromAddress(selectedAddress.address);
     history.push(`/${PLUGIN}/${selectedWallet.id}/${SEND_FUNDS}/${selectedAddress.address}`);
   };
+
   return (
     <div className="wallet-nav-bar">
       <div className="wallet-nav-item">
         <WalletNavBarButton
-          icon={<SvgTransactionHistory height="44px" width="44px"/>}
+          icon={<SvgTransactionHistory height={SVG_SIZE} width={SVG_SIZE}/>}
           categoryLabel={formatMessage(TRANSACTIONS)}
           onClick={onTransactionClick}
         />
       </div>
       <div className="wallet-nav-item">
         <WalletNavBarButton
-          icon={<SvgSend height="44px" width="44px"/>}
+          icon={<SvgSend height={SVG_SIZE} width={SVG_SIZE}/>}
           categoryLabel={formatMessage(SEND)}
           onClick={onSendClick}
         />
       </div>
       <div className="wallet-nav-item">
         <WalletNavBarButton
-          icon={<SvgReceive height="44px" width="44px"/>}
+          icon={<SvgReceive height={SVG_SIZE} width={SVG_SIZE}/>}
           categoryLabel={formatMessage(RECEIVE)}
           onClick={onReceiveClick}
         />
@@ -84,6 +88,7 @@ WalletNavBarView.propTypes = {
   match: PropTypes.object.isRequired,
   selectedWallet: PropTypes.object.isRequired,
   selectedAddress: PropTypes.object,
+  setFromAddress: PropTypes.func.isRequired,
 };
 
 WalletNavBarView.defaultProps = {

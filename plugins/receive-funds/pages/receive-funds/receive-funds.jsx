@@ -14,7 +14,7 @@ const ReceiveFundsView = ({ match }) => {
     };
 
     match.params.address
-      ? headerProps['type'] = SECONDARY
+      ? headerProps.type = SECONDARY
       : null;
 
     return headerProps;
