@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   List,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { empty } from 'lib/utils';
 
@@ -9,6 +10,8 @@ import {
   CustomAmountRenderer,
   CustomAddressRenderer,
   CustomDateRenderer,
+  CustomDescriptionRenderer,
+  CustomTypeRenderer,
 }  from 'plugins/my-wallets/components';
 
 function TransactionsList ({
@@ -17,6 +20,7 @@ function TransactionsList ({
   selectedWalletTransactions,
 }) {
   const listData = selectedWalletTransactions;
+  const { isMobile } = useMedia();
   function addressRenderer ({ data }) {
     return (
       <CustomAddressRenderer
@@ -56,12 +60,36 @@ function TransactionsList ({
     },
   ];
 
-  const columns = selectedWallet.multi_address === 1 ? columnDefs : removeAddressColumn(columnDefs);
+  let columns = selectedWallet.multi_address === 1 ? columnDefs : removeAddressColumn(columnDefs);
+
+  const mobileColDefs = [
+    {
+      title: 'type',
+      gridColumns: '1 / 3',
+      property: 'transaction_type',
+      customRenderer: CustomTypeRenderer,
+    },
+    {
+      title: 'Details',
+      gridColumns: '4 / 9',
+      property: 'description',
+      customRenderer: CustomDescriptionRenderer,
+    },
+    {
+      title: 'Amount',
+      gridColumns: '10 / 12',
+      property: 'amount',
+      customRenderer: CustomAmountRenderer,
+    },
+  ];
+
+  columns = isMobile ? mobileColDefs : columns;
 
   return (
     <List
       id="wallet-list"
-      isStriped
+      isStriped={!isMobile}
+      showHeader={!isMobile}
       columnDefs={columns}
       rowData={listData}
       onRowClicked={empty}

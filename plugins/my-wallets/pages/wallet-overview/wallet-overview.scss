@@ -1,6 +1,9 @@
 @import 'src/styles/index.scss';
 
 $chart-section-height: 360px;
+$mobile-chart-section-height: 220px;
+$mobile-list-bottom-position: 70px;
+$mobile-list-row: 118px;
 $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
 $chart-opacity: 0.5;
 
@@ -37,6 +40,7 @@ $chart-opacity: 0.5;
     
     .list-wrapper {
       background: $white;
+      overflow-y: scroll;
 
       &-empty {
         align-items: center;
@@ -72,7 +76,7 @@ $chart-opacity: 0.5;
 
       .balance {
         color: $blue-shade;
-        font-size: $font-size-md-2;
+        font-size: $font-size-md-3;
         font-weight: $font-weight-bold;
         line-height: $line-height-xl;
 
@@ -94,6 +98,93 @@ $chart-opacity: 0.5;
     .list-wrapper,
     .search-wrapper {
       padding: $space-8;
+    }
+  }
+
+  .mobile-content-container {
+
+    grid-template-rows: $mobile-chart-section-height 1fr;
+
+    .chart-wrapper {
+
+      align-items: center;
+      justify-content: center;
+
+      .wallet-balance-data {
+        align-items: center;
+        align-self: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .balance {
+          font-size: $font-size-lg-1;
+
+          svg {
+            height: $font-size-md-4; 
+            width: $font-size-md-4;
+
+            path {
+              fill: $grey;
+            }
+          }
+        }
+
+        .usd-value {
+          color: $grey;
+        }
+      }
+    }
+
+    .current-balance-text {
+      display: none;
+    }
+
+    .list-wrapper {
+
+      overflow-y: initial;
+      padding: $space-3;
+
+      .mobile-list {
+        background: white;
+        border-radius: $border-radius-3;
+        bottom: $mobile-list-bottom-position;
+        position: relative;
+
+        .transaction-type {
+
+          path {
+            fill: $light-grey;
+          }
+        }
+
+        .transaction-description {
+          color: $cool-grey-dark;
+          font-size: $font-size-sm-1;
+          font-weight: $font-weight-bold;
+        }
+
+        .transaction-date {
+          font-size: $font-size-xs-1;
+        }
+      }
+
+      div[role='row'] {
+        background: $white;
+        margin-top: 0;
+        min-height: $mobile-list-row;
+        padding: 0 $space-4;
+      }
+    }
+
+    .wallet-nav-bar {
+      align-self: center;
+      background: $white;
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      width: 100%;
+      z-index: $z-index-top;
     }
   }
     
@@ -137,6 +228,29 @@ $chart-opacity: 0.5;
           color: $cool-grey-dark;
         }
       }
+
+      div[role='row'] {
+        background: $dark-bg;
+      }
+    }
+
+    .mobile-content-container {
+
+      .mobile-list,
+      .wallet-nav-bar {
+        background: $dark-bg;
+      }
+    }
+  }
+
+  .hide {
+    display: none;
+  }
+
+  @include mquery($width-breakpoint-xs) {
+
+    section {
+      overflow-y: scroll;
     }
   }
 }
