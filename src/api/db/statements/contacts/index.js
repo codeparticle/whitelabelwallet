@@ -11,6 +11,7 @@ export const CONTACTS_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Contacts`,
+    FORMATTED_CONTACT_NAME: (addr) => `select name from Contacts where address="${addr}"`,
     VALUE: (value) => `select * from Contacts where name like "${value}%" or address like "${value}%"`,
   },
 };

@@ -18,6 +18,7 @@ export const ADDRESSES_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Addresses`,
+    BALANCE_BY_ADDRESS: (addr) => `select balance from Addresses where address="${addr}"`,
     BY_WALLET_ID: (id) => `select * from Addresses where wallet_id=${id}`,
     PRIV_KEY_BY_ADDR: (addr) => `select private_key from Addresses where address="${addr}"`,
     FORMATTED_ADDRESS_NAME: (addr) => `

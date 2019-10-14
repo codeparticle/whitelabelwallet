@@ -72,6 +72,10 @@ class ApiBlockchainManager {
     return phraseArray.length === 24;
   }
 
+  getAddressBalance() {
+    required('getAddressBalance');
+  }
+
   createTransaction() {
     required('createTransaction');
   }
