@@ -18,6 +18,14 @@ async function getWalletAddressesByValue(value) {
 }
 
 /**
+ * @returns {number} - balance
+ * @param {string} address - address to query
+ */
+async function getBalanceByAddress(address) {
+  return await manager.databaseManager.getBalanceByAddress(address);
+}
+
+/**
  * Function that returns an array of contacts from db
  * @returns {Array} contacts from db
  */
@@ -40,6 +48,16 @@ async function getContactsByValue(setFn, value) {
 }
 
 /**
+ * Function that retrieves formatted contact name from DB
+ * @param {func} setFn - the function that sets the query response to state
+ * @param {string} address - the address to query
+ */
+async function getFormattedContactName(setFn, address) {
+  const res = await manager.databaseManager.getFormattedContactName(address);
+  setFn(res);
+}
+
+/**
  * Function that retrieves formatted address name from DB
  * @param {func} setFn - the function that sets the query response to state
  * @param {string} address - the address to query
@@ -53,9 +71,11 @@ async function getFormattedAddressName(setFn, address) {
 
 export {
   createTransaction,
+  getBalanceByAddress,
   getContacts,
   getContactsByValue,
   getFormattedAddressName,
+  getFormattedContactName,
   getWalletAddresses,
   getWalletAddressesByValue,
 };
