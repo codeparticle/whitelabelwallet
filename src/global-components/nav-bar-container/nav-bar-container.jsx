@@ -50,7 +50,7 @@ const NavBarView = ({
     return null;
   }
 
-  // Flattening the main-rouote-link plugin types components property
+  // Flattening the main-route-link plugin types components property
   const pluginNavComponentProps = (plugins['main-route-link'] || []).reduce((acc, { components }) => acc.concat(components), []);
 
   if (isMobile || isLandScape) {

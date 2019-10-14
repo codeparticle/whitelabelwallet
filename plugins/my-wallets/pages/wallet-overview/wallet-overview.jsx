@@ -15,6 +15,7 @@ import {
   IconVariants,
   Select,
   svgs,
+  useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
@@ -30,6 +31,7 @@ import {
   SearchTransactions,
   TransactionsList,
   WalletChart,
+  WalletNavBar,
 }  from 'plugins/my-wallets/components';
 import {
   getSelectedWallet,
@@ -92,9 +94,9 @@ function ManageIcon({ iconVariant, iconProps, onClick }) {
   );
 }
 
-function NoTransactions({ formatMessage }) {
+function NoTransactions({ formatMessage, isMobile }) {
   return (
-    <div className="empty-list">
+    <div className={`empty-list ${isMobile ? 'hide' : ''}`}>
       <h1>{formatMessage(NO_TRANSACTIONS_TEXT)}</h1>
     </div>
   );
@@ -122,14 +124,20 @@ function WalletOverviewView({
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDateValue());
+  const [selectedAddress, setSelectedAddress] = useState({});
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { name } = selectedWallet;
   const { walletId } = match.params;
+  const { isMobile } = useMedia();
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
     getAddressesByWalletId(props.setSelectedWalletAddresses, walletId).then((addresses) => fetchTransactions(addresses));
   }, [setSelectedWallet]);
+
+  useEffect(() => {
+    setSelectedAddress(selectedWalletAddresses[0]);
+  }, [selectedWalletAddresses]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
@@ -218,14 +226,16 @@ function WalletOverviewView({
       removePadding
       className={'wallet-overview-page'}
     >
-      <div className="page-content-container">
-        <div className="search-wrapper">
-          <SearchTransactions
-            formatMessage={formatMessage}
-            setSelectedWalletTransactionsSearchResults={props.setSelectedWalletTransactionsSearchResults}
-            selectedWalletAddresses={selectedWalletAddresses}
-          />
-        </div>
+      <div className={`page-content-container ${isMobile ? 'mobile-content-container' : ''}`}>
+        <Visible when={!isMobile}>
+          <div className="search-wrapper">
+            <SearchTransactions
+              formatMessage={formatMessage}
+              setSelectedWalletTransactionsSearchResults={props.setSelectedWalletTransactionsSearchResults}
+              selectedWalletAddresses={selectedWalletAddresses}
+            />
+          </div>
+        </Visible>
         <div className="chart-wrapper">
           {selectedWalletTransactions && <WalletChart
             selectedWalletTransactions={selectedWalletTransactions}
@@ -238,16 +248,26 @@ function WalletOverviewView({
           </div>
         </div>
         <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
-          <Visible
-            when={haveTransactions}
-            fallback={<NoTransactions formatMessage={formatMessage}/>
-            }>
-            <TransactionsList
+          <div className={isMobile ? `mobile-list` : ''}>
+            <Visible
+              when={haveTransactions}
+              fallback={<NoTransactions isMobile={isMobile} formatMessage={formatMessage}/>}
+            >
+              <TransactionsList
+                selectedWallet={selectedWallet}
+                selectedWalletAddresses={selectedWalletAddresses}
+                selectedWalletTransactions={selectedWalletTransactions} />
+            </Visible>
+          </div>
+        </div>
+        <div className="wallet-nav-bar-wrapper">
+          <Visible when={isMobile}>
+            <WalletNavBar
+              formatMessage={formatMessage}
               selectedWallet={selectedWallet}
-              selectedWalletAddresses={selectedWalletAddresses}
-              selectedWalletTransactions={selectedWalletTransactions} />
+              selectedAddress={selectedAddress}
+            />
           </Visible>
-
         </div>
       </div>
       <ManageWalletSidepanel

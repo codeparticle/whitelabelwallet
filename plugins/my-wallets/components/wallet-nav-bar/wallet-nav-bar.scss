@@ -1,0 +1,45 @@
+@import 'src/styles/index.scss';
+
+$border-width: 1px; 
+$nav-button-height: 102px;
+$button-width: 99%;
+
+.wallet-nav-bar {
+  align-items: center;
+  border-top: $border-width solid $shade;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  .wallet-nav-item {
+
+    text-align: center;
+
+    .nav-button {
+      background: transparent;
+      color: $cool-grey-dark;
+      height: $nav-button-height;
+      margin: 0 auto;
+      width: $button-width;
+
+      svg {
+        
+        path {
+          fill: currentColor;
+        }
+      }
+    }
+
+    &:first-child {
+      border-right: $border-width solid $shade;
+    }
+
+    &:last-child {
+      border-left: $border-width solid $shade;
+    }
+
+    .nav-item-category {
+      color: $cool-grey-dark;
+      text-align: center;
+    }
+  }
+}
