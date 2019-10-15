@@ -98,8 +98,7 @@ function TransactionsList ({
       return;
     }
 
-    const listData = await getTransactionsPerAddress(null, selectedAddress.address, null);
-    setListData(listData);
+    setListData(await getTransactionsPerAddress(null, selectedAddress.address, null));
   };
 
   return (
