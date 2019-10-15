@@ -13,6 +13,7 @@ import {
   CustomDescriptionRenderer,
   CustomTypeRenderer,
 }  from 'plugins/my-wallets/components';
+import { getTransactionsPerAddress } from 'plugins/my-wallets/helpers';
 
 function TransactionsList ({
   selectedAddress,
@@ -91,18 +92,15 @@ function TransactionsList ({
 
   columns = isMobile ? mobileColDefs : columns;
 
-  function determineListData() {
+  const determineListData = async () => {
     if (!isMobile || selectedWallet.multi_address === 0 || selectedAddress.address === undefined) {
       setListData(selectedWalletTransactions);
       return;
     }
 
-    const listData = selectedWalletTransactions.filter(transaction => (
-      transaction.sender_address === selectedAddress.address || transaction.receiver_address === selectedAddress.address
-    ));
-
+    const listData = await getTransactionsPerAddress(null, selectedAddress.address, null);
     setListData(listData);
-  }
+  };
 
   return (
     <List
