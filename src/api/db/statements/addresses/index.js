@@ -17,6 +17,7 @@ export const ADDRESSES_STATEMENTS = {
     values(?,?,?,?,?,?,?,?)`,
   },
   SELECT: {
+    ADDRESS_ID: (addr) => `select id from Addresses where address="${addr}"`,
     ALL: `select * from Addresses`,
     BALANCE_BY_ADDRESS: (addr) => `select balance from Addresses where address="${addr}"`,
     BY_WALLET_ID: (id) => `select * from Addresses where wallet_id=${id}`,

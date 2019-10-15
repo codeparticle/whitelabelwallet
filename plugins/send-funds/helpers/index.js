@@ -9,10 +9,13 @@ export {
   getFormattedContactName,
   getWalletAddresses,
   getWalletAddressesByValue,
+  getWalletNameByAddress,
 } from './queries';
 
 export {
+  getAlertMessage,
   resetStateHandler,
+  notEmptyOrNull,
   valuesExist,
 } from './utils';
 

@@ -71,6 +71,16 @@ export const SEND_FUNDS = defineMessages({
     description: 'Send to text',
     defaultMessage: 'Send to:',
   },
+  SENT_FROM: {
+    id: 'plugin.send_funds.sent_from',
+    description: 'Sent from text',
+    defaultMessage: 'Sent From',
+  },
+  SENT_TO: {
+    id: 'plugin.send_funds.sent_to',
+    description: 'Sent to text',
+    defaultMessage: 'Sent To',
+  },
   SEND_TO_PLACEHOLDER: {
     id: 'plugin.send_funds.send_to_placeholder',
     description: 'Placeholder text for send funds send to search',
@@ -80,6 +90,11 @@ export const SEND_FUNDS = defineMessages({
     id: 'plugin.send_funds.send_successful',
     description: 'Message for successful send transaction',
     defaultMessage: 'Success! G {amount} has been sent to {formattedName}',
+  },
+  SUCCESS_HEADER: {
+    id: 'plugin.send_funds.success_header',
+    description: 'Success header message',
+    defaultMessage: 'Success!',
   },
   TITLE: {
     id: 'plugin.send_funds.title',

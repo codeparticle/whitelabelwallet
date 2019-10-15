@@ -141,7 +141,7 @@ export class DatabaseManager {
       /**
        * Insert into the sqlite DB one row of transaction data
        */
-      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance }) => {
+      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee = 0, transaction_id, description, sender_address, receiver_address, status = 0, created_date, transaction_type, pending_balance }) => {
         return this.query({
           statement: STMT.TRANSACTIONS.INSERT.NEW,
           params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance],
@@ -231,6 +231,17 @@ export class DatabaseManager {
       const value = typeof data[key] === 'string' ? `'${data[key]}'` : data[key];
       return `${key}=${value}`;
     }).join(', ');
+  }
+
+  /**
+   * @returns {Object} lastEntry - the last inserted column in the given table
+   * @param {string} table - table to select last entry from
+   */
+  async getLastEntry(table) {
+    const statement = `select * from ${table} order by id desc limit 1`;
+    const [res] = await this.query({ statement });
+
+    return res;
   }
 
   /* ------------------------------------------- */
@@ -337,6 +348,31 @@ export class DatabaseManager {
     const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address, filterDate);
 
     return this.query({ statement });
+  }
+
+  /**
+   * Returns address ids for sender and receiver (if applicable)
+   * for transactions
+   * @returns {Object} - { sender_id, receiver_id }
+   * @param {string} - sender_address
+   * @param {string} - receiver_address
+   */
+  async getTxAddressIds(sender_address, receiver_address) {
+    const senderStatement = STMT.ADDRESSES.SELECT.ADDRESS_ID(sender_address);
+    const receiverStatement = STMT.CONTACTS.SELECT.ADDRESS_ID(receiver_address);
+    const [{ id: sender_address_id }] = await this.query({ statement: senderStatement });
+    const [recipient = null] = await this.query({ statement: receiverStatement });
+    const receiver_address_id = recipient ? recipient.id : null;
+
+    return { sender_address_id, receiver_address_id };
+  }
+
+  /**
+   * Gets the last created Transaction
+   * @returns {Object} Most recent Transaction
+   */
+  async getLastTransaction() {
+    return await this.getLastEntry('Transactions');
   }
 
   /* --------------------------------------------- */
@@ -491,10 +527,14 @@ export class DatabaseManager {
    * @returns {Object} Most recent wallet
    */
   async getLastWallet() {
-    const statement = STMT.WALLETS.SELECT.LAST_ID;
-    const [res] = await this.query({ statement });
+    return await this.getLastEntry('Wallets');
+  }
 
-    return res;
+  async getWalletNameByAddress(address) {
+    const statement = STMT.WALLETS.SELECT.NAME_BY_ADDRESS(address);
+    const [{ name }] = await this.query({ statement });
+
+    return name;
   }
 
   /**

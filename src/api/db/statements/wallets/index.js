@@ -16,8 +16,13 @@ export const WALLETS_STATEMENTS = {
   SELECT: {
     ALL: `select * from Wallets`,
     ID: (id) => `select * from Wallets where id = ${id}`,
-    LAST_ID: `select * from Wallets order by id desc limit 1`,
     NAME: `select id, name from Wallets`,
+    NAME_BY_ADDRESS: (addr) => `
+      select Wallets.name as name from Wallets
+      inner join Addresses
+      on Wallets.id = Addresses.wallet_id
+      where Addresses.address="${addr}"
+    `,
     WALLET_ADDRESSES_BY_VALUE: (value) => `
         select Wallets.id, Wallets.name as wallet_name,
         Addresses.id as address_id, Addresses.name as address_name, Addresses.address, Addresses.balance

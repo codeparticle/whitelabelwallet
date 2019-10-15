@@ -16,10 +16,10 @@ const { GREEN } = VARIANTS;
 function SendFundsMobileFooter({ alert, isDisabled, label, onClick }) {
   return (
     <div className="send-funds-mobile-footer">
+      <RenderProp>{alert}</RenderProp>
       <Button disabled={isDisabled} onClick={onClick} size="full" variant={GREEN}>
         <p>{label}</p>
       </Button>
-      <RenderProp>{alert}</RenderProp>
     </div>
   );
 }
