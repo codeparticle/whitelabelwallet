@@ -39,7 +39,7 @@ $footer-height: 84px;
   @include mquery($width-breakpoint-xs) {
     grid-template-areas: 'transfer-amount' 'send-form' 'footer';
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr $footer-height;
+    grid-template-rows: auto 1fr auto;
     min-width: auto;
   }
 }

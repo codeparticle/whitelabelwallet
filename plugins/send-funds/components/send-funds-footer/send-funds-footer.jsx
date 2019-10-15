@@ -9,7 +9,11 @@ import { Button, PageFooter } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 import { COMMON } from 'translations/keys/common';
 
-import { SendFundsMobileFooter, SendFundsFlashAlert } from 'plugins/send-funds/components';
+import {
+  SendFundsMobileFooter,
+  SendFundsFlashAlert,
+  SendFundsMobileAlert,
+} from 'plugins/send-funds/components';
 import { constants, createTransaction, valuesExist, validateTransaction } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 
@@ -28,7 +32,7 @@ function SendFundsFooter({
   const [alert, setAlert] = useState(null);
   const { amount, memo } = transferFields;
   const parsedAmount = parseFloat(amount);
-  const showButton = valuesExist(parsedAmount, toAddress, fromAddress);
+  const showButton = valuesExist(parsedAmount, toAddress, fromAddress) && (!alert || alert.type !== FAIL);
   const message = showButton
     ? formatMessage(CONFIRM_SEND_TO, { amount, address: toAddress })
     : '';
@@ -44,23 +48,31 @@ function SendFundsFooter({
         type: FAIL,
       });
     } else {
-      createTransaction(transactionData);
-      setAlert({
-        message: SUCCESS,
-        type: SUCCESS,
+      createTransaction(transactionData).then(transaction => {
+        setAlert({
+          data: transaction,
+          message: SUCCESS,
+          type: SUCCESS,
+        });
       });
     }
   }
 
-  const AlertComponent = (
-    <SendFundsFlashAlert
-      alert={alert}
-      amount={amount}
-      formatMessage={formatMessage}
-      setAlert={setAlert}
-      toAddress={toAddress}
-    />
-  );
+  function AlertComponent() {
+    const Component = isMobile
+      ? SendFundsMobileAlert
+      : SendFundsFlashAlert;
+
+    return (
+      <Component
+        alert={alert}
+        amount={amount}
+        formatMessage={formatMessage}
+        setAlert={setAlert}
+        toAddress={toAddress}
+      />
+    );
+  }
 
   if (isMobile) {
     return (
@@ -76,8 +88,8 @@ function SendFundsFooter({
   return (
     <div className="send-funds-layout__footer">
       <PageFooter
-        message={message}
         alert={AlertComponent}
+        message={message}
         button={
           <Visible when={showButton}>
             <Button onClick={onClick} variant={GREEN} size="lg">
