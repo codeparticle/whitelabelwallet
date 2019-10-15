@@ -6,6 +6,11 @@ export const MY_WALLETS = defineMessages({
     description: 'Add wallet button label',
     defaultMessage: 'Add Wallet',
   },
+  ALL_ADDRESS_TEXT: {
+    id: 'plugin.my_wallets.all_address_text',
+    description: 'All addresses text',
+    defaultMessage: 'All Addresses',
+  },
   CONFIRM_RECOVERY_CODE_LABEL: {
     id: 'plugin.my_wallets.confirm_recovery_code_label',
     description: 'confirm recovery code label text',

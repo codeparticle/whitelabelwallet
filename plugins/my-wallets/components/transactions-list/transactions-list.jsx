@@ -92,7 +92,7 @@ function TransactionsList ({
   columns = isMobile ? mobileColDefs : columns;
 
   function determineListData() {
-    if (!isMobile || selectedWallet.multi_address === 0) {
+    if (!isMobile || selectedWallet.multi_address === 0 || selectedAddress.address === undefined) {
       setListData(selectedWalletTransactions);
       return;
     }
@@ -119,8 +119,8 @@ function TransactionsList ({
 TransactionsList.prototypes = {
   selectedAddress: PropTypes.object.isRequired,
   selectedWalletAddresses: PropTypes.array.isRequired,
-  selectedWalletTransactions: PropTypes.array.isRequired,
   selectedWallet: PropTypes.object.isRequired,
+  selectedWalletTransactions: PropTypes.array.isRequired,
 };
 
 export { TransactionsList };

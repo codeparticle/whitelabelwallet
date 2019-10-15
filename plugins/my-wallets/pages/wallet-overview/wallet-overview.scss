@@ -1,9 +1,9 @@
 @import 'src/styles/index.scss';
 
-$address-name-position: 30px;
-$balance-data-bottom-position: 105px;
+$address-name-position: 20px;
+$balance-data-bottom-position: 108px;
 $chart-section-height: 360px;
-$carousel-bottom-position: 68px;
+$carousel-bottom-position: 65px;
 $mobile-chart-section-height: 220px;
 $mobile-list-bottom-position: 70px;
 $mobile-list-row: 118px;
@@ -126,6 +126,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
 
         .balance {
           font-size: $font-size-lg-1;
+          margin-bottom: $space-2;
 
           svg {
             height: $font-size-md-4; 
