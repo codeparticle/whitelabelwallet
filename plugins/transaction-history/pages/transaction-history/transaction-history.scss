@@ -1,6 +1,7 @@
 @import 'src/styles/index.scss';
 
 $chart-section-height: 360px;
+$date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
 
 .transaction-history-page {
 
@@ -11,10 +12,17 @@ $chart-section-height: 360px;
     height: 100%;
 
     .search-wrapper {
-      padding: $space-8;
-
       form {
         background: $white;
+      }
+    }
+
+    .chart-wrapper {
+      svg {
+
+        & g[role='presentation'] {
+          display: none;
+        }
       }
     }
 
@@ -22,5 +30,39 @@ $chart-section-height: 360px;
     .search-wrapper {
       background: $cloud;
     }
+
+    .search-wrapper,
+    .list-wrapper {
+      padding: $space-8;
+    }
+
+    .list-wrapper {
+      background: $white;
+      overflow-y: scroll;
+
+      .transaction-amount {
+        align-items: center;
+        display: flex;
+
+        svg {
+          margin-right: $space-1;
+
+          path {
+            fill: currentColor;
+          }
+        }
+      }
+    }
   }
+
+  .page-header {
+    
+    .date-picker {
+      width: $date-picker-width;
+    }
+  }
+
+  .page-header + section {
+    height: 100%;
+  } 
 }

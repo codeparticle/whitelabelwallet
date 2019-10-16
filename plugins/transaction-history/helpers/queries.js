@@ -15,13 +15,13 @@ async function fetchTransactions(setFn) {
 }
 
 /**
- * Function to get a single wallet from db by ID
- * @param {number} id - id of wallet to get
+ * Function to get a single wallet from db by Address
+ * @param {string} address - address of wallet to get
  * @param {func} setFn - function that sets the res to state
  */
-async function getWalletById(id, setFn) {
-  const res = await WalletManager.getWalletById(id);
-  setFn(res);
+async function getWalletByAddress(address) {
+  const res = await WalletManager.getWalletByAddress(address);
+  return res;
 }
 
 /**
@@ -38,6 +38,6 @@ async function searchTransactionsByValue(setFn, value, addresses, filterDate = n
 
 export {
   fetchTransactions,
-  getWalletById,
+  getWalletByAddress,
   searchTransactionsByValue,
 };
