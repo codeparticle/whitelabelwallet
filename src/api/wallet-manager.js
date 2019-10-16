@@ -52,6 +52,14 @@ class WalletManager {
   async getWalletById(id) {
     return await this.manager.databaseManager.getWalletById(id);
   }
+  /**
+   * Gets a single wallet by Address
+   * @returns {Object} - wallet
+   * @param {string} address - address that belongs to a wallet.
+   */
+  async getWalletByAddress(address) {
+    return await this.manager.databaseManager.getWalletAddressesByValue(address);
+  }
 
   /**
    * Function that updates a wallet by its Id

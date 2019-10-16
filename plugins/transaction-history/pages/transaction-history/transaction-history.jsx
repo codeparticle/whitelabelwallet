@@ -8,11 +8,16 @@ import { Page } from 'components';
 import { getSelectOptions } from 'lib/utils';
 import { fetchTransactions } from 'plugins/transaction-history/helpers';
 import { setTransactions } from 'plugins/transaction-history/rdx/actions';
-import { SearchTransactions, TransactionChart } from 'plugins/transaction-history/components';
+import {
+  SearchTransactions,
+  TransactionChart,
+  TransactionsList,
+} from 'plugins/transaction-history/components';
 import {
   getTransactions,
 } from 'plugins/transaction-history/rdx/selectors';
 import { COMMON } from 'translations/keys/common';
+import { TRANSACTION_HISTORY } from 'plugins/transaction-history/translations/keys';
 import {
   Select,
   useMedia,
@@ -20,6 +25,7 @@ import {
 import './transaction-history.scss';
 
 const { ALL_TIME } = COMMON;
+const { NAV_ITEM } = TRANSACTION_HISTORY;
 
 const TransactionHistoryView = ({
   intl: {
@@ -31,6 +37,7 @@ const TransactionHistoryView = ({
   const [selectedDate, setSelectedDate] = useState(getDateValue());
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { isMobile } = useMedia();
+  const haveTransactions =  transactions.length > 0;
 
   useEffect(() => {
     fetchTransactions(props.setTransactions);
@@ -72,7 +79,7 @@ const TransactionHistoryView = ({
   return (
     <Page
       headerProps={{
-        title: 'Replace Me ',
+        title: formatMessage(NAV_ITEM),
         SecondaryAction,
       }}
       removePadding
@@ -83,16 +90,24 @@ const TransactionHistoryView = ({
           <div className="search-wrapper">
             <SearchTransactions
               formatMessage={formatMessage}
-              setSelectedWalletTransactionsSearchResults={props.setTransactions}
+              setTransactionsSearchResults={props.setTransactions}
               selectedWalletAddresses={[]}
             />
           </div>
-          <div className="chart-wrapper">
-            <TransactionChart
-              transactions={transactions}
-            />
-          </div>
         </Visible>
+        <div className="chart-wrapper">
+          <TransactionChart
+            transactions={transactions}
+          />
+        </div>
+        <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
+          <div className={isMobile ? `mobile-list` : ''}>
+            <Visible when={haveTransactions}>
+              <TransactionsList transactions={transactions} />
+            </Visible>
+          </div>
+        </div>
+
       </div>
     </Page>
   );
