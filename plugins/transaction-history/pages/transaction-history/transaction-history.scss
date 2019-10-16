@@ -1,0 +1,26 @@
+@import 'src/styles/index.scss';
+
+$chart-section-height: 360px;
+
+.transaction-history-page {
+
+  .page-content-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto $chart-section-height 1fr;
+    height: 100%;
+
+    .search-wrapper {
+      padding: $space-8;
+
+      form {
+        background: $white;
+      }
+    }
+
+    .chart-wrapper,
+    .search-wrapper {
+      background: $cloud;
+    }
+  }
+}
