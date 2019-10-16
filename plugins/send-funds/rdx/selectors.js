@@ -1,9 +1,13 @@
 import { get } from 'lodash';
 
-const getToAddress = state => get(state, 'sendFunds.toAddress', {});
-const getFromAddress = state => get(state, 'sendFunds.fromAddress', {});
+const getAmount = state => get(state, 'sendFunds.amount', '');
+const getFromAddress = state => get(state, 'sendFunds.fromAddress', '');
+const getMemo = state => get(state, 'sendFunds.memo', '');
+const getToAddress = state => get(state, 'sendFunds.toAddress', '');
 
 export {
-  getToAddress,
+  getAmount,
   getFromAddress,
+  getMemo,
+  getToAddress,
 };

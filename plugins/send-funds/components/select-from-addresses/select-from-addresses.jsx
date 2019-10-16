@@ -37,7 +37,11 @@ function SelectFromAddressesView({
   }
 
   useEffect(() => {
-    getFormattedAddressName(setAddressName, fromAddress);
+    if (!fromAddress) {
+      setAddressName('');
+    } else {
+      getFormattedAddressName(setAddressName, fromAddress);
+    }
   }, [fromAddress]);
 
   return (

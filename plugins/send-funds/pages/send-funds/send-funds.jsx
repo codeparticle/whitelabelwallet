@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -17,24 +17,27 @@ import {
   TransferAmount,
 } from 'plugins/send-funds/components';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
-import { getToAddress, getFromAddress } from 'plugins/send-funds/rdx/selectors';
+import { resetFields, setAmount, setMemo } from 'plugins/send-funds/rdx/actions';
+import {
+  getAmount,
+  getFromAddress,
+  getMemo,
+  getToAddress,
+} from 'plugins/send-funds/rdx/selectors';
 
 import './send-funds.scss';
-
-const initialTransferFields = {
-  amount: '',
-  memo: '',
-};
 
 const { SECONDARY } = VARIANTS;
 
 const SendFundsView = ({
+  amount,
   intl: { formatMessage },
+  memo,
   toAddress,
   fromAddress,
   match,
+  ...props
 }) => {
-  const [transferFields, setTransferFields] = useState(initialTransferFields);
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
   const mobileBackground = themeName === THEME_KEYS.LIGHT
@@ -69,8 +72,10 @@ const SendFundsView = ({
           conversionRate={3.14}
           formatMessage={formatMessage}
           isMobile={isMobile}
-          setTransferFields={setTransferFields}
-          transferFields={transferFields}
+          amount={amount}
+          memo={memo}
+          setAmount={props.setAmount}
+          setMemo={props.setMemo}
         />
         <Visible when={!isMobile}>
           <FromAddressList formatMessage={formatMessage} />
@@ -79,16 +84,20 @@ const SendFundsView = ({
         <Visible when={isMobile}>
           <SendFundsMobileForm
             formatMessage={formatMessage}
-            setTransferFields={setTransferFields}
-            transferFields={transferFields}
+            setAmount={props.setAmount}
+            setMemo={props.setMemo}
+            amount={amount}
+            memo={memo}
           />
         </Visible>
         <SendFundsFooter
-          isMobile={isMobile}
+          amount={amount}
           formatMessage={formatMessage}
           fromAddress={fromAddress}
+          isMobile={isMobile}
+          memo={memo}
+          resetFields={props.resetFields}
           toAddress={toAddress}
-          transferFields={transferFields}
         />
       </div>
     </Page>
@@ -98,18 +107,30 @@ const SendFundsView = ({
 SendFundsView.propTypes = {
   fromAddress: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
-  toAddress: PropTypes.string.isRequired,
   match: PropTypes.object.isRequired,
+  setAmount: PropTypes.func.isRequired,
+  setMemo: PropTypes.func.isRequired,
+  toAddress: PropTypes.string.isRequired,
+};
+
+const mapDispatchToProps = {
+  setAmount,
+  setMemo,
+  resetFields,
 };
 
 const mapStateToProps = state => {
-  const toAddress = getToAddress(state);
+  const amount = getAmount(state);
   const fromAddress = getFromAddress(state);
+  const memo = getMemo(state);
+  const toAddress = getToAddress(state);
 
   return {
-    toAddress,
+    amount,
     fromAddress,
+    memo,
+    toAddress,
   };
 };
 
-export const SendFundsPage = connect(mapStateToProps)(injectIntl(withRouter(SendFundsView)));
+export const SendFundsPage = connect(mapStateToProps, mapDispatchToProps)(injectIntl(withRouter(SendFundsView)));

@@ -12,18 +12,17 @@ const {
   TRANSFER_AMOUNT,
 } = SEND_FUNDS;
 
-const MEMO_FIELD = 'memo';
-const AMOUNT_FIELD = 'amount';
-
 const getComponent = isMobile => isMobile ? CurrencyAmount : TransferAmountComponent;
 
 export function TransferAmount({
+  amount,
   coinDecimalLimit,
   conversionRate,
   formatMessage,
   isMobile,
-  transferFields,
-  setTransferFields,
+  memo,
+  setAmount,
+  setMemo,
   tickerSymbol,
 }) {
   const Component = getComponent(isMobile);
@@ -32,19 +31,17 @@ export function TransferAmount({
     memo: formatMessage(MEMO),
   };
 
-  const onValueChange = field => e => setTransferFields({
-    ...transferFields,
-    [field]: e.target.value,
-  });
+  const onValueChange = fn => e => fn(e.target.value);
 
   return (
     <div className="send-funds-layout__transfer-amount">
       <Component
         coinDecimalLimit={coinDecimalLimit}
         conversionRate={conversionRate}
-        memoValue={transferFields.memo}
-        handleMemoChange={onValueChange(MEMO_FIELD)}
-        handleCurrencyChange={onValueChange(AMOUNT_FIELD)}
+        currencyValue={amount}
+        memoValue={memo}
+        handleMemoChange={onValueChange(setMemo)}
+        handleCurrencyChange={onValueChange(setAmount)}
         tickerSymbol={tickerSymbol}
         translations={translations}
       />
@@ -53,15 +50,14 @@ export function TransferAmount({
 }
 
 TransferAmount.propTypes = {
+  amount: PropTypes.string.isRequired,
   coinDecimalLimit: PropTypes.number,
   conversionRate: PropTypes.number.isRequired,
   formatMessage: PropTypes.func.isRequired,
-  transferFields: PropTypes.shape({
-    amount: PropTypes.string.isRequired,
-    memo: PropTypes.string.isRequired,
-  }).isRequired,
   isMobile: PropTypes.bool.isRequired,
-  setTransferFields: PropTypes.func.isRequired,
+  memo: PropTypes.string.isRequired,
+  setAmount: PropTypes.func.isRequired,
+  setMemo: PropTypes.func.isRequired,
   tickerSymbol: PropTypes.string,
 };
 

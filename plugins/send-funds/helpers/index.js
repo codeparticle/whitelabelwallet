@@ -14,6 +14,7 @@ export {
 
 export {
   getAlertMessage,
+  isJson,
   resetStateHandler,
   notEmptyOrNull,
   valuesExist,
