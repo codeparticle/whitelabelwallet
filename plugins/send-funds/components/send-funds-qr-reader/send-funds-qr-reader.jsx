@@ -7,7 +7,10 @@ import QrReader from 'react-qr-reader';
 import PropTypes from 'prop-types';
 import { Visible } from '@codeparticle/react-visible';
 import { Overlay, svgs } from '@codeparticle/whitelabelwallet.styleguide';
+<<<<<<< HEAD
 import { empty } from 'lib/utils';
+=======
+>>>>>>> feature(wlw-165): added qr reader logic
 
 import { isJson } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
