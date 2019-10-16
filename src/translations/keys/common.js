@@ -21,6 +21,31 @@ export const COMMON = defineMessages({
     description: 'Date text',
     defaultMessage: 'Date',
   },
+  DATE_OPTION_TODAY: {
+    id: 'common.date_option_today',
+    description: 'Date picker label',
+    defaultMessage: 'Today',
+  },
+  DATE_OPTION_WEEK: {
+    id: 'common.date_option_week',
+    description: 'Date picker label',
+    defaultMessage: 'This Week',
+  },
+  DATE_OPTION_MONTH: {
+    id: 'common.date_option_month',
+    description: 'Date picker label',
+    defaultMessage: 'This Month',
+  },
+  DATE_OPTION_YEAR: {
+    id: 'common.date_option_year',
+    description: 'Date picker label',
+    defaultMessage: 'This Year',
+  },
+  DATE_OPTION_ALL_TIME: {
+    id: 'common.date_option_all_time',
+    description: 'Date picker label',
+    defaultMessage: 'All Time',
+  },
   DESCRIPTION: {
     id: 'common.description',
     description: 'Description text',
@@ -60,6 +85,11 @@ export const COMMON = defineMessages({
     id: 'common.send',
     description: 'Send text',
     defaultMessage: 'Send',
+  },
+  SEARCH_TRANSACTIONS: {
+    id: 'common.search.transactions',
+    description: 'Search component placeholder text',
+    defaultMessage: 'Search Transactions...',
   },
   START: {
     id: 'common.start',

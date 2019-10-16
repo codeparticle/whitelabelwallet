@@ -1,6 +1,7 @@
 import { arrayToRegex } from './array-to-regex';
 import { asyncForEach } from './async-for-each';
 import { currencyConverter } from './currency-converter';
+import { getSelectOptions } from './date-select-formatter';
 import { empty } from './empty';
 import { environment } from './environment';
 import { floatMath } from './float-math';
@@ -25,6 +26,7 @@ export {
   formatFloat,
   formatUrlParameters,
   getLowercaseKeys,
+  getSelectOptions,
   getQueryString,
   getUrlParameterByName,
   getSidepanelVariant,

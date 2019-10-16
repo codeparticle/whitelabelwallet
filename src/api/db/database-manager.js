@@ -320,6 +320,15 @@ export class DatabaseManager {
   /* ------------------------------------------- */
 
   /**
+   * Gets the Transactions table
+   * @returns {Array} Contact(s)
+   */
+  getTransactions() {
+    const statement = STMT.TRANSACTIONS.SELECT.ALL;
+    return this.query({ statement });
+  }
+
+  /**
    * Selects transactions that fit the given search value
    * @returns {Array} Transaction(s)
    * @param {array} addresses - Selected wallet's addresses
