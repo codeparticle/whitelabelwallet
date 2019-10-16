@@ -1,0 +1,68 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$video-outer-box: $spacing-m;
+$border: $border-radius-2 solid $off-white;
+
+.send-funds-qr-overlay .sidepanel-content {
+
+  .qr-instructions {
+    color: $white;
+    text-align: center;
+  }
+
+  section > section {
+
+    .video-focus-top::after,
+    .video-focus-top::before,
+    .video-focus-bottom::after,
+    .video-focus-bottom::before {
+      content: '';
+      display: block;
+      height: 24px;
+      position: absolute;
+      width: 24px;
+    }
+
+    .video-focus-top {
+      border-width: $video-outer-box !important;
+      box-shadow: initial !important;
+
+      &::before {
+        border-left: $border;
+        border-top: $border;
+        left: 0;
+        top: 0;
+      }
+
+      &::after {
+        border-right: $border;
+        border-top: $border;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    .video-focus-bottom {
+      bottom: $video-outer-box;
+      left: $video-outer-box;
+      position: absolute;
+      right: $video-outer-box;
+
+      &::before {
+        border-bottom: $border;
+        border-left: $border;
+        bottom: 0;
+        left: 0;
+      }
+  
+      &::after {
+        border-bottom: $border;
+        border-right: $border;
+        bottom: 0;
+        right: 0;
+      }
+    }
+
+  }
+}

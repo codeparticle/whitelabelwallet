@@ -66,21 +66,42 @@ function valuesExist(...values) {
  * @returns {Object} formatted message
  * @param {Function} formatMessage
  * @param {Object} alert
- * @param {Object<String>} alertParams - { amount: required, toAddress: required, formattedName: optional }
+ * @param {string} formattedName
  */
-function getAlertMessage(formatMessage, alert, alertParams) {
+function getAlertMessage(formatMessage, alert, formattedName = '') {
   if (!(alert)) {
     return '';
   }
 
-  const { message } = alert;
-  const { formattedName = '', ...restParams } = alertParams;
+  const { data = {}, message } = alert;
+  const { amount = '', receiver_address: address = '' } = data;
 
-  return formatMessage(messages[message], { formattedName, ...restParams });
+  return formatMessage(messages[message], { address, amount, formattedName });
+}
+
+/**
+ * @returns {Boolean} - true if is JSON w/ object structure, false otherwise
+ * @param {any} data
+ */
+function isJson(data) {
+  if (typeof data !== 'string') {
+    return false;
+  }
+
+  try {
+    if (typeof JSON.parse(data) === 'object') {
+      return true;
+    }
+  } catch (e) {
+    return false;
+  }
+
+  return false;
 }
 
 export {
   getAlertMessage,
+  isJson,
   notEmptyOrNull,
   resetStateHandler,
   valuesExist,

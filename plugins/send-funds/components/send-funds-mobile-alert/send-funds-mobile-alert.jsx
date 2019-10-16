@@ -17,10 +17,9 @@ const ERROR_DURATION = 5000;
 
 function SendFundsMobileAlert({
   alert,
-  amount,
   formatMessage,
   setAlert,
-  toAddress,
+  resetFields,
 }) {
   const alertData = alert ? alert.data : {};
   const [showAlertType, setShowAlertType] = useState(false);
@@ -29,13 +28,11 @@ function SendFundsMobileAlert({
 
   function onClose() {
     setAlert(null);
+    resetFields();
   }
 
   function getMessage() {
-    return getAlertMessage(formatMessage, alert, {
-      amount,
-      address: toAddress,
-    });
+    return getAlertMessage(formatMessage, alert);
   }
 
   // Handle setting alert type for proper alert rendering
@@ -76,16 +73,13 @@ function SendFundsMobileAlert({
 
 SendFundsMobileAlert.propTypes = {
   alert: PropTypes.object,
-  amount: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
+  resetFields: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
-  toAddress: PropTypes.string,
 };
 
 SendFundsMobileAlert.defaultProps = {
   alert: null,
-  amount: '',
-  toAddress: '',
 };
 
 export { SendFundsMobileAlert };
