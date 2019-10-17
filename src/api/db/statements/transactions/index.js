@@ -22,6 +22,7 @@ export const TRANSACTIONS_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Transactions order by created_date desc`,
+    AFTER_DATE: (dateTime) => `select * from Transactions where created_date >= "${dateTime}" order by created_date desc`,
     PER_ADDRESS: (address, dateTime) => `select * from Transactions where (sender_address = "${address}" or receiver_address = "${address}") and created_date >= "${dateTime}" order by created_date desc`,
     VALUE: (address, value, dateTime) => `
       select Transactions.*, Addresses.name from Transactions

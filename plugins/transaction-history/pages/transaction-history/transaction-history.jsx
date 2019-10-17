@@ -55,7 +55,8 @@ const TransactionHistoryView = ({
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
-      setPreviousSelectedData(selectedDate);
+      setPreviousSelectedData(selectedDate.value);
+      fetchTransactions(props.setTransactions, selectedDate.value);
     }
   }, [selectedDate]);
 

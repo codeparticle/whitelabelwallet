@@ -23,7 +23,7 @@ function TransactionChart ({
 
   const buildChartData = async () => {
     if (transactions.length === 0) {
-      return;
+      return [];
     }
 
 

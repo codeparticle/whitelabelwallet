@@ -9,8 +9,8 @@ import { WalletManager } from 'api';
  * to the redux store
  * @param {func} setFn - function that sets the response to state
  */
-async function fetchTransactions(setFn) {
-  const res = await WalletManager.fetchTransactions();
+async function fetchTransactions(setFn, filterDate = null) {
+  const res = await WalletManager.fetchTransactions(filterDate);
   setFn(res);
 }
 
