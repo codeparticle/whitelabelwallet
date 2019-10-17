@@ -129,6 +129,7 @@ function WalletOverviewView({
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDateValue());
+  const [isMultiAddress, setIsMultiAddress] = useState(false);
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const [addressData, setAddressData] = useState([]);
   const { name } = selectedWallet;
@@ -142,7 +143,7 @@ function WalletOverviewView({
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
     getAddressesByWalletId(props.setSelectedWalletAddresses, walletId).then((addresses) => fetchTransactions(addresses));
-  }, [setSelectedWallet]);
+  }, [setSelectedWallet, isMultiAddress]);
 
   useEffect(() => {
     if (isWalletInitialized) {
@@ -157,9 +158,15 @@ function WalletOverviewView({
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
       setPreviousSelectedData(selectedDate);
+      console.log('========\n', 'selectedDate', selectedDate, '\n========');
       fetchTransactions(selectedWalletAddresses, selectedDate);
     }
-  }, [selectedDate]);
+  }, [selectedDate, isMultiAddress]);
+
+  useEffect(() => {
+    const walletType = selectedWallet.multi_address === 1 ? true : false;
+    setIsMultiAddress(walletType);
+  }, [setSelectedWallet, selectedWallet]);
 
   const toggleSidePanel = (event) => {
     event.stopPropagation();
@@ -185,7 +192,13 @@ function WalletOverviewView({
       ? filterDate.value
       : null;
 
-    return walletAddresses.map((addressData) => getTransactionsPerAddress(props.setSelectedWalletTransactions, addressData.address, dateValue));
+    let setterFunction = props.setSelectedWalletTransactionsSearchResults;
+
+    if (isMultiAddress && dateValue === null) {
+      setterFunction = props.setSelectedWalletTransactions;
+    }
+
+    return walletAddresses.map((addressData) => getTransactionsPerAddress(setterFunction, addressData.address, dateValue));
   }
 
   function PrimaryAction({ collapsed, iconProps }) {
