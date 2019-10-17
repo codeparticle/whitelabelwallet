@@ -159,6 +159,11 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       overflow-y: initial;
       padding: $space-3;
 
+      ::-webkit-scrollbar {
+        width: 0px;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+      }
+
       .mobile-list {
         background: white;
         border-radius: $border-radius-3;
