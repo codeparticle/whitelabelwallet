@@ -312,10 +312,20 @@ export class DatabaseManager {
 
   /**
    * Gets the Transactions table
-   * @returns {Array} Contact(s)
+   * @returns {Array} Transactions(s)
    */
   getTransactions() {
     const statement = STMT.TRANSACTIONS.SELECT.ALL;
+    return this.query({ statement });
+  }
+  /**
+   * Gets the Transactions table
+   * @returns {Array} Contact(s)
+   */
+  getTransactionsAfterDate(dateTime) {
+    const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    const statement = STMT.TRANSACTIONS.SELECT.AFTER_DATE(filterDate);
+    console.log('========\n', 'statement', statement, '\n========');
     return this.query({ statement });
   }
 
@@ -589,7 +599,7 @@ export class DatabaseManager {
   }
 
   /**
-   * Gets address by wallet id
+   * Gets Addresses by wallet id
    * @param {string} id
    * @returns {Array} Address(es)
    */

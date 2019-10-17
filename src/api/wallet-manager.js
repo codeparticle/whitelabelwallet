@@ -30,6 +30,7 @@ class WalletManager {
 
   /**
  * Function to get all Addresses
+ * @returns {array} - all addresses
  */
   async fetchAddresses() {
     return await manager.databaseManager.getAddresses();
@@ -37,9 +38,11 @@ class WalletManager {
 
   /**
  * Function to get transactions to display transaction history
+ * @param {object} filterDate
+ * @returns {array} - returns all transactions that fit criteria
  */
-  async fetchTransactions() {
-    return await manager.databaseManager.getTransactions();
+  async fetchTransactions(filterDate) {
+    return await manager.databaseManager.getTransactionsAfterDate(filterDate);
   }
 
   /**
