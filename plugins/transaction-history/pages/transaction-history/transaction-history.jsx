@@ -25,12 +25,14 @@ import { COMMON } from 'translations/keys/common';
 import { TRANSACTION_HISTORY } from 'plugins/transaction-history/translations/keys';
 import {
   Select,
+  svgs,
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import './transaction-history.scss';
 
 const { ALL_TIME } = COMMON;
 const { NAV_ITEM } = TRANSACTION_HISTORY;
+const { SvgCoinSymbol } = svgs.icons;
 
 const TransactionHistoryView = ({
   addresses,
@@ -80,6 +82,12 @@ const TransactionHistoryView = ({
     return queryDate;
   }
 
+  function getBalance() {
+    return transactions.reduce((total, currentTransaction) => {
+      return total + currentTransaction.pending_balance;
+    }, 0);
+  }
+
   function SecondaryAction({ collapsed }) {
     const selectProps = {
       value: selectedDate,
@@ -105,7 +113,7 @@ const TransactionHistoryView = ({
       removePadding
       className="transaction-history-page"
     >
-      <div className="page-content-container">
+      <div className={`page-content-container ${isMobile ? 'mobile-content-container' : ''}`}>
         <Visible when={!isMobile}>
           <div className="search-wrapper">
             <SearchTransactions
@@ -116,6 +124,12 @@ const TransactionHistoryView = ({
           </div>
         </Visible>
         <div className="chart-wrapper">
+          <Visible when={isMobile}>
+            <div className="wallet-balance-data">
+              <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
+              <span className="usd-value">$5,911.19</span>
+            </div>
+          </Visible>
           <TransactionChart
             transactions={transactions}
           />
