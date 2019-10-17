@@ -19,7 +19,8 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
-import { Page } from 'components';
+import { getSelectOptions } from 'lib/utils';
+import { Page, NoTransactions } from 'components';
 
 import {
   setSelectedAddress,
@@ -46,9 +47,9 @@ import {
   getAddressesByWalletId,
   getTransactionsPerAddress,
   ROUTES,
-  DATE_OPTIONS,
 } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { COMMON } from 'translations/keys/common';
 import './wallet-overview.scss';
 
 
@@ -57,21 +58,10 @@ const { PLUGIN } = ROUTES;
 const { SECONDARY } = VARIANTS;
 const { SLATE } = IconVariants;
 const { SLATE_CLEAR } = ButtonVariants;
-const {
-  TODAY,
-  WEEK,
-  MONTH,
-  YEAR,
-  ALL_TIME,
-} = DATE_OPTIONS;
+const { ALL_TIME } = COMMON;
 const {
   ALL_ADDRESS_TEXT,
   CURRENT_BALANCE_LABEL,
-  DATE_OPTION_TODAY,
-  DATE_OPTION_WEEK,
-  DATE_OPTION_MONTH,
-  DATE_OPTION_YEAR,
-  DATE_OPTION_ALL_TIME,
   MANAGE_WALLET_BUTTON_LABEL,
   NO_TRANSACTIONS_TEXT,
 } = MY_WALLETS;
@@ -96,24 +86,6 @@ function ManageIcon({ iconVariant, iconProps, onClick }) {
       icon={<SvgPencil {...iconProps} />}
     />
   );
-}
-
-function NoTransactions({ formatMessage, isMobile }) {
-  return (
-    <div className={`empty-list ${isMobile ? 'hide' : ''}`}>
-      <h1>{formatMessage(NO_TRANSACTIONS_TEXT)}</h1>
-    </div>
-  );
-}
-
-function getSelectOptions (formatMessage, getDateValue) {
-  return [
-    { value: getDateValue(TODAY), label: formatMessage(DATE_OPTION_TODAY) },
-    { value: getDateValue(WEEK), label: formatMessage(DATE_OPTION_WEEK) },
-    { value: getDateValue(MONTH), label: formatMessage(DATE_OPTION_MONTH) },
-    { value: getDateValue(YEAR), label: formatMessage(DATE_OPTION_YEAR) },
-    { value: getDateValue(), label: formatMessage(DATE_OPTION_ALL_TIME) },
-  ];
 }
 
 function WalletOverviewView({
@@ -158,7 +130,6 @@ function WalletOverviewView({
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
       setPreviousSelectedData(selectedDate);
-      console.log('========\n', 'selectedDate', selectedDate, '\n========');
       fetchTransactions(selectedWalletAddresses, selectedDate);
     }
   }, [selectedDate, isMultiAddress]);
@@ -300,7 +271,7 @@ function WalletOverviewView({
           <div className={isMobile ? `mobile-list` : ''}>
             <Visible
               when={haveTransactions}
-              fallback={<NoTransactions isMobile={isMobile} formatMessage={formatMessage}/>}
+              fallback={<NoTransactions formatMessage={formatMessage}/>}
             >
               <TransactionsList
                 selectedAddress={selectedAddress}

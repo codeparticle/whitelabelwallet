@@ -66,6 +66,11 @@ export const COMMON = defineMessages({
     description: 'Login text',
     defaultMessage: 'Login',
   },
+  NO_TRANSACTIONS_TEXT: {
+    id: 'common.no_transactions_text',
+    description: 'Text to display when no transactions are available',
+    defaultMessage: 'No Transactions Available',
+  },
   PASSWORD: {
     id: 'common.password',
     description: 'Password text',

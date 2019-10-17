@@ -6,6 +6,7 @@ export { HeaderActionButtons } from './header-action-buttons';
 export { MobilePage } from './mobile-page';
 export { NavTrigger } from './nav-trigger';
 export { NotFound } from './not-found';
+export { NoTransactions } from './no-transactions';
 export { Page } from './page';
 export { PageHeader } from './page-header';
 export { RedirectToHome } from './redirect-to-home';
