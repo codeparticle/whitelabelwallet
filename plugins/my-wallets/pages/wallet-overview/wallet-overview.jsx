@@ -63,7 +63,6 @@ const {
   ALL_ADDRESS_TEXT,
   CURRENT_BALANCE_LABEL,
   MANAGE_WALLET_BUTTON_LABEL,
-  NO_TRANSACTIONS_TEXT,
 } = MY_WALLETS;
 
 function ManageButton({ buttonVariant, label, onClick, size }) {

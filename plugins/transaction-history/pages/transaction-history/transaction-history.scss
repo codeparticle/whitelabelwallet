@@ -12,12 +12,14 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     height: 100%;
 
     .search-wrapper {
+
       form {
         background: $white;
       }
     }
 
     .chart-wrapper {
+
       svg {
 
         & g[role='presentation'] {
@@ -39,6 +41,11 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     .list-wrapper {
       background: $white;
       overflow-y: scroll;
+
+      ::-webkit-scrollbar {
+        width: 0px;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+      }
 
       &-empty {
         align-items: center;
@@ -76,4 +83,16 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
   .page-header + section {
     height: 100%;
   } 
+
+  .dark {
+
+    .page-content-container {
+
+      .list-wrapper,
+      .chart-wrapper,
+      .search-wrapper {
+        background: $dark-bg;
+      }
+    }
+  }
 }
