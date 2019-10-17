@@ -13,12 +13,10 @@ const CustomWalletRenderer = ({ data }) => {
     ? data.receiver_address
     : data.sender_address;
 
-
-
   useEffect(() => {
     const getWalletName = async () => {
       const queryResponse = await getWalletByAddress(address);
-      const { name = '' } = queryResponse[0];
+      const { name = '' } = queryResponse[0] || {};
       setWalletName(name);
     };
 
