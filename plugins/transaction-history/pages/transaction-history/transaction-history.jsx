@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
-import { Page } from 'components';
+import { Page, NoTransactions } from 'components';
 import { getSelectOptions } from 'lib/utils';
 import { fetchAddresses, fetchTransactions } from 'plugins/transaction-history/helpers';
 import {
@@ -113,7 +113,10 @@ const TransactionHistoryView = ({
         </div>
         <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
           <div className={isMobile ? `mobile-list` : ''}>
-            <Visible when={haveTransactions}>
+            <Visible
+              when={haveTransactions}
+              fallback={<NoTransactions formatMessage={formatMessage}/>}
+            >
               <TransactionsList transactions={transactions} />
             </Visible>
           </div>

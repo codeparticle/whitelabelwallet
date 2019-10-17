@@ -40,6 +40,17 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       background: $white;
       overflow-y: scroll;
 
+      &-empty {
+        align-items: center;
+        background: white;
+        display: flex;
+        justify-content: center;
+
+        h1 {
+          color: $blue-shade;
+        }
+      }
+
       .transaction-amount {
         align-items: center;
         display: flex;

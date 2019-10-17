@@ -36,31 +36,6 @@ export const MY_WALLETS = defineMessages({
     description: 'Description label text',
     defaultMessage: 'Description',
   },
-  DATE_OPTION_TODAY: {
-    id: 'plugin.my_wallets.date_option_today',
-    description: 'Date picker label',
-    defaultMessage: 'Today',
-  },
-  DATE_OPTION_WEEK: {
-    id: 'plugin.my_wallets.date_option_week',
-    description: 'Date picker label',
-    defaultMessage: 'This Week',
-  },
-  DATE_OPTION_MONTH: {
-    id: 'plugin.my_wallets.date_option_month',
-    description: 'Date picker label',
-    defaultMessage: 'This Month',
-  },
-  DATE_OPTION_YEAR: {
-    id: 'plugin.my_wallets.date_option_year',
-    description: 'Date picker label',
-    defaultMessage: 'This Year',
-  },
-  DATE_OPTION_ALL_TIME: {
-    id: 'plugin.my_wallets.date_option_all_time',
-    description: 'Date picker label',
-    defaultMessage: 'All Time',
-  },
   GENERATE_CODE_BUTTON: {
     id: 'plugin.my_wallets.generate_code_button',
     description: 'generate code button text',
