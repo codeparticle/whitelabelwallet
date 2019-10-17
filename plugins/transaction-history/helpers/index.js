@@ -1,5 +1,6 @@
 export {
   getWalletByAddress,
+  fetchAddresses,
   fetchTransactions,
-  searchTransactionsByValue,
+  searchTransactionsAndWalletsByValue,
 } from './queries';

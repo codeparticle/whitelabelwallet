@@ -6,14 +6,19 @@ import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
 import { Page } from 'components';
 import { getSelectOptions } from 'lib/utils';
-import { fetchTransactions } from 'plugins/transaction-history/helpers';
-import { setTransactions } from 'plugins/transaction-history/rdx/actions';
+import { fetchAddresses, fetchTransactions } from 'plugins/transaction-history/helpers';
+import {
+  setAddresses,
+  setTransactions,
+  setTransactionsSearchResults,
+} from 'plugins/transaction-history/rdx/actions';
 import {
   SearchTransactions,
   TransactionChart,
   TransactionsList,
 } from 'plugins/transaction-history/components';
 import {
+  getAddresses,
   getTransactions,
 } from 'plugins/transaction-history/rdx/selectors';
 import { COMMON } from 'translations/keys/common';
@@ -28,6 +33,7 @@ const { ALL_TIME } = COMMON;
 const { NAV_ITEM } = TRANSACTION_HISTORY;
 
 const TransactionHistoryView = ({
+  addresses,
   intl: {
     formatMessage,
   },
@@ -42,6 +48,10 @@ const TransactionHistoryView = ({
   useEffect(() => {
     fetchTransactions(props.setTransactions);
   }, [props.setTransactions]);
+
+  useEffect(() => {
+    fetchAddresses(props.setAddresses);
+  }, [props.setAddresses]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
@@ -90,8 +100,8 @@ const TransactionHistoryView = ({
           <div className="search-wrapper">
             <SearchTransactions
               formatMessage={formatMessage}
-              setTransactionsSearchResults={props.setTransactions}
-              selectedWalletAddresses={[]}
+              setTransactionsSearchResults={props.setTransactionsSearchResults}
+              addresses={addresses}
             />
           </div>
         </Visible>
@@ -114,20 +124,28 @@ const TransactionHistoryView = ({
 };
 
 TransactionHistoryView.propTypes = {
+  addresses: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
+  setAddresses: PropTypes.func.isRequired,
   setTransactions: PropTypes.func.isRequired,
+  setTransactionsSearchResults: PropTypes.func.isRequired,
+  transactions: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => {
+  const addresses = getAddresses(state);
   const transactions = getTransactions(state);
 
   return {
+    addresses,
     transactions,
   };
 };
 
 const mapDispatchToProps = {
+  setAddresses,
   setTransactions,
+  setTransactionsSearchResults,
 };
 
 

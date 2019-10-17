@@ -29,19 +29,25 @@ class WalletManager {
   }
 
   /**
-   * Function that returns all Wallets from DB
-   * @returns {Array} - all wallets
-   */
-  async fetchWallets() {
-    return await this.manager.databaseManager.getWallets();
+ * Function to get all Addresses
+ */
+  async fetchAddresses() {
+    return await manager.databaseManager.getAddresses();
   }
-
 
   /**
  * Function to get transactions to display transaction history
  */
   async fetchTransactions() {
     return await manager.databaseManager.getTransactions();
+  }
+
+  /**
+   * Function that returns all Wallets from DB
+   * @returns {Array} - all wallets
+   */
+  async fetchWallets() {
+    return await this.manager.databaseManager.getWallets();
   }
 
   /**
@@ -96,6 +102,16 @@ class WalletManager {
  */
   async  searchTransactionsByValue(addresses, value, filterDate) {
     return await manager.databaseManager.searchTransactionsForValue(addresses, value, filterDate);
+  }
+
+  /**
+ * Function to search a transactions by description, wallet name, amount, and date
+ * @param {array} addresses - All of the users addresses
+ * @param {string} value - the value to query
+ * @param {object} filterDate - date to filter transaction data by
+ */
+  async  searchTransactionsAndWalletsByValue(addresses, value, filterDate) {
+    return await manager.databaseManager.searchTransactionsAndWalletsByValue(addresses, value, filterDate);
   }
 
   /**

@@ -245,15 +245,6 @@ export class DatabaseManager {
   }
 
   /* ------------------------------------------- */
-  /* ------------- Address Queries ------------- */
-  /* ------------------------------------------- */
-
-  getAddressesByWalletId(id) {
-    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(id);
-    return this.query({ statement });
-  }
-
-  /* ------------------------------------------- */
   /* ------------- Contact Queries ------------- */
   /* ------------------------------------------- */
 
@@ -339,6 +330,20 @@ export class DatabaseManager {
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
     addresses.forEach((addressData) => {
       const statement = STMT.TRANSACTIONS.SELECT.VALUE(addressData.address, value, filterDate);
+      queryResults.push(this.query({ statement }));
+    });
+
+    return Promise.all(queryResults).then((results) => {
+      return results.flat();
+    });
+  }
+
+  searchTransactionsAndWalletsByValue(addresses, value = '', dateTime) {
+    const queryResults = [];
+    const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+
+    addresses.forEach((addressData) => {
+      const statement = STMT.TRANSACTIONS.SELECT.INCLUDE_WALLETS_SEARCH_BY_VALUE(addressData.address, value, filterDate);
       queryResults.push(this.query({ statement }));
     });
 
@@ -580,6 +585,17 @@ export class DatabaseManager {
    */
   getAddresses() {
     const statement = STMT.ADDRESSES.SELECT.ALL;
+    return this.query({ statement });
+  }
+
+  /**
+   * Gets address by wallet id
+   * @param {string} id
+   * @returns {Array} Address(es)
+   */
+
+  getAddressesByWalletId(id) {
+    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(id);
     return this.query({ statement });
   }
 
