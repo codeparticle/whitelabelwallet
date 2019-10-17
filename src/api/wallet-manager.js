@@ -53,14 +53,6 @@ class WalletManager {
     return await this.manager.databaseManager.getWallets();
   }
 
-
-  /**
- * Function to get transactions to display transaction history
- */
-  async fetchTransactions() {
-    return await manager.databaseManager.getTransactions();
-  }
-
   /**
    * Gets a single wallet by id
    * @returns {Object} - wallet
