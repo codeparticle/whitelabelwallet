@@ -325,7 +325,6 @@ export class DatabaseManager {
   getTransactionsAfterDate(dateTime) {
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
     const statement = STMT.TRANSACTIONS.SELECT.AFTER_DATE(filterDate);
-    console.log('========\n', 'statement', statement, '\n========');
     return this.query({ statement });
   }
 
