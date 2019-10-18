@@ -1,0 +1,56 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/fonts';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.send-funds-receipt-layout {
+  color: $slate;
+  display: grid;
+  grid-auto-columns: 100%;
+  grid-auto-rows: 1fr;
+  grid-gap: $spacing-m;
+  padding: $spacing-m 0;
+
+  &__multi-column {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(auto, 50%));
+  }
+}
+
+.send-funds-receipt-item {
+
+  & > label {
+    color: $slate;
+    font-size: $font-size-sm-1;
+  }
+
+  &__text {
+    align-items: center;
+    display: flex;
+    font-size: $font-size-sm-3;
+    font-weight: $font-weight-bold;
+
+    & svg {
+      margin-right: $spacing-xs !important;
+
+      & path {
+        fill: currentColor;
+      }
+    }
+  }
+}
+
+.send-funds-receipt-status {
+  color: $blue !important;
+}
+
+.send-funds-receipt-amount > p {
+  color: $red !important;
+}
+
+.light .send-funds-receipt-item__text {
+  color: $dark;
+}
+
+.dark .send-funds-receipt-item__text {
+  color: $cool-grey-dark;
+}

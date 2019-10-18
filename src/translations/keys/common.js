@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export const COMMON = defineMessages({
+  AMOUNT: {
+    id: 'common.amount',
+    description: 'Amount text',
+    defaultMessage: 'Amount',
+  },
   CANCEL: {
     id: 'common.cancel',
     description: 'Cancel text',
@@ -10,6 +15,11 @@ export const COMMON = defineMessages({
     id: 'common.copy',
     description: 'Copy text',
     defaultMessage: 'Copy',
+  },
+  DATE: {
+    id: 'common.date',
+    description: 'Date text',
+    defaultMessage: 'Date',
   },
   DESCRIPTION: {
     id: 'common.description',
@@ -35,6 +45,11 @@ export const COMMON = defineMessages({
     id: 'common.password',
     description: 'Password text',
     defaultMessage: 'Password',
+  },
+  PENDING: {
+    id: 'common.pending',
+    description: 'Pending text',
+    defaultMessage: 'Pending',
   },
   RECEIVE: {
     id: 'common.receive',
@@ -80,6 +95,11 @@ export const COMMON = defineMessages({
     id: 'common.search_placeholder',
     description: 'Search placeholder',
     defaultMessage: 'Search...',
+  },
+  STATUS: {
+    id: 'common.status',
+    description: 'Status text',
+    defaultMessage: 'Status',
   },
   CONFIRM: {
     id: 'common.confirm',

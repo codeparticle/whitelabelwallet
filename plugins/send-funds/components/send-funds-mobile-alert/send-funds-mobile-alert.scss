@@ -1,0 +1,38 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/fonts';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$gradient-height: 6px;
+$gradient-position-y: calc(0px - #{$spacing-m});
+$transparent-gradient: linear-gradient(45deg,rgba(67, 146, 215, 0.9),rgba(0, 227, 198, 0.9));
+$icon-offset: 30px;
+
+.send-funds-mobile-footer {
+
+  .react-sidenav .content.overlay {
+    background: $transparent-gradient;
+
+    svg {
+      margin-right: $icon-offset;
+    }
+  }
+
+  .send-funds-gradient-border {
+
+    &__text {
+      color: $red;
+      font-size: $font-size-sm-3;
+      margin-top: $spacing-m;
+    }
+
+    &::after {
+      content: '';
+      background: $gradient-alert;
+      height: 6px;
+      left: $gradient-position-y;
+      right: $gradient-position-y;
+      position: absolute;
+      top: 0;
+    }
+  }
+}
