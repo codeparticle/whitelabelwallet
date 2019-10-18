@@ -2,7 +2,7 @@
  * @fileoverview Wallet overview page
  * @author Gabriel Womble, Marc Mathieu
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -110,11 +110,26 @@ function WalletOverviewView({
   const isMobileMultiAddress = isMobile && selectedWallet.multi_address === 1;
   const isWalletInitialized = selectedWalletAddresses.length > 0 && Object.keys(selectedWallet).length > 0;
   const multiAddressData = { name: formatMessage(ALL_ADDRESS_TEXT), showTotal: true };
+  const fetchTransactions = useCallback(
+    (walletAddresses, filterDate = null) => {
+      const dateValue = filterDate && filterDate.value
+        ? filterDate.value
+        : null;
+
+      let setterFunction = props.setSelectedWalletTransactionsSearchResults;
+
+      if (isMultiAddress && dateValue === null) {
+        setterFunction = props.setSelectedWalletTransactions;
+      }
+
+      return walletAddresses.map((addressData) => getTransactionsPerAddress(setterFunction, addressData.address, dateValue));
+    }, [isMultiAddress]
+  );
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
     getAddressesByWalletId(props.setSelectedWalletAddresses, walletId).then((addresses) => fetchTransactions(addresses));
-  }, [setSelectedWallet, isMultiAddress]);
+  }, [setSelectedWallet, fetchTransactions]);
 
   useEffect(() => {
     if (isWalletInitialized) {
@@ -136,7 +151,7 @@ function WalletOverviewView({
   useEffect(() => {
     const walletType = selectedWallet.multi_address === 1 ? true : false;
     setIsMultiAddress(walletType);
-  }, [setSelectedWallet, selectedWallet]);
+  }, [selectedWallet]);
 
   const toggleSidePanel = (event) => {
     event.stopPropagation();
@@ -155,20 +170,6 @@ function WalletOverviewView({
     }
 
     return queryDate;
-  }
-
-  function fetchTransactions(walletAddresses, filterDate = null) {
-    const dateValue = filterDate && filterDate.value
-      ? filterDate.value
-      : null;
-
-    let setterFunction = props.setSelectedWalletTransactionsSearchResults;
-
-    if (isMultiAddress && dateValue === null) {
-      setterFunction = props.setSelectedWalletTransactions;
-    }
-
-    return walletAddresses.map((addressData) => getTransactionsPerAddress(setterFunction, addressData.address, dateValue));
   }
 
   function PrimaryAction({ collapsed, iconProps }) {

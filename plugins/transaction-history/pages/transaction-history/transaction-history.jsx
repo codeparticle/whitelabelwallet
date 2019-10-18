@@ -44,19 +44,24 @@ const TransactionHistoryView = ({
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { isMobile } = useMedia();
   const haveTransactions =  transactions.length > 0;
+  const {
+    setAddresses,
+    setTransactionsSearchResults,
+    setTransactions,
+  } = props;
 
   useEffect(() => {
-    fetchTransactions(props.setTransactions);
-  }, [props.setTransactions]);
+    fetchTransactions(setTransactions);
+  }, [setTransactions]);
 
   useEffect(() => {
-    fetchAddresses(props.setAddresses);
-  }, [props.setAddresses]);
+    fetchAddresses(setAddresses);
+  }, [setAddresses]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
       setPreviousSelectedData(selectedDate.value);
-      fetchTransactions(props.setTransactions, selectedDate.value);
+      fetchTransactions(setTransactions, selectedDate.value);
     }
   }, [selectedDate]);
 
@@ -94,14 +99,14 @@ const TransactionHistoryView = ({
         SecondaryAction,
       }}
       removePadding
-      className={'transaction-history-page'}
+      className="transaction-history-page"
     >
       <div className="page-content-container">
         <Visible when={!isMobile}>
           <div className="search-wrapper">
             <SearchTransactions
               formatMessage={formatMessage}
-              setTransactionsSearchResults={props.setTransactionsSearchResults}
+              setTransactionsSearchResults={setTransactionsSearchResults}
               addresses={addresses}
             />
           </div>
