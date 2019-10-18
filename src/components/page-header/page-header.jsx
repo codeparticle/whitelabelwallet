@@ -36,7 +36,7 @@ const PageHeader = ({
 
   const pageHeaderProps = {
     IconButtons: HeaderActionButtons,
-    NavigationButton: hideNavButton ? null : NavigationButton,
+    NavigationButton: hideNavButton ? () => null : NavigationButton,
     PrimaryAction,
     SecondaryAction,
     title,

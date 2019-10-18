@@ -23,8 +23,6 @@ function TransactionsList ({
 }) {
   const [listData, setListData] = useState([]);
   const { isMobile } = useMedia();
-
-
   const determineListData = useCallback(
     async () => {
       if (!isMobile || selectedWallet.multi_address === 0 || selectedAddress.address === undefined) {
