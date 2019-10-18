@@ -11,6 +11,7 @@ import { Visible } from '@codeparticle/react-visible';
 import {
   Button,
   ButtonVariants,
+  Carousel,
   IconButton,
   IconVariants,
   Select,
@@ -21,6 +22,7 @@ import { VARIANTS } from 'lib/constants';
 import { Page } from 'components';
 
 import {
+  setSelectedAddress,
   setSelectedWallet,
   setSelectedWalletAddresses,
   setSelectedWalletTransactions,
@@ -37,6 +39,7 @@ import {
   getSelectedWallet,
   getSelectedWalletAddresses,
   getSelectedWalletTransactions,
+  getSelectedAddress,
 } from 'plugins/my-wallets/rdx/selectors';
 import {
   getWalletById,
@@ -62,13 +65,14 @@ const {
   ALL_TIME,
 } = DATE_OPTIONS;
 const {
-  MANAGE_WALLET_BUTTON_LABEL,
+  ALL_ADDRESS_TEXT,
   CURRENT_BALANCE_LABEL,
   DATE_OPTION_TODAY,
   DATE_OPTION_WEEK,
   DATE_OPTION_MONTH,
   DATE_OPTION_YEAR,
   DATE_OPTION_ALL_TIME,
+  MANAGE_WALLET_BUTTON_LABEL,
   NO_TRANSACTIONS_TEXT,
 } = MY_WALLETS;
 
@@ -117,6 +121,7 @@ function WalletOverviewView({
     formatMessage,
   },
   match,
+  selectedAddress,
   selectedWallet,
   selectedWalletAddresses,
   selectedWalletTransactions,
@@ -124,11 +129,15 @@ function WalletOverviewView({
 }) {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDateValue());
-  const [selectedAddress, setSelectedAddress] = useState({});
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
+  const [addressData, setAddressData] = useState([]);
   const { name } = selectedWallet;
   const { walletId } = match.params;
   const { isMobile } = useMedia();
+  const haveTransactions =  selectedWalletTransactions.length > 0;
+  const isMobileMultiAddress = isMobile && selectedWallet.multi_address === 1;
+  const isWalletInitialized = selectedWalletAddresses.length > 0 && Object.keys(selectedWallet).length > 0;
+  const multiAddressData = { name: formatMessage(ALL_ADDRESS_TEXT), showTotal: true };
 
   useEffect(() => {
     getWalletById(walletId, props.setSelectedWallet);
@@ -136,8 +145,14 @@ function WalletOverviewView({
   }, [setSelectedWallet]);
 
   useEffect(() => {
-    setSelectedAddress(selectedWalletAddresses[0]);
-  }, [selectedWalletAddresses]);
+    if (isWalletInitialized) {
+      if (isMobileMultiAddress && addressData.length === 0) {
+        setAddressData([multiAddressData, ...selectedWalletAddresses]);
+      } else if (isMobileMultiAddress && addressData.length > 0) {
+        props.setSelectedAddress(addressData[0]);
+      }
+    }
+  }, [selectedWalletAddresses, isMobileMultiAddress, addressData, isWalletInitialized]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
@@ -207,19 +222,30 @@ function WalletOverviewView({
   }
 
   function getBalance() {
-    return selectedWalletAddresses.reduce((total, currentAddress) => {
-      return total + currentAddress.balance;
-    }, 0);
+    if (!isMobileMultiAddress || selectedAddress.showTotal) {
+      return selectedWalletAddresses.reduce((total, currentAddress) => {
+        return total + currentAddress.balance;
+      }, 0);
+    }
+
+    return selectedAddress.balance;
   }
 
-  const haveTransactions =  selectedWalletTransactions.length > 0;
+  function getTitle() {
+    if (!isMobileMultiAddress) {
+      return name;
+    }
+
+    return `${name} (${selectedWalletAddresses.length})`;
+  }
+
 
   return (
     <Page
       headerProps={{
         PrimaryAction,
         SecondaryAction,
-        title: name || '',
+        title: getTitle() || '',
         to: `/${PLUGIN}`,
         type: SECONDARY,
       }}
@@ -241,11 +267,21 @@ function WalletOverviewView({
             selectedWalletTransactions={selectedWalletTransactions}
             selectedWalletAddresses={selectedWalletAddresses}
             selectedWallet={selectedWallet}/>}
+          <Visible when={isMobileMultiAddress}>
+            <div className="selected-address-wrapper">
+              <p className="selected-address">{selectedAddress.name}</p>
+            </div>
+          </Visible>
           <div className="wallet-balance-data">
             <p className="current-balance-text">{formatMessage(CURRENT_BALANCE_LABEL)}</p>
             <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
             <span className="usd-value">$5,911.19</span>
           </div>
+          <Visible when={isMobileMultiAddress}>
+            <div className="carousel-wrapper">
+              <Carousel dataSet={addressData} onChange={props.setSelectedAddress} />
+            </div>
+          </Visible>
         </div>
         <div className={`list-wrapper${haveTransactions ? '' : '-empty'}`}>
           <div className={isMobile ? `mobile-list` : ''}>
@@ -254,6 +290,7 @@ function WalletOverviewView({
               fallback={<NoTransactions isMobile={isMobile} formatMessage={formatMessage}/>}
             >
               <TransactionsList
+                selectedAddress={selectedAddress}
                 selectedWallet={selectedWallet}
                 selectedWalletAddresses={selectedWalletAddresses}
                 selectedWalletTransactions={selectedWalletTransactions} />
@@ -284,6 +321,7 @@ function WalletOverviewView({
 WalletOverviewView.propTypes = {
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
+  selectedAddress: PropTypes.object.isRequired,
   selectedWallet: PropTypes.object,
   selectedWalletTransactions: PropTypes.array,
   setSelectedWallet: PropTypes.func.isRequired,
@@ -294,11 +332,13 @@ WalletOverviewView.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
+  const selectedAddress = getSelectedAddress(state);
   const selectedWallet = getSelectedWallet(state);
   const selectedWalletAddresses = getSelectedWalletAddresses(state);
   const selectedWalletTransactions = getSelectedWalletTransactions(state);
 
   return {
+    selectedAddress,
     selectedWallet,
     selectedWalletAddresses,
     selectedWalletTransactions,
@@ -307,6 +347,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setSelectedWallet,
+  setSelectedAddress,
   setSelectedWalletAddresses,
   setSelectedWalletTransactions,
   setSelectedWalletTransactionsSearchResults,
