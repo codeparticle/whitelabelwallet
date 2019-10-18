@@ -3,6 +3,7 @@ import { uniqBy } from 'lodash';
 
 const initialState = {
   transactions: [],
+  selectedAddress: { name: '' },
 };
 
 export function walletsReducer(state = initialState, action) {
@@ -17,6 +18,12 @@ export function walletsReducer(state = initialState, action) {
       return {
         ...state,
         selected: action.payload,
+      };
+    };
+    case types.SET_SELECTED_ADDRESS: {
+      return {
+        ...state,
+        selectedAddress: action.payload,
       };
     };
     case types.SET_SELECTED_WALLET_ADDRESSES: {

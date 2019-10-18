@@ -1,11 +1,13 @@
 @import 'src/styles/index.scss';
 
+$address-name-position: 20px;
+$balance-data-bottom-position: 108px;
 $chart-section-height: 360px;
+$carousel-bottom-position: 65px;
 $mobile-chart-section-height: 220px;
 $mobile-list-bottom-position: 70px;
 $mobile-list-row: 118px;
 $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
-$chart-opacity: 0.5;
 
 .wallet-overview-page {
 
@@ -20,10 +22,6 @@ $chart-opacity: 0.5;
       flex-direction: column;
       justify-content: flex-end;
       position: relative;
-
-      div:first-child {
-        opacity: $chart-opacity;
-      }
 
       svg {
 
@@ -40,7 +38,7 @@ $chart-opacity: 0.5;
     
     .list-wrapper {
       background: $white;
-      overflow-y: scroll;
+      overflow-y: auto;
 
       &-empty {
         align-items: center;
@@ -110,15 +108,25 @@ $chart-opacity: 0.5;
       align-items: center;
       justify-content: center;
 
+      .selected-address-wrapper {
+        color: $blue-shade;
+        font-size: $font-size-sm-2;
+        position: absolute;
+        top: $address-name-position
+      }
+
       .wallet-balance-data {
         align-items: center;
         align-self: inherit;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding: 0;
+        bottom: $balance-data-bottom-position;
 
         .balance {
           font-size: $font-size-lg-1;
+          margin-bottom: $space-2;
 
           svg {
             height: $font-size-md-4; 
@@ -133,6 +141,12 @@ $chart-opacity: 0.5;
         .usd-value {
           color: $grey;
         }
+      }
+
+      .carousel-wrapper {
+        bottom: $carousel-bottom-position;
+        position: absolute;
+        width: 100%;
       }
     }
 
@@ -236,6 +250,10 @@ $chart-opacity: 0.5;
 
     .mobile-content-container {
 
+      .selected-address-wrapper {
+        color: $white;
+      }
+
       .mobile-list,
       .wallet-nav-bar {
         background: $dark-bg;
@@ -250,7 +268,7 @@ $chart-opacity: 0.5;
   @include mquery($width-breakpoint-xs) {
 
     section {
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
 }

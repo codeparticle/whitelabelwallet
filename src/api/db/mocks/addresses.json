@@ -19,7 +19,7 @@
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
     "is_active": 1,
-    "balance": 12.5000
+    "balance": 12.5001
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "password_hash": "",
     "created_date": "2013-10-07 08:23:19.120",
     "is_active": 0,
-    "balance": 4.0000,
+    "balance": 4.0001,
     "parent_id": 2
   },
   {

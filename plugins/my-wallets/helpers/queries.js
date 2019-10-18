@@ -77,6 +77,7 @@ async function getTransactionsPerAddress(setFn, address, filterDate) {
   if (setFn !== null) {
     setFn(res);
   }
+  return res;
 }
 /**
  * Function to get transactions to display on wallet chart
