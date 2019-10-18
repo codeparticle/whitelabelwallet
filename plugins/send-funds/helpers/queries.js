@@ -58,6 +58,17 @@ async function getFormattedContactName(setFn, address) {
 }
 
 /**
+ * Function that gets a wallets name by address and sets it to state
+ * @returns {string} - wallet name
+ * @param {Function} setFn - the funtion that sets the query response to state
+ * @param {string} address - the address to query
+ */
+async function getWalletNameByAddress(setFn, address) {
+  const res = await manager.databaseManager.getWalletNameByAddress(address);
+  setFn(res);
+}
+
+/**
  * Function that retrieves formatted address name from DB
  * @param {func} setFn - the function that sets the query response to state
  * @param {string} address - the address to query
@@ -78,4 +89,5 @@ export {
   getFormattedContactName,
   getWalletAddresses,
   getWalletAddressesByValue,
+  getWalletNameByAddress,
 };

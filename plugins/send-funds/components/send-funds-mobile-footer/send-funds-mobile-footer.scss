@@ -7,15 +7,17 @@ $btn-border-radius: calc(#{$btn-height} / 2);
 .send-funds-mobile-footer {
   align-items: center;
   display: flex;
+  flex-direction: column;
   grid-area: footer;
   justify-content: center;
-  padding: $spacing-m;
+  padding: 0 $spacing-m $spacing-m;
   position: relative;
   width: 100%;
 
   button {
     border-radius: $btn-border-radius;
     height: $btn-height;
+    margin-top: $spacing-m;
 
     &:disabled {
       background: $grey;
