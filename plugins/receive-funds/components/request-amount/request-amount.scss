@@ -1,0 +1,16 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/fonts';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$input-height: 40px;
+
+.receive-funds-request-amount {
+  margin: 0 $spacing-l;
+
+  input {
+    height: $input-height;
+  }
+
+  label {
+    font-weight: $font-weight-normal;
+  }
+}

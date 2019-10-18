@@ -11,7 +11,7 @@
   justify-items: center;
   margin-top: $space-4;
   max-height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   @include mquery($width-breakpoint-xs) {
     grid-gap: $space-1;

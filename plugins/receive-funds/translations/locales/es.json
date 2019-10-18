@@ -1,3 +1,12 @@
 {
-  "plugin.receive_funds.nav_item": "Mis Billeteras"
+  "plugin.receive_funds.copy_address": "Copia la Dirección",
+  "plugin.receive_funds-email_body": "{hasAmount, select, true {Cantidad Solicitada: {amount}. Dirección del Destinatario: \"{address}\".} other {Dirección del Destinatario: \"{address}\".} }",
+  "plugin.receive_funds-email_subject": "Coinbase: Solicitud de transferencia de fondos.",
+  "plugin.receive_funds.qr_sender_instructions": "Haga que el remitente escanee este código para facilitar la configuración de la transacción.",
+  "plugin.receive_funds.qr_title": "Generador de código QR",
+  "plugin.receive_funds.request_amount": "Solicitar Monto Específico",
+  "plugin.receive_funds.request_qr_text": "Solicite G {amount} a su dirección:",
+  "plugin.receive_funds.select_wallet": "Seleccionar Billetera",
+  "plugin.receive_funds.selected_address": "Dirección Seleccionada:",
+  "plugin.receive_funds.title": "Recibir Fondos"
 }

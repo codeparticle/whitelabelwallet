@@ -38,17 +38,17 @@ function getColumnDefs(formatMessage) {
   ];
 }
 
-// Fixes a react `invalid prop supplied to warning`.
-const childList = props => <FromAddressChildList {...props} />;
-
-function FromAddressListView({ formatMessage, ...props }) {
+function FromAddressListView({ formatMessage, onClick, searchLabel, ...props }) {
   const [rowData, setRowData] = useState([]);
+  const setToState = onClick || props.setFromAddress;
+
+  const childList = props => <FromAddressChildList onClick={onClick} {...props} />;
 
   function onRowClicked(data) {
     if (data.addresses.length === 1) {
       const [{ address }] = data.addresses;
 
-      props.setFromAddress(address);
+      setToState(address);
     }
   }
 
@@ -67,7 +67,7 @@ function FromAddressListView({ formatMessage, ...props }) {
     <Fragment>
       <SendFundsSearch
         area="send-from"
-        label={formatMessage(SEND_FROM)}
+        label={searchLabel || formatMessage(SEND_FROM)}
         placeholder={formatMessage(SEARCH_PLACEHOLDER)}
         onSubmit={onSubmit}
       />
@@ -79,7 +79,7 @@ function FromAddressListView({ formatMessage, ...props }) {
             id="from-address-list"
             matchProperty="id"
             rowData={rowData}
-            onDeselect={resetStateHandler(props.setFromAddress)}
+            onDeselect={resetStateHandler(setToState)}
             onRowClicked={onRowClicked}
           />
           <style jsx>
@@ -99,7 +99,14 @@ function FromAddressListView({ formatMessage, ...props }) {
 
 FromAddressListView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   setFromAddress: PropTypes.func.isRequired,
+  searchLabel: PropTypes.string,
+};
+
+FromAddressListView.defaultProps = {
+  onClick: null,
+  searchLabel: null,
 };
 
 const mapDispatchToProps = {

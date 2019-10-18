@@ -10,10 +10,9 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { SettingsSidepanel } from 'components';
 import { PROP_TYPES } from 'lib/constants';
-import { empty } from 'lib/utils';
 import { settings as e2e } from 'e2e/constants';
 
-const { SvgSettings, SvgUserAccount } = svgs.icons;
+const { SvgSettings } = svgs.icons;
 
 const { iconPropsShape } = PROP_TYPES;
 
@@ -43,22 +42,6 @@ SettingsButton.propTypes = {
   iconProps: iconPropsShape,
 };
 
-function AccountButton({ iconProps }) {
-  return (
-    <IconButton
-      className="page-header__icon"
-      variant={IconVariants.SLATE}
-      onClick={empty}
-      icon={<SvgUserAccount {...iconProps} />}
-    />
-  );
-}
-
-AccountButton.propTypes = {
-  iconProps: iconPropsShape,
-};
-
 export const HeaderActionButtons = [
   SettingsButton,
-  AccountButton,
 ];
