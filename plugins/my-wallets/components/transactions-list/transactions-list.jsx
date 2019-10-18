@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   List,
@@ -24,9 +24,21 @@ function TransactionsList ({
   const [listData, setListData] = useState([]);
   const { isMobile } = useMedia();
 
+
+  const determineListData = useCallback(
+    async () => {
+      if (!isMobile || selectedWallet.multi_address === 0 || selectedAddress.address === undefined) {
+        setListData(selectedWalletTransactions);
+        return;
+      }
+
+      setListData(await getTransactionsPerAddress(null, selectedAddress.address, null));
+    }, [selectedAddress]
+  );
+
   useEffect(() => {
     determineListData();
-  }, [selectedAddress]);
+  }, [determineListData]);
 
   function addressRenderer ({ data }) {
     return (
@@ -91,15 +103,6 @@ function TransactionsList ({
   ];
 
   columns = isMobile ? mobileColDefs : columns;
-
-  const determineListData = async () => {
-    if (!isMobile || selectedWallet.multi_address === 0 || selectedAddress.address === undefined) {
-      setListData(selectedWalletTransactions);
-      return;
-    }
-
-    setListData(await getTransactionsPerAddress(null, selectedAddress.address, null));
-  };
 
   return (
     <List
