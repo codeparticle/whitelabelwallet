@@ -38,7 +38,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     
     .list-wrapper {
       background: $white;
-      overflow-y: scroll;
+      overflow-y: auto;
 
       &-empty {
         align-items: center;
@@ -144,9 +144,9 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       }
 
       .carousel-wrapper {
-        width: 100%;
-        position: absolute;
         bottom: $carousel-bottom-position;
+        position: absolute;
+        width: 100%;
       }
     }
 
@@ -268,7 +268,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
   @include mquery($width-breakpoint-xs) {
 
     section {
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
 }

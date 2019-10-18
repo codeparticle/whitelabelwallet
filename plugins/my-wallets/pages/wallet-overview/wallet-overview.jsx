@@ -152,7 +152,7 @@ function WalletOverviewView({
         props.setSelectedAddress(addressData[0]);
       }
     }
-  }, [selectedWalletAddresses, selectedWallet, isMobileMultiAddress, addressData, isWalletInitialized]);
+  }, [selectedWalletAddresses, isMobileMultiAddress, addressData, isWalletInitialized]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
