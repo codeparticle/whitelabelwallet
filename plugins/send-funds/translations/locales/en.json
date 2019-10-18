@@ -16,8 +16,6 @@
   "plugin.send_funds.send_from": "Send from:",
   "plugin.send_funds.send_successful": "Success! G {amount} has been sent to {formattedName}",
   "plugin.send_funds.send_to_placeholder": "Search or enter address...",
-  "plugin.send_funds.send_to": "Send to:",
-  "plugin.send_funds.sent_from": "Sent From",
   "plugin.send_funds.sent_to": "Sent To",
   "plugin.send_funds.success_header": "Success!",
   "plugin.send_funds.title": "Send Funds",

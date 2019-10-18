@@ -1,0 +1,77 @@
+@import 'src/styles/index.scss';
+
+$top-padding: 25px;
+$side-padding: 40px;
+$half: 50%;
+
+.transaction-detail-content {
+  display: flex;
+  flex-direction: column;
+  padding: $top-padding $side-padding;
+
+  .row {
+    padding-bottom: $space-4;
+
+    .field {
+      font-size: $font-size-sm-2;
+
+      .complete {
+        color: $green;
+      }
+
+      .pending {
+        color: $blue;
+      }
+    }
+
+    label {
+      font-size: $font-size-xs-3;
+    }
+
+  }
+
+  .multi-field-row {
+    display: flex;
+    flex-direction: row;
+
+    .row {
+      width: $half;
+    }
+
+    .amount-wrapper {
+      align-items: center;
+      display: flex;
+
+      svg {
+        margin-right: $space-1;
+
+        path {
+          fill: currentColor;
+        }
+      }
+      
+    }
+  }
+}
+
+.dark .transaction-detail-content {
+  
+  .field {
+    color: $white;
+  }
+
+  label {
+    color: $grey;
+  }
+}
+
+.light .transaction-detail-content { 
+  
+  .field {
+    color: $dark;
+  }
+
+  label {
+    color: $blue-shade; 
+  }
+}

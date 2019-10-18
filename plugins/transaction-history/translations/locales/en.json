@@ -1,2 +1,6 @@
 {
+  "plugin.transaction_details.complete_label": "Complete",
+  "plugin.transaction_history.nav_item": "Transaction History",
+  "plugin.transaction_history.transaction_button": "Ok",
+  "plugin.transaction_history.transaction_details": "Transaction Details"
 }

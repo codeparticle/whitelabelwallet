@@ -17,14 +17,16 @@ import {
 
 function TransactionsList ({
   transactions,
+  onDeselect,
+  onRowClick,
+  selectedTransaction,
 }) {
   const [listData, setListData] = useState([]);
-  const [selectedTransactions, setSelectedTransaction] = useState({});
   const { isMobile } = useMedia();
 
   useEffect(() => {
     setListData(sortListByDate(transactions));
-  }, [transactions, selectedTransactions]);
+  }, [transactions, selectedTransaction]);
 
   const columnDefs = [
     {
@@ -83,12 +85,16 @@ function TransactionsList ({
       showHeader={!isMobile}
       columnDefs={columns}
       rowData={listData || []}
-      onRowClicked={setSelectedTransaction}
+      onDeselect={onDeselect}
+      onRowClicked={onRowClick}
     />
   );
 }
 
 TransactionsList.prototypes = {
+  onDeselect: PropTypes.func.isRequired,
+  onRowClick: PropTypes.func.isRequired,
+  selectedTransaction: PropTypes.object.isRequired,
   transactions: PropTypes.array.isRequired,
 };
 

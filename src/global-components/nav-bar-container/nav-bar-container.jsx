@@ -46,8 +46,6 @@ const NavBarView = ({
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const toggleSettingsPanel = () => setIsSettingsOpen(!isSettingsOpen);
 
-  console.log('========\n', 'plugins', plugins, '\n========');
-
   if (!authToken) {
     return null;
   }
@@ -59,14 +57,10 @@ const NavBarView = ({
     pluginNavComponentProps.push(mobileSettingsLink(location.pathname));
   }
 
-  const navItems = pluginNavComponentProps.map(item => {
-    console.log('========\n', 'item', item, '\n========');
-    return {
-      ...item,
-      label: typeof item.label === 'object' ? formatMessage(item.label) : item.label,
-    };
-
-  });
+  const navItems = pluginNavComponentProps.map(item => ({
+    ...item,
+    label: typeof item.label === 'object' ? formatMessage(item.label) : item.label,
+  }));
 
   function closeMobileNavBar(label) {
     if (label === formatMessage(SETTINGS_LABEL)) {

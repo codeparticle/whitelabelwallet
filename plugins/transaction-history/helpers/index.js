@@ -1,3 +1,5 @@
+export { COMPLETE_STATUS } from './constants';
+
 export {
   getWalletByAddress,
   fetchAddresses,
