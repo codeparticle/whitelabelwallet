@@ -28,7 +28,11 @@ function CustomAmountRenderer({ data, column }) {
 
 CustomAmountRenderer.propTypes = {
   data: PropTypes.object.isRequired,
-  column: PropTypes.number.isRequired,
+  column: PropTypes.number,
+};
+
+CustomAmountRenderer.defaultProps = {
+  column: 0,
 };
 
 export { CustomAmountRenderer };

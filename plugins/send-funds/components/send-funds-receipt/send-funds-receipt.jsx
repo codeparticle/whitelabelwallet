@@ -12,15 +12,17 @@ import { TRANSLATION_KEYS } from 'translations/keys';
 
 import { TruncatedText } from 'plugins/send-funds/components';
 import { getWalletNameByAddress, notEmptyOrNull } from 'plugins/send-funds/helpers';
-import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import './send-funds-receipt.scss';
 
+const { COMMON } = TRANSLATION_KEYS;
 const {
+  AMOUNT,
+  DESCRIPTION,
+  PENDING,
+  STATUS,
   SENT_FROM,
   SENT_TO,
-} = SEND_FUNDS;
-const { COMMON } = TRANSLATION_KEYS;
-const { AMOUNT, DESCRIPTION, PENDING, STATUS } = COMMON;
+} = COMMON;
 const { OVERLAY } = VARIANTS;
 const { SvgCoinSymbol, SvgSend } = svgs.icons;
 
