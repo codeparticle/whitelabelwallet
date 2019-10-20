@@ -1,0 +1,3 @@
+const PLACEHOLDER_USD_VALUE = '$5,911.19';
+
+export { PLACEHOLDER_USD_VALUE };
