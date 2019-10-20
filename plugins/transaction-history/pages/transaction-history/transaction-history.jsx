@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
 import { Page, NoTransactions } from 'components';
 import { getSelectOptions } from 'lib/utils';
 import { fetchAddresses, fetchTransactions } from 'plugins/transaction-history/helpers';
+import { PLACEHOLDER_USD_VALUE } from 'plugins/transaction-history/helpers';
 import {
   setAddresses,
   setTransactions,
@@ -51,6 +53,11 @@ const TransactionHistoryView = ({
     setTransactionsSearchResults,
     setTransactions,
   } = props;
+
+  const contentClass = classNames(
+    'page-content-container',
+    { 'mobile-content-container': isMobile }
+  );
 
   useEffect(() => {
     fetchTransactions(setTransactions);
@@ -113,7 +120,7 @@ const TransactionHistoryView = ({
       removePadding
       className="transaction-history-page"
     >
-      <div className={`page-content-container ${isMobile ? 'mobile-content-container' : ''}`}>
+      <div className={contentClass}>
         <Visible when={!isMobile}>
           <div className="search-wrapper">
             <SearchTransactions
@@ -127,7 +134,7 @@ const TransactionHistoryView = ({
           <Visible when={isMobile}>
             <div className="wallet-balance-data">
               <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
-              <span className="usd-value">$5,911.19</span>
+              <span className="usd-value">{PLACEHOLDER_USD_VALUE}</span>
             </div>
           </Visible>
           <TransactionChart
