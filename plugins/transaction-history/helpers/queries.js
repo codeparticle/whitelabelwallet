@@ -25,16 +25,6 @@ async function fetchAddresses(setFn) {
 }
 
 /**
- * Function that gets all Addresses from DB, and then sets the response
- * to the redux store
- * @param {func} setFn - function that sets the response to state
- */
-async function fetchAddresses(setFn) {
-  const res = await WalletManager.fetchAddresses();
-  setFn(res);
-}
-
-/**
  * Function to get a single wallet from db by Address
  * @param {string} address - address of wallet to get
  * @param {func} setFn - function that sets the res to state
