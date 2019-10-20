@@ -46,8 +46,6 @@ const NavBarView = ({
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const toggleSettingsPanel = () => setIsSettingsOpen(!isSettingsOpen);
 
-  console.log('========\n', 'plugins', plugins, '\n========');
-
   if (!authToken) {
     return null;
   }
@@ -60,7 +58,6 @@ const NavBarView = ({
   }
 
   const navItems = pluginNavComponentProps.map(item => {
-    console.log('========\n', 'item', item, '\n========');
     return {
       ...item,
       label: typeof item.label === 'object' ? formatMessage(item.label) : item.label,
