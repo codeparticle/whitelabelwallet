@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   List,
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
-import { empty } from 'lib/utils';
+import { sortListByDate } from 'lib/utils';
 
 import {
   CustomAmountRenderer,
@@ -13,34 +13,49 @@ import {
   CustomTypeRenderer,
   CustomWalletRenderer,
 }  from 'plugins/transaction-history/components';
+import { GRID_COLUMNS } from 'plugins/transaction-history/helpers';
+
+const {
+  FIRST_COLUMN,
+  SECOND_COLUMN,
+  THIRD_COLUMN,
+  FOURTH_COLUMN,
+} = GRID_COLUMNS;
+
 
 function TransactionsList ({
   transactions,
 }) {
+  const [listData, setListData] = useState([]);
+  const [selectedTransactions, setSelectedTransaction] = useState({});
   const { isMobile } = useMedia();
+
+  useEffect(() => {
+    setListData(sortListByDate(transactions));
+  }, [transactions, selectedTransactions]);
 
 
   const columnDefs = [
     {
       title: 'Date',
-      gridColumns: '1 / 3',
+      gridColumns: FIRST_COLUMN,
       property: 'created_date',
       customRenderer: CustomDateRenderer,
     },
     {
       title: 'Wallet',
-      gridColumns: '4 / 7',
+      gridColumns: SECOND_COLUMN,
       property: 'transaction_type',
       customRenderer: CustomWalletRenderer,
     },
     {
       title: 'Details',
-      gridColumns: '7 / 10',
+      gridColumns: THIRD_COLUMN,
       property: 'description',
     },
     {
       title: 'Amount',
-      gridColumns: '11/12',
+      gridColumns: FOURTH_COLUMN,
       property: 'amount',
       customRenderer: CustomAmountRenderer,
     },
@@ -76,8 +91,8 @@ function TransactionsList ({
       isStriped={!isMobile}
       showHeader={!isMobile}
       columnDefs={columns}
-      rowData={transactions}
-      onRowClicked={empty}
+      rowData={listData || []}
+      onRowClicked={setSelectedTransaction}
     />
   );
 }

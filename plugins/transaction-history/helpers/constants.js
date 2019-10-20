@@ -1,0 +1,8 @@
+const GRID_COLUMNS = {
+  FIRST_COLUMN: '1/3',
+  SECOND_COLUMN: '4/7',
+  THIRD_COLUMN: '7/10',
+  FOURTH_COLUMN: '11/12',
+};
+
+export { GRID_COLUMNS };
