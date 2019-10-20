@@ -15,6 +15,7 @@ import { getSidepanelVariant } from './layout';
 import { mapInputErrors } from './map-input-errors';
 import { regexToString } from './regex-to-string';
 import { safeString, unescape } from './strings';
+import { sortListByDate } from './sort-by-date-desc';
 
 export {
   arrayToRegex,
@@ -34,5 +35,6 @@ export {
   mapInputErrors,
   regexToString,
   safeString,
+  sortListByDate,
   unescape,
 };
