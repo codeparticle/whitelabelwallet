@@ -57,13 +57,10 @@ const NavBarView = ({
     pluginNavComponentProps.push(mobileSettingsLink(location.pathname));
   }
 
-  const navItems = pluginNavComponentProps.map(item => {
-    return {
-      ...item,
-      label: typeof item.label === 'object' ? formatMessage(item.label) : item.label,
-    };
-
-  });
+  const navItems = pluginNavComponentProps.map(item => ({
+    ...item,
+    label: typeof item.label === 'object' ? formatMessage(item.label) : item.label,
+  }));
 
   function closeMobileNavBar(label) {
     if (label === formatMessage(SETTINGS_LABEL)) {
