@@ -634,12 +634,13 @@ export class DatabaseManager {
    * @returns {string} formattedAddress: 'WalletName - AddressName'
    * @param {string} address - address value to query
    */
-  async getFormattedAddressName(address) {
+  async getAddressName(address) {
     const statement = STMT.ADDRESSES.SELECT.FORMATTED_ADDRESS_NAME(address);
-    const [{ wallet_name, address_name }] = await this.query({ statement });
+    const [{ wallet_name, address_name = null }] = await this.query({ statement });
 
-    return address_name
-      ? `${wallet_name} - ${address_name}`
-      : wallet_name;
+    return {
+      walletName: wallet_name,
+      addressName: address_name,
+    };
   }
 }

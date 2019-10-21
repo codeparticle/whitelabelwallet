@@ -6,8 +6,13 @@ export const RECEIVE_FUNDS = defineMessages({
     description: 'Copy Address text',
     defaultMessage: 'Copy Address',
   },
+  COPY_RAW: {
+    id: 'plugin.receive_funds.copy_raw',
+    description: 'Copy Raw Address Text',
+    defaultMessage: 'Copy Raw Address',
+  },
   EMAIL_BODY: {
-    id: 'plugin.receive_funds-email_body',
+    id: 'plugin.receive_funds.email_body',
     description: 'Email body text',
     defaultMessage: `{hasAmount, select,
       true {Amount Requested: {amount}. Recipient's Address: "{address}".}
@@ -15,9 +20,19 @@ export const RECEIVE_FUNDS = defineMessages({
     }`,
   },
   EMAIL_SUBJECT: {
-    id: 'plugin.receive_funds-email_subject',
+    id: 'plugin.receive_funds.email_subject',
     description: 'Email Subject text',
     defaultMessage: 'Coinbase: Request to transfer funds',
+  },
+  EMAIL_QR: {
+    id: 'plugin.receive_funds.email_qr',
+    description: 'Email QR Text',
+    defaultMessage: 'Email QR Code',
+  },
+  ENTER_AMOUNT: {
+    id: 'plugin.receive_funds.enter_amount',
+    description: 'Enter Amount text',
+    defaultMessage: 'Enter Amount',
   },
   QR_SENDER_INSTRUCTIONS: {
     id: 'plugin.receive_funds.qr_sender_instructions',
@@ -48,6 +63,11 @@ export const RECEIVE_FUNDS = defineMessages({
     id: 'plugin.receive_funds.selected_address',
     description: 'Selected Address text',
     defaultMessage: 'Selected Address:',
+  },
+  SHARE_ADDRESS: {
+    id: 'plugin.receive_funds.share_address',
+    description: 'Share Address text',
+    defaultMessage: 'Share Address',
   },
   TITLE: {
     id: 'plugin.receive_funds.title',

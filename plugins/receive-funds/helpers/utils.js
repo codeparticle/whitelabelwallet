@@ -38,7 +38,12 @@ function mailToOnClick({ subject, body }) {
     mailTo += `body=${encodeURIComponent(body)}`;
   }
 
-  window.open(mailTo);
+  // Build link element, and trigger click
+  const link = document.createElement('a');
+  link.href = mailTo;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 export {

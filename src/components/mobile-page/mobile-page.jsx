@@ -18,11 +18,12 @@ function MobilePage({
   PrimaryAction,
   title,
   onAddClicked,
+  NavigationButton,
 }) {
 
   const pageViewProps = {
     Icon,
-    NavigationButton: NavTrigger,
+    NavigationButton: NavigationButton || NavTrigger,
     PrimaryAction,
     title,
   };
@@ -45,12 +46,14 @@ function MobilePage({
 MobilePage.propTypes = {
   children: PropTypes.node.isRequired,
   Icon: PropTypes.func.isRequired,
+  NavigationButton: PropTypes.func,
   onAddClick: PropTypes.func,
   PrimaryAction: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
 };
 
 MobilePage.defaultProps = {
+  NavigationButton: null,
   onAddedClick: null,
 };
 
