@@ -14,7 +14,7 @@ const { SELECT_ADDRESS, NUM_ADDRESSES } = SEND_FUNDS;
 function SelectAddresses({
   formatMessage,
   setFormSelecting,
-  setFromAddress,
+  setToState,
   setIsSelecting,
 }) {
   const [rowData, setRowData] = useState([]);
@@ -24,7 +24,7 @@ function SelectAddresses({
   }
 
   function onAddressClicked(data) {
-    setFromAddress(data);
+    setToState(data);
     setIsSelecting(false);
     setFormSelecting(false);
   }
@@ -59,7 +59,7 @@ function SelectAddresses({
 SelectAddresses.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   setFormSelecting: PropTypes.func.isRequired,
-  setFromAddress: PropTypes.func.isRequired,
+  setToState: PropTypes.func.isRequired,
   setIsSelecting: PropTypes.func.isRequired,
 };
 

@@ -10,21 +10,24 @@ import {
   IconVariants,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { PROP_TYPES } from 'lib/constants';
 
+const { requiredIfNotOther } = PROP_TYPES;
 const { SvgChevronLeft } = svgs.icons;
 
 function BackButtonView({
   history,
+  onClick,
   to,
 }) {
-  const onClick = () => {
+  const goTo = () => {
     history.push(to);
   };
 
   return (
     <IconButton
       className="page-header__icon"
-      onClick={onClick}
+      onClick={onClick || goTo}
       variant={IconVariants.SLATE}
       icon={<SvgChevronLeft height={20} width={20} />}
     />
@@ -33,7 +36,12 @@ function BackButtonView({
 
 BackButtonView.propTypes = {
   history: PropTypes.object.isRequired,
-  to: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  to: requiredIfNotOther('onClick', null),
+};
+
+BackButtonView.defaultProps = {
+  onClick: null,
 };
 
 const BackButton = withRouter(BackButtonView);
