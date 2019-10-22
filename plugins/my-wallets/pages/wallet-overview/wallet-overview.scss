@@ -84,7 +84,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
         }
       }
 
-      .usd-value {
+      .fiat-value {
         color: $blue;
         font-size: $font-size-xs-3;
         line-height: $line-height-xs;
@@ -138,7 +138,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
           }
         }
 
-        .usd-value {
+        .fiat-value {
           color: $grey;
         }
       }
@@ -229,7 +229,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       .wallet-balance-data {
 
         .balance,
-        .usd-value {
+        .fiat-value {
           color: $white;
         }
   

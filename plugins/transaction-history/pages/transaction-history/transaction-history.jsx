@@ -134,7 +134,7 @@ const TransactionHistoryView = ({
           <Visible when={isMobile}>
             <div className="wallet-balance-data">
               <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
-              <span className="usd-value">{PLACEHOLDER_USD_VALUE}</span>
+              <span className="fiat-value">{PLACEHOLDER_USD_VALUE}</span>
             </div>
           </Visible>
           <TransactionChart

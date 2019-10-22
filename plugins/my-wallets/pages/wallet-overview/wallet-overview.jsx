@@ -259,7 +259,7 @@ function WalletOverviewView({
           <div className="wallet-balance-data">
             <p className="current-balance-text">{formatMessage(CURRENT_BALANCE_LABEL)}</p>
             <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
-            <span className="usd-value">$5,911.19</span>
+            <span className="fiat-value">$5,911.19</span>
           </div>
           <Visible when={isMobileMultiAddress}>
             <div className="carousel-wrapper">
