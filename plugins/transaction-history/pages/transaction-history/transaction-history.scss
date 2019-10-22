@@ -1,6 +1,10 @@
 @import 'src/styles/index.scss';
 
+$balance-data-bottom-position: 108px;
 $chart-section-height: 360px;
+$mobile-chart-section-height: 220px;
+$mobile-list-bottom-position: 70px;
+$mobile-list-row: 118px;
 $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint-xl);
 
 .transaction-history-page {
@@ -40,7 +44,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
 
     .list-wrapper {
       background: $white;
-      overflow-y: scroll;
+      overflow-y: auto;
 
       ::-webkit-scrollbar {
         width: 0px;  /* Remove scrollbar space */
@@ -73,6 +77,84 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     }
   }
 
+  .mobile-content-container {
+
+    grid-template-rows: $mobile-chart-section-height 1fr;
+
+    .chart-wrapper {
+
+      align-items: center;
+      background: white;
+      display: flex;
+      justify-content: center;
+      position: relative;
+
+      .wallet-balance-data {
+        align-items: center;
+        align-self: inherit;
+        bottom: $balance-data-bottom-position;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0;
+        position: absolute;
+        z-index: $z-index-top;
+        
+
+        .balance {
+          color: $blue-shade;
+          font-size: $font-size-lg-1;
+          font-weight: $font-weight-bold;
+          line-height: $line-height-xl;
+          margin-bottom: $space-2;
+
+          svg {
+            height: $font-size-md-4; 
+            width: $font-size-md-4;
+
+            path {
+              fill: $grey;
+            }
+          }
+        }
+
+        .fiat-value {
+          color: $grey;
+        }
+      }
+    
+    }
+
+    .list-wrapper {
+
+      overflow-y: initial;
+      padding: $space-3;
+
+      .mobile-list {
+        background: white;
+        border-radius: $border-radius-3;
+        bottom: $mobile-list-bottom-position;
+        position: relative;
+
+        .transaction-type {
+
+          path {
+            fill: $light-grey;
+          }
+        }
+      }
+
+      div[role='row'] {
+        background: $white;
+        margin-top: 0;
+        min-height: $mobile-list-row;
+        padding: 0 $space-4;
+      }
+
+    }
+  
+  }
+
   .page-header {
     
     .date-picker {
@@ -93,6 +175,44 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       .search-wrapper {
         background: $dark-bg;
       }
+    }
+
+    .mobile-content-container {
+
+      .mobile-list,
+      .wallet-list {
+        background: $dark-bg;
+  
+        div[role='row'] {
+          background: $dark-bg;
+        }
+      }
+  
+      .chart-wrapper {
+
+        .balance,
+        .fiat-value {  
+          color: $white;
+        }
+  
+        .balance {
+              
+          svg {
+    
+            path {
+              fill: currentColor;
+            }
+          }
+        }
+      }
+      
+    }
+  }
+
+  @include mquery($width-breakpoint-xs) {
+
+    section {
+      overflow-y: auto;
     }
   }
 }

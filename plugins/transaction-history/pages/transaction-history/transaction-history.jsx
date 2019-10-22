@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
 import { Page, NoTransactions } from 'components';
 import { getSelectOptions } from 'lib/utils';
+import { PLACEHOLDER_USD_VALUE } from 'lib/constants';
 import { fetchAddresses, fetchTransactions } from 'plugins/transaction-history/helpers';
 import {
   setAddresses,
@@ -25,12 +27,14 @@ import { COMMON } from 'translations/keys/common';
 import { TRANSACTION_HISTORY } from 'plugins/transaction-history/translations/keys';
 import {
   Select,
+  svgs,
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import './transaction-history.scss';
 
 const { ALL_TIME } = COMMON;
 const { NAV_ITEM } = TRANSACTION_HISTORY;
+const { SvgCoinSymbol } = svgs.icons;
 
 const TransactionHistoryView = ({
   addresses,
@@ -50,6 +54,11 @@ const TransactionHistoryView = ({
     setTransactions,
   } = props;
 
+  const contentClass = classNames(
+    'page-content-container',
+    { 'mobile-content-container': isMobile }
+  );
+
   useEffect(() => {
     fetchTransactions(setTransactions);
   }, [setTransactions]);
@@ -57,6 +66,10 @@ const TransactionHistoryView = ({
   useEffect(() => {
     fetchAddresses(setAddresses);
   }, [setAddresses]);
+
+  useEffect(() => {
+    fetchAddresses(props.setAddresses);
+  }, [props.setAddresses]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
@@ -74,6 +87,12 @@ const TransactionHistoryView = ({
     }
 
     return queryDate;
+  }
+
+  function getBalance() {
+    return transactions.reduce((total, currentTransaction) => {
+      return total + currentTransaction.pending_balance;
+    }, 0);
   }
 
   function SecondaryAction({ collapsed }) {
@@ -101,7 +120,7 @@ const TransactionHistoryView = ({
       removePadding
       className="transaction-history-page"
     >
-      <div className="page-content-container">
+      <div className={contentClass}>
         <Visible when={!isMobile}>
           <div className="search-wrapper">
             <SearchTransactions
@@ -112,6 +131,12 @@ const TransactionHistoryView = ({
           </div>
         </Visible>
         <div className="chart-wrapper">
+          <Visible when={isMobile}>
+            <div className="wallet-balance-data">
+              <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
+              <span className="fiat-value">{PLACEHOLDER_USD_VALUE}</span>
+            </div>
+          </Visible>
           <TransactionChart
             transactions={transactions}
           />
