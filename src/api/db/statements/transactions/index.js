@@ -22,7 +22,22 @@ export const TRANSACTIONS_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Transactions order by created_date desc`,
+    AFTER_DATE: (dateTime) => `select * from Transactions where created_date >= "${dateTime}" order by created_date desc`,
     PER_ADDRESS: (address, dateTime) => `select * from Transactions where (sender_address = "${address}" or receiver_address = "${address}") and created_date >= "${dateTime}" order by created_date desc`,
-    VALUE: (address, value, dateTime) => `select Transactions.*, Addresses.name from Transactions left join Addresses on (receiver_address = Addresses.address or sender_address = Addresses.address) where (description like "%${value}%" or amount like "%${value}%" or Transactions.created_date like "%${value}%" or name like "%${value}%") and (sender_address = "${address}" or receiver_address = "${address}") and Transactions.created_date >= "${dateTime}" order by created_date desc`,
+    VALUE: (address, value, dateTime) => `
+      select Transactions.*, Addresses.name from Transactions
+      left join Addresses on (receiver_address = Addresses.address
+      or sender_address = Addresses.address)
+      where (description like "%${value}%" or amount like "%${value}%"
+      or Transactions.created_date like "%${value}%" or name like "%${value}%") and (sender_address = "${address}"
+      or receiver_address = "${address}") and Transactions.created_date >= "${dateTime}" order by created_date desc`,
+    INCLUDE_WALLETS_SEARCH_BY_VALUE: (address, value, dateTime) => `
+      select Transactions.*, Addresses.wallet_id, Wallets.name from Transactions
+      inner join Addresses on (receiver_address = Addresses.address
+      or sender_address = Addresses.address)
+      left join Wallets on Addresses.wallet_id = Wallets.id
+      where (Transactions.description like "%${value}%" or amount like "%${value}%"
+      or Transactions.created_date like "%${value}%" or Wallets.name like "%${value}%") and (sender_address = "${address}"
+      or receiver_address = "${address}") and Transactions.created_date >= "${dateTime}" order by created_date desc`,
   },
 };

@@ -1,6 +1,7 @@
 import { arrayToRegex } from './array-to-regex';
 import { asyncForEach } from './async-for-each';
 import { currencyConverter } from './currency-converter';
+import { getSelectOptions } from './date-select-formatter';
 import { empty } from './empty';
 import { environment } from './environment';
 import { floatMath } from './float-math';
@@ -14,6 +15,7 @@ import { getSidepanelVariant } from './layout';
 import { mapInputErrors } from './map-input-errors';
 import { regexToString } from './regex-to-string';
 import { safeString, unescape } from './strings';
+import { sortListByDate } from './sort-by-date-desc';
 
 export {
   arrayToRegex,
@@ -25,6 +27,7 @@ export {
   formatFloat,
   formatUrlParameters,
   getLowercaseKeys,
+  getSelectOptions,
   getQueryString,
   getUrlParameterByName,
   getSidepanelVariant,
@@ -32,5 +35,6 @@ export {
   mapInputErrors,
   regexToString,
   safeString,
+  sortListByDate,
   unescape,
 };

@@ -31,7 +31,7 @@ function TransactionsList ({
       }
 
       setListData(await getTransactionsPerAddress(null, selectedAddress.address, null));
-    }, [selectedAddress]
+    }, [selectedAddress, selectedWalletTransactions]
   );
 
   useEffect(() => {

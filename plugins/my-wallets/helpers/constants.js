@@ -14,12 +14,3 @@ export const TRANSACTION_TYPES = {
   RECEIVE: 'receive',
   SEND: 'send',
 };
-
-export const DATE_OPTIONS = {
-  TODAY: 'day',
-  WEEK: 'week',
-  MONTH: 'month',
-  YEAR: 'year',
-  ALL_TIME: 'all time',
-};
-
