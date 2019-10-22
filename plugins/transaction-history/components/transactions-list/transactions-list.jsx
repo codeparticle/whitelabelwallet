@@ -13,14 +13,6 @@ import {
   CustomTypeRenderer,
   CustomWalletRenderer,
 }  from 'plugins/transaction-history/components';
-import { GRID_COLUMNS } from 'plugins/transaction-history/helpers';
-
-const {
-  FIRST_COLUMN,
-  SECOND_COLUMN,
-  THIRD_COLUMN,
-  FOURTH_COLUMN,
-} = GRID_COLUMNS;
 
 
 function TransactionsList ({
@@ -34,28 +26,27 @@ function TransactionsList ({
     setListData(sortListByDate(transactions));
   }, [transactions, selectedTransactions]);
 
-
   const columnDefs = [
     {
       title: 'Date',
-      gridColumns: FIRST_COLUMN,
+      gridColumns: '1/3',
       property: 'created_date',
       customRenderer: CustomDateRenderer,
     },
     {
       title: 'Wallet',
-      gridColumns: SECOND_COLUMN,
+      gridColumns: '4/7',
       property: 'transaction_type',
       customRenderer: CustomWalletRenderer,
     },
     {
       title: 'Details',
-      gridColumns: THIRD_COLUMN,
+      gridColumns: '7/10',
       property: 'description',
     },
     {
       title: 'Amount',
-      gridColumns: FOURTH_COLUMN,
+      gridColumns: '11/12',
       property: 'amount',
       customRenderer: CustomAmountRenderer,
     },

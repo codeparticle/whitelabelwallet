@@ -1,4 +1,3 @@
-export { GRID_COLUMNS } from './constants';
 export {
   getWalletByAddress,
   fetchAddresses,
