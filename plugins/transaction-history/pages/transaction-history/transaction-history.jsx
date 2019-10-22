@@ -7,8 +7,8 @@ import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
 import { Page, NoTransactions } from 'components';
 import { getSelectOptions } from 'lib/utils';
+import { PLACEHOLDER_USD_VALUE } from 'lib/constants';
 import { fetchAddresses, fetchTransactions } from 'plugins/transaction-history/helpers';
-import { PLACEHOLDER_USD_VALUE } from 'plugins/transaction-history/helpers';
 import {
   setAddresses,
   setTransactions,
