@@ -1,6 +1,7 @@
 {
   "app-name": "White Label Wallet",
   "common.amount": "Amount",
+  "common.balance": "Balance",
   "common.cancel": "Cancel",
   "common.confirm": "Confirm",
   "common.copy": "Copy",
@@ -28,6 +29,7 @@
   "common.search.transactions": "Search Transactions...",
   "common.transactions": "Transactions",
   "common.tos": "Terms of Service",
+  "common.wallet": "Wallet",
   "form.error-email-address": "Must be a valid email address",
   "form.error-max-characters": "Maximum allowed characters is {max}.",
   "form.error-password-length": "Password must be {isMin, select, true {at least} false {less than}} {count} characters",

@@ -1,3 +1,12 @@
 {
-  "plugin.receive_funds.nav_item": "Recibir Fondos"
+  "plugin.receive_funds.copy_address": "Copy Address",
+  "plugin.receive_funds-email_body": "{hasAmount, select, true {Amount Requested: {amount}. Recipient's Address: \"{address}\".} other {Recipient's Address: \"{address}\".} }",
+  "plugin.receive_funds-email_subject": "Coinbase: Request to transfer funds",
+  "plugin.receive_funds.qr_sender_instructions": "Have the sender scan this code for easy transaction setup.",
+  "plugin.receive_funds.qr_title": "QR Code Generator",
+  "plugin.receive_funds.request_amount": "Request Specific Amount",
+  "plugin.receive_funds.request_qr_text": "Request G {amount} to your address:",
+  "plugin.receive_funds.select_wallet": "Select Wallet",
+  "plugin.receive_funds.selected_address": "Selected Address:",
+  "plugin.receive_funds.title": "Receive Funds"
 }
