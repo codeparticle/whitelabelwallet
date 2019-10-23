@@ -22,6 +22,7 @@ import tr from 'react-intl/locale-data/tr';
 import vi from 'react-intl/locale-data/vi';
 import zh from 'react-intl/locale-data/zh';
 import { About } from 'components';
+import { setAppElement } from '@codeparticle/whitelabelwallet.styleguide';
 import { ConnectedIntlProvider } from 'global-components';
 import { getUrlParameterByName } from 'lib/utils';
 import configureStore from 'rdx/configure-store';
@@ -49,6 +50,7 @@ addLocaleData([
 
 const rootElement = document.getElementById('root');
 const isAboutPage = getUrlParameterByName('window') === 'about';
+setAppElement(rootElement);
 
 if (isAboutPage) {
   const history = createBrowserHistory();
