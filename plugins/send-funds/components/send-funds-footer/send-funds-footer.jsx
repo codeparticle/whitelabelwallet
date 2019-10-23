@@ -23,14 +23,15 @@ const { CONFIRM } = COMMON;
 const { GREEN } = VARIANTS;
 
 function SendFundsFooter({
+  amount,
   isMobile,
-  transferFields,
   formatMessage,
   fromAddress,
+  memo,
   toAddress,
+  resetFields,
 }) {
   const [alert, setAlert] = useState(null);
-  const { amount, memo } = transferFields;
   const parsedAmount = parseFloat(amount);
   const showButton = valuesExist(parsedAmount, toAddress, fromAddress) && (!alert || alert.type !== FAIL);
   const message = showButton
@@ -66,9 +67,9 @@ function SendFundsFooter({
     return (
       <Component
         alert={alert}
-        amount={amount}
         formatMessage={formatMessage}
         setAlert={setAlert}
+        resetFields={resetFields}
         toAddress={toAddress}
       />
     );
@@ -103,10 +104,11 @@ function SendFundsFooter({
 }
 
 SendFundsFooter.propTypes = {
+  amount: PropTypes.string.isRequired,
   isMobile: PropTypes.bool.isRequired,
   formatMessage: PropTypes.func.isRequired,
   fromAddress: PropTypes.string.isRequired,
-  transferFields: PropTypes.object.isRequired,
+  memo: PropTypes.string.isRequired,
   toAddress: PropTypes.string.isRequired,
 };
 

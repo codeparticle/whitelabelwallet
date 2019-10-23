@@ -36,6 +36,11 @@ export const SEND_FUNDS = defineMessages({
     description: 'Number of addresses text',
     defaultMessage: '{addressCount, plural, one {# Address} other {# Addresses}}',
   },
+  QR_INSTRUCTIONS: {
+    id: 'plugin.send_funds.qr_instructions',
+    description: 'Instructional text for qr scanner',
+    defaultMessage: 'Align the recipient\'s QR code within the bounds to automatically fill in transaction details.',
+  },
   RAW_ADDRESS: {
     id: 'plugin.send_funds.raw_address',
     description: 'Raw address label text',
@@ -45,6 +50,11 @@ export const SEND_FUNDS = defineMessages({
     id: 'plugin.send_funds.saved_recipient',
     description: 'Saved recipient label text',
     defaultMessage: 'Saved Recipient',
+  },
+  SCAN_QR_CODE: {
+    id: 'plugin.send_funds.scan_qr_code',
+    description: 'Scan qr code text',
+    defaultMessage: 'Scan QR Code',
   },
   SELECT_ADDRESS: {
     id: 'plugin.send_funds.select_address',

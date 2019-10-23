@@ -22,6 +22,11 @@
       padding: 0;
     }
   }
+
+  &__text-area {
+    flex: 1;
+    height: initial;
+  }
 }
 
 .light .send-funds-mobile-form {

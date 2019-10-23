@@ -7,11 +7,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Visible } from '@codeparticle/react-visible';
 import { IconButton, TextInput, svgs } from '@codeparticle/whitelabelwallet.styleguide';
-import { empty } from 'lib/utils';
 
-import { setToAddress } from 'plugins/send-funds/rdx/actions';
+import { setAmount, setToAddress } from 'plugins/send-funds/rdx/actions';
 import { getToAddress } from 'plugins/send-funds/rdx/selectors';
-import { MobileFormButton, SelectContacts } from 'plugins/send-funds/components';
+import { MobileFormButton, SelectContacts, SendFundsQrReader } from 'plugins/send-funds/components';
 import { constants } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import './select-from-contacts.scss';
@@ -33,6 +32,9 @@ function SelectFromContactsView({
   ...props
 }) {
   const [isSelecting, setIsSelecting] = useState(false);
+  const [isQrOpen, setIsQrOpen] = useState(false);
+
+  const toggleQrPanel = () => setIsQrOpen(!isQrOpen);
 
   function onClick() {
     setIsSelecting(true);
@@ -64,10 +66,17 @@ function SelectFromContactsView({
             />
             <IconButton
               icon={<SvgQrCode height={iconSize} width={iconSize} />}
-              onClick={empty}
+              onClick={toggleQrPanel}
             />
           </div>
         }
+      />
+      <SendFundsQrReader
+        formatMessage={formatMessage}
+        isOpen={isQrOpen}
+        setAmount={props.setAmount}
+        setIsOpen={setIsQrOpen}
+        setToAddress={props.setToAddress}
       />
     </Visible>
   );
@@ -77,7 +86,9 @@ SelectFromContactsView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  setAmount: PropTypes.func.isRequired,
   setFormSelecting: PropTypes.func.isRequired,
+  setToAddress: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -89,6 +100,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  setAmount,
   setToAddress,
 };
 

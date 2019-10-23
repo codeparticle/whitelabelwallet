@@ -13,6 +13,7 @@ export { SendFundsFooter } from './send-funds-footer';
 export { SendFundsMobileAlert } from './send-funds-mobile-alert';
 export { SendFundsMobileFooter } from './send-funds-mobile-footer';
 export { SendFundsMobileForm } from './send-funds-mobile-form';
+export { SendFundsQrReader } from './send-funds-qr-reader';
 export { SendFundsReceipt } from './send-funds-receipt';
 export { SendFundsSearch } from './send-funds-search';
 export { ToAddressList } from './to-address-list';

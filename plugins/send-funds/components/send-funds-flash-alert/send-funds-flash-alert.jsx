@@ -30,19 +30,23 @@ function getButton(alert, message) {
 function SendFundsFlashAlert({
   alert,
   formatMessage,
-  amount,
   toAddress,
   setAlert,
+  resetFields,
 }) {
   const [formattedName, setFormattedName] = useState(toAddress);
   const btnMessage = formatMessage(VIEW_ON_BLOCKCHAIN);
 
+  function onClose() {
+    setAlert(null);
+
+    if (alert.type === SUCCESS) {
+      resetFields();
+    }
+  }
+
   function getMessage() {
-    return getAlertMessage(formatMessage, alert, {
-      amount,
-      address: toAddress,
-      formattedName,
-    });
+    return getAlertMessage(formatMessage, alert, formattedName);
   }
 
   useEffect(() => {
@@ -56,7 +60,7 @@ function SendFundsFlashAlert({
       alertButton={getButton(alert, btnMessage)}
       duration={5000}
       height={FLASH_HEIGHT}
-      onClose={() => setAlert(null)}
+      onClose={onClose}
       show={Boolean(alert)}
       message={getMessage()}
       type={alert && alert.type}
@@ -69,15 +73,14 @@ SendFundsFlashAlert.propTypes = {
     message: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }),
-  amount: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
+  resetFields: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
   toAddress: PropTypes.string,
 };
 
 SendFundsFlashAlert.defaultProps = {
   alert: null,
-  amount: '',
   toAddress: '',
 };
 
