@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
+  ReceiptContainer,
   Overlay,
   svgs,
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { getSidepanelVariant } from 'lib/utils';
-import { CustomAmountRenderer, CustomWalletRenderer, TransactionRow } from 'plugins/transaction-history/components';
+import { CustomAmountRenderer, CustomWalletRenderer, TransactionDetailContent, TransactionRow } from 'plugins/transaction-history/components';
 import { TRANSACTION_HISTORY } from 'plugins/transaction-history/translations/keys';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { COMPLETE_STATUS } from 'plugins/transaction-history/helpers';
@@ -61,6 +62,21 @@ function TransactionDetailsSidepanel({
     );
   }
 
+
+  function getContent() {
+    if (isMobile) {
+      return (
+        <ReceiptContainer>
+          <TransactionDetailContent formatMessage={formatMessage} selectedTransaction={selectedTransaction} />
+        </ReceiptContainer>
+      );
+    }
+
+    return <TransactionDetailContent formatMessage={formatMessage} selectedTransaction={selectedTransaction} />;
+  }
+
+
+
   return (
     <Overlay
       Icon={SvgSend}
@@ -73,9 +89,10 @@ function TransactionDetailsSidepanel({
       subTitle={formattedDate}
       type={panelVariant}
     >
-      <div className="transaction-detail-content">
-        <div className="multi-field-row">
-          <TransactionRow label={formatMessage(WALLET)}>
+      {/* <div className="transaction-detail-content">
+        <div className="row">
+          <div className="field">
+            <label>{formatMessage(WALLET_LABEL)}</label>
             <CustomWalletRenderer data={selectedTransaction}/>
           </TransactionRow>
           <TransactionRow label={formatMessage(AMOUNT)}>
@@ -84,23 +101,8 @@ function TransactionDetailsSidepanel({
             </div>
           </TransactionRow>
         </div>
-        <TransactionRow
-          field={selectedTransaction.sender_address}
-          label={formatMessage(SENT_FROM)}
-        />
-        <TransactionRow
-          field={selectedTransaction.receiver_address}
-          label={formatMessage(SENT_TO)}
-        />
-        <TransactionRow
-          field={getStatus(selectedTransaction.status)}
-          label={formatMessage(STATUS)}
-        />
-        <TransactionRow
-          field={selectedTransaction.description}
-          label={formatMessage(DESCRIPTION)}
-        />
-      </div>
+      </div> */}
+      {getContent()}
     </Overlay>
   );
 }
