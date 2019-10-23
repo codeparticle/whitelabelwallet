@@ -6,10 +6,20 @@ export const COMMON = defineMessages({
     description: 'Amount text',
     defaultMessage: 'Amount',
   },
+  BALANCE: {
+    id: 'common.balance',
+    description: 'Balance text',
+    defaultMessage: 'Balance',
+  },
   CANCEL: {
     id: 'common.cancel',
     description: 'Cancel text',
     defaultMessage: 'Cancel',
+  },
+  CONFIRM: {
+    id: 'common.confirm',
+    description: 'Confirm text',
+    defaultMessage: 'Confirm',
   },
   COPY: {
     id: 'common.copy',
@@ -86,6 +96,16 @@ export const COMMON = defineMessages({
     description: 'Receive text',
     defaultMessage: 'Receive',
   },
+  SAVE_CHANGES: {
+    id: 'common.save_changes',
+    description: 'Save Changes text',
+    defaultMessage: 'Save Changes',
+  },
+  SEARCH_PLACEHOLDER: {
+    id: 'common.search_placeholder',
+    description: 'Search placeholder',
+    defaultMessage: 'Search...',
+  },
   SEND: {
     id: 'common.send',
     description: 'Send text',
@@ -96,10 +116,20 @@ export const COMMON = defineMessages({
     description: 'Search component placeholder text',
     defaultMessage: 'Search Transactions...',
   },
+  SETTINGS: {
+    id: 'common.settings',
+    description: 'Settings text',
+    defaultMessage: 'Settings',
+  },
   START: {
     id: 'common.start',
     description: 'Start text',
     defaultMessage: 'Start',
+  },
+  STATUS: {
+    id: 'common.status',
+    description: 'Status text',
+    defaultMessage: 'Status',
   },
   SUBMIT: {
     id: 'common.submit',
@@ -116,29 +146,9 @@ export const COMMON = defineMessages({
     description: 'Transactions text',
     defaultMessage: 'Transactions',
   },
-  SETTINGS: {
-    id: 'common.settings',
-    description: 'Settings text',
-    defaultMessage: 'Settings',
-  },
-  SAVE_CHANGES: {
-    id: 'common.save_changes',
-    description: 'Save Changes text',
-    defaultMessage: 'Save Changes',
-  },
-  SEARCH_PLACEHOLDER: {
-    id: 'common.search_placeholder',
-    description: 'Search placeholder',
-    defaultMessage: 'Search...',
-  },
-  STATUS: {
-    id: 'common.status',
-    description: 'Status text',
-    defaultMessage: 'Status',
-  },
-  CONFIRM: {
-    id: 'common.confirm',
-    description: 'Confirm text',
-    defaultMessage: 'Confirm',
+  WALLET: {
+    id: 'common.wallet',
+    description: 'Wallet Text',
+    defaultMessage: 'Wallet',
   },
 });

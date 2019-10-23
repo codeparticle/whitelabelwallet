@@ -1,6 +1,7 @@
 {
   "app-name": "White Label Wallet",
   "common.amount": "Cantidad",
+  "common.balance": "El Balance",
   "common.cancel": "Cancelar",
   "common.confirm": "Confirmar",
   "common.copy": "Dupdo",
@@ -28,6 +29,7 @@
   "common.submit": "Enviar",
   "common.transactions": "Actas",
   "common.tos": "Términos de Servicio",
+  "common.wallet": "Billetera",
   "form.error-email-address": "Debe ser una dirección de correo electrónico válida",
   "form.error-max-characters": "El máximo de caracteres permitidos es {max}.",
   "form.error-password-length": "La contraseña debe ser {isMin, select, true {al menos} false {menos que}} {count} caracteres",

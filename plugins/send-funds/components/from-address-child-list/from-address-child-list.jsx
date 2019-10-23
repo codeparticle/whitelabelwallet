@@ -34,14 +34,15 @@ function getRowStyles({ isSelected, theme }) {
   return theme.subItem;
 }
 
-function FromAddressChildListView({ data, ...props }) {
+function FromAddressChildListView({ data, onClick, ...props }) {
   const { addresses = [] } = data;
+  const setToState = onClick || props.setFromAddress;
   const shouldShowSubList = addresses.length > 1;
 
   function onRowClicked(data) {
     const { address } = data;
 
-    props.setFromAddress(address);
+    setToState(address);
   }
 
   return (
@@ -52,7 +53,7 @@ function FromAddressChildListView({ data, ...props }) {
         id="from-address-child-list"
         matchProperty="id"
         rowData={addresses}
-        onDeselect={resetStateHandler(props.setFromAddress)}
+        onDeselect={resetStateHandler(setToState)}
         onRowClicked={onRowClicked}
         showHeader={false}
       />
@@ -62,7 +63,12 @@ function FromAddressChildListView({ data, ...props }) {
 
 FromAddressChildListView.propTypes = {
   data: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
   setFromAddress: PropTypes.func.isRequired,
+};
+
+FromAddressChildListView.defaultProps = {
+  onClick: null,
 };
 
 const mapDispatchToProps = {
