@@ -2,14 +2,18 @@
  * @fileoverview AuthForm for auth page.
  * @author Gabriel Womble
  */
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { Visible } from '@codeparticle/react-visible';
 import { TextInput, LabeledCheckbox } from '@codeparticle/whitelabelwallet.styleguide';
+import { white } from '@codeparticle/whitelabelwallet.styleguide/styles/colors.scss';
 import { space2, space4 } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
 import { AUTH_CONSTANTS } from 'lib/constants';
 import { auth } from 'e2e/constants';
 
-const { SIGNUP } = AUTH_CONSTANTS;
+const { SIGNUP, TOS } = AUTH_CONSTANTS;
 
 export function AuthForm({
   accepted,
@@ -54,28 +58,34 @@ export function AuthForm({
         onChange={(e) => onChangeHandler(e, setPassword)}
         value={password}
       />
-      {type === SIGNUP && (
-        <Fragment>
-          <TextInput
-            className="auth-form-input"
-            dataSelector={auth.selectors.confirm.raw}
-            hasError={inputErrors.CONFIRMED_PASSWORD}
-            type="password"
-            useAltTheme
-            label={messages.confirmPassword}
-            onChange={(e) => onChangeHandler(e, setConfirmPassword)}
-            value={confirmPassword}
+      <Visible when={type === SIGNUP}>
+        <TextInput
+          className="auth-form-input"
+          dataSelector={auth.selectors.confirm.raw}
+          hasError={inputErrors.CONFIRMED_PASSWORD}
+          type="password"
+          useAltTheme
+          label={messages.confirmPassword}
+          onChange={(e) => onChangeHandler(e, setConfirmPassword)}
+          value={confirmPassword}
+        />
+        <div className="checkbox-container">
+          <LabeledCheckbox
+            checked={accepted}
+            dataSelector={auth.selectors.tos.raw}
+            label={
+              <FormattedMessage
+                {...messages.tosPrompt}
+                values={{
+                  tosLink: <Link to={`/${SIGNUP}/${TOS}`}>{messages.tos}</Link>,
+                }}
+              />
+            }
+            id="tos-link"
+            onChange={setAccepted}
           />
-          <div className="checkbox-container">
-            <LabeledCheckbox
-              checked={accepted}
-              dataSelector={auth.selectors.tos.raw}
-              label={messages.tos}
-              onChange={setAccepted}
-            />
-          </div>
-        </Fragment>
-      )}
+        </div>
+      </Visible>
       <input className="hidden" type="submit" />
       <style jsx>
         {`
@@ -95,6 +105,10 @@ export function AuthForm({
           .checkbox-container {
             display: flex;
             width: 100%;
+          }
+
+          :global(.checkbox-container a) {
+            color: ${white};
           }
         `}
       </style>

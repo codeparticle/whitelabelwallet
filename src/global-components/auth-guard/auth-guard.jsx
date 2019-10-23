@@ -21,7 +21,9 @@ const AuthGuard = ({
 
   jwt.verify(authToken, secret, (err) => {
     if (err || !authToken) {
-      setAuthToken('');
+      if (authToken !== '') {
+        setAuthToken('');
+      }
       shouldRedirect = true;
     }
   });
@@ -29,7 +31,7 @@ const AuthGuard = ({
   if (shouldRedirect) {
     const { pathname } = location;
 
-    if (pathname !== `/${LOGIN}` && pathname !== `/${SIGNUP}`) {
+    if (pathname !== `/${LOGIN}` && !pathname.includes(`/${SIGNUP}`)) {
       return <Redirect to={`/${LOGIN}`} />;
     }
   }
