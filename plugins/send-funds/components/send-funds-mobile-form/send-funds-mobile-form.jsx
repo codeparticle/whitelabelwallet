@@ -26,9 +26,9 @@ const { SELECTING_ADDRESSES, SELECTING_CONTACTS } = constants;
 
 function SendFundsMobileFormView({
   formatMessage,
+  memo,
+  setMemo,
   toAddress,
-  transferFields,
-  setTransferFields,
   ...props
 }) {
   const [address, setAddress] = useState('');
@@ -48,10 +48,7 @@ function SendFundsMobileFormView({
   function onTextAreaChange(e) {
     e.preventDefault();
 
-    setTransferFields({
-      ...transferFields,
-      memo: e.target.value,
-    });
+    setMemo(e.target.value);
   }
 
   useEffect(() => {
@@ -84,10 +81,11 @@ function SendFundsMobileFormView({
       </Visible>
       <Visible when={!formSelecting}>
         <TextArea
+          className="send-funds-mobile-form__text-area"
           label={formatMessage(DESCRIPTION)}
           onChange={onTextAreaChange}
           placeholder={formatMessage(WRITE_SOMETHING)}
-          value={transferFields.memo}
+          value={memo}
         />
       </Visible>
     </div>
@@ -96,10 +94,10 @@ function SendFundsMobileFormView({
 
 SendFundsMobileFormView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  memo: PropTypes.string.isRequired,
+  setMemo: PropTypes.func.isRequired,
   setToAddress: PropTypes.func.isRequired,
-  setTransferFields: PropTypes.func.isRequired,
   toAddress: PropTypes.string.isRequired,
-  transferFields: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {

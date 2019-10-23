@@ -64,37 +64,39 @@ function SendFundsReceipt({
   }, [data]);
 
   return (
-    <Overlay
-      background={'initial'}
-      hasFooter={false}
-      Icon={Icon}
-      isOpen={isOpen}
-      onClose={onClose}
-      title={title}
-      type={OVERLAY}
-    >
-      <ReceiptContainer>
-        <div className="send-funds-receipt-layout">
-          <div className="send-funds-receipt-layout__multi-column">
-            <ReceiptItem label="Wallet"value={walletName} />
-            <ReceiptItem className="send-funds-receipt-amount" label={formatMessage(AMOUNT)}>
-              <Coin />
-              <p>{renderedAmount}</p>
-            </ReceiptItem>
+    <div className="send-funds-receipt-container">
+      <Overlay
+        background={'initial'}
+        hasFooter={false}
+        Icon={Icon}
+        isOpen={isOpen}
+        onClose={onClose}
+        title={title}
+        type={OVERLAY}
+      >
+        <ReceiptContainer>
+          <div className="send-funds-receipt-layout">
+            <div className="send-funds-receipt-layout__multi-column">
+              <ReceiptItem label="Wallet"value={walletName} />
+              <ReceiptItem className="send-funds-receipt-amount" label={formatMessage(AMOUNT)}>
+                <Coin />
+                <p>{renderedAmount}</p>
+              </ReceiptItem>
+            </div>
+            <ReceiptItem label={formatMessage(SENT_FROM)} value={renderSafely('sender_address')} />
+            <ReceiptItem label={formatMessage(SENT_TO)} value={renderSafely('receiver_address')} />
+            <ReceiptItem
+              className="send-funds-receipt-status"
+              label={formatMessage(STATUS)}
+              value={formatMessage(PENDING)}
+            />
+            <Visible when={Boolean(data && data.description)}>
+              <ReceiptItem label={formatMessage(DESCRIPTION)} value={renderSafely('description')} />
+            </Visible>
           </div>
-          <ReceiptItem label={formatMessage(SENT_FROM)} value={renderSafely('sender_address')} />
-          <ReceiptItem label={formatMessage(SENT_TO)} value={renderSafely('receiver_address')} />
-          <ReceiptItem
-            className="send-funds-receipt-status"
-            label={formatMessage(STATUS)}
-            value={formatMessage(PENDING)}
-          />
-          <Visible when={Boolean(data && data.description)}>
-            <ReceiptItem label={formatMessage(DESCRIPTION)} value={renderSafely('description')} />
-          </Visible>
-        </div>
-      </ReceiptContainer>
-    </Overlay>
+        </ReceiptContainer>
+      </Overlay>
+    </div>
   );
 }
 
