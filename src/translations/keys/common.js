@@ -31,6 +31,11 @@ export const COMMON = defineMessages({
     description: 'Date text',
     defaultMessage: 'Date',
   },
+  DATE_TIME: {
+    id: 'common.date_time',
+    description: 'Date at time text',
+    defaultMessage: `{date} at {time}`,
+  },
   DATE_OPTION_TODAY: {
     id: 'common.date_option_today',
     description: 'Date picker label',
@@ -110,6 +115,16 @@ export const COMMON = defineMessages({
     id: 'common.send',
     description: 'Send text',
     defaultMessage: 'Send',
+  },
+  SENT_FROM: {
+    id: 'common.sent_from',
+    description: 'Sent from text',
+    defaultMessage: 'Sent From',
+  },
+  SENT_TO: {
+    id: 'common.sent_to',
+    description: 'Sent to text',
+    defaultMessage: 'Sent To',
   },
   SEARCH_TRANSACTIONS: {
     id: 'common.search.transactions',

@@ -18,6 +18,7 @@ import {
   SearchTransactions,
   TransactionChart,
   TransactionsList,
+  TransactionDetailsSidepanel,
 } from 'plugins/transaction-history/components';
 import {
   getAddresses,
@@ -45,6 +46,9 @@ const TransactionHistoryView = ({
   ...props
 }) => {
   const [selectedDate, setSelectedDate] = useState(getDateValue());
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedTransaction, setSelectedTransaction] = useState({});
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { isMobile } = useMedia();
   const haveTransactions =  transactions.length > 0;
@@ -66,10 +70,6 @@ const TransactionHistoryView = ({
   useEffect(() => {
     fetchAddresses(setAddresses);
   }, [setAddresses]);
-
-  useEffect(() => {
-    fetchAddresses(props.setAddresses);
-  }, [props.setAddresses]);
 
   useEffect(() => {
     if (previousSelectedDate !== selectedDate) {
@@ -95,6 +95,23 @@ const TransactionHistoryView = ({
     }, 0);
   }
 
+  function toggleSidePanel (data) {
+    data.event.stopPropagation();
+    setSelectedTransaction(data);
+    setSelectedRow(data.event.target);
+    setIsPanelOpen(true);
+  };
+
+  const onClose = ()=> {
+    selectedRow.click();
+    setSelectedRow(null);
+    setIsPanelOpen(false);
+  };
+
+  const onDeselect = () => {
+    setSelectedTransaction({});
+  };
+
   function SecondaryAction({ collapsed }) {
     const selectProps = {
       value: selectedDate,
@@ -119,6 +136,14 @@ const TransactionHistoryView = ({
       }}
       removePadding
       className="transaction-history-page"
+      sidepanel={
+        <TransactionDetailsSidepanel
+          formatMessage={formatMessage}
+          isOpen={isPanelOpen}
+          onClose={onClose}
+          selectedTransaction={selectedTransaction}
+        />
+      }
     >
       <div className={contentClass}>
         <Visible when={!isMobile}>
@@ -147,7 +172,12 @@ const TransactionHistoryView = ({
               when={haveTransactions}
               fallback={<NoTransactions formatMessage={formatMessage}/>}
             >
-              <TransactionsList transactions={transactions} />
+              <TransactionsList
+                transactions={transactions}
+                onDeselect={onDeselect}
+                onRowClick={toggleSidePanel}
+                selectedTransaction={selectedTransaction}
+              />
             </Visible>
           </div>
         </div>

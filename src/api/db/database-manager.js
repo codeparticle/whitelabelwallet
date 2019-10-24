@@ -319,8 +319,8 @@ export class DatabaseManager {
     return this.query({ statement });
   }
   /**
-   * Gets the Transactions table
-   * @returns {Array} Contact(s)
+   * Gets the Transactions after a certain date.
+   * @returns {Array} Transactions(s)
    */
   getTransactionsAfterDate(dateTime) {
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
