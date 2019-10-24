@@ -6,7 +6,7 @@
   "common.confirm": "Confirmar",
   "common.copy": "Dupdo",
   "common.date": "Fecha",
-  "common.date_time": "{fecha} a {tiempo}",
+  "common.date_time": "{date} a {time}",
   "common.date_option_today": "Hoy",
   "common.date_option_week": "Esta Semana",
   "common.date_option_month": "Este Mes",
