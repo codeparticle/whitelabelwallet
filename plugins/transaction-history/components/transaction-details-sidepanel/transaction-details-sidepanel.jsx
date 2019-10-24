@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Visible } from '@codeparticle/react-visible';
 import {
   ReceiptContainer,
   Overlay,
@@ -10,9 +11,11 @@ import {
 import { getSidepanelVariant } from 'lib/utils';
 import { TransactionDetailContent } from 'plugins/transaction-history/components';
 import { TRANSACTION_HISTORY } from 'plugins/transaction-history/translations/keys';
+import { TRANSLATION_KEYS } from 'translations/keys';
 import './transaction-details-sidepanel.scss';
 
 const { SvgSend } = svgs.icons;
+const { COMMON } = TRANSLATION_KEYS;
 const {
   TRANSACTION_DETAILS_TITLE,
   TRANSACTION_DETAILS_BUTTON,
@@ -35,23 +38,6 @@ function TransactionDetailsSidepanel({
     time: moment(selectedTransaction.created_date).format('h:mm a'),
   });
 
-  function getContent() {
-    if (isMobile) {
-      return (
-        <ReceiptContainer>
-          <TransactionDetailContent
-            formattedDate={formattedDate}
-            formatMessage={formatMessage}
-            selectedTransaction={selectedTransaction}
-          />
-        </ReceiptContainer>
-      );
-    }
-
-    return <TransactionDetailContent formatMessage={formatMessage} selectedTransaction={selectedTransaction} />;
-  }
-
-
   return (
     <Overlay
       Icon={SvgSend}
@@ -64,7 +50,15 @@ function TransactionDetailsSidepanel({
       subTitle={formattedDate}
       type={panelVariant}
     >
-      {getContent()}
+      <Visible when={isMobile} fallback={<TransactionDetailContent formatMessage={formatMessage} selectedTransaction={selectedTransaction} />}>
+        <ReceiptContainer>
+          <TransactionDetailContent
+            formattedDate={formattedDate}
+            formatMessage={formatMessage}
+            selectedTransaction={selectedTransaction}
+          />
+        </ReceiptContainer>
+      </Visible>
     </Overlay>
   );
 }
