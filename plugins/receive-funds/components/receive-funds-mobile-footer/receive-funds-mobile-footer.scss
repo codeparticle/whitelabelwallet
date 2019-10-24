@@ -1,0 +1,18 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.receive-funds-mobile-footer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $spacing-l;
+  width: 100%;
+}
+
+.light .receive-funds-mobile-footer {
+  background: $tint-blue;
+}
+
+.dark .receive-funds-mobile-footer {
+  background: $dark-bg;
+}

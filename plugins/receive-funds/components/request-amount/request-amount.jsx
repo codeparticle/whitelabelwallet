@@ -14,7 +14,7 @@ import { RECEIVE_FUNDS } from 'plugins/receive-funds/translations/keys';
 import './request-amount.scss';
 
 const { REGEX_FLOAT } = REGEXES;
-const { REQUEST_AMOUNT } = RECEIVE_FUNDS;
+const { ENTER_AMOUNT, REQUEST_AMOUNT } = RECEIVE_FUNDS;
 
 function RequestAmountView({ amount, formatMessage, ...props }) {
   const [value, setValue] = useState(amount);
@@ -43,6 +43,7 @@ function RequestAmountView({ amount, formatMessage, ...props }) {
       className="receive-funds-request-amount"
       label={formatMessage(REQUEST_AMOUNT)}
       onChange={handleChange}
+      placeholder={formatMessage(ENTER_AMOUNT)}
       value={value}
     />
   );

@@ -1,0 +1,34 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/fonts';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.receive-funds-select-address {
+  height: 100%;
+  padding: $spacing-m;
+  width: 100%;
+
+  label,
+  input[type=text] {
+    font-weight: $font-weight-normal;
+  }
+
+  label {
+    margin-bottom: $space-1;
+  }
+}
+
+.light .receive-funds-select-address {
+  background: $tint-blue;
+
+  label {
+    color: $slate;
+  }
+}
+
+.dark .receive-funds-select-address {
+  background: $dark-bg;
+
+  label {
+    color: $grey;
+  }
+}

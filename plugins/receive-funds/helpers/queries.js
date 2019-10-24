@@ -26,15 +26,17 @@ async function getWalletAddressesByValue(value) {
  * @param {func} setFn - the function that sets the query response to state
  * @param {string} address - the address to query
  */
-async function getFormattedAddressName(setFn, address) {
+async function getAddressName(setFn, address) {
   if (address) {
-    const res = await manager.databaseManager.getFormattedAddressName(address);
+    const res = await manager.databaseManager.getAddressName(address);
     setFn(res);
+  } else {
+    setFn('');
   }
 }
 
 export {
-  getFormattedAddressName,
+  getAddressName,
   getWalletAddresses,
   getWalletAddressesByValue,
 };

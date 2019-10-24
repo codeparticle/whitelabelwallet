@@ -1,5 +1,7 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 @import '@codeparticle/whitelabelwallet.styleguide/styles/fonts';
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
 
 $input-height: 40px;
 
@@ -7,10 +9,23 @@ $input-height: 40px;
   margin: 0 $spacing-l;
 
   input {
-    height: $input-height;
+    height: $input-height !important;
   }
 
   label {
     font-weight: $font-weight-normal;
+  }
+
+  @include mquery($width-breakpoint-xs) {
+    margin: $spacing-s 0;
+  }
+}
+
+.light .receive-funds-request-amount {
+  @include mquery($width-breakpoint-xs) {
+
+    input[type=text] {
+      background: $white;
+    }
   }
 }

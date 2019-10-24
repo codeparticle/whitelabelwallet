@@ -1,4 +1,5 @@
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/mixins';
 
 .receive-funds-layout {
   display: grid;
@@ -29,6 +30,25 @@
 
     & > div:first-child {
       max-width: 100%;
+    }
+  }
+
+  @include mquery($width-breakpoint-xs) {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    min-width: auto;
+    padding-top: 0;
+    overflow-y: auto;
+
+    &__qr-code {
+      height: 100%;
+      padding: 0;
+    }
+
+    &__footer {
+      margin: 0;
+      width: 100%;
     }
   }
 }
