@@ -1,25 +1,45 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CustomAmountRenderer, CustomWalletRenderer } from 'plugins/transaction-history/components';
+import { Visible } from '@codeparticle/react-visible';
+import classNames from 'classnames';
+import { useMedia } from '@codeparticle/whitelabelwallet.styleguide';
+import {
+  CustomAmountRenderer,
+  CustomWalletRenderer,
+  TransactionRow,
+} from 'plugins/transaction-history/components';
 import { TRANSACTION_HISTORY } from 'plugins/transaction-history/translations/keys';
+import { TRANSLATION_KEYS } from 'translations/keys';
 import { COMPLETE_STATUS } from 'plugins/transaction-history/helpers';
 
+const { COMMON } = TRANSLATION_KEYS;
+
 const {
-  AMOUNT_LABEL,
   COMPLETE_LABEL,
-  DESCRIPTION_LABEL,
-  PENDING_LABEL,
-  SENT_FROM_LABEL,
-  SENT_TO_LABEL,
-  STATUS_LABEL,
-  WALLET_LABEL,
 } = TRANSACTION_HISTORY;
 
+const {
+  AMOUNT,
+  DATE,
+  DESCRIPTION,
+  PENDING,
+  STATUS,
+  SENT_FROM,
+  SENT_TO,
+  WALLET,
+} = COMMON;
+
 function TransactionDetailContent({
+  formattedDate,
   formatMessage,
   selectedTransaction,
 }) {
+  const { isMobile } = useMedia();
+  const transactionDetailsClasses = classNames(
+    'transaction-detail-content',
+    { 'mobile-transaction-detail-content' : isMobile }
+  );
 
   function getStatus(status = null) {
     if (status === COMPLETE_STATUS) {
@@ -32,49 +52,58 @@ function TransactionDetailContent({
 
     return (
       <div className="pending">
-        {formatMessage(PENDING_LABEL)}
+        {formatMessage(PENDING)}
       </div>
     );
   }
 
   return (
-    <div className="transaction-detail-content">
-      <div className="row">
-        <div className="field">
-          <label>{formatMessage(WALLET_LABEL)}</label>
+    <div className={transactionDetailsClasses}>
+      <Visible when={isMobile}>
+        <TransactionRow
+          field={formattedDate}
+          label={formatMessage(DATE)}
+        />
+      </Visible>
+      <div className="multi-field-row">
+        <TransactionRow label={formatMessage(WALLET)}>
           <CustomWalletRenderer data={selectedTransaction}/>
-        </div>
-        <div className="field">
-          <label>{formatMessage(AMOUNT_LABEL)}</label>
+        </TransactionRow>
+        <TransactionRow label={formatMessage(AMOUNT)}>
           <div className="amount-wrapper">
             <CustomAmountRenderer data={selectedTransaction} column={selectedTransaction.amount}/>
           </div>
-        </div>
+        </TransactionRow>
       </div>
-      <div className="row">
-        <label>{formatMessage(SENT_FROM_LABEL)}</label>
-        <div className="field">{selectedTransaction.sender_address}</div>
-      </div>
-      <div className="row">
-        <label>{formatMessage(SENT_TO_LABEL)}</label>
-        <div className="field">{selectedTransaction.receiver_address}</div>
-      </div>
-      <div className="row">
-        <label>{formatMessage(STATUS_LABEL)}</label>
-        <div className="field">{getStatus(selectedTransaction.status)}</div>
-      </div>
-      <div className="row">
-        <label>{formatMessage(DESCRIPTION_LABEL)}</label>
-        <div className="field">{selectedTransaction.description}</div>
-      </div>
+      <TransactionRow
+        field={selectedTransaction.sender_address}
+        label={formatMessage(SENT_FROM)}
+      />
+      <TransactionRow
+        field={selectedTransaction.receiver_address}
+        label={formatMessage(SENT_TO)}
+      />
+      <TransactionRow
+        field={getStatus(selectedTransaction.status)}
+        label={formatMessage(STATUS)}
+      />
+      <TransactionRow
+        field={selectedTransaction.description}
+        label={formatMessage(DESCRIPTION)}
+      />
     </div>
 
   );
 }
 
 TransactionDetailContent.propTypes = {
+  formattedDate: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  selectedTransaction: PropTypes.object.isRequired,
+};
+
+TransactionDetailContent.defaultProps = {
+  formattedDate: '',
 };
 
 export { TransactionDetailContent };
