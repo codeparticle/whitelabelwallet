@@ -4,7 +4,7 @@ export {
 } from './utils';
 
 export {
-  getFormattedAddressName,
+  getAddressName,
   getWalletAddresses,
   getWalletAddressesByValue,
 } from './queries';

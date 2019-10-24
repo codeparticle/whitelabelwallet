@@ -17,8 +17,8 @@ function TruncatedText({ column, value }) {
         {`
           .truncated-text {
             overflow: hidden;
-            width: 100%;
             white-space: nowrap;
+            width: 100%;
           }
 
           .truncated-text > p {

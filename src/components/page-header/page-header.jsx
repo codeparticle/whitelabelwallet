@@ -19,6 +19,7 @@ import './page-header.scss';
 const { PRIMARY, SECONDARY } = VARIANTS;
 
 const PageHeader = ({
+  NavigationButton,
   PrimaryAction,
   SecondaryAction,
   title,
@@ -27,7 +28,7 @@ const PageHeader = ({
 }) => {
   const { isDesktop, isWideScreen } = useMedia();
   const hideNavButton = ((isDesktop || isWideScreen) && type === PRIMARY);
-  function NavigationButton(props) {
+  function NavButton(props) {
     return type === PRIMARY
       ? <NavTrigger {...props} />
       : <BackButton to={to} {...props} />;
@@ -36,7 +37,7 @@ const PageHeader = ({
 
   const pageHeaderProps = {
     IconButtons: HeaderActionButtons,
-    NavigationButton: hideNavButton ? () => null : NavigationButton,
+    NavigationButton: hideNavButton ? () => null : (NavigationButton || NavButton),
     PrimaryAction,
     SecondaryAction,
     title,
@@ -50,11 +51,13 @@ const PageHeader = ({
 };
 
 PageHeader.defaultProps = {
+  NavigationButton: null,
   to: '/',
   type: PRIMARY,
 };
 
 PageHeader.propTypes = {
+  NavigationButton: PropTypes.func,
   PrimaryAction: PropTypes.func,
   SecondaryAction: PropTypes.func,
   title: PropTypes.string.isRequired,

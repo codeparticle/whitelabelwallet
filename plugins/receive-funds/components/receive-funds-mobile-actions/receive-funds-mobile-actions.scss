@@ -1,0 +1,26 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.receive-funds-mobile-actions {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  &__header {
+    margin: $spacing-m;
+  }
+
+  &__button {
+    margin: $spacing-s 0;
+    width: 100%;
+  }
+}
+
+.light .receive-funds-mobile-actions__header {
+  color: $slate;
+}
+
+.dark .receive-funds-mobile-actions__header {
+  color: $grey;
+}

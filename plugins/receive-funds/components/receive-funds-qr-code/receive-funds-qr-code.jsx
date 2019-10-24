@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { QRCode } from '@codeparticle/whitelabelwallet.styleguide';
 
-import { getFormattedAddressName } from 'plugins/receive-funds/helpers';
+import { getAddressName } from 'plugins/receive-funds/helpers';
 import { getAddress, getAmount } from 'plugins/receive-funds/rdx/selectors';
 import { RECEIVE_FUNDS } from 'plugins/receive-funds/translations/keys';
 
@@ -17,11 +17,27 @@ const {
   REQUEST_QR_TEXT,
 } = RECEIVE_FUNDS;
 
-function getTranslations(formatMessage, amount, formattedAddress) {
+function getTranslations(formatMessage, amount) {
   return {
     amount: formatMessage(REQUEST_QR_TEXT, { amount }),
-    addressName: formattedAddress,
     scan: formatMessage(QR_SENDER_INSTRUCTIONS),
+  };
+}
+
+function getAddressNameFormat({ walletName, addressName }, isMobile) {
+  if (isMobile) {
+    return {
+      walletName,
+      addressName,
+    };
+  }
+
+  const formattedName = addressName
+    ? `${walletName} - ${addressName}`
+    : walletName;
+
+  return {
+    addressName: formattedName,
   };
 }
 
@@ -29,27 +45,27 @@ function ReceiveFundsQRCodeView({
   amount,
   address,
   formatMessage,
+  isMobile,
 }) {
   const [qrString, setQrString] = useState(JSON.stringify({ amount, address }));
-  const [formattedAddress, setFormattedAddress] = useState('');
+  const [addressFields, setAddressFields] = useState('');
 
   useEffect(() => {
     setQrString(JSON.stringify({ amount, address }));
   }, [address, amount]);
 
   useEffect(() => {
-    if (address) {
-      getFormattedAddressName(setFormattedAddress, address);
-    } else {
-      setFormattedAddress('');
-    }
+    getAddressName(setAddressFields, address);
   }, [address]);
 
   return (
     <QRCode
       qrString={qrString}
       title={formatMessage(QR_TITLE)}
-      translations={getTranslations(formatMessage, amount, formattedAddress)}
+      translations={{
+        ...getTranslations(formatMessage, amount),
+        ...getAddressNameFormat(addressFields, isMobile),
+      }}
     />
   );
 }

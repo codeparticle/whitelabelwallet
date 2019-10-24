@@ -51,7 +51,7 @@ function SelectFromAddressesView({
         <SelectAddresses
           formatMessage={formatMessage}
           setFormSelecting={setFormSelecting}
-          setFromAddress={props.setFromAddress}
+          setToState={props.setFromAddress}
           setIsSelecting={setIsSelecting}
         />
       }

@@ -75,8 +75,9 @@ async function getWalletNameByAddress(setFn, address) {
  */
 async function getFormattedAddressName(setFn, address) {
   if (address) {
-    const res = await manager.databaseManager.getFormattedAddressName(address);
-    setFn(res);
+    const { walletName, addressName } = await manager.databaseManager.getAddressName(address);
+    const formattedName = addressName ? `${walletName} - ${addressName}` : walletName;
+    setFn(formattedName);
   }
 }
 
