@@ -17,8 +17,6 @@
   "plugin.send_funds.send_to_placeholder": "Buscar o ingresar dirección...",
   "plugin.send_funds.send_to": "Enviar a:",
   "plugin.send_funds.send_successful": "¡Éxito! G {amount} ha sido enviado a {formattedName}",
-  "plugin.send_funds.sent_from": "Enviado Desde",
-  "plugin.send_funds.sent_to": "Enviado A",
   "plugin.send_funds.success_header": "¡Éxito!",
   "plugin.send_funds.title": "Enviar Fondos",
   "plugin.send_funds.transfer_amount": "Monto de la transferencia",
