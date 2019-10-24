@@ -9,7 +9,7 @@ import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mappi
 import { auth } from 'e2e/constants';
 
 import { getUserSettingsAndUpdateState } from './queries';
-import { AuthForm, AuthButtons } from './components';
+import { AuthForm, AuthButtons, TOSModal } from './components';
 import { getTranslations, getType, validateAuth } from './utils';
 import './auth.scss';
 
@@ -138,6 +138,12 @@ function AuthView({
           type={type}
         />
       </div>
+      <TOSModal
+        title={messages.tos}
+        subTitle={messages.tosSubTitle}
+        history={history}
+        match={match}
+      />
       <SvgPoweredBy className="auth-page-container__powered-by"/>
       <FlashAlert
         show={errorState.show}

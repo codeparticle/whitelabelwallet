@@ -14,21 +14,27 @@ const { AUTH, COMMON } = TRANSLATION_KEYS;
  * @param {String} type - 'login' or 'signup'
  */
 export function getTranslations(formatMessage, type) {
+  const commonMessages = {
+    password: formatMessage(AUTH.PASSWORD),
+    tosPrompt: AUTH.TOS_PROMPT,
+    tosSubTitle: formatMessage(AUTH.TOS_SUBTITLE),
+    tos: formatMessage(AUTH.TOS),
+  };
+
   if (type === LOGIN) {
     return {
       username: formatMessage(AUTH.USERNAME),
-      password: formatMessage(AUTH.PASSWORD),
       btnSecondary: formatMessage(AUTH.SIGNUP),
       btnPrimary: formatMessage(AUTH.LOGIN),
+      ...commonMessages,
     };
   }
 
   return {
     username: formatMessage(AUTH.DESIRED_USERNAME),
-    password: formatMessage(AUTH.PASSWORD),
     confirmPassword: formatMessage(AUTH.CONFIRM_PASSWORD),
-    tos: formatMessage(AUTH.TOS_ACCEPTED),
     btnSecondary: formatMessage(COMMON.CANCEL),
     btnPrimary: formatMessage(AUTH.SIGNUP),
+    ...commonMessages,
   };
 }
