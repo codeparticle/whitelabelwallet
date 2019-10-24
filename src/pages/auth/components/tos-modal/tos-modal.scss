@@ -1,0 +1,23 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+$tos-max-height: 500px;
+$tos-mobile-max-height: 60vh;
+
+.tos-modal-content {
+  padding: $spacing-m;
+  overflow: hidden;
+  width: 100%;
+
+  .overflow-container {
+    max-height: $tos-max-height;
+
+  }
+  
+  @include mquery($width-breakpoint-xs) {
+    padding: $spacing-m 0;
+
+    .overflow-container {
+      max-height: $tos-mobile-max-height;
+    }
+  }
+}

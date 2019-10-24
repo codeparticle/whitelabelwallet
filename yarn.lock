@@ -923,10 +923,10 @@
   dependencies:
     "@types/react" "^16.8.15"
 
-"@codeparticle/whitelabelwallet.styleguide@^0.5.10":
-  version "0.5.10"
-  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.5.10.tgz#4cfef183d46a29ff190d6bf1eb65a19d013f00e8"
-  integrity sha1-TP7xg9RqKf8ZDWvx62WhnQE/AOg=
+"@codeparticle/whitelabelwallet.styleguide@^0.5.11":
+  version "0.5.11"
+  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.5.11.tgz#d6e301d2c807bd885000063f760e25b68afdadce"
+  integrity sha1-1uMB0sgHvYhQAAY/dg4ltor9rc4=
   dependencies:
     "@codeparticle/react-sidenav" "^0.3.2"
     "@codeparticle/react-visible" "^1.2.2"

@@ -13,7 +13,7 @@ export const routes = [
   },
   {
     key: 'auth',
-    path: ['/login', '/signup'],
+    path: ['/login', '/signup', '/signup/tos'],
     component: AuthPage,
     exact: true,
   },
