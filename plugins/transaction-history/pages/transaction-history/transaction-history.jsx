@@ -58,6 +58,11 @@ const TransactionHistoryView = ({
     setTransactions,
   } = props;
 
+  const transactionHistoryClass = classNames(
+    'transaction-history-page',
+    { 'mobile-transaction-history-page': isMobile }
+  );
+
   const contentClass = classNames(
     'page-content-container',
     { 'mobile-content-container': isMobile }
@@ -135,7 +140,7 @@ const TransactionHistoryView = ({
         SecondaryAction,
       }}
       removePadding
-      className="transaction-history-page"
+      className={transactionHistoryClass}
       sidepanel={
         <TransactionDetailsSidepanel
           formatMessage={formatMessage}

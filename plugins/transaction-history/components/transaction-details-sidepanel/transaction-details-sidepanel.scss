@@ -54,14 +54,43 @@ $half: 50%;
   }
 }
 
-.dark .transaction-detail-content {
-  
-  .field {
-    color: $white;
+.mobile-transaction-history-page {
+
+  .mobile-transaction-detail-content {
+    padding: 0;
   }
 
-  label {
-    color: $grey;
+  .sidepanel-content {
+    margin-top: $space-5;
+  }
+
+  .sidepanel-content + div {
+    visibility: hidden;
+  }
+}
+
+.dark {
+
+  .transaction-detail-content {
+  
+    .field {
+      color: $white;
+    }
+  
+    label {
+      color: $grey;
+    }
+  }
+
+  .mobile-transaction-detail-content {
+
+    .field {
+      color: $dark;
+    }
+  
+    label {
+      color: $blue-shade; 
+    }
   }
 }
 
