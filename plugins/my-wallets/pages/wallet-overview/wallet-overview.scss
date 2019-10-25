@@ -42,13 +42,8 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
 
       &-empty {
         align-items: center;
-        background: white;
         display: flex;
         justify-content: center;
-
-        h1 {
-          color: $blue-shade;
-        }
       }
 
       .transaction-amount {
@@ -216,9 +211,17 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
 
   .page-header + section {
     height: 100%;
-  }     
+  }
+     
+  .light .list-wrapper-empty {
+    color: $slate;
+  }
   
   .dark {
+
+    .list-wrapper-empty {
+      color: $cool-grey-dark;
+    }
 
     .page-content-container {
 
