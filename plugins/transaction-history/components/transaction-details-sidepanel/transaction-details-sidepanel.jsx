@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Visible } from '@codeparticle/react-visible';
 import {
   ReceiptContainer,
   Overlay,
@@ -33,10 +32,22 @@ function TransactionDetailsSidepanel({
 }) {
   const { isMobile } = useMedia();
   const panelVariant = getSidepanelVariant({ isMobile });
+
   const formattedDate = formatMessage(DATE_TIME, {
     date: moment(selectedTransaction.created_date).format('MM/DD/YY'),
     time: moment(selectedTransaction.created_date).format('h:mm a'),
   });
+
+  const TransactionContainer = isMobile
+    ? ReceiptContainer
+    : ({ children }) => <Fragment>{children}</Fragment>;
+
+
+  const TransactionDetailsProps = {
+    formattedDate: isMobile ? formattedDate : '',
+    formatMessage: formatMessage,
+    selectedTransaction: selectedTransaction,
+  };
 
   return (
     <Overlay
@@ -50,15 +61,9 @@ function TransactionDetailsSidepanel({
       subTitle={formattedDate}
       type={panelVariant}
     >
-      <Visible when={isMobile} fallback={<TransactionDetailContent formatMessage={formatMessage} selectedTransaction={selectedTransaction} />}>
-        <ReceiptContainer>
-          <TransactionDetailContent
-            formattedDate={formattedDate}
-            formatMessage={formatMessage}
-            selectedTransaction={selectedTransaction}
-          />
-        </ReceiptContainer>
-      </Visible>
+      <TransactionContainer>
+        <TransactionDetailContent {...TransactionDetailsProps} />
+      </TransactionContainer>
     </Overlay>
   );
 }
