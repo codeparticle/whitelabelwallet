@@ -30,8 +30,12 @@ async function getWalletById(id, setFn) {
  * @param {number} id - id of wallet to get
  */
 async function getAddressesByWalletId(setFn, id) {
-  const res = await WalletManager.getAddressesByWalletId(setFn, id);
-  setFn(res);
+  console.log('========\n', 'setfn', setFn, '\n========');
+  console.log('========\n', 'id in query helpers', id, '\n========');
+  const res = await WalletManager.getAddressesByWalletId(id);
+  if (setFn !== null) {
+    setFn(res);
+  }
   return res;
 }
 

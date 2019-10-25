@@ -605,6 +605,7 @@ export class DatabaseManager {
 
   getAddressesByWalletId(id) {
     const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(id);
+    console.log('========\n', 'statement', statement, '\n========');
     return this.query({ statement });
   }
 

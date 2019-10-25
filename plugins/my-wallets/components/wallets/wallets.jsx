@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { connect } from 'react-redux';
+import { uniqBy } from 'lodash';
 import {
   Wallet,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { injectIntl, intlShape } from 'react-intl';
-import { empty } from 'lib/utils';
-
+import { asyncForEach, empty } from 'lib/utils';
 import { setSelectedWallet } from 'plugins/my-wallets/rdx/actions';
 import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { ROUTES } from 'plugins/my-wallets/helpers';
+import { getAddressesByWalletId, getTransactionsForChart } from 'plugins/my-wallets/helpers';
 
 import './wallets.scss';
 
@@ -69,11 +71,65 @@ const WalletsView = ({
     setIsPanelOpen(false);
   }
 
+  const buildWalletChart = async (id) => {
+    const minimumNumberOfChartPoints = 6;
+    const walletAddresses = await getAddressesByWalletId(null, id);
+    console.log('========\n', 'walletAddresses', walletAddresses, '\n========');
+
+    const date2MonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
+    let availableTransactions = [];
+
+    // Get the transactions within the date range for each address that belongs to the wallet.
+    await asyncForEach(walletAddresses, async (addressData) => {
+      const transactionsInTimeRange = await getTransactionsForChart(addressData.address, date2MonthsAgo);
+      availableTransactions.push(...transactionsInTimeRange);
+    });
+
+    // Filter out possible duplicate transactions.
+    availableTransactions = uniqBy(availableTransactions, transaction => transaction.id);
+    const distinctTransactions = availableTransactions.reverse();
+
+    // Current balance is equal to the balance of the latest transaction.
+    const currentBalance = distinctTransactions.length > 0
+      ? distinctTransactions[distinctTransactions.length - 1].pending_balance
+      : 0;
+
+    // Create array of point coordinates using the distinctTransactions
+    const chartData = distinctTransactions.map((transaction, index) => {
+      return { x: index + 1, y: transaction.pending_balance };
+    });
+
+    // Check if we have enough transactions to build the chart, if so, set the chartData in state.
+    if (chartData.length >= minimumNumberOfChartPoints) {
+      console.log('========\n', 'chartData', chartData, '\n========');
+      return chartData;
+    }
+
+    // If not, calculate the number of remaining points to plot on the chart.
+    const numberOfRemainingChartPoints = minimumNumberOfChartPoints - distinctTransactions.length;
+
+    // Since there are not enough transactions over the last three months then we create point coordinates using the balance of the most recent transaction available.
+    for (let counter = minimumNumberOfChartPoints - numberOfRemainingChartPoints; counter < minimumNumberOfChartPoints; counter++) {
+      chartData.push({ x: counter, y: currentBalance });
+    }
+
+    console.log('========\n', 'chartData 2', chartData, '\n========');
+    return chartData;
+
+
+  };
+
+
   return (
     <div className="wallets-rct-component">
       {wallets.map((wallet) => {
         const onClick = () => onWalletClickHandler(wallet);
         const onEdit = (event) => onEditWalletClickHandler(event, wallet);
+        buildWalletChart(wallet.id).then((data) => {
+          console.log('========\n', 'data', data, '\n========');
+        }
+
+        );
 
         return (
           <div key={wallet.id} className="wallets-rct-component__wallet-container">
