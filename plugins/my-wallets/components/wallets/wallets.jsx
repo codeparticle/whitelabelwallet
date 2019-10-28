@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { uniqBy } from 'lodash';
+import uniqBy from 'lodash/uniqBy';
 import {
   Wallet,
   svgs,
@@ -62,47 +62,49 @@ const WalletsView = ({
   const onDeposit = empty;
   const onWithdraw = empty;
 
-  const buildWalletChart = async (id) => {
-    const walletAddresses = await getAddressesByWalletId(null, id);
+  const buildWalletChart = useCallback(
+    async (id) => {
+      const walletAddresses = await getAddressesByWalletId(null, id);
 
-    const date2MonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
-    let availableTransactions = [];
+      const date2MonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
+      let availableTransactions = [];
 
-    // Get the transactions within the date range for each address that belongs to the wallet.
-    await asyncForEach(walletAddresses, async (addressData) => {
-      const transactionsInTimeRange = await getTransactionsForChart(addressData.address, date2MonthsAgo);
-      availableTransactions.push(...transactionsInTimeRange);
-    });
+      // Get the transactions within the date range for each address that belongs to the wallet.
+      await asyncForEach(walletAddresses, async (addressData) => {
+        const transactionsInTimeRange = await getTransactionsForChart(addressData.address, date2MonthsAgo);
+        availableTransactions.push(...transactionsInTimeRange);
+      });
 
-    // Filter out possible duplicate transactions.
-    availableTransactions = uniqBy(availableTransactions, transaction => transaction.id);
-    const distinctTransactions = availableTransactions.reverse();
+      // Filter out possible duplicate transactions.
+      availableTransactions = uniqBy(availableTransactions, transaction => transaction.id);
+      const distinctTransactions = availableTransactions.reverse();
 
-    // Current balance is equal to the balance of the latest transaction.
-    const currentBalance = distinctTransactions.length > 0
-      ? distinctTransactions[distinctTransactions.length - 1].pending_balance
-      : 0;
+      // Current balance is equal to the balance of the latest transaction.
+      const currentBalance = distinctTransactions.length > 0
+        ? distinctTransactions[distinctTransactions.length - 1].pending_balance
+        : 0;
 
-    // Create array of point coordinates using the distinctTransactions
-    const chartData = distinctTransactions.map((transaction, index) => {
-      return { x: index + 1, y: transaction.pending_balance };
-    });
+      // Create array of point coordinates using the distinctTransactions
+      const chartData = distinctTransactions.map((transaction, index) => {
+        return { x: index + 1, y: transaction.pending_balance };
+      });
 
-    // Check if we have enough transactions to build the chart, if so, set the chartData in state.
-    if (chartData.length >= MINIMUM_NUMBER_CHART_POINTS) {
+      // Check if we have enough transactions to build the chart, if so, set the chartData in state.
+      if (chartData.length >= MINIMUM_NUMBER_CHART_POINTS) {
+        return chartData;
+      }
+
+      // If not, calculate the number of remaining points to plot on the chart.
+      const numberOfRemainingChartPoints = MINIMUM_NUMBER_CHART_POINTS - distinctTransactions.length;
+
+      // Since there are not enough transactions over the last two months then we create point coordinates using the balance of the most recent transaction available.
+      for (let counter = MINIMUM_NUMBER_CHART_POINTS - numberOfRemainingChartPoints; counter < MINIMUM_NUMBER_CHART_POINTS; counter++) {
+        chartData.push({ x: counter, y: currentBalance });
+      }
+
       return chartData;
-    }
-
-    // If not, calculate the number of remaining points to plot on the chart.
-    const numberOfRemainingChartPoints = MINIMUM_NUMBER_CHART_POINTS - distinctTransactions.length;
-
-    // Since there are not enough transactions over the last two months then we create point coordinates using the balance of the most recent transaction available.
-    for (let counter = MINIMUM_NUMBER_CHART_POINTS - numberOfRemainingChartPoints; counter < MINIMUM_NUMBER_CHART_POINTS; counter++) {
-      chartData.push({ x: counter, y: currentBalance });
-    }
-
-    return chartData;
-  };
+    }, [],
+  );
 
   useEffect(() => {
     const WalletDataPromises = wallets.map((wallet) => {
@@ -113,10 +115,8 @@ const WalletsView = ({
       });
     });
 
-    Promise.all(WalletDataPromises).then(function(results) {
-      setWalletsWithChartData(results);
-    });
-  }, [wallets, setWalletsWithChartData]);
+    Promise.all(WalletDataPromises).then(setWalletsWithChartData);
+  }, [wallets, setWalletsWithChartData, buildWalletChart]);
 
 
 
