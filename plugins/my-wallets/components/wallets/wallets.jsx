@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -44,6 +44,7 @@ const WalletsView = ({
   ...props
 }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [walletsWithChartData, setWalletsWithChartData] = useState([]);
   const coinSymbol = <SvgCoinSymbol height="24" width="24" />;
   const commonProps = {
     currencySymbol: <span>&#36;</span>,
@@ -57,24 +58,9 @@ const WalletsView = ({
   const onDeposit = empty;
   const onWithdraw = empty;
 
-  function onWalletClickHandler({ id }) {
-    handleWalletClick();
-    history.push(`${PLUGIN}/${id}/${OVERVIEW}`);
-  }
-
-  function onEditWalletClickHandler(event, wallet) {
-    props.setSelectedWallet(wallet);
-    setIsPanelOpen(!isPanelOpen);
-  }
-
-  function onClose() {
-    setIsPanelOpen(false);
-  }
-
   const buildWalletChart = async (id) => {
     const minimumNumberOfChartPoints = 6;
     const walletAddresses = await getAddressesByWalletId(null, id);
-    console.log('========\n', 'walletAddresses', walletAddresses, '\n========');
 
     const date2MonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
     let availableTransactions = [];
@@ -101,7 +87,6 @@ const WalletsView = ({
 
     // Check if we have enough transactions to build the chart, if so, set the chartData in state.
     if (chartData.length >= minimumNumberOfChartPoints) {
-      console.log('========\n', 'chartData', chartData, '\n========');
       return chartData;
     }
 
@@ -113,28 +98,52 @@ const WalletsView = ({
       chartData.push({ x: counter, y: currentBalance });
     }
 
-    console.log('========\n', 'chartData 2', chartData, '\n========');
     return chartData;
-
-
   };
+
+  useEffect(() => {
+    const WalletDataPromises = wallets.map((wallet) => {
+      return buildWalletChart(wallet.id).then((data) => {
+        wallet.chartData = data;
+        wallet.currentBalance = wallet.chartData[5].y;
+        return wallet;
+      });
+    });
+
+    Promise.all(WalletDataPromises).then(function(results) {
+      setWalletsWithChartData(results);
+    });
+  }, [wallets, setWalletsWithChartData]);
+
+
+
+  function onWalletClickHandler({ id }) {
+    handleWalletClick();
+    history.push(`${PLUGIN}/${id}/${OVERVIEW}`);
+  }
+
+  function onEditWalletClickHandler(event, wallet) {
+    props.setSelectedWallet(wallet);
+    setIsPanelOpen(!isPanelOpen);
+  }
+
+  function onClose() {
+    setIsPanelOpen(false);
+  }
 
 
   return (
     <div className="wallets-rct-component">
-      {wallets.map((wallet) => {
+      {walletsWithChartData.map((wallet) => {
         const onClick = () => onWalletClickHandler(wallet);
         const onEdit = (event) => onEditWalletClickHandler(event, wallet);
-        buildWalletChart(wallet.id).then((data) => {
-          console.log('========\n', 'data', data, '\n========');
-        }
-
-        );
 
         return (
           <div key={wallet.id} className="wallets-rct-component__wallet-container">
             <Wallet
               {...commonProps}
+              coinData={wallet.chartData}
+              coinBalance={wallet.currentBalance}
               onDeposit={onDeposit}
               onClick={onClick}
               onEdit={onEdit}

@@ -86,7 +86,6 @@ class WalletManager {
  * @param {number} id - id of wallet to get
  */
   async getAddressesByWalletId(id) {
-    console.log('========\n', 'wallet manager id', id, '\n========');
     return await manager.databaseManager.getAddressesByWalletId(id);
   }
 
