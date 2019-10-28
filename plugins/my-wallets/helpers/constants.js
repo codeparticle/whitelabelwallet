@@ -14,3 +14,5 @@ export const TRANSACTION_TYPES = {
   RECEIVE: 'receive',
   SEND: 'send',
 };
+
+export const MINIMUM_NUMBER_CHART_POINTS = 4;
