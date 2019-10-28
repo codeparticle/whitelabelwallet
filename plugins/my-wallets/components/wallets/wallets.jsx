@@ -14,7 +14,11 @@ import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { ROUTES } from 'plugins/my-wallets/helpers';
-import { getAddressesByWalletId, getTransactionsForChart } from 'plugins/my-wallets/helpers';
+import {
+  getAddressesByWalletId,
+  getTransactionsForChart,
+  MINIMUM_NUMBER_CHART_POINTS,
+} from 'plugins/my-wallets/helpers';
 
 import './wallets.scss';
 
@@ -59,7 +63,6 @@ const WalletsView = ({
   const onWithdraw = empty;
 
   const buildWalletChart = async (id) => {
-    const minimumNumberOfChartPoints = 6;
     const walletAddresses = await getAddressesByWalletId(null, id);
 
     const date2MonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
@@ -86,15 +89,15 @@ const WalletsView = ({
     });
 
     // Check if we have enough transactions to build the chart, if so, set the chartData in state.
-    if (chartData.length >= minimumNumberOfChartPoints) {
+    if (chartData.length >= MINIMUM_NUMBER_CHART_POINTS) {
       return chartData;
     }
 
     // If not, calculate the number of remaining points to plot on the chart.
-    const numberOfRemainingChartPoints = minimumNumberOfChartPoints - distinctTransactions.length;
+    const numberOfRemainingChartPoints = MINIMUM_NUMBER_CHART_POINTS - distinctTransactions.length;
 
     // Since there are not enough transactions over the last three months then we create point coordinates using the balance of the most recent transaction available.
-    for (let counter = minimumNumberOfChartPoints - numberOfRemainingChartPoints; counter < minimumNumberOfChartPoints; counter++) {
+    for (let counter = MINIMUM_NUMBER_CHART_POINTS - numberOfRemainingChartPoints; counter < MINIMUM_NUMBER_CHART_POINTS; counter++) {
       chartData.push({ x: counter, y: currentBalance });
     }
 
@@ -105,7 +108,7 @@ const WalletsView = ({
     const WalletDataPromises = wallets.map((wallet) => {
       return buildWalletChart(wallet.id).then((data) => {
         wallet.chartData = data;
-        wallet.currentBalance = wallet.chartData[5].y;
+        wallet.currentBalance = wallet.chartData[wallet.chartData.length - 1].y;
         return wallet;
       });
     });
