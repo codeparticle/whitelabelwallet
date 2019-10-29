@@ -85,7 +85,7 @@ class WalletManager {
  * @param {func} setFn - function that sets the res to state
  * @param {number} id - id of wallet to get
  */
-  async getAddressesByWalletId(setFn, id) {
+  async getAddressesByWalletId(id) {
     return await manager.databaseManager.getAddressesByWalletId(id);
   }
 

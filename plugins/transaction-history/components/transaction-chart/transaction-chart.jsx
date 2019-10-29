@@ -2,17 +2,15 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   AreaChart,
+  useTheme,
 } from '@codeparticle/whitelabelwallet.styleguide';
 
-// TODO: add this to styleGuide colors;
-const chartColor = '#7bc32b57';
-
 function TransactionChart ({
-  colors,
   transactions,
   minimumNumberOfChartPoints,
 }) {
   const [chartDataPoints, setChartDataPoints] = useState([]);
+  const theme = useTheme('wallet');
 
   const buildChartData = useCallback(
     async () => {
@@ -58,7 +56,7 @@ function TransactionChart ({
 
   return (
     <AreaChart
-      colors={colors}
+      colors={[theme.gradientStart, theme.gradientEnd]}
       data={chartDataPoints}
       padding={0}/>
   );
@@ -71,7 +69,6 @@ TransactionChart.prototypes = {
 };
 
 TransactionChart.defaultProps = {
-  colors: [chartColor],
   minimumNumberOfChartPoints: 6,
 };
 

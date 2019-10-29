@@ -8,20 +8,19 @@ import {
 } from 'plugins/my-wallets/helpers';
 import {
   AreaChart,
+  useTheme,
 } from '@codeparticle/whitelabelwallet.styleguide';
 
-// TODO: add this to styleGuide colors;
-const chartColor = '#7bc32b57';
 
 function WalletChart ({
   selectedWalletAddresses,
   selectedWalletTransactions,
   selectedWallet,
   minimumNumberOfChartPoints,
-  colors,
 }) {
 
   const [chartDataPoints, setChartDataPoints] = useState([]);
+  const theme = useTheme('wallet');
 
   useEffect(() => {
     if (selectedWalletTransactions.length > 0) {
@@ -77,7 +76,7 @@ function WalletChart ({
 
   return (
     <AreaChart
-      colors={colors}
+      colors={[theme.gradientStart, theme.gradientEnd]}
       data={chartDataPoints}
       padding={0}/>
   );
@@ -92,7 +91,6 @@ WalletChart.prototypes = {
 };
 
 WalletChart.defaultProps = {
-  colors: [chartColor],
   minimumNumberOfChartPoints: 6,
 };
 
