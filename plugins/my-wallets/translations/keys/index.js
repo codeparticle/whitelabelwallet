@@ -59,6 +59,26 @@ export const MY_WALLETS = defineMessages({
     description: 'Manage wallet panel text',
     defaultMessage: 'Manage Wallet',
   },
+  MANAGE_WALLET_ADD_ADDRESS: {
+    id: 'plugin.my_wallets.manage_wallet_add_address',
+    description: 'Manage wallet add address text',
+    defaultMessage: 'Add Address',
+  },
+  MANAGE_WALLET_ADDRESS_NICKNAME: {
+    id: 'plugin.my_wallets.manage_address_nickname',
+    description: 'Manage wallet address nickname text',
+    defaultMessage: 'Address Nickname',
+  },
+  MANAGE_WALLET_DELETE_ADDRESS: {
+    id: 'plugin.my_wallets.manage_wallet_delete_address',
+    description: 'Manage wallet delete address text',
+    defaultMessage: 'Delete Address',
+  },
+  MANAGE_WALLET_REFRESH_ADDRESS: {
+    id: 'plugin.my_wallets.manage_wallet_refresh_address',
+    description: 'Manage wallet refresh address text',
+    defaultMessage: 'Refresh Address',
+  },
   NEW_WALLET_TEXT: {
     id: 'plugin.my_wallets.new_wallet_title',
     description: 'new wallet text to used in various places',
