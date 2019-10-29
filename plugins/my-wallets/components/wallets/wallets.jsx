@@ -94,13 +94,15 @@ const WalletsView = ({
         return chartData;
       }
 
-      // If not, calculate the number of remaining points to plot on the chart.
-      const numberOfRemainingChartPoints = MINIMUM_NUMBER_CHART_POINTS - distinctTransactions.length;
+      if (chartData.length < MINIMUM_NUMBER_CHART_POINTS) {
+        // If not, calculate the number of remaining points to plot on the chart.
+        const numberOfRemainingChartPoints = MINIMUM_NUMBER_CHART_POINTS - distinctTransactions.length;
 
-      // Since there are not enough transactions over the last two months then we create point coordinates using the balance of the most recent transaction available.
-      for (let counter = MINIMUM_NUMBER_CHART_POINTS - numberOfRemainingChartPoints; counter < MINIMUM_NUMBER_CHART_POINTS; counter++) {
-        chartData.push({ x: counter, y: currentBalance });
-      }
+        // Since there are not enough transactions over the last two months then we create point coordinates using the balance of the most recent transaction available.
+        for (let counter = MINIMUM_NUMBER_CHART_POINTS - numberOfRemainingChartPoints; counter < MINIMUM_NUMBER_CHART_POINTS; counter++) {
+          chartData.push({ x: counter, y: currentBalance });
+        }
+      };
 
       return chartData;
     }, [],
