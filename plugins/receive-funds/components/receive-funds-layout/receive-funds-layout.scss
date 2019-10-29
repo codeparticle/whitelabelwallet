@@ -14,8 +14,18 @@
 
   &__list {
     grid-area: list;
+    margin: 0 $spacing-l;
     max-height: 100%;
     overflow-y: auto;
+
+    .send-funds {
+
+      &-search,
+      &-layout__from-address {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
   }
 
   &__qr-code {
