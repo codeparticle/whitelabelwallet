@@ -37,19 +37,17 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       background: $cloud;
     }
 
-    .search-wrapper,
-    .list-wrapper {
+    .search-wrapper {
       padding: $space-8;
+    }
+
+    .list-wrapper {
+      margin: $space-8;
     }
 
     .list-wrapper {
       background: $white;
       overflow-y: auto;
-
-      ::-webkit-scrollbar {
-        width: 0px;  /* Remove scrollbar space */
-        background: transparent;  /* Optional: just make scrollbar invisible */
-      }
 
       &-empty {
         align-items: center;
@@ -123,7 +121,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     .list-wrapper {
 
       overflow-y: initial;
-      padding: $space-3;
+      margin: $space-3;
 
       .mobile-list {
         background: $white;

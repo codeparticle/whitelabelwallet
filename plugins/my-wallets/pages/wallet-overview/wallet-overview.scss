@@ -88,9 +88,12 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     }
         
     .wallet-balance-data,
-    .list-wrapper,
     .search-wrapper {
       padding: $space-8;
+    }
+
+    .list-wrapper {
+      margin: $space-8;
     }
   }
 
@@ -152,12 +155,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
     .list-wrapper {
 
       overflow-y: initial;
-      padding: $space-3;
-
-      ::-webkit-scrollbar {
-        background: transparent;  /* Optional: just make scrollbar invisible */
-        width: 0px;  /* Remove scrollbar space */
-      }
+      margin: $space-3;
 
       .mobile-list {
         background: white;

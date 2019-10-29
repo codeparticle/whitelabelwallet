@@ -1,7 +1,61 @@
 @import '@codeparticle/whitelabelwallet.styleguide/styles/index';
 
+$scrollbar-width: 10px;
+$scrollbar-radius: 5px;
+
 body {
   margin: 0;
   overflow: hidden;
   padding: 0;
+}
+
+/*
+  Scrollbar Styles TLDR:
+  Adjusts the scrollbars to have a more elegant appearance
+  (only visible when user is focusing an element)
+  
+  scrollbar-color is in Working Draft, but fully supported by Firefox on all devices.
+  https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color
+
+  ::-webkit-scrollbar covers the rest of the supported browsers
+  (Chrome and Safari) both on mobile and desktop.
+  https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+*/
+
+@mixin scrollbar-color($color) {
+
+  :active,
+  :hover {
+    scrollbar-color: $color transparent;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $color;
+    }
+  }
+}
+
+* {
+  scrollbar-color: transparent transparent;
+
+  ::-webkit-scrollbar {
+    margin-left: 1px;
+    width: $scrollbar-width;
+  
+    &-track,
+    &-thumb {
+      background-color: transparent;
+    }
+  
+    &-thumb {
+      border-radius: $scrollbar-radius;
+    }  
+  }
+}
+
+.light {
+  @include scrollbar-color($grey);
+}
+
+.dark {
+  @include scrollbar-color($cool-grey-dark);
 }
