@@ -28,6 +28,30 @@ $text-area-mobile-height: 250px;
       height: $text-area-mobile-height;
     }
   }
+
+  .multi-address-field {
+    margin-top: $space-2;
+
+    label {
+      position: relative;
+    }
+  }
+
+  .multi-address-field ~ .multi-address-field {
+    margin-top: $space-4;
+  }
+
+  .add-address-field {
+    margin-top: $space-4;
+
+    label {
+      position: relative;
+
+      input ~ div {
+        right: 0px !important;
+      }
+    }
+  }
 }
 
 .light .manage-wallet-content {

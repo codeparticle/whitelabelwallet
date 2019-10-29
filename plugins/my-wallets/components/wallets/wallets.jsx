@@ -9,7 +9,7 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { injectIntl, intlShape } from 'react-intl';
 import { asyncForEach, empty } from 'lib/utils';
-import { setSelectedWallet } from 'plugins/my-wallets/rdx/actions';
+import { setSelectedWallet, setSelectedWalletAddresses } from 'plugins/my-wallets/rdx/actions';
 import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
@@ -162,6 +162,7 @@ const WalletsView = ({
         formatMessage={formatMessage}
         isOpen={isPanelOpen}
         onClose={onClose}
+        setSelectedWalletAddresses={setSelectedWalletAddresses}
         setSelectedWallet={props.setSelectedWallet}
         wallet={selectedWallet}
       />
@@ -196,6 +197,7 @@ const mapStateToProps = (state) => {
 
 
 const mapDispatchToProps = {
+  setSelectedWalletAddresses,
   setSelectedWallet,
 };
 

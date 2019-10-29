@@ -72,7 +72,7 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
 
   /**
    * This method gets details for a specific address.
-   * @param {string} name.
+   * @param {string} addressParam.
    * @return {obj} returns an Address object model.
    */
   getAddressDetails = async (addressParam) => {
@@ -80,6 +80,20 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
     const address = new Address('', rawAddress);
     return address;
   }
+  /**
+   * This method creates a new address and transfers the balance left from the old address to the new one.
+   * @param {string} addressParam.
+   * @return {obj} returns an Address.
+   */
+  async refreshAddress(addressParam) {
+    /*eslint-disable */
+    const balance = await this.getBalanceForAddress(addressParam.address);
+    /* eslint-enable */
+    const keyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
+    const { address: testnetAddress } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
+    // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
+    return testnetAddress;
+  };
 
   /**
    * This method gets recent unconfirmed transactions.
