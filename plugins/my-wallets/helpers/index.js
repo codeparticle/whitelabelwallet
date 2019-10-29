@@ -1,4 +1,4 @@
-export { ROUTES, TRANSACTION_TYPES } from './constants';
+export { ROUTES, TRANSACTION_TYPES, MINIMUM_NUMBER_CHART_POINTS } from './constants';
 export {
   createWalletAndUpdateList,
   fetchWallets,

@@ -232,6 +232,7 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
       .wallet-balance-data {
 
         .balance,
+        .current-balance-text,
         .fiat-value {
           color: $white;
         }
@@ -244,10 +245,6 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
               fill: currentColor;
             }
           }
-        }
-  
-        .current-balance-text {
-          color: $cool-grey-dark;
         }
       }
 
