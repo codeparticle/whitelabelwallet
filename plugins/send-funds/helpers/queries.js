@@ -3,7 +3,6 @@
  * @author Gabriel Womble
  */
 import { manager } from 'app';
-import { TransactionManager } from 'api';
 
 /**
  * Function that returns an array of wallet objects with an addresses property
@@ -34,7 +33,7 @@ async function getContacts() {
 }
 
 async function createTransaction({ fromAddress, toAddress, amount, memo }) {
-  return TransactionManager.createTransaction({ fromAddress, toAddress, amount, memo });
+  return manager.transactionManager.createTransaction({ fromAddress, toAddress, amount, memo });
 }
 
 /**

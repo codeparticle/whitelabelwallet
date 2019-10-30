@@ -13,12 +13,23 @@ import {
   REMOVE_DATABASE,
   REMOVED_DATABASE,
 } from 'api/electron/ipc-events';
-import { DatabaseManager, UpdateManager } from 'api/db';
+import { UpdateManager } from 'api/db';
 import { RenderManager } from 'api/render-manager';
 const { ipcRenderer, remote } = window.require('electron');
 const log = remote.require('electron-log');
 
 export class ElectronRendererManager extends RenderManager {
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new ElectronRendererManager();
+    }
+    return this._instance;
+  }
+
+  static resetInstance() {
+    this._instance = null;
+  }
+
   // transmit event to main manager to perform startup functions
   performStartupService() {
     ipcRenderer.send(PERFORM_STARTUP_SETUP);
@@ -38,21 +49,11 @@ export class ElectronRendererManager extends RenderManager {
   }
 
   /**
-   * Sets the DatabaseManager Instance
-   * @param {Object} dbFile : database file returned by fileService
-   */
-  startDatabaseManager(dbFile) {
-    log.debug('ElectronRendererService::startDatabaseManager called');
-    DatabaseManager.file = dbFile;
-    this.databaseManager = DatabaseManager.instance;
-  }
-
-  /**
    * Generates a new DB
    */
   generateDatabase() {
     log.debug('ElectronRendererService::generateDatabase called');
-    this.startDatabaseManager();
+    this.initializeManagers(this);
 
     return new Promise(resolve => {
       this.databaseManager.generateTables().then(() => {
@@ -73,7 +74,7 @@ export class ElectronRendererManager extends RenderManager {
           log.debug('ElectronRendererManager::loadDatabase success');
           const dbBinary = new Uint8Array(buffer);
 
-          this.startDatabaseManager(dbBinary);
+          this.initializeManagers(this, dbBinary);
           UpdateManager().then((updated) => {
             if (updated) {
               this.saveDatabase(this.username, this.password);

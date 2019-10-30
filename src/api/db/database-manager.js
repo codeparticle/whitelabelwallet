@@ -643,4 +643,17 @@ export class DatabaseManager {
       addressName: address_name,
     };
   }
+
+  /**
+   * Update the adddress by ID
+   * @param {number} id the address's ID
+   * @param {Object} cols the data to be updated
+   */
+  updateAddressById(id, cols) {
+    return this.update({
+      table: 'Addresses',
+      cols,
+      where: `id=${id}`,
+    });
+  }
 }

@@ -2,7 +2,7 @@
  * @fileoverview DB related functions used in the My-Wallets Plugin
  * @author Marc Mathieu
  */
-import { WalletManager } from 'api';
+import { manager } from 'app';
 
 /**
  * Function that gets all Wallets from DB, and then sets the response
@@ -10,7 +10,7 @@ import { WalletManager } from 'api';
  * @param {func} setFn - function that sets the response to state
  */
 async function fetchWallets(setFn) {
-  const res = await WalletManager.fetchWallets();
+  const res = await manager.databaseManager.getWallets();
   setFn(res);
 }
 
@@ -20,7 +20,7 @@ async function fetchWallets(setFn) {
  * @param {func} setFn - function that sets the res to state
  */
 async function getWalletById(id, setFn) {
-  const res = await WalletManager.getWalletById(id);
+  const res = await manager.databaseManager.getWalletById(id);
   setFn(res);
 }
 
@@ -30,7 +30,7 @@ async function getWalletById(id, setFn) {
  * @param {number} id - id of wallet to get
  */
 async function getAddressesByWalletId(setFn, id) {
-  const res = await WalletManager.getAddressesByWalletId(id);
+  const res = await manager.databaseManager.getAddressesByWalletId(id);
   if (setFn !== null) {
     setFn(res);
   }
@@ -43,7 +43,7 @@ async function getAddressesByWalletId(setFn, id) {
  * @param {func} setFn - function that sets the response to state
  */
 async function createWalletAndUpdateList(wallet, setFn) {
-  await WalletManager.createWallet(wallet);
+  await manager.walletManager.createWallet(wallet);
   await fetchWallets(setFn);
 }
 
@@ -54,7 +54,8 @@ async function createWalletAndUpdateList(wallet, setFn) {
  * @param {func} setFn - function that sets the response to state
  */
 async function updateWalletAndUpdateState(wallet, setFn) {
-  await WalletManager.updateWalletbyId(wallet);
+  await manager.databaseManager.updateWalletById(wallet.id, wallet);
+  await manager.saveDatabase();
   await getWalletById(wallet.id, setFn);
 }
 
@@ -64,7 +65,7 @@ async function updateWalletAndUpdateState(wallet, setFn) {
  * @param {string} value - the value to query
  */
 async function searchTransactionsByValue(setFn, value, addresses, filterDate = null) {
-  const res = await WalletManager.searchTransactionsByValue(addresses, value, filterDate);
+  const res = await manager.databaseManager.searchTransactionsForValue(addresses, value, filterDate);
   setFn(res);
 }
 
@@ -75,7 +76,7 @@ async function searchTransactionsByValue(setFn, value, addresses, filterDate = n
  * @param {object} filterDate - date to filter transaction data
  */
 async function getTransactionsPerAddress(setFn, address, filterDate) {
-  const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
+  const res = await manager.databaseManager.getTransactionsPerAddressAfterDate(address, filterDate);
   if (setFn !== null) {
     setFn(res);
   }
@@ -87,7 +88,7 @@ async function getTransactionsPerAddress(setFn, address, filterDate) {
  * @param {object} filterDate - date to filter transaction data
  */
 async function getTransactionsForChart(address, filterDate) {
-  const res = await WalletManager.getTransactionsPerAddressAfterDate(address, filterDate);
+  const res = await manager.databaseManager.getTransactionsPerAddressAfterDate(address, filterDate);
   return res;
 }
 

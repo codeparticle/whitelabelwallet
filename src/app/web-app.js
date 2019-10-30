@@ -24,7 +24,7 @@ const { SplashScreen } = Plugins;
 const history = createBrowserHistory();
 const { store, persistor } = configureStore(history);
 
-const manager = new WebManager();
+const manager = WebManager.instance;
 
 // IMPORTANT: persistgate will save the state into localStorage
 // and load it from there; to use a new initialState, go to

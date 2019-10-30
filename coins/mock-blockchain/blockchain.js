@@ -3,11 +3,13 @@ import * as bitcoin from 'bitcoinjs-lib';
 import  _ from 'lodash';
 import * as bip39 from 'bip39';
 import * as HDKey from 'hdkey';
+
 import { TransactionManager } from 'coins/mock-blockchain/transactions';
 import { WalletManager } from 'coins/mock-blockchain/wallet';
 import { urls } from 'coins/mock-blockchain/constants';
-import { api } from 'rdx/api';
+
 import { ApiBlockchainManager } from 'api/api-blockchain-manager';
+import { api } from 'rdx/api';
 import { Address } from 'models';
 
 const {
@@ -48,7 +50,7 @@ class BlockchainManager extends ApiBlockchainManager {
    * @returns {Object} - address and privateKey
    * @param {string} mnemonicSeed - string seed from wallet
    */
-  static generateAddressFromSeed(mnemonicSeed) {
+  generateAddressFromSeed(mnemonicSeed) {
     const seed = bip39.mnemonicToSeedSync(mnemonicSeed);
     const node = HDKey.fromMasterSeed(seed);
     const derived = node.derive(`m/44'/0'/0/0`);
@@ -59,6 +61,16 @@ class BlockchainManager extends ApiBlockchainManager {
       address,
       privateKey: privateKey.toString('hex'),
     };
+  }
+
+  /**
+   * Normally this method calls an api. Since mock doesn't have one,
+   * we'll return null and let the polling function that calls this
+   * do the error handling.
+   * TODO: mimic fetching
+   */
+  async fetchAddressBalance() {
+    return null;
   }
 
   /**

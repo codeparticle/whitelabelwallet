@@ -29,7 +29,7 @@ const log = remote.require('electron-log');
 const history = createMemoryHistory();
 const { store, persistor } = configureStore(history);
 
-const manager = new ElectronRendererManager();
+const manager = ElectronRendererManager.instance;
 
 const AppWithStore = ({
   children,
