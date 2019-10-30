@@ -1,6 +1,11 @@
 import { arrayToRegex } from './array-to-regex';
 import { asyncForEach } from './async-for-each';
-import { currencyConverter } from './currency-converter';
+import {
+  currencyConverter,
+  floatToSatoshi,
+  satoshiToFloat,
+  SATOSHI_FACTOR,
+} from './currency-converter';
 import { getSelectOptions } from './date-select-formatter';
 import { empty } from './empty';
 import { environment } from './environment';
@@ -24,17 +29,20 @@ export {
   empty,
   environment,
   floatMath,
+  floatToSatoshi,
   formatFloat,
   formatUrlParameters,
   getLowercaseKeys,
-  getSelectOptions,
   getQueryString,
-  getUrlParameterByName,
+  getSelectOptions,
   getSidepanelVariant,
+  getUrlParameterByName,
   isRequestAllowed,
   mapInputErrors,
   regexToString,
   safeString,
+  SATOSHI_FACTOR,
+  satoshiToFloat,
   sortListByDate,
   unescape,
 };

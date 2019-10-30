@@ -2,7 +2,7 @@
  * @fileoverview DB related functions used in the My-Wallets Plugin
  * @author Marc Mathieu
  */
-import { WalletManager } from 'api';
+import { manager } from 'app';
 
 /**
  * Function that gets all Transactions from DB, and then sets the response
@@ -10,7 +10,7 @@ import { WalletManager } from 'api';
  * @param {func} setFn - function that sets the response to state
  */
 async function fetchTransactions(setFn, filterDate = null) {
-  const res = await WalletManager.fetchTransactions(filterDate);
+  const res = await manager.databaseManager.getTransactionsAfterDate(filterDate);
   setFn(res);
 }
 
@@ -20,7 +20,7 @@ async function fetchTransactions(setFn, filterDate = null) {
  * @param {func} setFn - function that sets the response to state
  */
 async function fetchAddresses(setFn) {
-  const res = await WalletManager.fetchAddresses();
+  const res = await manager.databaseManager.getAddresses();
   setFn(res);
 }
 
@@ -30,7 +30,7 @@ async function fetchAddresses(setFn) {
  * @param {func} setFn - function that sets the res to state
  */
 async function getWalletByAddress(address) {
-  const res = await WalletManager.getWalletByAddress(address);
+  const res = await manager.databaseManager.getWalletAddressesByValue(address);
   return res;
 }
 
@@ -40,7 +40,7 @@ async function getWalletByAddress(address) {
  * @param {string} value - the value to query
  */
 async function searchTransactionsAndWalletsByValue(setFn, value, addresses, filterDate = null) {
-  const res = await WalletManager.searchTransactionsAndWalletsByValue(addresses, value, filterDate);
+  const res = await manager.databaseManager.searchTransactionsAndWalletsByValue(addresses, value, filterDate);
   setFn(res);
 }
 

@@ -2,10 +2,11 @@
  * @fileoverview Coin agnostic wallet actions
  * @author Gabriel Womble
  */
-import { BlockchainManager, manager } from 'app';
+import { BlockchainManager } from 'coins';
+import { asyncForEach, satoshiToFloat } from 'lib/utils';
 
-class WalletManager {
-  constructor() {
+export class WalletManager {
+  constructor(manager) {
     this.manager = manager;
     this.blockchainManager = BlockchainManager;
   }
@@ -29,102 +30,46 @@ class WalletManager {
   }
 
   /**
- * Function to get all Addresses
- * @returns {array} - all addresses
- */
-  async fetchAddresses() {
-    return await manager.databaseManager.getAddresses();
-  }
-
-  /**
- * Function to get transactions to display transaction history
- * @param {object} filterDate
- * @returns {array} - returns all transactions that fit criteria
- */
-  async fetchTransactions(filterDate) {
-    return await manager.databaseManager.getTransactionsAfterDate(filterDate);
-  }
-
-  /**
-   * Function that returns all Wallets from DB
-   * @returns {Array} - all wallets
+   * Function that is called on a polling interval in CryptoPoller
+   * Gets addresses from DB, and then compares their balances against the
+   * balances retrieved by the blockchainManager's fetchAddressBalance (api) call
+   * @returns {Boolean} - true if a balance was updated, false if not.
    */
-  async fetchWallets() {
-    return await this.manager.databaseManager.getWallets();
-  }
+  async pollAddressBalances() {
+    const addresses = await this.manager.databaseManager.getAddresses();
+    let hasUpdates = false;
 
-  /**
-   * Gets a single wallet by id
-   * @returns {Object} - wallet
-   * @param {number} id - wallet's id
-   */
-  async getWalletById(id) {
-    return await this.manager.databaseManager.getWalletById(id);
-  }
-  /**
-   * Gets a single wallet by Address
-   * @returns {Object} - wallet
-   * @param {string} address - address that belongs to a wallet.
-   */
-  async getWalletByAddress(address) {
-    return await this.manager.databaseManager.getWalletAddressesByValue(address);
-  }
+    // Loop through addresses & compare against api values.
+    await asyncForEach(addresses, async (address) => {
+      const newBalance = await this.blockchainManager.fetchAddressBalance(address.address);
 
-  /**
-   * Function that updates a wallet by its Id
-   * @param {Object} wallet - contains wallet's id and properties to update
-   */
-  async updateWalletbyId(wallet) {
-    await this.manager.databaseManager.updateWalletById(wallet.id, wallet);
-    await this.manager.saveDatabase();
-  }
+      if (typeof newBalance === 'number') {
+        const newFormatted = satoshiToFloat(newBalance);
 
-  /**
- * Function to get a addresses from db by wallet ID
- * @param {Object} manager - the manager object
- * @param {func} setFn - function that sets the res to state
- * @param {number} id - id of wallet to get
- */
-  async getAddressesByWalletId(id) {
-    return await manager.databaseManager.getAddressesByWalletId(id);
+        if (newFormatted !== address.balance) {
+          hasUpdates = true;
+          const { id } = address;
+          const balance = newFormatted;
+
+          await this.manager.databaseManager.updateAddressById(id, { balance });
+        }
+      }
+
+    });
+
+    if (hasUpdates) {
+      this.manager.saveDatabase();
+    }
+
+    return hasUpdates;
   }
 
   /**
    * Function that generates deterministic pass phrase
-   * @returns {Array} - Secret Phrase
-   * @param {string} - locale code to determine wordlist to use
+   * @returns {Array} Secret Phrase
+   * @param {String} locale - locale code to determine wordlist to use
    */
   generateSecretPhrase(locale) {
     return this.blockchainManager.phraseToArray(this.blockchainManager.generateSecretPhrase(locale));
   }
-
-  /**
- * Function to search a transaction by description
- * @param {func} setFn - the function that sets the query response to state
- * @param {string} value - the value to query
- */
-  async  searchTransactionsByValue(addresses, value, filterDate) {
-    return await manager.databaseManager.searchTransactionsForValue(addresses, value, filterDate);
-  }
-
-  /**
- * Function to search a transactions by description, wallet name, amount, and date
- * @param {array} addresses - All of the users addresses
- * @param {string} value - the value to query
- * @param {object} filterDate - date to filter transaction data by
- */
-  async  searchTransactionsAndWalletsByValue(addresses, value, filterDate) {
-    return await manager.databaseManager.searchTransactionsAndWalletsByValue(addresses, value, filterDate);
-  }
-
-  /**
- * Function to get transactions to display on wallet chart
- * @param {string} address - the address value to query
- * @param {object} filterDate - date to filter transaction data
- */
-  async getTransactionsPerAddressAfterDate(address, filterDate) {
-    return await manager.databaseManager.getTransactionsPerAddressAfterDate(address, filterDate);
-  }
 }
-
-export default new WalletManager();

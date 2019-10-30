@@ -2,10 +2,10 @@
  * @fileoverview Coin agnostic transaction manager (tx history, sending, receiving)
  * @author Gabriel Womble
  */
-import { BlockchainManager, manager } from 'app';
+import { BlockchainManager } from 'coins';
 
-class TransactionManager {
-  constructor() {
+export class TransactionManager {
+  constructor(manager) {
     this.manager = manager;
     this.blockchainManager = BlockchainManager;
   }
@@ -51,5 +51,3 @@ class TransactionManager {
     return await this.manager.databaseManager.getLastTransaction();
   }
 }
-
-export default new TransactionManager();

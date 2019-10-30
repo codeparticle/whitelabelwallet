@@ -1,6 +1,4 @@
-// TODO: Update this manager and electron-render-manager
-// to extend a shared interface
-import { DatabaseManager, UpdateManager } from 'api/db';
+import { UpdateManager } from 'api/db';
 import { RenderManager } from 'api/render-manager';
 import { EncryptionManager } from 'api/encryption-manager';
 import { FileManager } from './file-manager';
@@ -12,20 +10,22 @@ export class WebManager extends RenderManager {
     this.fileManager = new FileManager(this.storage);
   }
 
-  /**
-   * Sets the DatabaseManager Instance
-   * @param {Object} dbFile : database file returned by fileManager
-   */
-  startDatabaseManager(dbFile) {
-    DatabaseManager.file = dbFile;
-    this.databaseManager = DatabaseManager.instance;
+  static get instance() {
+    if (!this._instance) {
+      this._instance = new WebManager();
+    }
+    return this._instance;
+  }
+
+  static resetInstance() {
+    this._instance = null;
   }
 
   /**
    * Generates a new DB
    */
   generateDatabase() {
-    this.startDatabaseManager();
+    this.initializeManagers(this);
 
     return new Promise(resolve => {
       this.databaseManager.generateTables().then(() => {
@@ -49,7 +49,7 @@ export class WebManager extends RenderManager {
       const decodedBinary = EncryptionManager.prepToLoadDatabase(this.username, this.password, dbFile);
       const dbBinary = EncryptionManager.encodeBinary(decodedBinary);
 
-      this.startDatabaseManager(dbBinary);
+      this.initializeManagers(this, dbBinary);
       UpdateManager().then((updated) => {
         if (updated) {
           this.saveDatabase(this.username, this.password);
