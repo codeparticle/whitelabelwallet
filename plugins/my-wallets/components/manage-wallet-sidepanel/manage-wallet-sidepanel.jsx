@@ -89,7 +89,7 @@ function ManageWalletSidepanel({
   }
 
   function onAddressNickNameChange(e) {
-    setNewAddressNickname(e.target.value);
+    setNewAddressNickname(safeString(e.target.value));
   }
 
   function handleOnClose() {

@@ -89,10 +89,14 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
     /*eslint-disable */
     const balance = await this.getBalanceForAddress(addressParam.address);
     /* eslint-enable */
-    const keyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
-    const { address: testnetAddress } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
+    const keyPair = bitcoin.ECPair.makeRandom({ network: bitcoin.networks[NETWORK] });
+    const { address: newAddress  } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: bitcoin.networks[NETWORK] });
     // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
-    return testnetAddress;
+
+    return {
+      address: newAddress,
+      privateKey: keyPair.privateKey.toString('hex'),
+    };
   };
 
   /**
