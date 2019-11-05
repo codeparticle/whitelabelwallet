@@ -121,7 +121,7 @@ function ManageWalletSidepanel({
       return `${wallet.name} (${addresses.length})`;
     }
 
-    return wallet.name;
+    return wallet.name || '';
   }
 
   function onRefreshAddress(address) {
@@ -179,7 +179,7 @@ function ManageWalletSidepanel({
       onClick={onSubmit}
       onClose={handleOnClose}
       onCancelClick={handleOnClose}
-      title={getTitle() || ''}
+      title={getTitle()}
       subTitle={formatMessage(MANAGE_WALLET_PANEL_LABEL)}
       type={panelVariant}
     >
