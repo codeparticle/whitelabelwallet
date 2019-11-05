@@ -43,7 +43,7 @@ package.json:
 #### Using the manager
 
 ```jsx
-import { BlockchainManager } from 'app';
+import { BlockchainManager } from 'coins';
 
 // Code
 ```

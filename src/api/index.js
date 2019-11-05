@@ -1,6 +1,6 @@
 import { EncryptionManager } from './encryption-manager';
-import { default as TransactionManager } from './transaction-manager';
-import { default as WalletManager } from './wallet-manager';
+import { TransactionManager } from './transaction-manager';
+import { WalletManager } from './wallet-manager';
 
 export {
   EncryptionManager,
