@@ -79,9 +79,9 @@ export class WalletManager {
    * @param {string} addressParam.
    */
   async refreshAddress(addressParam) {
-    const newAddress = await this.blockchainManager.refreshAddress(addressParam);
-    const address = newAddress;
-    await this.manager.databaseManager.updateAddressById(addressParam.id, { address });
+    const { address, privateKey } = await this.blockchainManager.refreshAddress(addressParam);
+    const private_key = privateKey;
+    await this.manager.databaseManager.updateAddressById(addressParam.id, { address, private_key });
     await this.manager.saveDatabase();
   }
 
