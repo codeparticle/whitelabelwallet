@@ -59,7 +59,7 @@ export class RenderManager {
     manager.transactionManager = new TransactionManager(manager);
 
     this.initializePolling(() => {
-      manager.walletManager.pollAddressBalances();
+      manager.walletManager.pollAddressData();
     }, Boolean(dbFile));
   }
 
