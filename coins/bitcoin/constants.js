@@ -2,15 +2,24 @@ import { environment } from 'lib/utils';
 const { isDev } = environment;
 
 const KEY = 'btc';
+const TESTNET = 'testnet';
+const BITCOIN = 'bitcoin';
 
 const NETWORK = isDev()
-  ? 'testnet'
-  : 'bitcoin';
+  ? TESTNET
+  : BITCOIN;
+
+const NET = NETWORK === TESTNET
+  ? 'test3'
+  : 'main';
+
+const BLOCK_CYPHER = `https://api.blockcypher.com/v1/btc/${NET}`;
 
 const urls = {
-  ADDRESS: 'https://api.blockcypher.com/v1/btc/test3/addrs',
-  TRANSACTIONS: 'https://api.blockcypher.com/v1/btc/test3/txs',
-  BROADCAST_TRANSACTION: 'https://api.blockcypher.com/v1/btc/test3/txs/push',
+  ADDRESS: `${BLOCK_CYPHER}/addrs`,
+  BALANCE: (addr) => `${urls.ADDRESS}/${addr}/balance`,
+  TRANSACTIONS: `${BLOCK_CYPHER}/txs`,
+  BROADCAST_TRANSACTION: `${BLOCK_CYPHER}/txs/push`,
 };
 
 const BIP32 = {

@@ -8,7 +8,7 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { getSidepanelVariant } from 'lib/utils';
-import { WalletManager } from 'api';
+import { useManager } from 'lib/hooks';
 import { getCoinId } from 'api/blockchain/utils';
 import { getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 import { COMMON } from 'translations/keys/common';
@@ -59,9 +59,12 @@ const WalletSidepanelView = ({
   setWallets,
   onClose,
 }) => {
+  const { walletManager } = useManager();
+
   const getWords = () => {
-    return WalletManager.generateSecretPhrase(locale);
+    return walletManager.generateSecretPhrase(locale);
   };
+
   const { isMobile } = useMedia();
   const [wordArray, setWordArray] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -82,7 +85,7 @@ const WalletSidepanelView = ({
     if (currentStep ===  1) {
       setCurrentStep(2);
     } else if (isConfirmed && currentStep ===  2) {
-      const seed = WalletManager.blockchainManager.arrayToPhrase(wordArray);
+      const seed = walletManager.blockchainManager.arrayToPhrase(wordArray);
       setWalletData({ ...walletData, seed });
       setIsDisabled(true);
       setCurrentStep(3);

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect, withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import jwt from 'jsonwebtoken';
+
 import { environment } from 'lib/utils/environment';
 import customPropTypes from 'lib/custom-prop-types';
 import { AUTH_CONSTANTS } from 'lib/constants';
-import { Redirect, withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import { getRdxActionMapper, getRdxSelectionMapper } from 'rdx/utils/props-mapping';
 
 const { LOGIN, SIGNUP } = AUTH_CONSTANTS;

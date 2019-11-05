@@ -9,6 +9,7 @@ import { BIP32, NETWORK, urls } from 'coins/bitcoin/constants';
 
 const {
   ADDRESS,
+  BALANCE,
   BROADCAST_TRANSACTION,
   TRANSACTIONS,
 } = urls;
@@ -31,7 +32,7 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
    * @returns {Object} - address and privateKey
    * @param {string} mnemonicSeed - string seed from wallet
    */
-  static generateAddressFromSeed(mnemonicSeed, account = 0, changeChain = BIP32.CHANGE_CHAIN.EXTERNAL) {
+  generateAddressFromSeed(mnemonicSeed, account = 0, changeChain = BIP32.CHANGE_CHAIN.EXTERNAL) {
     const seed = bip39.mnemonicToSeedSync(mnemonicSeed);
     const node = bip32.fromSeed(seed);
     const derived = node.derivePath(`${BIP32.DERIVATION_PATH_BASE}/${account}'/${changeChain}`);
@@ -42,6 +43,19 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
       address,
       privateKey: privateKey.toString('hex'),
     };
+  }
+
+  /**
+   * Method to fetch a single address balance from API
+   * @returns {Number} balance - the address balance
+   * @param {String} address - the public address string
+   */
+  async fetchAddressBalance(address) {
+    const addrUrl = BALANCE(address);
+    const res = await api.get(addrUrl);
+    const { balance } = res.data;
+
+    return balance;
   }
 
   /**

@@ -23,7 +23,7 @@ class ApiBlockchainManager {
    * Creates a bip39 mnemonic phrase that will be used
    * when creating a new wallet.
    */
-  static generateSecretPhrase(localeCode = 'en') {
+  generateSecretPhrase(localeCode = 'en') {
     // see valid-words-library for list of available languages
     let secretPhraseSet = new Set([]);
     let secretPhrase = '';
@@ -37,13 +37,24 @@ class ApiBlockchainManager {
   }
 
   /**
+   * Makes an api call to retrieve a given address's balance
+   * Balance must be returned in Satoshi format.
+   * Only used in polling service
+   * @returns {Number} balance (in satoshis)
+   * @param {String} address - public address string
+   */
+  fetchAddressBalance() {
+    required('fetchAddressBalance');
+  }
+
+  /**
    * Base method that returns a single address from seed
    * @returns {Object} addressObject
    * @property {string} address
    * @property {string} privateKey
    * @param {string} mnemonicSeed - string seed from wallet
    */
-  static generateAddressFromSeed() {
+  generateAddressFromSeed() {
     required('generateAddressFromSeed');
   }
 
@@ -51,7 +62,7 @@ class ApiBlockchainManager {
    * Converts an array to a bip39 mnemonic phrase
    * @param {string} phrase
    */
-  static arrayToPhrase(phrase) {
+  arrayToPhrase(phrase) {
     return phrase.join(' ');
   }
 
@@ -59,7 +70,7 @@ class ApiBlockchainManager {
    * Converts a bip39 mnemonic phrase to an array
    * @param {string} phrase
    */
-  static phraseToArray(phrase) {
+  phraseToArray(phrase) {
     return phrase.trim().split(' ');
   }
 
@@ -67,7 +78,7 @@ class ApiBlockchainManager {
    * Can be used to restore a wallet from a pass phrase
    * @param {string} phrase
    */
-  static phraseAuthenticated(phrase) {
+  phraseAuthenticated(phrase) {
     const phraseArray = this.phraseToArray(phrase);
     return phraseArray.length === 24;
   }
