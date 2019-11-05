@@ -49,6 +49,32 @@ export class TransactionManager {
     });
   }
 
+  /**
+   * Function that updates or inserts incoming transactions detected
+   * by the polling services
+   * @param {Array} transactions
+   * @param {Object} addressObj
+   */
+  updateIncomingTransactions(transactions, addressObj) {
+    const { address, id } = addressObj;
+
+    transactions.forEach(async (transaction) => {
+      const { amount } = transaction;
+      const convertedAmount = -Math.abs(amount);
+      const pending_balance = await this.getPendingBalance({
+        amount: convertedAmount,
+        sender_address: address,
+      });
+
+      this.manager.databaseManager.updateOrInsertTransactionByTxId({
+        ...transaction,
+        receiver_address_id: id,
+        transaction_type: RECEIVE,
+        pending_balance,
+      });
+    });
+  }
+
   async createTransaction({
     fromAddress: sender_address,
     toAddress: receiver_address,
