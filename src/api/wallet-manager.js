@@ -32,16 +32,21 @@ export class WalletManager {
   /**
    * Function that is called on a polling interval in CryptoPoller
    * Gets addresses from DB, and then compares their balances against the
-   * balances retrieved by the blockchainManager's fetchAddressBalance (api) call
+   * balances retrieved by the blockchainManager's fetchAddressDetails (api) call
    * @returns {Boolean} - true if a balance was updated, false if not.
    */
-  async pollAddressBalances() {
+  async pollAddressData() {
     const addresses = await this.manager.databaseManager.getAddresses();
     let hasUpdates = false;
 
     // Loop through addresses & compare against api values.
     await asyncForEach(addresses, async (address) => {
-      const newBalance = await this.blockchainManager.fetchAddressBalance(address.address);
+      const {
+        balance: newBalance,
+        transactions,
+      } = await this.blockchainManager.fetchAddressDetails(address.address);
+
+      this.manager.transactionManager.updateIncomingTransactions(transactions, address);
 
       if (typeof newBalance === 'number') {
         const newFormatted = satoshiToFloat(newBalance);

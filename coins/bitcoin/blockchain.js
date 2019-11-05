@@ -1,15 +1,19 @@
 import * as bitcoin from 'bitcoinjs-lib';
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
+import moment from 'moment';
+import { GENERAL } from 'lib/constants';
+import { satoshiToFloat } from 'lib/utils';
 import { api } from 'rdx/api';
 import { Address, Transaction } from 'models';
 import { ApiBlockchainManager } from 'api/api-blockchain-manager';
 import { walletManager } from 'coins/bitcoin/wallet';
 import { BIP32, NETWORK, urls } from 'coins/bitcoin/constants';
 
+const { TIMESTAMP_FORMAT } = GENERAL;
 const {
   ADDRESS,
-  BALANCE,
+  FULL_ADDRESS,
   BROADCAST_TRANSACTION,
   TRANSACTIONS,
 } = urls;
@@ -46,16 +50,75 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
   }
 
   /**
-   * Method to fetch a single address balance from API
-   * @returns {Number} balance - the address balance
+   * method to fetch address details from api
+   * @returns {Object} address balance and transactions
    * @param {String} address - the public address string
    */
-  async fetchAddressBalance(address) {
-    const addrUrl = BALANCE(address);
+  async fetchAddressDetails(address) {
+    const addrUrl = FULL_ADDRESS(address);
     const res = await api.get(addrUrl);
-    const { balance } = res.data;
+    const {
+      balance,
+      txs,
+    } = res.data;
 
-    return balance;
+    const transactions = this.formatTransactionResponse(txs, address);
+
+    return {
+      balance,
+      transactions,
+    };
+  }
+
+
+  /**
+   * Function that formats transactions from api for db insert/update
+   * @returns {Array} formattedTransactions
+   * @param {Array} transactions - transactions array returned by blockCypher address api
+   * @param {String} address - host address
+   */
+  formatTransactionResponse(transactions, address) {
+    const formattedTransactions = [];
+
+    transactions.forEach(transaction => {
+      let status = 0;
+      let amount = 0;
+      let receiver_address = null;
+
+      const {
+        confirmations = null,
+        fees,
+        hash,
+        inputs,
+        outputs,
+        received,
+      } = transaction;
+
+      const sender_address = inputs[0].addresses[0];
+
+      if (confirmations) {
+        status = 1;
+      }
+
+      outputs.forEach(output => {
+        if (output.addresses.includes(address)) {
+          amount += output.value;
+          receiver_address = address;
+        }
+      });
+
+      formattedTransactions.push({
+        amount: satoshiToFloat(amount),
+        created_date: moment(received).format(TIMESTAMP_FORMAT),
+        fee: fees,
+        receiver_address,
+        sender_address,
+        status,
+        transaction_id: hash,
+      });
+    });
+
+    return formattedTransactions;
   }
 
   /**

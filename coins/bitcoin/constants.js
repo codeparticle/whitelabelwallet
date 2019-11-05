@@ -17,7 +17,7 @@ const BLOCK_CYPHER = `https://api.blockcypher.com/v1/btc/${NET}`;
 
 const urls = {
   ADDRESS: `${BLOCK_CYPHER}/addrs`,
-  BALANCE: (addr) => `${urls.ADDRESS}/${addr}/balance`,
+  FULL_ADDRESS: (addr) => `${urls.ADDRESS}/${addr}/full`,
   TRANSACTIONS: `${BLOCK_CYPHER}/txs`,
   BROADCAST_TRANSACTION: `${BLOCK_CYPHER}/txs/push`,
 };
