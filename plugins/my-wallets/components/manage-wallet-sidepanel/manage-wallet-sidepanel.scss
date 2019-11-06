@@ -52,6 +52,10 @@ $text-area-mobile-height: 250px;
       }
     }
   }
+
+  @include mquery($width-breakpoint-xs) {
+    padding: $space-4;
+  }
 }
 
 .light .manage-wallet-content {

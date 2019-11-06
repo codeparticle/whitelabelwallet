@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classNames';
 import { Visible } from '@codeparticle/react-visible';
 import {
   Overlay,
@@ -22,6 +23,7 @@ import {
   updateWalletAndUpdateState,
 } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { AddressListItem } from 'plugins/my-wallets/components';
 import { validateManageWallet } from './validate-manage-wallet';
 import './manage-wallet-sidepanel.scss';
 
@@ -152,6 +154,18 @@ function ManageWalletSidepanel({
     const buttonData = !isMobile ? buttonGroup : [];
     const addressLabelDefault = `${wallet.name} ${index + 1}`;
 
+    if (isMobile) {
+      return (
+        <AddressListItem
+          address={address.address}
+          label={address.name || addressLabelDefault}
+          key={address.id}
+          onRefresh={() => onRefreshAddress(address)}
+          onDelete={() => empty}
+        />
+      );
+    }
+
     return (
       <TextInput
         buttons={buttonData}
@@ -193,16 +207,26 @@ function ManageWalletSidepanel({
           value={walletFields[NAME]}
         />
         <Visible when={isMultiAddress}>
-          {addressFields}
-          <Visible when={!isMobile}>
-            <TextInput
-              buttons={addAddressButton}
-              className="add-address-field"
-              onChange={onAddressNickNameChange}
-              placeholder={formatMessage(MANAGE_WALLET_ADDRESS_NICKNAME)}
-              value={newAddressNickname}
-            />
-          </Visible>
+          <div className={classNames(
+            'multi-address-fields-wrapper',
+            { 'mobile-fields-wrapper': isMobile },
+          )}>
+            <Visible when={isMobile}>
+              <div className="addresses-section">
+                <label>{'Replace Me'}</label>
+              </div>
+            </Visible>
+            {addressFields}
+            <Visible when={!isMobile}>
+              <TextInput
+                buttons={addAddressButton}
+                className="add-address-field"
+                onChange={onAddressNickNameChange}
+                placeholder={formatMessage(MANAGE_WALLET_ADDRESS_NICKNAME)}
+                value={newAddressNickname}
+              />
+            </Visible>
+          </div>
         </Visible>
         <TextArea
           className="manage-wallet-content__text-area"
