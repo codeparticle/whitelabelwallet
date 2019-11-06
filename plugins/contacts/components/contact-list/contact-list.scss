@@ -16,7 +16,6 @@
   @include mquery($width-breakpoint-xs) {
     grid-gap: $space-1;
     grid-template-columns: 1fr;
-    height: 100%;
     overflow-y: initial;
   }
 }
