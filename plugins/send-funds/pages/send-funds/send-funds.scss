@@ -9,7 +9,7 @@ $footer-height: 84px;
   grid-template-rows: auto auto 1fr $footer-height;
   height: 100%;
   min-width: $width-breakpoint-xs;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100%;
 
   &__transfer-amount {

@@ -130,7 +130,7 @@ $word-button-mobile-text-size: 10px;
 
   .new-wallet {
 
-    .overlay > div:first-child {
+    .content.overlay > div:first-child {
       height: $overlay-header-mobile-height;
     }
     
