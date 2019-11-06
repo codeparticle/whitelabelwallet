@@ -78,10 +78,12 @@ export class WalletManager {
    * Transfers the balance left from the old address to the new one.
    * @param {string} addressParam.
    */
-  async refreshAddress(addressParam) {
-    const { address, privateKey } = await this.blockchainManager.refreshAddress(addressParam);
+  async refreshAddress(wallet, addressParam) {
+    const { address, index, privateKey } = await this.blockchainManager.refreshAddress(wallet, addressParam);
     const private_key = privateKey;
+    const address_index = index;
     await this.manager.databaseManager.updateAddressById(addressParam.id, { address, private_key });
+    await this.manager.databaseManager.updateWalletById(wallet.id, { address_index });
     await this.manager.saveDatabase();
   }
 

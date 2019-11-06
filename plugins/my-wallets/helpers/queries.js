@@ -52,9 +52,11 @@ async function createWalletAndUpdateList(wallet, setFn) {
  * @param {string} address - the address update
  * @param {func} setFn - the redux action needed to update state
  */
-async function refreshAddress(address, setFn) {
-  await manager.walletManager.refreshAddress(address);
+async function refreshAddress(wallet, address, setFn, setFn2) {
+  await manager.walletManager.refreshAddress(wallet, address);
   await getAddressesByWalletId(setFn, address.wallet_id);
+  await getWalletById(wallet.id, setFn2);
+
 }
 
 /**

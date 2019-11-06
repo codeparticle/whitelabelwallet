@@ -151,10 +151,10 @@ export class DatabaseManager {
       /**
        * Insert into the sqlite DB one row of wallet data
        */
-      wallet: ({ id, name, coin_id, multi_address, require_password, password_hash, seed }) => {
+      wallet: ({ id, name, coin_id, multi_address, require_password, password_hash, seed, address_index }) => {
         return this.query({
           statement: STMT.WALLETS.INSERT.NEW,
-          params: [id, name, coin_id, multi_address, require_password, password_hash, seed],
+          params: [id, name, coin_id, multi_address, require_password, password_hash, seed, address_index],
           run,
         });
       },

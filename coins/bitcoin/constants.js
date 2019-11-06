@@ -28,6 +28,7 @@ const BIP32 = {
     EXTERNAL: 0,
     INTERNAL: 1,
   },
+  ACCOUNT_BASE: 0,
 };
 
 export {
