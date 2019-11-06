@@ -125,7 +125,7 @@ function ManageWalletSidepanel({
   }
 
   function onRefreshAddress(address) {
-    refreshAddress(address, setSelectedWalletAddresses);
+    refreshAddress(wallet, address, setSelectedWalletAddresses, setSelectedWallet);
   }
 
   function onAddAddress() {

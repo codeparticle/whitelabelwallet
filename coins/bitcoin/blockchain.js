@@ -32,15 +32,17 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
    * @returns {Object} - address and privateKey
    * @param {string} mnemonicSeed - string seed from wallet
    */
-  generateAddressFromSeed(mnemonicSeed, account = 0, changeChain = BIP32.CHANGE_CHAIN.EXTERNAL) {
+  generateAddressFromSeed(mnemonicSeed, account = 0, changeChain = BIP32.CHANGE_CHAIN.EXTERNAL, numberOfAddresses = 0) {
+    const addressIncrement = numberOfAddresses + 1;
     const seed = bip39.mnemonicToSeedSync(mnemonicSeed);
     const node = bip32.fromSeed(seed);
-    const derived = node.derivePath(`${BIP32.DERIVATION_PATH_BASE}/${account}'/${changeChain}`);
+    const derived = node.derivePath(`${BIP32.DERIVATION_PATH_BASE}/${account}'/${changeChain}/${addressIncrement}`);
     const { publicKey, privateKey } = derived;
     const { address } = bitcoin.payments.p2pkh({ pubkey: publicKey, network: bitcoin.networks[NETWORK] });
 
     return {
       address,
+      index: addressIncrement,
       privateKey: privateKey.toString('hex'),
     };
   }
@@ -85,17 +87,17 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
    * @param {string} addressParam.
    * @return {obj} returns an Address.
    */
-  async refreshAddress(addressParam) {
+  async refreshAddress(wallet, addressParam) {
     /*eslint-disable */
     const balance = await this.getBalanceForAddress(addressParam.address);
     /* eslint-enable */
-    const keyPair = bitcoin.ECPair.makeRandom({ network: bitcoin.networks[NETWORK] });
-    const { address: newAddress  } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: bitcoin.networks[NETWORK] });
+    const addressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
     // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
 
     return {
-      address: newAddress,
-      privateKey: keyPair.privateKey.toString('hex'),
+      address: addressData.address,
+      index: addressData.index,
+      privateKey: addressData.privateKey,
     };
   };
 
