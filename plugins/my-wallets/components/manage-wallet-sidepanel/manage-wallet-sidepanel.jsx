@@ -211,6 +211,7 @@ function ManageWalletSidepanel({
             'multi-address-fields-wrapper',
             { 'mobile-fields-wrapper': isMobile },
           )}>
+            {/* see if above wrapper class is really necessary */}
             <Visible when={isMobile}>
               <div className="addresses-section">
                 <label>{'Replace Me'}</label>
