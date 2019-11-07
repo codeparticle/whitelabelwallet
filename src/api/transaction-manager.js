@@ -51,6 +51,10 @@ export class TransactionManager {
         type: transaction_type,
       });
 
+      const transaction_type = transaction.sender_address === address
+        ? SEND
+        : RECEIVE;
+
       this.manager.databaseManager.updateOrInsertTransactionByTxId({
         ...transaction,
         receiver_address_id: id,
