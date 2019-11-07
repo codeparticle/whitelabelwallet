@@ -38,14 +38,14 @@ $grid-unit: 1fr;
       display: flex;
       flex-direction: column;
       grid-column: 1 / 6;
-      padding-top: $space-2;
       padding-bottom: $space-1;
+      padding-top: $space-2;
 
       .address-wrapper {
-        max-width: $address-max-width;
-        white-space: nowrap;
-        position: relative;
         bottom: $space-1;
+        max-width: $address-max-width;
+        position: relative;
+        white-space: nowrap;
 
         p {
           font-size: $font-size-xs-2;
