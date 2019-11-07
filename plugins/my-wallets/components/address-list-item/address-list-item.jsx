@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classNames';
 import {
   IconButton,
   svgs,
@@ -13,6 +14,7 @@ const INPUT = 'input';
 const { SvgCurrencyConversionSymbol, SvgRemove } = svgs.icons;
 
 const AddressListItem = ({
+  className,
   label,
   address,
   onRefresh,
@@ -21,7 +23,7 @@ const AddressListItem = ({
   const theme = useTheme(INPUT);
 
   return (
-    <div className="address-list-item">
+    <div className={classNames('address-list-item', className)}>
       <div className="address-info">
         <h4 className="address-title">{label}</h4>
         <div className="address-wrapper">

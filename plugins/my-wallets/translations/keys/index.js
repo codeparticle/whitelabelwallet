@@ -6,6 +6,11 @@ export const MY_WALLETS = defineMessages({
     description: 'Add wallet button label',
     defaultMessage: 'Add Wallet',
   },
+  ADDRESSES_LABEL: {
+    id: 'plugin.my_wallets.addresses_label',
+    description: 'Addresses label',
+    defaultMessage: 'Addresses',
+  },
   ALL_ADDRESS_TEXT: {
     id: 'plugin.my_wallets.all_address_text',
     description: 'All addresses text',

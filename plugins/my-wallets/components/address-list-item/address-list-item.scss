@@ -4,6 +4,7 @@ $first-list-item-border-radius: 6px 6px 0px 0px;
 $last-list-item-border-radius: 0px 0px 6px 6px;
 $address-max-width: 80%;
 $border-width: 1px;
+$grid-unit: 1fr;
 
 .mobile-fields-wrapper {
 
@@ -15,17 +16,22 @@ $border-width: 1px;
     align-items: center;
     border: $border-width solid $cool-light-grey;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: $grid-unit;
+    grid-template-rows: $grid-unit;
     padding: 0px $space-2;
 
     ~ .address-list-item {
       border-bottom: none;
     }
 
-    &:last-child {
-      border-radius: $last-list-item-border-radius;
+    &.first-address {
+      border-bottom: none;
+      border-radius: $first-list-item-border-radius;
+    }
+
+    &.last-address {
       border-bottom: $border-width solid $cool-light-grey;
+      border-radius: $last-list-item-border-radius;
     }
     
   
@@ -61,7 +67,7 @@ $border-width: 1px;
 
     .button-group {
       display: flex;
-      grid-column: 7 /  12;
+      grid-column: 7 / 12;
       padding-top: $space-3;
 
       .address-list-button-wrapper:first-child {
@@ -73,12 +79,6 @@ $border-width: 1px;
       }
     }
   }
-
-  div:nth-child(2) {
-    border-radius: $first-list-item-border-radius;
-    border-bottom: none;
-  }
-
 }
 
 .light .mobile-fields-wrapper .address-list-item {
@@ -89,6 +89,23 @@ $border-width: 1px;
     p {
       color: $grey;
     }
+  }
+}
+
+.dark .mobile-fields-wrapper .address-list-item {
+
+  border-color: $cool-grey-dark;
+
+  .address-title {
+    color: $white;
+  }
+
+  &.first-address {
+    border-color: $cool-grey-dark;
+  }
+
+  &.last-address {
+    border-color: $cool-grey-dark;
   }
 }
 
