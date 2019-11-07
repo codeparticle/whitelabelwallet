@@ -157,7 +157,6 @@ function ManageWalletSidepanel({
     const firstItem = index === 0;
     const lastItem = index === addresses.length - 1;
 
-
     if (isMobile) {
       return (
         <AddressListItem
