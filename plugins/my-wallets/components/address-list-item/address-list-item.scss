@@ -43,14 +43,14 @@ $grid-unit: 1fr;
 
       .address-wrapper {
         max-width: $address-max-width;
-        overflow: hidden;
-        text-overflow: ellipsis;
         white-space: nowrap;
         position: relative;
         bottom: $space-1;
 
         p {
           font-size: $font-size-xs-2;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
   
