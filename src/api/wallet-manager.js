@@ -113,7 +113,7 @@ export class WalletManager {
    * @param {obj} address.
    */
   async deleteAddress(address) {
-    const balance =  await this.blockchainManager.fetchAddressBalance(address.address);
+    const { balance } =  await this.blockchainManager.fetchAddressDetails(address.address);
 
     if (balance === 0) {
       await this.manager.databaseManager.deleteAddressById(address.id);

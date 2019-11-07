@@ -2,7 +2,6 @@
   "plugin.send_funds.balance": "Cuenta",
   "plugin.send_funds.confirm_send_to": "¿Confirmar la transferencia de G {amount} a {address}?",
   "plugin.send_funds.enter_address": "Ingresa la Direccion",
-  "plugin.send_funds.insufficient_funds": "¡Alerta! Fondos insuficientes. Seleccione otra dirección para enviar fondos desde...",
   "plugins.send_funds.invalid_address": "¡Alerta! {address} no es una dirección válida.",
   "plugin.send_funds.memo": "Descripción",
   "plugin.send_funds.num_addresses": "{addressCount, plural, one {# Dirección} other {# Direcciones}}",

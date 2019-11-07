@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { Visible } from '@codeparticle/react-visible';
 import classNames from 'classnames';
 import { useMedia } from '@codeparticle/whitelabelwallet.styleguide';
+import { AmountRenderer } from 'components';
+
 import {
-  CustomAmountRenderer,
   CustomWalletRenderer,
   TransactionRow,
 } from 'plugins/transaction-history/components';
@@ -71,7 +72,7 @@ function TransactionDetailContent({
         </TransactionRow>
         <TransactionRow label={formatMessage(AMOUNT)}>
           <div className="amount-wrapper">
-            <CustomAmountRenderer data={selectedTransaction} column={selectedTransaction.amount}/>
+            <AmountRenderer data={selectedTransaction} column={selectedTransaction.amount}/>
           </div>
         </TransactionRow>
       </div>

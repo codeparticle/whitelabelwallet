@@ -39,6 +39,7 @@ export const TRANSACTIONS_STATEMENTS = {
       where (Transactions.description like "%${value}%" or amount like "%${value}%"
       or Transactions.created_date like "%${value}%" or Wallets.name like "%${value}%") and (sender_address = "${address}"
       or receiver_address = "${address}") and Transactions.created_date >= "${dateTime}" order by created_date desc`,
-    TXID: (txId) => `select * from Transactions where transaction_id="${txId}"`,
+    TX_DETAILS: (txId, type) => (`
+      select * from Transactions where transaction_id="${txId}" and transaction_type="${type}"`),
   },
 };

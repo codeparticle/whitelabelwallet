@@ -4,8 +4,9 @@
  */
 import { BlockchainManager } from 'coins';
 import { GENERAL } from 'lib/constants';
+import { getTimestamp } from 'lib/utils';
 
-const { TRANSACTION_TYPES: { RECEIVE } } = GENERAL;
+const { TRANSACTION_TYPES: { SEND, RECEIVE } } = GENERAL;
 
 export class TransactionManager {
   constructor(manager) {
@@ -32,44 +33,28 @@ export class TransactionManager {
     const { address, id } = addressObj;
 
     transactions.forEach(async (transaction) => {
-      const { amount, transaction_type: type } = transaction;
-      const convertedAmount = -Math.abs(amount);
+      const { amount, sender_address, receiver_address } = transaction;
+
+      // Ignore transaction change
+      if (sender_address === receiver_address) {
+        return;
+      }
+
+      const convertedAmount = Math.abs(amount);
+      const transaction_type = transaction.sender_address === address
+        ? SEND
+        : RECEIVE;
+
       const pending_balance = await this.getPendingBalance({
         amount: convertedAmount,
-        address,
-        type,
+        address: address,
+        type: transaction_type,
       });
 
       this.manager.databaseManager.updateOrInsertTransactionByTxId({
         ...transaction,
         receiver_address_id: id,
-        transaction_type: RECEIVE,
-        pending_balance,
-      });
-    });
-  }
-
-  /**
-   * Function that updates or inserts incoming transactions detected
-   * by the polling services
-   * @param {Array} transactions
-   * @param {Object} addressObj
-   */
-  updateIncomingTransactions(transactions, addressObj) {
-    const { address, id } = addressObj;
-
-    transactions.forEach(async (transaction) => {
-      const { amount } = transaction;
-      const convertedAmount = -Math.abs(amount);
-      const pending_balance = await this.getPendingBalance({
-        amount: convertedAmount,
-        sender_address: address,
-      });
-
-      this.manager.databaseManager.updateOrInsertTransactionByTxId({
-        ...transaction,
-        receiver_address_id: id,
-        transaction_type: RECEIVE,
+        transaction_type,
         pending_balance,
       });
     });
@@ -92,21 +77,38 @@ export class TransactionManager {
 
     const txParams = {
       amount,
-      sender_address,
-      sender_address_id,
-      receiver_address,
-      receiver_address_id,
+      description,
+      created_date: getTimestamp(),
       pending_balance,
       privateKey,
-      description,
+      receiver_address_id,
+      receiver_address,
+      sender_address_id,
+      sender_address,
       transaction_type,
     };
 
-    await this.manager.databaseManager.insert().transaction(txParams);
+    const res = await this.blockchainManager.sendFromOneAddress({
+      fromAddress: sender_address,
+      privateKey,
+      paymentData: [{
+        address: receiver_address,
+        amount,
+      }],
+    });
 
-    // TODO WLW-161: Implement send funds blockchain logic
-    console.log('Transaction created: ', txParams);
+    let finalTx = {};
 
-    return await this.manager.databaseManager.getLastTransaction();
+    if (res.error === false) {
+      await this.manager.databaseManager.insert().transaction(txParams);
+      await this.manager.saveDatabase();
+      finalTx = await this.manager.databaseManager.getLastTransaction();
+    }
+
+
+    return {
+      ...res,
+      ...finalTx,
+    };
   }
 }

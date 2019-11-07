@@ -5,11 +5,10 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { empty } from 'lib/utils';
+import { AmountRenderer, DateRenderer } from 'components';
 
 import {
-  CustomAmountRenderer,
   CustomAddressRenderer,
-  CustomDateRenderer,
   CustomDescriptionRenderer,
   CustomTypeRenderer,
 }  from 'plugins/my-wallets/components';
@@ -56,7 +55,7 @@ function TransactionsList ({
       title: 'Date',
       gridColumns: '1 / 3',
       property: 'created_date',
-      customRenderer: CustomDateRenderer,
+      customRenderer: DateRenderer,
     },
     {
       title: 'Address',
@@ -73,7 +72,7 @@ function TransactionsList ({
       title: 'Amount',
       gridColumns: '12',
       property: 'amount',
-      customRenderer: CustomAmountRenderer,
+      customRenderer: AmountRenderer,
     },
   ];
 
@@ -96,7 +95,7 @@ function TransactionsList ({
       title: 'Amount',
       gridColumns: '10 / 12',
       property: 'amount',
-      customRenderer: CustomAmountRenderer,
+      customRenderer: AmountRenderer,
     },
   ];
 
