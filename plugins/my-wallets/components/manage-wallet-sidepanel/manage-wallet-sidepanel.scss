@@ -2,6 +2,7 @@
 
 $text-area-height: 150px;
 $text-area-mobile-height: 250px;
+$mobile-input-padding: 125px;
 
 .manage-wallet-content {
   border-radius: $border-radius-3;
@@ -49,6 +50,16 @@ $text-area-mobile-height: 250px;
 
       input ~ div {
         right: 0px !important;
+      }
+    }
+
+    &.mobile-add-address-field {
+
+      label {
+
+        input {
+          padding-right: $mobile-input-padding;
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 {
+  "plugin.my_wallets.addresses_label": "Direcciones",
   "plugin.my_wallets.all_address_text": "Todas Las Direcciones",
   "plugin.my_wallets.add_wallet_button_label": "Agregar Billetera",
   "plugin.my_wallets.confirm_recovery_code_label": "Confirmar código de recuperación",

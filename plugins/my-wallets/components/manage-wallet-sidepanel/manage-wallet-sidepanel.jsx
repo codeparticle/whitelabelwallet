@@ -30,6 +30,7 @@ import './manage-wallet-sidepanel.scss';
 const { ICON, TEXT } = BUTTON_TYPES;
 const { COMMON: { SAVE_CHANGES } } = TRANSLATION_KEYS;
 const {
+  ADDRESSES_LABEL,
   DESCRIPTION_LABEL,
   MANAGE_WALLET_PANEL_LABEL,
   MANAGE_WALLET_ADD_ADDRESS,
@@ -153,11 +154,18 @@ function ManageWalletSidepanel({
 
     const buttonData = !isMobile ? buttonGroup : [];
     const addressLabelDefault = `${wallet.name} ${index + 1}`;
+    const firstItem = index === 0;
+    const lastItem = index === addresses.length - 1;
+
 
     if (isMobile) {
       return (
         <AddressListItem
           address={address.address}
+          className={classNames(
+            { 'first-address': firstItem },
+            { 'last-address': lastItem },
+          )}
           label={address.name || addressLabelDefault}
           key={address.id}
           onRefresh={() => onRefreshAddress(address)}
@@ -211,22 +219,22 @@ function ManageWalletSidepanel({
             'multi-address-fields-wrapper',
             { 'mobile-fields-wrapper': isMobile },
           )}>
-            {/* see if above wrapper class is really necessary */}
             <Visible when={isMobile}>
               <div className="addresses-section">
-                <label>{'Replace Me'}</label>
+                <label>{formatMessage(ADDRESSES_LABEL)}</label>
               </div>
             </Visible>
             {addressFields}
-            <Visible when={!isMobile}>
-              <TextInput
-                buttons={addAddressButton}
-                className="add-address-field"
-                onChange={onAddressNickNameChange}
-                placeholder={formatMessage(MANAGE_WALLET_ADDRESS_NICKNAME)}
-                value={newAddressNickname}
-              />
-            </Visible>
+            <TextInput
+              buttons={addAddressButton}
+              className={classNames(
+                'add-address-field',
+                { 'mobile-add-address-field': isMobile }
+              )}
+              onChange={onAddressNickNameChange}
+              placeholder={formatMessage(MANAGE_WALLET_ADDRESS_NICKNAME)}
+              value={newAddressNickname}
+            />
           </div>
         </Visible>
         <TextArea
