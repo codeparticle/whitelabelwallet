@@ -4,7 +4,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classNames';
+import classNames from 'classnames';
 import { Visible } from '@codeparticle/react-visible';
 import {
   Overlay,
