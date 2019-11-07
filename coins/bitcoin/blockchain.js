@@ -1,4 +1,3 @@
-// TODO: Remove dead code from POC implementation
 import * as bitcoin from 'bitcoinjs-lib';
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
@@ -71,11 +70,22 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
    * @return {obj} returns an Address.
    */
   async refreshAddress(wallet, addressParam) {
-    /*eslint-disable */
-    const { balance } = await this.fetchAddressDetails(addressParam.address);
-    /* eslint-enable */
+    const { balance: amount } = await this.fetchAddressDetails(addressParam.address);
+    const privateKey = addressParam.private_key;
     const addressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
-    // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
+
+    console.log('========\n', 'addressData', addressData, '\n========');
+    console.log('========\n', 'amount', amount, '\n========');
+    console.log('========\n', 'privateKey from old', privateKey, '\n========');
+
+    // await this.blockchainManager.sendFromOneAddress({
+    //   fromAddress: addressParam.address,
+    //   privateKey,
+    //   paymentData: [{
+    //     address: addressData,
+    //     amount,
+    //   }],
+    // });
 
     return {
       address: addressData.address,
