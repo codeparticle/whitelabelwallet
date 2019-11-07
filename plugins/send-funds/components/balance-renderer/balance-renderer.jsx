@@ -17,7 +17,7 @@ function BalanceRenderer({ data }) {
   });
 
   return (
-    <Text value={balance.toFixed(2)} />
+    <Text value={balance.toFixed(4)} />
   );
 };
 

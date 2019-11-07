@@ -1,22 +1,35 @@
 import * as bitcoin from 'bitcoinjs-lib';
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
-import moment from 'moment';
-import { GENERAL } from 'lib/constants';
-import { satoshiToFloat } from 'lib/utils';
-import { api } from 'rdx/api';
-import { Address, Transaction } from 'models';
-import { ApiBlockchainManager } from 'api/api-blockchain-manager';
-import { walletManager } from 'coins/bitcoin/wallet';
-import { BIP32, NETWORK, urls } from 'coins/bitcoin/constants';
 
-const { TIMESTAMP_FORMAT } = GENERAL;
+import { ERRORS } from 'lib/constants';
+import { asErrorObject, getTimestamp, satoshiToFloat } from 'lib/utils';
+import { api } from 'rdx/api';
+
+import { ApiBlockchainManager } from 'api/api-blockchain-manager';
+import { getInputs, getOutputs, getSatoshisToSend } from 'coins/bitcoin/utils';
+import {
+  BIP32,
+  DEFAULT_FEE,
+  DUST_THRESHOLD,
+  EXPLORER_URLS,
+  NETWORK,
+  urls,
+} from 'coins/bitcoin/constants';
+
 const {
-  ADDRESS,
-  FULL_ADDRESS,
-  BROADCAST_TRANSACTION,
-  TRANSACTIONS,
-} = urls;
+  BLOCKCHAIN: {
+    API_ERROR,
+    INSUFFICIENT_FUNDS,
+    BROADCAST_ERROR,
+  },
+} = ERRORS;
+const { FULL_ADDRESS } = urls;
+const {
+  SEND_TX,
+  UNSPENT_OUTPUTS,
+  VIEW_TX,
+} = EXPLORER_URLS;
 
 class BitcoinBlockchainManager extends ApiBlockchainManager {
 // This class instance is always fetched using "BitcoinBlockchainManager.instance"
@@ -52,6 +65,25 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
   }
 
   /**
+   * This method creates a new address and transfers the balance left from the old address to the new one.
+   * @param {string} addressParam.
+   * @return {obj} returns an Address.
+   */
+  async refreshAddress(wallet, addressParam) {
+    /*eslint-disable */
+    const { balance } = await this.fetchAddressDetails(addressParam.address);
+    /* eslint-enable */
+    const addressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
+    // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
+
+    return {
+      address: addressData.address,
+      index: addressData.index,
+      privateKey: addressData.privateKey,
+    };
+  };
+
+  /**
    * method to fetch address details from api
    * @returns {Object} address balance and transactions
    * @param {String} address - the public address string
@@ -71,7 +103,6 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
       transactions,
     };
   }
-
 
   /**
    * Function that formats transactions from api for db insert/update
@@ -111,7 +142,7 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
 
       formattedTransactions.push({
         amount: satoshiToFloat(amount),
-        created_date: moment(received).format(TIMESTAMP_FORMAT),
+        created_date: getTimestamp(received),
         fee: fees,
         receiver_address,
         sender_address,
@@ -124,151 +155,86 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
   }
 
   /**
-   * This method will generate a testnet address.
-   * @param {string} name.
-   * @return {obj} returns an Address object model.
+   * This method is based off of the Sphere by Horizen implementation, barring fullmode details
+   * @returns {Promise}
+   * @param {string} arg.fromAddress address sending satoshis
+   * @param {string} arg.privateKey corresponding to fromAddress
+   * @param {Object[]} arg.paymentData an array of objects of addresses and amounts to send
+   * @param {string} arg.paymentData[x].address
+   * @param {number} arg.paymentData[x].amount
+   * @param {number} arg.fee defaults to 0, should be in satoshi format by default
    */
-  generateAddress = (name = '') => {
-    const keyPair = bitcoin.ECPair.makeRandom({ network: walletManager.network });
-    const { address: testnetAddress } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey, network: walletManager.network });
-    const address = new Address(name, testnetAddress);
-    return address;
-  }
+  async sendFromOneAddress({ fromAddress, privateKey, paymentData, fee = DEFAULT_FEE }) {
+    const keyPair = bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, 'hex'), {
+      network: bitcoin.networks[NETWORK],
+    });
+    // Initialize new transaction
+    const tx = new bitcoin.TransactionBuilder(keyPair.network);
 
-  /**
-   * This method gets details for a specific address.
-   * @param {string} addressParam.
-   * @return {obj} returns an Address object model.
-   */
-  getAddressDetails = async (addressParam) => {
-    const rawAddress = (await api.get(`${ADDRESS}/${addressParam}`)).data.address;
-    const address = new Address('', rawAddress);
-    return address;
-  }
-  /**
-   * This method creates a new address and transfers the balance left from the old address to the new one.
-   * @param {string} addressParam.
-   * @return {obj} returns an Address.
-   */
-  async refreshAddress(wallet, addressParam) {
-    /*eslint-disable */
-    const balance = await this.getBalanceForAddress(addressParam.address);
-    /* eslint-enable */
-    const addressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
-    // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
+    // Build output array from paymentdata
+    const outputs = getOutputs(paymentData);
+    const satoshisToSend = getSatoshisToSend(outputs, fee);
+    let unspentOutputs;
 
-    return {
-      address: addressData.address,
-      index: addressData.index,
-      privateKey: addressData.privateKey,
-    };
-  };
+    // Fetch unspentOutputs from api, or fail early
+    try {
+      unspentOutputs = (await api.get(UNSPENT_OUTPUTS(fromAddress))).data;
+    } catch (err) {
+      return asErrorObject(API_ERROR);
+    }
 
-  /**
-   * This method gets recent unconfirmed transactions.
-   * @return {obj} returns an Transaction object model.
-   */
-  getTransactions = async () => {
-    const rawTxsData = (await api.get(TRANSACTIONS)).data;
-    return rawTxsData.map(this.bitcoinTransactionFormatter);
-  }
+    // Build inputs from unspentOutputs and desired amount to send
+    const { inputs, remainingSatoshis } = getInputs(unspentOutputs, satoshisToSend);
 
-  /**
-   * This method get details of specific transaction. It takes transaction hash as a param
-   * @param {string} txid.
-   * @return {obj} returns an Transaction object model.
-   */
-  getTransactionDetails = async (txid) => {
-    const rawTxData = (await  api.get(`${TRANSACTIONS}/${txid}`)).data;
-    return this.bitcoinTransactionFormatter(rawTxData);
-  }
+    // Fail early if insufficient balance, should be redundant via client-side check
+    if (remainingSatoshis < 0) {
+      return asErrorObject(INSUFFICIENT_FUNDS);
+    }
 
-  /**
-   * This method gets the balance for an address
-   * @return {number} returns number value.
-   */
-  getBalanceForAddress = async (addressParam) => {
-    const { balance } = (await api.get(`${ADDRESS}/${addressParam}`)).data;
-    return balance;
-  }
+    // Send change to fromAddress if remaining satoshis is greater than dust threshold
+    if (remainingSatoshis && remainingSatoshis > DUST_THRESHOLD) {
+      outputs.push({
+        address: fromAddress,
+        satoshis: remainingSatoshis,
+      });
+    }
 
-  /**
-   * This method sends a fix value of 49000 satoshis to a randomly generated testnet address.
-   * Transactions params must include: amount, totalFundsAvailable, fee, and receiverAddress.
-   * @param {string} previousHash
-   * @param {number} uTxOIndex
-   * @param {obj} transactionParams
-   * @return {number} returns number value.
-   */
-  sendToAddress = async (previousHash, uTxOIndex, transactionParams) => {
-    // get your wallet's key pair from your private key.
-    const myKeyPair = bitcoin.ECPair.fromWIF(walletManager.pk, walletManager.network);
-
-    // calculate change amount;
-    const fundsToKeep = transactionParams.totalFunds - transactionParams.fee - transactionParams.amount;
-
-    // create a new Transaction using bitcoin-lib.js transaction builder.
-    const tx = new bitcoin.TransactionBuilder(walletManager.network);
-    tx.addInput(previousHash, uTxOIndex);
-    tx.addOutput(transactionParams.receiverAddress, transactionParams.amount);
-    tx.addOutput(walletManager.addr, fundsToKeep);
-    tx.sign(0, myKeyPair);
-    const rawTxHex = tx.build().toHex();
-    const newTxData = (await api.post(BROADCAST_TRANSACTION, { 'tx': rawTxHex })).data.tx;
-
-    // return formatted the newly created transaction;
-    return this.bitcoinTransactionFormatter(newTxData);
-  }
-
-  /**
-   * This function takes raw transactions and converts them to our desired Transaction model.
-   * @param {obj} rawTx
-   * @return {obj} returns a obj formatted to our Transaction Model.
-   */
-  bitcoinTransactionFormatter = (rawTx) => {
-    const senderAddresses = this.addressAggregator(rawTx.inputs);
-    const recipientAddresses = this.addressAggregator(rawTx.outputs);
-    const tx = new Transaction(
-      rawTx.hash,
-      rawTx.total,
-      '',
-      { txIns: rawTx.inputs, txOuts: rawTx.outputs },
-      rawTx.fees,
-      senderAddresses,
-      recipientAddresses,
-    );
-    return tx;
-  }
-
-  /**
-   * Helper function to get the wallets public address
-   */
-  getMyAddress = () => {
-    return walletManager.addr;
-  }
-
-  /**
-   * This function is used to parse txIns and txOuts and retrieve all the addresses
-   * used in the transaction inputs and outputs.
-   * @param {obj} txData
-   */
-  addressAggregator(txData) {
-    const aggregateData = txData.map((group) => {
-      if (group.addresses !== undefined && group.addresses !== null) {
-        return group.addresses.map(address => address);
-      }
-      return null;
-    }).reduce((allAddresses, currentAddress) => {
-      if (allAddresses !== null) {
-        return allAddresses.concat(currentAddress);
-      }
-      return allAddresses;
+    // Add each input to the transaction
+    // txid = transaction hash, vout = output index
+    inputs.forEach(input => {
+      tx.addInput(input.txid, input.vout);
     });
 
-    return aggregateData;
+    // Add each output to the transaction
+    outputs.forEach(output => {
+      tx.addOutput(output.address, output.satoshis);
+    });
+
+    // Sign each input
+    for (let i = 0; i < inputs.length; i++) {
+      tx.sign(i, keyPair);
+    }
+
+    const signedTx = tx.build().toHex();
+    let res;
+
+    try {
+      res = await api.post(SEND_TX(), { rawtx: signedTx });
+    } catch (err) {
+      return asErrorObject(API_ERROR);
+    }
+
+    const { status, data: { txid } } = res;
+
+    if (status === 200) {
+      return {
+        error: false,
+        link: VIEW_TX(txid),
+      };
+    }
+
+    return asErrorObject(BROADCAST_ERROR);
   }
-
-
 }
 
 export { BitcoinBlockchainManager };

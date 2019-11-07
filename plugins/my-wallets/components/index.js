@@ -7,9 +7,7 @@ export { WalletChart } from './wallet-chart';
 export { WalletSidepanel } from './sidepanel';
 export { WalletNavBar, WalletNavBarButton } from './wallet-nav-bar';
 export {
-  CustomAmountRenderer,
   CustomAddressRenderer,
-  CustomDateRenderer,
   CustomTypeRenderer,
   CustomDescriptionRenderer,
 } from './custom-renderers';

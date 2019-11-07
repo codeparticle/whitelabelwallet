@@ -3,9 +3,9 @@
  * @author Marc Mathieu
  */
 import { manager } from 'app';
-import { ERROR_TYPES } from 'lib/constants';
+import { ERRORS } from 'lib/constants';
 
-const { NON_ZERO_BALANCE, SINGLE_ADDRESS } = ERROR_TYPES;
+const { WALLET: { NON_ZERO_BALANCE, SINGLE_ADDRESS } } = ERRORS;
 
 /**
  * Function that gets all Wallets from DB, and then sets the response

@@ -2,25 +2,36 @@
  * @fileoverview Utility functions for the send funds plugin
  * @author Gabriel Womble
  */
+import { BLOCKCHAIN } from 'translations/keys/blockchain';
+import { ERRORS } from 'lib/constants';
+
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import { MESSAGE_KEYS } from './constants';
 
 const {
-  AMOUNT,
+  BLOCKCHAIN: {
+    API_ERROR,
+    BROADCAST_ERROR,
+    INSUFFICIENT_FUNDS,
+  },
+} = ERRORS;
+
+const {
   TO_ADDRESS,
   SUCCESS,
 } = MESSAGE_KEYS;
 
 const {
-  INSUFFICIENT_FUNDS,
   INVALID_ADDRESS,
   SEND_SUCCESSFUL,
 } = SEND_FUNDS;
 
 const messages = {
-  [AMOUNT]: INSUFFICIENT_FUNDS,
-  [TO_ADDRESS]: INVALID_ADDRESS,
+  [API_ERROR]: BLOCKCHAIN[API_ERROR],
+  [BROADCAST_ERROR]: BLOCKCHAIN[BROADCAST_ERROR],
+  [INSUFFICIENT_FUNDS]: BLOCKCHAIN[INSUFFICIENT_FUNDS],
   [SUCCESS]: SEND_SUCCESSFUL,
+  [TO_ADDRESS]: INVALID_ADDRESS,
 };
 
 /**
@@ -99,10 +110,20 @@ function isJson(data) {
   return false;
 }
 
+function openInNewTab(link) {
+  const a = document.createElement('a');
+  a.href = link;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 export {
   getAlertMessage,
   isJson,
   notEmptyOrNull,
+  openInNewTab,
   resetStateHandler,
   valuesExist,
 };

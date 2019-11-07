@@ -1,5 +1,6 @@
 import { defineMessages } from 'react-intl';
 import { AUTH } from './auth';
+import { BLOCKCHAIN } from './blockchain';
 import { COMMON } from './common';
 import { FORM } from './form';
 import { HELMET } from './helmet';
@@ -34,6 +35,7 @@ const APP_MESSAGES = defineMessages({
 
 export const TRANSLATION_KEYS = {
   AUTH,
+  BLOCKCHAIN,
   COMMON,
   FORM,
   HELMET,

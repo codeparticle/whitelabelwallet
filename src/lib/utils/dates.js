@@ -1,5 +1,8 @@
-import { DATE_OPTIONS } from 'lib/constants';
+import moment from 'moment';
+import { DATE_OPTIONS, GENERAL } from 'lib/constants';
 import { COMMON } from 'translations/keys/common';
+
+const { TIMESTAMP_FORMAT } = GENERAL;
 
 const {
   TODAY,
@@ -16,6 +19,15 @@ const {
   DATE_OPTION_ALL_TIME,
 } = COMMON;
 
+/**
+ * Formats a timestamp from the given value. If no value is passed, timestamp is the current time
+ * @returns {String} formatted timestamp
+ * @param {String|undefined} val optional date to format to timestamp
+ */
+function getTimestamp(val = undefined) {
+  return moment(val).format(TIMESTAMP_FORMAT);
+}
+
 const getSelectOptions = (formatMessage, getDateValue) => {
   return [
     { value: getDateValue(TODAY), label: formatMessage(DATE_OPTION_TODAY) },
@@ -26,4 +38,4 @@ const getSelectOptions = (formatMessage, getDateValue) => {
   ];
 };
 
-export { getSelectOptions };
+export { getSelectOptions, getTimestamp };

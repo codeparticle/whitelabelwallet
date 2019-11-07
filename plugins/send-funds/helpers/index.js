@@ -15,8 +15,9 @@ export {
 export {
   getAlertMessage,
   isJson,
-  resetStateHandler,
   notEmptyOrNull,
+  openInNewTab,
+  resetStateHandler,
   valuesExist,
 } from './utils';
 
