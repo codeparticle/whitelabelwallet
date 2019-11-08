@@ -292,10 +292,12 @@ function WalletOverviewView({
         </div>
       </div>
       <ManageWalletSidepanel
+        addresses={selectedWalletAddresses}
         formatMessage={formatMessage}
         isOpen={isPanelOpen}
         onClose={onClose}
         setSelectedWallet={props.setSelectedWallet}
+        setSelectedWalletAddresses={props.setSelectedWalletAddresses}
         wallet={selectedWallet}
       />
     </Page>

@@ -59,6 +59,16 @@ class ApiBlockchainManager {
   }
 
   /**
+   * This method creates a new address and transfers
+   * The balance left from the old address to the new one.
+   * @param {string} addressParam.
+   * @return {obj} returns an Address.
+   */
+  refreshAddress() {
+    required('refreshAddress');
+  };
+
+  /**
    * Converts an array to a bip39 mnemonic phrase
    * @param {string} phrase
    */
