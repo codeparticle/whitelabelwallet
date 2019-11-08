@@ -6,6 +6,16 @@ export const MY_WALLETS = defineMessages({
     description: 'Add wallet button label',
     defaultMessage: 'Add Wallet',
   },
+  ADDRESSES_DELETION_NON_ZERO_ERROR_MESSAGE: {
+    id: 'plugin.my_wallets.addresses_deletion_non_zero_error_message',
+    description: 'Message to display when unable to delete selected address because of balance',
+    defaultMessage: 'Cannot delete an address that contains a non-zero balance',
+  },
+  ADDRESSES_DELETION_SINGLE_ADDRESS_ERROR_MESSAGE: {
+    id: 'plugin.my_wallets.addresses_deletion_single_address_error_message',
+    description: 'Message to display when unable to delete selected address because there is only on address left',
+    defaultMessage: 'A wallet must contain at least one address',
+  },
   ADDRESSES_LABEL: {
     id: 'plugin.my_wallets.addresses_label',
     description: 'Addresses label',
