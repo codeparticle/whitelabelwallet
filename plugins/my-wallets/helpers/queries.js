@@ -75,7 +75,7 @@ async function addAddress(wallet, nickname, setFn) {
 
 /**
  * Function to delete an address an update state.
- * Will only delete address if
+ * It will only delete address if
  * there is more than one address in the wallet
  * and the address's balance is equal to zero.
  * @param {address} object - address object.
@@ -83,9 +83,7 @@ async function addAddress(wallet, nickname, setFn) {
  */
 async function deleteAddress(address, setFn) {
   let isDeletedSuccessfully = false;
-  const type = null;
   const addresses = await getAddressesByWalletId(null, address.wallet_id);
-
 
   if (addresses.length <= 1) {
     return {
@@ -100,7 +98,7 @@ async function deleteAddress(address, setFn) {
     await getAddressesByWalletId(setFn, address.wallet_id);
     return {
       success: isDeletedSuccessfully,
-      errorType: type,
+      errorType: null,
     };
   }
 
