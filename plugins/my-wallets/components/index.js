@@ -1,3 +1,4 @@
+export { AddressListItem } from './address-list-item';
 export { ManageWalletSidepanel } from './manage-wallet-sidepanel';
 export { SearchTransactions } from './search-transactions';
 export { TransactionsList } from './transactions-list';

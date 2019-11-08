@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Visible } from '@codeparticle/react-visible';
 import {
   Overlay,
@@ -22,12 +23,14 @@ import {
   updateWalletAndUpdateState,
 } from 'plugins/my-wallets/helpers';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
+import { AddressListItem } from 'plugins/my-wallets/components';
 import { validateManageWallet } from './validate-manage-wallet';
 import './manage-wallet-sidepanel.scss';
 
 const { ICON, TEXT } = BUTTON_TYPES;
 const { COMMON: { SAVE_CHANGES } } = TRANSLATION_KEYS;
 const {
+  ADDRESSES_LABEL,
   DESCRIPTION_LABEL,
   MANAGE_WALLET_PANEL_LABEL,
   MANAGE_WALLET_ADD_ADDRESS,
@@ -151,6 +154,24 @@ function ManageWalletSidepanel({
 
     const buttonData = !isMobile ? buttonGroup : [];
     const addressLabelDefault = `${wallet.name} ${index + 1}`;
+    const firstItem = index === 0;
+    const lastItem = index === addresses.length - 1;
+
+    if (isMobile) {
+      return (
+        <AddressListItem
+          address={address.address}
+          className={classNames(
+            { 'first-address': firstItem },
+            { 'last-address': lastItem },
+          )}
+          label={address.name || addressLabelDefault}
+          key={address.id}
+          onRefresh={() => onRefreshAddress(address)}
+          onDelete={() => empty}
+        />
+      );
+    }
 
     return (
       <TextInput
@@ -193,16 +214,27 @@ function ManageWalletSidepanel({
           value={walletFields[NAME]}
         />
         <Visible when={isMultiAddress}>
-          {addressFields}
-          <Visible when={!isMobile}>
+          <div className={classNames(
+            'multi-address-fields-wrapper',
+            { 'mobile-fields-wrapper': isMobile },
+          )}>
+            <Visible when={isMobile}>
+              <div className="addresses-section">
+                <label>{formatMessage(ADDRESSES_LABEL)}</label>
+              </div>
+            </Visible>
+            {addressFields}
             <TextInput
               buttons={addAddressButton}
-              className="add-address-field"
+              className={classNames(
+                'add-address-field',
+                { 'mobile-add-address-field': isMobile }
+              )}
               onChange={onAddressNickNameChange}
               placeholder={formatMessage(MANAGE_WALLET_ADDRESS_NICKNAME)}
               value={newAddressNickname}
             />
-          </Visible>
+          </div>
         </Visible>
         <TextArea
           className="manage-wallet-content__text-area"
