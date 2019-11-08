@@ -7,11 +7,12 @@ export const WALLETS_STATEMENTS = {
     password_hash varchar(100) not null,
     seed varchar(100) not null,
     multi_address tinyint not null,
-    description blob default ''
+    description blob default '',
+    address_index integer
   );`,
   INSERT: {
-    NEW: `insert into Wallets(id, name, coin_id, multi_address, require_password, password_hash, seed)
-    values(?,?,?,?,?,?,?)`,
+    NEW: `insert into Wallets(id, name, coin_id, multi_address, require_password, password_hash, seed, address_index)
+    values(?,?,?,?,?,?,?,?)`,
   },
   SELECT: {
     ALL: `select * from Wallets`,

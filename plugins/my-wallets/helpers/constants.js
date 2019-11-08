@@ -15,4 +15,9 @@ export const TRANSACTION_TYPES = {
   SEND: 'send',
 };
 
+export const BUTTON_TYPES = {
+  ICON: 'icon',
+  TEXT: 'text',
+};
+
 export const MINIMUM_NUMBER_CHART_POINTS = 4;

@@ -26,6 +26,7 @@ const initialState = {
   coin_id: getCoinId(),
   require_password: 0,
   password_hash: '',
+  address_index: 0,
 };
 
 function getTranslations(formatMessage, currentStep) {

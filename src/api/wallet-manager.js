@@ -72,4 +72,34 @@ export class WalletManager {
   generateSecretPhrase(locale) {
     return this.blockchainManager.phraseToArray(this.blockchainManager.generateSecretPhrase(locale));
   }
+
+  /**
+   * This method creates a new address and
+   * Transfers the balance left from the old address to the new one.
+   * @param {string} addressParam.
+   */
+  async refreshAddress(wallet, addressParam) {
+    const { address, index, privateKey } = await this.blockchainManager.refreshAddress(wallet, addressParam);
+    const private_key = privateKey;
+    const address_index = index;
+    await this.manager.databaseManager.updateAddressById(addressParam.id, { address, private_key });
+    await this.manager.databaseManager.updateWalletById(wallet.id, { address_index });
+    await this.manager.saveDatabase();
+  }
+
+  /**
+   * This method creates a new address and adds it to a multi-address wallet .
+   * @param {obj} wallet.
+   * @param {string} address's nickname.
+   */
+  async addAddress(wallet, nickname) {
+    const { address, privateKey: private_key } = this.blockchainManager.generateAddressFromSeed(wallet.seed);
+    await this.manager.databaseManager.insert().address({
+      address,
+      private_key,
+      name: nickname,
+      wallet_id: wallet.id,
+    });
+    await this.manager.saveDatabase();
+  }
 }
