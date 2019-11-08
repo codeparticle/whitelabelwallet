@@ -656,4 +656,15 @@ export class DatabaseManager {
       where: `id=${id}`,
     });
   }
+
+  /**
+   * Deletes a single address by ID
+   * @param {number} id the address's ID
+   */
+  deleteAddressById(id) {
+    return this.delete({
+      table: 'Addresses',
+      where: `id=${id}`,
+    });
+  }
 }

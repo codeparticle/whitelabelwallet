@@ -3,6 +3,7 @@
 $text-area-height: 150px;
 $text-area-mobile-height: 250px;
 $mobile-input-padding: 125px;
+$error-offset: 6px;
 
 .manage-wallet-content {
   border-radius: $border-radius-3;
@@ -61,6 +62,21 @@ $mobile-input-padding: 125px;
           padding-right: $mobile-input-padding;
         }
       }
+    }
+  }
+
+  .description-wrapper {
+    position: relative;
+
+    .error-wrapper {
+      background: $gradient-alert;
+    }
+
+    .mobile-error-message {
+      background: $white;
+      color: $red;
+      position: relative;
+      top: $error-offset;
     }
   }
 

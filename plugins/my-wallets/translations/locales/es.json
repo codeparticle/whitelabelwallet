@@ -1,4 +1,6 @@
 {
+  "plugin.my_wallets.addresses_deletion_non_zero_error_message": "No puede eliminar una dirección que contiene un saldo distinto de cero",
+  "plugin.my_wallets.addresses_deletion_single_address_error_message": "Una billetera debe contener al menos una dirección",
   "plugin.my_wallets.addresses_label": "Direcciones",
   "plugin.my_wallets.all_address_text": "Todas Las Direcciones",
   "plugin.my_wallets.add_wallet_button_label": "Agregar Billetera",

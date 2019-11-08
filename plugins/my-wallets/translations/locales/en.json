@@ -1,4 +1,6 @@
 {
+  "plugin.my_wallets.addresses_deletion_non_zero_error_message": "Cannot delete an address that contains a non-zero balance",
+  "plugin.my_wallets.addresses_deletion_single_address_error_message": "A wallet must contain at least one address",
   "plugin.my_wallets.addresses_label": "Addresses",
   "plugin.my_wallets.all_address_text": "All Addresses",
   "plugin.my_wallets.add_wallet_button_label": "Add Wallet",

@@ -3,6 +3,9 @@
  * @author Marc Mathieu
  */
 import { manager } from 'app';
+import { ERROR_TYPES } from 'lib/constants';
+
+const { NON_ZERO_BALANCE, SINGLE_ADDRESS } = ERROR_TYPES;
 
 /**
  * Function that gets all Wallets from DB, and then sets the response
@@ -71,6 +74,45 @@ async function addAddress(wallet, nickname, setFn) {
 }
 
 /**
+ * Function to delete an address an update state.
+ * Will only delete address if
+ * there is more than one address in the wallet
+ * and the address's balance is equal to zero.
+ * @param {address} object - address object.
+ * @param {func} setFn - the redux action needed to update state
+ */
+async function deleteAddress(address, setFn) {
+  let isDeletedSuccessfully = false;
+  const type = null;
+  const addresses = await getAddressesByWalletId(null, address.wallet_id);
+
+
+  if (addresses.length <= 1) {
+    return {
+      success: isDeletedSuccessfully,
+      errorType: SINGLE_ADDRESS,
+    };
+  }
+
+  isDeletedSuccessfully = await manager.walletManager.deleteAddress(address);
+
+  if (isDeletedSuccessfully) {
+    await getAddressesByWalletId(setFn, address.wallet_id);
+    return {
+      success: isDeletedSuccessfully,
+      errorType: type,
+    };
+  }
+
+  return {
+    success: isDeletedSuccessfully,
+    errorType: NON_ZERO_BALANCE,
+  };
+
+
+}
+
+/**
  * Function that updates a wallet by id, and then updates the selected
  * wallet in state.
  * @param {Object} wallet - the wallet object to add to the db
@@ -119,6 +161,7 @@ async function getTransactionsForChart(address, filterDate) {
 export {
   addAddress,
   createWalletAndUpdateList,
+  deleteAddress,
   fetchWallets,
   getAddressesByWalletId,
   getWalletById,
