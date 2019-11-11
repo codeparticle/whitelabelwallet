@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Visible } from '@codeparticle/react-visible';
 import {
+  FlashAlert,
   Overlay,
   TextInput,
   TextArea,
@@ -14,11 +15,13 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { getSidepanelVariant, safeString, unescape, empty } from 'lib/utils';
+import { ERROR_TYPES } from 'lib/constants';
 import { TRANSLATION_KEYS } from 'translations/keys';
 
 import {
   addAddress,
   BUTTON_TYPES,
+  deleteAddress,
   refreshAddress,
   updateWalletAndUpdateState,
 } from 'plugins/my-wallets/helpers';
@@ -28,8 +31,11 @@ import { validateManageWallet } from './validate-manage-wallet';
 import './manage-wallet-sidepanel.scss';
 
 const { ICON, TEXT } = BUTTON_TYPES;
+const { NON_ZERO_BALANCE } = ERROR_TYPES;
 const { COMMON: { SAVE_CHANGES } } = TRANSLATION_KEYS;
 const {
+  ADDRESSES_DELETION_NON_ZERO_ERROR_MESSAGE,
+  ADDRESSES_DELETION_SINGLE_ADDRESS_ERROR_MESSAGE,
   ADDRESSES_LABEL,
   DESCRIPTION_LABEL,
   MANAGE_WALLET_PANEL_LABEL,
@@ -47,6 +53,7 @@ const {
 
 const NAME = 'name';
 const DESCRIPTION = 'description';
+const DEFAULT_DURATION = 3000;
 
 const initialWalletFields = {
   [NAME]: '',
@@ -69,6 +76,8 @@ function ManageWalletSidepanel({
   const [walletFields, setWalletFields] = useState(initialWalletFields);
   const [inputErrors, setInputErrors] = useState(initialInputErrors);
   const [newAddressNickname, setNewAddressNickname] = useState('');
+  const [showFlashMessage, setShowFlashMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(formatMessage(ADDRESSES_DELETION_SINGLE_ADDRESS_ERROR_MESSAGE));
   const { isMobile } = useMedia();
   const isMultiAddress = wallet.multi_address === 1;
   const panelVariant = getSidepanelVariant({ isMobile });
@@ -97,6 +106,8 @@ function ManageWalletSidepanel({
 
   function handleOnClose() {
     setNewAddressNickname('');
+    setShowFlashMessage(false);
+    setErrorMessage(formatMessage(ADDRESSES_DELETION_SINGLE_ADDRESS_ERROR_MESSAGE));
     onClose();
   }
 
@@ -131,6 +142,33 @@ function ManageWalletSidepanel({
     refreshAddress(wallet, address, setSelectedWalletAddresses, setSelectedWallet);
   }
 
+  function flashMobileErrorMessage() {
+    setShowFlashMessage(true);
+    setTimeout(() => {
+      setShowFlashMessage(false);
+    }, DEFAULT_DURATION);
+  }
+
+  function determineErrorMessage(type) {
+    if (type === NON_ZERO_BALANCE) {
+      setErrorMessage(formatMessage(ADDRESSES_DELETION_NON_ZERO_ERROR_MESSAGE));
+    }
+  }
+
+  async function onDeleteAddress(address) {
+    const { success, errorType } = await deleteAddress(address, setSelectedWalletAddresses);
+
+    if (errorType) {
+      determineErrorMessage(errorType);
+    }
+
+    if (isMobile && success === false) {
+      flashMobileErrorMessage();
+    } else {
+      setShowFlashMessage(!success);
+    }
+  }
+
   function onAddAddress() {
     addAddress(wallet, newAddressNickname, setSelectedWalletAddresses);
     setNewAddressNickname('');
@@ -146,7 +184,7 @@ function ManageWalletSidepanel({
       },
       {
         icon: SvgRemove,
-        onClick: () => empty,
+        onClick: () => onDeleteAddress(address),
         type: ICON,
         tooltipText: formatMessage(MANAGE_WALLET_DELETE_ADDRESS),
       },
@@ -168,7 +206,7 @@ function ManageWalletSidepanel({
           label={address.name || addressLabelDefault}
           key={address.id}
           onRefresh={() => onRefreshAddress(address)}
-          onDelete={() => empty}
+          onDelete={() => onDeleteAddress(address)}
         />
       );
     }
@@ -236,14 +274,29 @@ function ManageWalletSidepanel({
             />
           </div>
         </Visible>
-        <TextArea
-          className="manage-wallet-content__text-area"
-          name={DESCRIPTION}
-          label={formatMessage(DESCRIPTION_LABEL)}
-          onChange={onInputChange}
-          value={walletFields[DESCRIPTION]}
-        />
+        <div className="description-wrapper">
+          <TextArea
+            className="manage-wallet-content__text-area"
+            name={DESCRIPTION}
+            label={formatMessage(DESCRIPTION_LABEL)}
+            onChange={onInputChange}
+            value={walletFields[DESCRIPTION]}
+          />
+          <Visible when={isMobile && showFlashMessage}>
+            <div className="error-wrapper">
+              <p className="mobile-error-message">{errorMessage}</p>
+            </div>
+          </Visible>
+        </div>
       </div>
+      <Visible when={!isMobile}>
+        <FlashAlert
+          message={errorMessage}
+          show={showFlashMessage}
+          onClose={() => setShowFlashMessage(false)}
+        />
+      </Visible>
+
       <Visible when={isMobile}>
         <style jsx>
           {`

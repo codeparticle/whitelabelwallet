@@ -2,6 +2,7 @@ export { ADDRESSES } from './addresses';
 export { AUTH_CONSTANTS } from './auth';
 export { BREAKPOINTS } from './breakpoints';
 export { DATE_OPTIONS } from './date-options';
+export { ERROR_TYPES } from './error-types';
 export { GENERAL } from './general';
 export { PLACEHOLDER_USD_VALUE } from './fiat-place-holder';
 export { PROP_TYPES } from './prop-types';
