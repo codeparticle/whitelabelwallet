@@ -73,7 +73,6 @@ $error-offset: 6px;
     }
 
     .mobile-error-message {
-      background: $white;
       color: $red;
       position: relative;
       top: $error-offset;
@@ -87,8 +86,16 @@ $error-offset: 6px;
 
 .light .manage-wallet-content {
   background: $white;
+
+  .mobile-error-message {
+    background: $white;
+  }
 }
 
 .dark .manage-wallet-content {
   background: $dark-bg;
+
+  .mobile-error-message {
+    background: $dark-bg;
+  }
 }
