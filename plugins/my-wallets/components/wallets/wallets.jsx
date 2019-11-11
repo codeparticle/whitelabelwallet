@@ -108,17 +108,30 @@ const WalletsView = ({
     }, [],
   );
 
+
+  async function getBalance(walletId) {
+    const addresses = await getAddressesByWalletId(null, walletId);
+
+    return addresses.reduce((total, currentAddress) => {
+      return total + currentAddress.balance;
+    }, 0);
+  };
+
   useEffect(() => {
     const WalletDataPromises = wallets.map((wallet) => {
-      return buildWalletChart(wallet.id).then((data) => {
-        wallet.chartData = data;
-        wallet.currentBalance = wallet.chartData[wallet.chartData.length - 1].y;
+      return buildWalletChart(wallet.id).then((chartData) => {
+        wallet.chartData = chartData;
         return wallet;
+      }).then((walletData) => {
+        return getBalance(walletData.id).then((balanceData) => {
+          walletData.balance = balanceData;
+          return walletData;
+        });
       });
     });
 
     Promise.all(WalletDataPromises).then(setWalletsWithChartData);
-  }, [wallets, setWalletsWithChartData, buildWalletChart]);
+  }, [wallets, setWalletsWithChartData, buildWalletChart, getBalance]);
 
 
 
@@ -148,7 +161,7 @@ const WalletsView = ({
             <Wallet
               {...commonProps}
               coinData={wallet.chartData}
-              coinBalance={wallet.currentBalance}
+              coinBalance={wallet.balance}
               onDeposit={onDeposit}
               onClick={onClick}
               onEdit={onEdit}
