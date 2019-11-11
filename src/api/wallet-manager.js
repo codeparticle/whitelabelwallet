@@ -102,4 +102,20 @@ export class WalletManager {
     });
     await this.manager.saveDatabase();
   }
+
+  /**
+   * This method deletes and address from db if it has a balance of 0.
+   * @param {obj} address.
+   */
+  async deleteAddress(address) {
+    const balance =  await this.blockchainManager.fetchAddressBalance(address.address);
+
+    if (balance === 0) {
+      await this.manager.databaseManager.deleteAddressById(address.id);
+      await this.manager.saveDatabase();
+      return true;
+    }
+
+    return false;
+  }
 }
