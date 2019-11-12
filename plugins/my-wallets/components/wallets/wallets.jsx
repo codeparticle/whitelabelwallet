@@ -108,7 +108,6 @@ const WalletsView = ({
     }, [],
   );
 
-
   async function getBalance(walletId) {
     const addresses = await getAddressesByWalletId(null, walletId);
 
@@ -133,7 +132,7 @@ const WalletsView = ({
 
       Promise.all(WalletDataPromises).then(setWalletsWithChartData);
     }
-  }, [wallets, setWalletsWithChartData, buildWalletChart, getBalance]);
+  }, [wallets, setWalletsWithChartData, buildWalletChart]);
 
 
 
