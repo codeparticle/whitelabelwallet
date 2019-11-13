@@ -318,6 +318,16 @@ export class DatabaseManager {
     const statement = STMT.TRANSACTIONS.SELECT.ALL;
     return this.query({ statement });
   }
+
+  /**
+   * Gets a transaction by TxId
+   * @param {String} txId
+   */
+  getTransactionByTxId(txId) {
+    const statement = STMT.TRANSACTIONS.SELECT.TXID(txId);
+    return this.query({ statement });
+  }
+
   /**
    * Gets the Transactions after a certain date.
    * @returns {Array} Transactions(s)
@@ -358,6 +368,34 @@ export class DatabaseManager {
 
     return Promise.all(queryResults).then((results) => {
       return results.flat();
+    });
+  }
+
+  /**
+   * Determines whether to update an existing transaction or create a new one
+   * @param {Object} transaction
+   */
+  async updateOrInsertTransactionByTxId(transaction) {
+    const { transaction_id, ...restTransaction } = transaction;
+    const res = await this.getTransactionByTxId(transaction_id);
+
+    if (res.length === 0) {
+      return await this.insert().transaction(transaction);
+    } else {
+      return await this.updateTxByTxId(transaction_id, restTransaction);
+    }
+  }
+
+  /**
+   * Updates a transaction record by it's transaction_type property
+   * @param {String} txId
+   * @param {Object} cols
+   */
+  updateTxByTxId(txId, cols) {
+    return this.update({
+      table: 'Transactions',
+      cols,
+      where: `transaction_id="${txId}"`,
     });
   }
 

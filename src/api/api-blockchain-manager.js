@@ -37,14 +37,24 @@ class ApiBlockchainManager {
   }
 
   /**
-   * Makes an api call to retrieve a given address's balance
+   * Makes an api call to retrieve a given address's balance and transactions
    * Balance must be returned in Satoshi format.
+   * Transactions must be an array of objects of the following format:
+   * {
+   *    amount,
+   *    created_date,
+   *    fee,
+   *    receiver_address,
+   *    sender_address,
+   *    status,
+   *    transaction_id,
+   * }
    * Only used in polling service
    * @returns {Number} balance (in satoshis)
    * @param {String} address - public address string
    */
-  fetchAddressBalance() {
-    required('fetchAddressBalance');
+  fetchAddressDetails() {
+    required('fetchAddressDetails');
   }
 
   /**
