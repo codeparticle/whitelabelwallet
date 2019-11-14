@@ -51,11 +51,6 @@ export class TransactionManager {
         type: transaction_type,
       });
 
-      // Ignore transaction change
-      if (sender_address === receiver_address) {
-        return;
-      }
-
       this.manager.databaseManager.updateOrInsertTransactionByTxId({
         ...transaction,
         receiver_address_id: id,
