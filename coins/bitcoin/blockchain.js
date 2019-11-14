@@ -67,30 +67,36 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
   /**
    * This method creates a new address and transfers the balance left from the old address to the new one.
    * @param {string} addressParam.
+   * @param {object} wallet.
    * @return {obj} returns an Address.
    */
   async refreshAddress(wallet, addressParam) {
-    const { balance: amount } = await this.fetchAddressDetails(addressParam.address);
+    const { balance } = await this.fetchAddressDetails(addressParam.address);
     const privateKey = addressParam.private_key;
-    const addressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
 
-    console.log('========\n', 'addressData', addressData, '\n========');
-    console.log('========\n', 'amount', amount, '\n========');
-    console.log('========\n', 'privateKey from old', privateKey, '\n========');
+    if (balance <= DEFAULT_FEE) {
+      return {
+        address: addressParam.address,
+        privateKey: addressParam.private_key,
+        index: wallet.address_index,
+      };
+    }
 
-    // await this.blockchainManager.sendFromOneAddress({
-    //   fromAddress: addressParam.address,
-    //   privateKey,
-    //   paymentData: [{
-    //     address: addressData,
-    //     amount,
-    //   }],
-    // });
+    const newAddressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
+
+    await this.sendFromOneAddress({
+      fromAddress: addressParam.address,
+      privateKey,
+      paymentData: [{
+        address: newAddressData.address,
+        amount: satoshiToFloat(balance - DEFAULT_FEE),
+      }],
+    });
 
     return {
-      address: addressData.address,
-      index: addressData.index,
-      privateKey: addressData.privateKey,
+      address: newAddressData.address,
+      index: newAddressData.index,
+      privateKey: newAddressData.privateKey,
     };
   };
 
