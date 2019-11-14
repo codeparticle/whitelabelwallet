@@ -5,6 +5,7 @@ export { DateRenderer } from './date-renderer';
 export { ErrorBoundary } from './error-boundary';
 export { FlashMessages } from './flash-messages';
 export { HeaderActionButtons } from './header-action-buttons';
+export { LogoutButton } from './logout-button';
 export { MobilePage } from './mobile-page';
 export { NavTrigger } from './nav-trigger';
 export { NotFound } from './not-found';
