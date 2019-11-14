@@ -6,17 +6,21 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Visible } from '@codeparticle/react-visible';
 import { Button, TextInput } from '@codeparticle/whitelabelwallet.styleguide';
+import { spacingSm } from '@codeparticle/whitelabelwallet.styleguide/styles/layout.scss';
+import { LogoutButton } from 'components';
 import { VARIANTS } from 'lib/constants';
 import { TRANSLATION_KEYS } from 'translations/keys';
 import { settings as e2e } from 'e2e/constants';
 
 const { SECONDARY, SLATE } = VARIANTS;
-const { SETTINGS } = TRANSLATION_KEYS;
+const { COMMON, SETTINGS } = TRANSLATION_KEYS;
 const {
+  CHANGE_PASSWORD,
   CONFIRM_NEW_PASSWORD,
   CURRENT_PASSWORD,
   NEW_PASSWORD,
 } = SETTINGS;
+const { CANCEL } = COMMON;
 
 function ChangePasswordFormLayout({
   formatMessage,
@@ -29,6 +33,9 @@ function ChangePasswordFormLayout({
   const buttonVariant = isMobile ? SLATE : SECONDARY;
 
   const toggleEditPassword = () => setShowEditPassword(!showEditPassword);
+  const btnMessage = showEditPassword
+    ? CANCEL
+    : CHANGE_PASSWORD;
 
   function onChange(e) {
     if (e) {
@@ -73,23 +80,34 @@ function ChangePasswordFormLayout({
           </div>
         ))}
       </Visible>
-      <div className="sidepanel-item change-password-button">
+      <div className="sidepanel-item settings-buttons">
         <Button
           dataSelector={e2e.selectors.changePassword.raw}
           onClick={toggleEditPassword}
           variant={buttonVariant}
           size={isMobile ? 'full' : ''}
         >
-          {formatMessage(SETTINGS.CHANGE_PASSWORD)}
+          {formatMessage(btnMessage)}
         </Button>
+        <Visible when={!showEditPassword}>
+          <div className="logout-button">
+            <LogoutButton />
+          </div>
+        </Visible>
+        <style jsx>
+          {`
+            .settings-buttons {
+              display: flex;
+              flex-direction: ${isMobile ? 'column' : 'row'};
+              justify-content: ${isMobile ? 'initial' : 'flex-end'};
+            }
+
+            .logout-button {
+              ${isMobile ? 'margin-top' : 'margin-left'}: ${spacingSm};
+            }
+          `}
+        </style>
       </div>
-      <style jsx>
-        {`
-          .change-password-button {
-            display: ${showEditPassword ? 'none' : 'inherit'};
-          }
-        `}
-      </style>
     </Fragment>
   );
 }

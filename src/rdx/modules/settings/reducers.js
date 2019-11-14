@@ -23,5 +23,5 @@ export default {
         theme: action.payload,
       };
     },
-  }),
+  }, true),
 };

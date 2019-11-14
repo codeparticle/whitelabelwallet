@@ -63,6 +63,11 @@ export class RenderManager {
     }, Boolean(dbFile));
   }
 
+  reset() {
+    log.debug('ElectronRendererService::resetManager called');
+    DatabaseManager.reset();
+  }
+
   /**
    * Generates a new DB
    */
