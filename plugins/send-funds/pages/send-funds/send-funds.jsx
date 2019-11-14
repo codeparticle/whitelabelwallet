@@ -9,6 +9,7 @@ import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.s
 import { cloud } from '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 import { VARIANTS } from 'lib/constants';
 import { getFiatAmount } from 'lib/utils';
+import { useUnmount } from 'lib/hooks';
 
 import {
   FromAddressList,
@@ -18,10 +19,11 @@ import {
   TransferAmount,
 } from 'plugins/send-funds/components';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
-import { resetFields, setAmount, setMemo } from 'plugins/send-funds/rdx/actions';
+import { resetFields, setAmount, setFee, setMemo } from 'plugins/send-funds/rdx/actions';
 import {
   getAmount,
   getFiat,
+  getFee,
   getFromAddress,
   getMemo,
   getToAddress,
@@ -34,6 +36,7 @@ const { SECONDARY } = VARIANTS;
 const SendFundsView = ({
   amount,
   fiat,
+  fee,
   intl: { formatMessage },
   memo,
   toAddress,
@@ -44,6 +47,7 @@ const SendFundsView = ({
   const [fiatConversionRate, setFiatConversionRate] = useState(0);
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
+  const [headerProps, setHeaderProps] = useState(null);
   const mobileBackground = themeName === THEME_KEYS.LIGHT
     ? cloud
     : null;
@@ -68,11 +72,23 @@ const SendFundsView = ({
     getFiatConversionRate();
   }, [getFiatConversionRate]);
 
+  function updateHeaderProps(values) {
+    if (values) {
+      setHeaderProps({
+        ...getHeaderProps(),
+        ...values,
+      });
+    } else {
+      setHeaderProps(getHeaderProps());
+    }
+  }
+
+  useUnmount(props.resetFields);
 
   return (
     <Page
       background={isMobile ? mobileBackground : null}
-      headerProps={getHeaderProps()}
+      headerProps={headerProps || getHeaderProps()}
       contentStyles={{
         height: '100%',
         padding: 0,
@@ -85,7 +101,9 @@ const SendFundsView = ({
           isMobile={isMobile}
           amount={amount}
           memo={memo}
+          fee={fee}
           setAmount={props.setAmount}
+          setFee={props.setFee}
           setMemo={props.setMemo}
         />
         <Visible when={!isMobile}>
@@ -97,6 +115,7 @@ const SendFundsView = ({
             formatMessage={formatMessage}
             setAmount={props.setAmount}
             setMemo={props.setMemo}
+            updateHeaderProps={updateHeaderProps}
             amount={amount}
             memo={memo}
           />
@@ -118,15 +137,18 @@ const SendFundsView = ({
 SendFundsView.propTypes = {
   fiat: PropTypes.string.isRequired,
   fromAddress: PropTypes.string.isRequired,
+  fee: PropTypes.number,
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
+  setFee: PropTypes.func.isRequired,
   setMemo: PropTypes.func.isRequired,
   toAddress: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
   setAmount,
+  setFee,
   setMemo,
   resetFields,
 };
@@ -134,6 +156,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
   const amount = getAmount(state);
   const fiat = getFiat(state);
+  const fee = getFee(state);
   const fromAddress = getFromAddress(state);
   const memo = getMemo(state);
   const toAddress = getToAddress(state);
@@ -141,6 +164,7 @@ const mapStateToProps = state => {
   return {
     amount,
     fiat,
+    fee,
     fromAddress,
     memo,
     toAddress,

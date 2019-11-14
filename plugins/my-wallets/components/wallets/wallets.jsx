@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 import {
   Wallet,
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { injectIntl, intlShape } from 'react-intl';
-import { asyncForEach, empty, getFiatAmount, getCurrencyFormat, getChartPoints } from 'lib/utils';
-import { GENERAL } from 'lib/constants';
+import { asyncForEach, getFiatAmount, getCurrencyFormat, getChartPoints } from 'lib/utils';
+import { GENERAL, ROUTES as APP_ROUTES } from 'lib/constants';
+
+import { preSelectFromAddress, preSelectToAddress } from 'plugins/send-funds/rdx/actions';
+
 import { setSelectedWallet, setSelectedWalletAddresses } from 'plugins/my-wallets/rdx/actions';
 import { getSelectedWallet, getFiat } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
@@ -17,12 +20,14 @@ import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { ROUTES } from 'plugins/my-wallets/helpers';
 import {
   getAddressesByWalletId,
+  getWalletAddressesById,
   getTransactionsForChart,
   MINIMUM_NUMBER_CHART_POINTS,
 } from 'plugins/my-wallets/helpers';
 
 import './wallets.scss';
 
+const { SEND_FUNDS, RECEIVE_FUNDS } = APP_ROUTES;
 const { PLUGIN, OVERVIEW } = ROUTES;
 const { SvgCoinSymbol } = svgs.icons;
 const { TRANSACTION_TYPES: { RECEIVE } } = GENERAL;
@@ -61,9 +66,6 @@ const WalletsView = ({
       withdraw: formatMessage(MY_WALLETS.SEND_FUNDS_BUTTON_LABEL),
     },
   };
-
-  const onDeposit = empty;
-  const onWithdraw = empty;
 
   const buildWalletChart = useCallback(
     async (id, balance) => {
@@ -171,6 +173,26 @@ const WalletsView = ({
         const onClick = () => onWalletClickHandler(wallet);
         const onEdit = (event) => onEditWalletClickHandler(event, wallet);
 
+        async function setFromAddress() {
+          const walletAddress = await getWalletAddressesById(wallet.id);
+          props.preSelectFromAddress({
+            id: walletAddress.id,
+            data: walletAddress,
+          });
+        }
+
+        const onDeposit = () => {
+          setFromAddress().then(() => {
+            history.push(`${RECEIVE_FUNDS}`);
+          });
+        };
+
+        const onWithdraw = () => {
+          setFromAddress().then(() => {
+            history.push(`${SEND_FUNDS}`);
+          });
+        };
+
         return (
           <div key={wallet.id} className="wallets-rct-component__wallet-container">
             <Wallet
@@ -206,6 +228,8 @@ WalletsView.propTypes = {
   intl: intlShape.isRequired,
   selectedFiat: PropTypes.string.isRequired,
   selectedWallet: PropTypes.object.isRequired,
+  preSelectFromAddress: PropTypes.func.isRequired,
+  preSelectToAddress: PropTypes.func.isRequired,
   wallets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
@@ -231,6 +255,8 @@ const mapStateToProps = (state) => {
 
 
 const mapDispatchToProps = {
+  preSelectFromAddress,
+  preSelectToAddress,
   setSelectedWalletAddresses,
   setSelectedWallet,
 };

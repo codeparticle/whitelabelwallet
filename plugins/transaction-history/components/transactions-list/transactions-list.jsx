@@ -15,6 +15,7 @@ import {
 
 
 function TransactionsList ({
+  clearSelected,
   transactions,
   onDeselect,
   onRowClick,
@@ -80,6 +81,8 @@ function TransactionsList ({
   return (
     <List
       id="wallet-list"
+      matchProperty="id"
+      clearSelected={clearSelected}
       isStriped={!isMobile}
       showHeader={!isMobile}
       columnDefs={columns}
@@ -91,6 +94,7 @@ function TransactionsList ({
 }
 
 TransactionsList.prototypes = {
+  clearSelected: PropTypes.bool.isRequired,
   onDeselect: PropTypes.func.isRequired,
   onRowClick: PropTypes.func.isRequired,
   selectedTransaction: PropTypes.object.isRequired,

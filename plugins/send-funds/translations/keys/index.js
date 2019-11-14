@@ -16,6 +16,11 @@ export const SEND_FUNDS = defineMessages({
     description: 'Enter address placeholder text',
     defaultMessage: 'Enter Address',
   },
+  FEE_MESSAGE: {
+    id: 'plugin.send_funds.fee_message',
+    description: 'Fee message',
+    defaultMessage: '*A higher fee will give a higher priority so that it is confirmed (spendable sooner). The lower it is, the longer it takes. If the fee is too low, the transaction will fail due to no confirmations.',
+  },
   INVALID_ADDRESS: {
     id: 'plugins.send_funds.invalid_address',
     description: 'Invalid address text',
@@ -95,6 +100,11 @@ export const SEND_FUNDS = defineMessages({
     id: 'plugin.send_funds.title',
     description: 'Send Funds page title and nav link label',
     defaultMessage: 'Send Funds',
+  },
+  TRANSACTION_FEE: {
+    id: 'plugin.send_funds.transaction_fee',
+    description: 'Transaction fee label',
+    defaultMessage: 'Transaction Fee*',
   },
   TRANSFER_AMOUNT: {
     id: 'plugin.send_funds.transfer_amount',

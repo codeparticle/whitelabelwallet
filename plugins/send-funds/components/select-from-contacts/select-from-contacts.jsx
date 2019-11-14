@@ -2,14 +2,14 @@
  * @fileoverview Select from contacts mobile view
  * @author Gabriel Womble
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Visible } from '@codeparticle/react-visible';
 import { IconButton, TextInput, svgs } from '@codeparticle/whitelabelwallet.styleguide';
 
-import { setAmount, setToAddress } from 'plugins/send-funds/rdx/actions';
-import { getToAddress } from 'plugins/send-funds/rdx/selectors';
+import { preSelectToAddress, setAmount, setToAddress } from 'plugins/send-funds/rdx/actions';
+import { getToAddress, getPreSelectedToAddress } from 'plugins/send-funds/rdx/selectors';
 import { MobileFormButton, SelectContacts, SendFundsQrReader } from 'plugins/send-funds/components';
 import { constants } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
@@ -28,6 +28,7 @@ function SelectFromContactsView({
   formatMessage,
   onInputChange,
   inputValue,
+  preSelectedToAddress,
   setFormSelecting,
   ...props
 }) {
@@ -35,6 +36,14 @@ function SelectFromContactsView({
   const [isQrOpen, setIsQrOpen] = useState(false);
 
   const toggleQrPanel = () => setIsQrOpen(!isQrOpen);
+
+  useEffect(() => {
+    if (preSelectedToAddress) {
+      const { data: { address } } = preSelectedToAddress;
+      props.setToAddress(address);
+      props.preSelectToAddress(null);
+    }
+  }, [preSelectedToAddress]);
 
   function onClick() {
     setIsSelecting(true);
@@ -86,20 +95,29 @@ SelectFromContactsView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  preSelectToAddress: PropTypes.func.isRequired,
+  preSelectedToAddress: PropTypes.object,
   setAmount: PropTypes.func.isRequired,
   setFormSelecting: PropTypes.func.isRequired,
   setToAddress: PropTypes.func.isRequired,
 };
 
+SelectFromContactsView.defaultProps = {
+  preSelectedToAddress: null,
+};
+
 const mapStateToProps = state => {
   const toAddress = getToAddress(state);
+  const preSelectedToAddress = getPreSelectedToAddress(state);
 
   return {
+    preSelectedToAddress,
     toAddress,
   };
 };
 
 const mapDispatchToProps = {
+  preSelectToAddress,
   setAmount,
   setToAddress,
 };
