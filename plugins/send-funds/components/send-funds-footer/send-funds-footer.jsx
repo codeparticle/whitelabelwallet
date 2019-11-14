@@ -50,11 +50,21 @@ function SendFundsFooter({
       });
     } else {
       createTransaction(transactionData).then(transaction => {
-        setAlert({
-          data: transaction,
-          message: SUCCESS,
-          type: SUCCESS,
-        });
+        const { error } = transaction;
+        if (error) {
+          const { message } = error;
+
+          setAlert({
+            message,
+            type: FAIL,
+          });
+        } else {
+          setAlert({
+            data: transaction,
+            message: SUCCESS,
+            type: SUCCESS,
+          });
+        }
       });
     }
   }

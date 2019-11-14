@@ -16,11 +16,6 @@ export const SEND_FUNDS = defineMessages({
     description: 'Enter address placeholder text',
     defaultMessage: 'Enter Address',
   },
-  INSUFFICIENT_FUNDS: {
-    id: 'plugin.send_funds.insufficient_funds',
-    description: 'Insufficient funds text',
-    defaultMessage: 'Alert! Insufficient funds. Please select another address to send funds from...',
-  },
   INVALID_ADDRESS: {
     id: 'plugins.send_funds.invalid_address',
     description: 'Invalid address text',

@@ -322,9 +322,11 @@ export class DatabaseManager {
   /**
    * Gets a transaction by TxId
    * @param {String} txId
+   * @param {String} sender_address
+   * @param {String} receiver_address
    */
-  getTransactionByTxId(txId) {
-    const statement = STMT.TRANSACTIONS.SELECT.TXID(txId);
+  getTransactionByDetails(txId, type) {
+    const statement = STMT.TRANSACTIONS.SELECT.TX_DETAILS(txId, type);
     return this.query({ statement });
   }
 
@@ -376,8 +378,12 @@ export class DatabaseManager {
    * @param {Object} transaction
    */
   async updateOrInsertTransactionByTxId(transaction) {
-    const { transaction_id, ...restTransaction } = transaction;
-    const res = await this.getTransactionByTxId(transaction_id);
+    const {
+      transaction_id,
+      transaction_type,
+      ...restTransaction
+    } = transaction;
+    const res = await this.getTransactionByDetails(transaction_id, transaction_type);
 
     if (res.length === 0) {
       return await this.insert().transaction(transaction);

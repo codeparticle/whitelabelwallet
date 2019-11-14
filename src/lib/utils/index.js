@@ -6,7 +6,7 @@ import {
   satoshiToFloat,
   SATOSHI_FACTOR,
 } from './currency-converter';
-import { getSelectOptions } from './date-select-formatter';
+import { getSelectOptions, getTimestamp } from './dates';
 import { empty } from './empty';
 import { environment } from './environment';
 import { floatMath } from './float-math';
@@ -19,11 +19,12 @@ import { isRequestAllowed } from './is-request-allowed';
 import { getSidepanelVariant } from './layout';
 import { mapInputErrors } from './map-input-errors';
 import { regexToString } from './regex-to-string';
-import { safeString, unescape } from './strings';
+import { asErrorObject, safeString, unescape } from './strings';
 import { sortListByDate } from './sort-by-date-desc';
 
 export {
   arrayToRegex,
+  asErrorObject,
   asyncForEach,
   currencyConverter,
   empty,
@@ -36,6 +37,7 @@ export {
   getQueryString,
   getSelectOptions,
   getSidepanelVariant,
+  getTimestamp,
   getUrlParameterByName,
   isRequestAllowed,
   mapInputErrors,

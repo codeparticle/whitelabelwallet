@@ -15,7 +15,7 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { getSidepanelVariant, safeString, unescape, empty } from 'lib/utils';
-import { ERROR_TYPES } from 'lib/constants';
+import { ERRORS } from 'lib/constants';
 import { TRANSLATION_KEYS } from 'translations/keys';
 
 import {
@@ -31,7 +31,7 @@ import { validateManageWallet } from './validate-manage-wallet';
 import './manage-wallet-sidepanel.scss';
 
 const { ICON, TEXT } = BUTTON_TYPES;
-const { NON_ZERO_BALANCE } = ERROR_TYPES;
+const { WALLET: { NON_ZERO_BALANCE } } = ERRORS;
 const { COMMON: { SAVE_CHANGES } } = TRANSLATION_KEYS;
 const {
   ADDRESSES_DELETION_NON_ZERO_ERROR_MESSAGE,
@@ -113,6 +113,9 @@ function ManageWalletSidepanel({
 
   function onSubmit() {
     const { name, description } = walletFields;
+    // Omit fields that were mutated by chart builder as it is causing DB errors
+    // eslint-disable-next-line
+    const { chartData, currentBalance, ...restWallet } = wallet;
 
     const hasError = validateManageWallet({ name });
 
@@ -122,9 +125,9 @@ function ManageWalletSidepanel({
     }
 
     const walletToUpdate = {
-      ...wallet,
+      ...restWallet,
       name,
-      description: safeString(description),
+      description: description ? safeString(description) : '',
     };
 
     updateWalletAndUpdateState(walletToUpdate, setSelectedWallet).then(handleOnClose);

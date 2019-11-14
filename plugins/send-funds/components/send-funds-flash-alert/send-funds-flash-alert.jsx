@@ -7,7 +7,12 @@ import PropTypes from 'prop-types';
 import { Button, FlashAlert } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
 
-import { constants, getAlertMessage, getFormattedContactName } from 'plugins/send-funds/helpers';
+import {
+  constants,
+  getAlertMessage,
+  getFormattedContactName,
+  openInNewTab,
+} from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 
 const { TERTIARY } = VARIANTS;
@@ -19,8 +24,10 @@ const FLASH_HEIGHT = '84px';
 
 function getButton(alert, message) {
   if (alert && alert.type === SUCCESS) {
+    const { data: { link } } = alert;
+
     return (
-      <Button variant={TERTIARY} size="lg">{message}</Button>
+      <Button variant={TERTIARY} size="lg" onClick={() => openInNewTab(link)}>{message}</Button>
     );
   }
 
@@ -30,9 +37,9 @@ function getButton(alert, message) {
 function SendFundsFlashAlert({
   alert,
   formatMessage,
-  toAddress,
-  setAlert,
   resetFields,
+  setAlert,
+  toAddress,
 }) {
   const [formattedName, setFormattedName] = useState(toAddress);
   const btnMessage = formatMessage(VIEW_ON_BLOCKCHAIN);
