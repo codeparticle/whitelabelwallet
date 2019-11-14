@@ -10,7 +10,10 @@ import {
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
-import { ROUTES } from 'plugins/my-wallets/helpers';
+
+import { preSelectFromAddress } from 'plugins/send-funds/rdx/actions';
+
+import { getWalletAddressesById, ROUTES } from 'plugins/my-wallets/helpers';
 import { WalletNavBarButton } from 'plugins/my-wallets/components';
 import { setFromAddress } from 'plugins/send-funds/rdx/actions';
 import './wallet-nav-bar.scss';
@@ -33,12 +36,19 @@ const SVG_SIZE = '44px';
 
 function WalletNavBarView({
   selectedWallet,
-  selectedAddress,
   formatMessage,
   history,
   match,
   ...props
 }) {
+  async function setFromAddress(wallet) {
+    const walletAddress = await getWalletAddressesById(wallet.id);
+    props.preSelectFromAddress({
+      id: walletAddress.id,
+      data: walletAddress,
+    });
+  }
+
   const onTransactionClick = () => {
     const url = `${PLUGIN}/${selectedWallet.id}/${OVERVIEW}`;
     if (`/${url}` !== match.url) {
@@ -47,12 +57,15 @@ function WalletNavBarView({
   };
 
   const onReceiveClick = () => {
-    history.push(`/${PLUGIN}/${selectedWallet.id}/${RECEIVE_FUNDS}/${selectedAddress.address}`);
+    setFromAddress(selectedWallet).then(() => {
+      history.push(`/${PLUGIN}/${selectedWallet.id}/${RECEIVE_FUNDS}`);
+    });
   };
 
   const onSendClick = () => {
-    props.setFromAddress(selectedAddress.address);
-    history.push(`/${PLUGIN}/${selectedWallet.id}/${SEND_FUNDS}/${selectedAddress.address}`);
+    setFromAddress(selectedWallet).then(() => {
+      history.push(`/${PLUGIN}/${selectedWallet.id}/${SEND_FUNDS}`);
+    });
   };
 
   return (
@@ -86,16 +99,13 @@ WalletNavBarView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  preSelectFromAddress: PropTypes.func.isRequired,
   selectedWallet: PropTypes.object.isRequired,
-  selectedAddress: PropTypes.object,
   setFromAddress: PropTypes.func.isRequired,
 };
 
-WalletNavBarView.defaultProps = {
-  selectedAddress: {},
-};
-
 const mapDispatchToProps = {
+  preSelectFromAddress,
   setFromAddress,
 };
 

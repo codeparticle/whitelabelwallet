@@ -4,20 +4,27 @@
  */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Contact } from '@codeparticle/whitelabelwallet.styleguide';
-import { VARIANTS } from 'lib/constants';
-import { empty, unescape } from 'lib/utils';
+import { ROUTES, VARIANTS } from 'lib/constants';
+import { unescape } from 'lib/utils';
+
+import { preSelectToAddress } from 'plugins/send-funds/rdx/actions';
 
 import { CONTACTS } from 'plugins/contacts/translations/keys';
 import { contacts as e2e } from 'e2e/constants';
 import './contact-list.scss';
 
+const { SEND_FUNDS } = ROUTES;
 const { EDIT } = VARIANTS;
 
-function ContactList({
+function ContactListView({
   contacts,
+  history,
   openPanel,
   formatMessage,
+  ...props
 }) {
   const [contactList, setContactList] = useState(contacts);
   const contactMessages = {
@@ -32,7 +39,7 @@ function ContactList({
   return (
     <div className="contact-list" data-selector={e2e.selectors.contactList.raw}>
       {contactList.map((contact, index) => {
-        const { address, description, name } = contact;
+        const { address, description, name, id } = contact;
         const onEdit = () => {
           const rawContact = {
             ...contact,
@@ -40,6 +47,15 @@ function ContactList({
           };
 
           openPanel(EDIT, rawContact);
+        };
+
+        const onSend = () => {
+          props.preSelectToAddress({
+            id,
+            data: contact,
+          });
+
+          history.push(`/${SEND_FUNDS}`);
         };
 
         return (
@@ -50,7 +66,7 @@ function ContactList({
             contactName={name}
             messages={contactMessages}
             onEdit={onEdit}
-            onSend={empty}
+            onSend={onSend}
             {...contact}
           />
         );
@@ -59,13 +75,19 @@ function ContactList({
   );
 }
 
-ContactList.propTypes = {
+ContactListView.propTypes = {
   contacts: PropTypes.arrayOf(PropTypes.object),
+  history: PropTypes.object.isRequired,
   formatMessage: PropTypes.func.isRequired,
+  preSelectToAddress: PropTypes.func.isRequired,
 };
 
-ContactList.defaultProps = {
+ContactListView.defaultProps = {
   contacts: [],
 };
 
-export { ContactList };
+const mapDispatchToProps = {
+  preSelectToAddress,
+};
+
+export const ContactList = connect(null, mapDispatchToProps)(withRouter(ContactListView));

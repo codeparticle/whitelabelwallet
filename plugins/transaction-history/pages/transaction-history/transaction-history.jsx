@@ -48,8 +48,8 @@ const TransactionHistoryView = ({
 }) => {
   const [selectedDate, setSelectedDate] = useState(getDateValue());
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
   const [fiatBalance, setFiatBalance] = useState(0);
+  const [clearSelected, setClearSelected] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState({});
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { isMobile } = useMedia();
@@ -69,6 +69,12 @@ const TransactionHistoryView = ({
     'page-content-container',
     { 'mobile-content-container': isMobile }
   );
+
+  useEffect(() => {
+    if (clearSelected) {
+      setClearSelected(false);
+    }
+  }, [clearSelected]);
 
   useEffect(() => {
     fetchTransactions(setTransactions);
@@ -113,15 +119,12 @@ const TransactionHistoryView = ({
   }, [getFiatBalance]);
 
   function toggleSidePanel (data) {
-    data.event.stopPropagation();
     setSelectedTransaction(data);
-    setSelectedRow(data.event.target);
     setIsPanelOpen(true);
   };
 
   const onClose = ()=> {
-    selectedRow.click();
-    setSelectedRow(null);
+    setClearSelected(true);
     setIsPanelOpen(false);
   };
 
@@ -191,6 +194,7 @@ const TransactionHistoryView = ({
               fallback={<NoTransactions formatMessage={formatMessage}/>}
             >
               <TransactionsList
+                clearSelected={clearSelected}
                 transactions={transactions}
                 onDeselect={onDeselect}
                 onRowClick={toggleSidePanel}

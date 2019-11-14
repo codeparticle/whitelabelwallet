@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List } from '@codeparticle/whitelabelwallet.styleguide';
 import { COMMON } from 'translations/keys/common';
+import { useUnmount } from 'lib/hooks';
 
 import {
   BalanceRenderer,
@@ -16,7 +17,8 @@ import {
 } from 'plugins/send-funds/components';
 import { getWalletAddresses, getWalletAddressesByValue, resetStateHandler } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
-import { setFromAddress } from 'plugins/send-funds/rdx/actions';
+import { preSelectFromAddress, setFromAddress } from 'plugins/send-funds/rdx/actions';
+import { getPreSelectedFromAddress } from 'plugins/send-funds/rdx/selectors';
 
 const { SEARCH_PLACEHOLDER } = COMMON;
 const { WALLET, BALANCE, SEND_FROM } = SEND_FUNDS;
@@ -38,7 +40,13 @@ function getColumnDefs(formatMessage) {
   ];
 }
 
-function FromAddressListView({ formatMessage, onClick, searchLabel, ...props }) {
+function FromAddressListView({
+  formatMessage,
+  onClick,
+  preSelectedFromAddress,
+  searchLabel,
+  ...props
+}) {
   const [rowData, setRowData] = useState([]);
   const setToState = onClick || props.setFromAddress;
 
@@ -56,6 +64,8 @@ function FromAddressListView({ formatMessage, onClick, searchLabel, ...props }) 
     const res = await getWalletAddressesByValue(value);
     setRowData(res);
   }
+
+  useUnmount(props.preSelectFromAddress);
 
   useEffect(() => {
     getWalletAddresses().then((data) => {
@@ -78,6 +88,7 @@ function FromAddressListView({ formatMessage, onClick, searchLabel, ...props }) 
             columnDefs={getColumnDefs(formatMessage)}
             id="from-address-list"
             matchProperty="id"
+            preSelect={preSelectedFromAddress}
             rowData={rowData}
             onDeselect={resetStateHandler(setToState)}
             onRowClicked={onRowClicked}
@@ -100,17 +111,29 @@ function FromAddressListView({ formatMessage, onClick, searchLabel, ...props }) 
 FromAddressListView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   onClick: PropTypes.func,
+  preSelectFromAddress: PropTypes.func.isRequired,
+  preSelectedFromAddress: PropTypes.object,
   setFromAddress: PropTypes.func.isRequired,
   searchLabel: PropTypes.string,
 };
 
 FromAddressListView.defaultProps = {
   onClick: null,
+  preSelectedFromAddress: null,
   searchLabel: null,
 };
 
+const mapStateToProps = state => {
+  const preSelectedFromAddress = getPreSelectedFromAddress(state);
+
+  return {
+    preSelectedFromAddress,
+  };
+};
+
 const mapDispatchToProps = {
+  preSelectFromAddress,
   setFromAddress,
 };
 
-export const FromAddressList = connect(null, mapDispatchToProps)(FromAddressListView);
+export const FromAddressList = connect(mapStateToProps, mapDispatchToProps)(FromAddressListView);

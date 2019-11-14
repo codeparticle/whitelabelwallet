@@ -549,6 +549,19 @@ export class DatabaseManager {
   }
 
   /**
+   * Gets a single wallet object with addresses by id
+   * @return {WalletAddresses}
+   * @param {Number} id - wallet id
+   */
+  async getWalletAddressesById(id) {
+    const wallet = await this.getWalletById(id);
+    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(wallet.id);
+    wallet.addresses = await this.query({ statement });
+
+    return wallet;
+  }
+
+  /**
    * Queries Wallets and corresponding addresses
    * by wallet.name, address.name, address.balance,
    * or address.address, and then returns an array

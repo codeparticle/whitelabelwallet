@@ -28,6 +28,15 @@ async function getWalletById(id, setFn) {
 }
 
 /**
+ * Returns a single wallet object with address array property from db
+ * @returns {Object} wallet with addresses
+ * @param {Number} id
+ */
+async function getWalletAddressesById(id) {
+  return await manager.databaseManager.getWalletAddressesById(id);
+}
+
+/**
  * Function to get a addresses from db by wallet ID
  * @param {func} setFn - function that sets the res to state
  * @param {number} id - id of wallet to get
@@ -165,9 +174,10 @@ export {
   deleteAddress,
   fetchWallets,
   getAddressesByWalletId,
-  getWalletById,
-  getTransactionsPerAddress,
   getTransactionsForChart,
+  getTransactionsPerAddress,
+  getWalletAddressesById,
+  getWalletById,
   refreshAddress,
   searchTransactionsByValue,
   updateWalletAndUpdateState,
