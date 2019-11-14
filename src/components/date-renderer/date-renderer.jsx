@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Common Date Renderer used in lists
+ * @author Marc Mathieu
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -7,7 +11,7 @@ import {
 
 const { Text } = cellFormatters;
 
-function CustomDateRenderer({ data }) {
+function DateRenderer({ data }) {
   const formattedDate = `${moment(data.created_date).format('MM/DD/YY')} at ${moment(data.created_date).format('h:mm a')}`;
 
   return (
@@ -15,8 +19,8 @@ function CustomDateRenderer({ data }) {
   );
 }
 
-CustomDateRenderer.propTypes = {
+DateRenderer.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export { CustomDateRenderer };
+export { DateRenderer };

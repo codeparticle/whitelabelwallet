@@ -24,7 +24,16 @@ const unescape = (str) => {
   return str.replace(/\'\'/g, '\'');
 };
 
+/**
+ * Function that turns a message or messageKey into an error object
+ * @returns {Object} errorObject
+ * @param {String} message The key for the message
+ */
+const asErrorObject = message => ({ error: { message } });
+
+
 export {
+  asErrorObject,
   unescape,
   safeString,
 };

@@ -3,20 +3,21 @@
  * @author Gabriel Womble
  */
 import { rules, validateObject } from '@codeparticle/formal';
-import { REGEXES } from 'lib/constants';
+import { ERRORS, REGEXES } from 'lib/constants';
 import { mapInputErrors } from 'lib/utils';
 import { MESSAGE_KEYS } from './constants';
 import { getBalanceByAddress } from './queries';
 
+const { BLOCKCHAIN: { INSUFFICIENT_FUNDS } } = ERRORS;
 const { matchesRegex } = rules;
 const { REGEX_ADDRESS } = REGEXES;
-const { AMOUNT, TO_ADDRESS } = MESSAGE_KEYS;
+const { TO_ADDRESS } = MESSAGE_KEYS;
 
 export async function validateTransaction({ fromAddress, toAddress, amount }) {
   const balance = await getBalanceByAddress(fromAddress);
 
   if (balance < amount) {
-    return { [AMOUNT]: true };
+    return { [INSUFFICIENT_FUNDS]: true };
   }
 
   const validateForm = validateObject({

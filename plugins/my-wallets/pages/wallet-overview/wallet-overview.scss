@@ -45,19 +45,6 @@ $date-picker-width: between(90px, 260px, $width-breakpoint-sm, $width-breakpoint
         display: flex;
         justify-content: center;
       }
-
-      .transaction-amount {
-        align-items: center;
-        display: flex;
-
-        svg {
-          margin-right: $space-1;
-
-          path {
-            fill: currentColor;
-          }
-        }
-      }
     }
 
     .wallet-balance-data {

@@ -62,6 +62,6 @@ TransferAmount.propTypes = {
 };
 
 TransferAmount.defaultProps = {
-  coinDecimalLimit: 4,
+  coinDecimalLimit: 8,
   tickerSymbol: '',
 };
