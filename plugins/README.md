@@ -8,7 +8,7 @@ A plugin can have access to the redux state of the application and it can implem
 The only must do is export a function which returns the configuration for the plugin.
 
 Example:
-```
+```js
 const BlueButtonPlugin = (store) => {
   store.injectPluginReducer('blueButton', blueButton);
 
@@ -24,6 +24,35 @@ export { BlueButtonPlugin };
 ```
 
 The `store` object is passed from the application so the plugin is able to inject reducer with the custom method `injectPluginReducer` or do any other actions with the store.
+
+### Creating a reducer
+
+A plugin should leverage the `createPluginReducer` method to define a reducer. It accepts two arguments: `initialState`, and an object: `handlers` which defines the action handlers. `createPluginReducer` will clear a plugin's state on logout automatically.
+
+Example:
+
+```js
+import { createPluginReducer } from 'rdx/utils/create-reducer';
+
+const TYPES = {
+  RESET_SOMETHING: 'RESET_SOMETHING',
+  SET_SOMETHING: 'SET_SOMETHING',
+};
+
+const initialState = {
+  something: [],
+};
+
+export const MyReducer = createPluginReducer(initialState, {
+  [TYPES.SET_SOMETHING](state, action) {
+    return action.payload;
+  },
+  [TYPES.RESET_SOMETHING]() {
+    return initialState;
+  },
+});
+
+```
 
 ### Config Format
 

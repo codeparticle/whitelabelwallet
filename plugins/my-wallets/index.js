@@ -7,13 +7,13 @@ import {
 } from './pages';
 import { SendFundsPage } from 'plugins/send-funds/pages';
 import { ReceiveFundsPage } from 'plugins/receive-funds/pages';
-import { walletsReducer } from './rdx/reducers';
+import { walletReducer } from './rdx/reducers';
 import { addLocales } from './translations/add-locales';
 import { MY_WALLETS } from './translations/keys';
 
 export const MyWalletsPlugin = (store) => {
   store.dispatch(addLocales());
-  store.injectPluginReducer('wallets', walletsReducer);
+  store.injectPluginReducer('wallets', walletReducer);
 
   return [
     {

@@ -1,11 +1,8 @@
 import types from './types';
+import { createPluginReducer } from 'rdx/utils/create-reducer';
 
-export function contactsReducer(state = [], action) {
-  switch (action.type) {
-    case types.SET_CONTACTS: {
-      return action.payload;
-    }
-    default:
-      return state;
-  }
-}
+export const contactsReducer = createPluginReducer([], {
+  [types.SET_CONTACTS](state, action) {
+    return action.payload;
+  },
+});

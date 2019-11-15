@@ -1,56 +1,54 @@
 import types from './types';
 import { uniqBy } from 'lodash';
+import { createPluginReducer } from 'rdx/utils/create-reducer';
 
 const initialState = {
-  transactions: [],
   selectedAddress: { name: '' },
+  transactions: [],
+  wallets: [],
 };
 
-export function walletsReducer(state = initialState, action) {
-  switch (action.type) {
-    case types.SET_WALLETS: {
-      return {
-        ...state,
-        wallets: action.payload,
-      };
+export const walletReducer = createPluginReducer(initialState, {
+  [types.SET_WALLETS](state, action) {
+    return {
+      ...state,
+      wallets: action.payload,
     };
-    case types.SET_SELECTED_WALLET: {
-      return {
-        ...state,
-        selected: action.payload,
-      };
+  },
+  [types.SET_SELECTED_WALLET](state, action) {
+    return {
+      ...state,
+      selected: action.payload,
     };
-    case types.SET_SELECTED_ADDRESS: {
-      return {
-        ...state,
-        selectedAddress: action.payload,
-      };
+  },
+  [types.SET_SELECTED_ADDRESS](state, action) {
+    return {
+      ...state,
+      selectedAddress: action.payload,
     };
-    case types.SET_SELECTED_WALLET_ADDRESSES: {
-      return {
-        ...state,
-        addresses: action.payload,
-      };
+  },
+  [types.SET_SELECTED_WALLET_ADDRESSES](state, action) {
+    return {
+      ...state,
+      addresses: action.payload,
     };
-    case types.SET_SELECTED_WALLET_TRANSACTIONS: {
-      return {
-        ...state,
-        transactions: uniqBy([...state.transactions, ...action.payload], transaction => transaction.id),
-      };
+  },
+  [types.SET_SELECTED_WALLET_TRANSACTIONS](state, action) {
+    return {
+      ...state,
+      transactions: uniqBy([...state.transactions, ...action.payload], transaction => transaction.id),
     };
-    case types.SET_SELECTED_TRANSACTIONS_SEARCH_RESULTS: {
-      return {
-        ...state,
-        transactions: uniqBy([...action.payload], transaction => transaction.id),
-      };
+  },
+  [types.SET_SELECTED_TRANSACTIONS_SEARCH_RESULTS](state, action) {
+    return {
+      ...state,
+      transactions: uniqBy([...action.payload], transaction => transaction.id),
     };
-    case types.CLEAR_SELECTED_WALLET_TRANSACTIONS: {
-      return {
-        ...state,
-        transactions: [],
-      };
+  },
+  [types.CLEAR_SELECTED_WALLET_TRANSACTIONS](state) {
+    return {
+      ...state,
+      transactions: [],
     };
-    default:
-      return state;
-  }
-}
+  },
+});

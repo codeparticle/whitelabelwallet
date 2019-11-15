@@ -86,15 +86,16 @@ export const myWallets = {
 export const settings = {
   selectors: {
     sidepanel: getDataSelector('settings.sidepanel'),
-    openBtn: getDataSelector('settings.open-btn'),
-    username: getDataSelector('settings.username'),
     changePassword: getDataSelector('settings.change-password'),
-    currentPassword: getDataSelector('settings.current-password'),
-    newPassword: getDataSelector('settings.new-password'),
     confirmedPassword: getDataSelector('settings.confirmed-password'),
+    currentPassword: getDataSelector('settings.current-password'),
+    logout: getDataSelector('settings.logout'),
+    newPassword: getDataSelector('settings.new-password'),
+    openBtn: getDataSelector('settings.open-btn'),
+    saveBtn: getDataSelector('settings.sidepanel-footer-btn'),
     themeToggle: getDataSelector('settings.theme-toggle'),
     themeToggleTrue: getDataSelector('settings.theme-toggle-true'),
-    saveBtn: getDataSelector('settings.sidepanel-footer-btn'),
+    username: getDataSelector('settings.username'),
   },
   values: {
     newUsername: 'Renamed',

@@ -1,4 +1,5 @@
 import types from './types';
+import { createPluginReducer } from 'rdx/utils/create-reducer';
 
 const initialState = {
   amount: '',
@@ -7,36 +8,32 @@ const initialState = {
   toAddress: '',
 };
 
-export function sendFundsReducer(state = initialState, action) {
-  switch (action.type) {
-    case types.SET_AMOUNT: {
-      return {
-        ...state,
-        amount: action.payload,
-      };
-    }
-    case types.SET_FROM_ADDRESS: {
-      return {
-        ...state,
-        fromAddress: action.payload,
-      };
+export const sendFundsReducer = createPluginReducer(initialState, {
+  [types.SET_AMOUNT](state, action) {
+    return {
+      ...state,
+      amount: action.payload,
     };
-    case types.SET_MEMO: {
-      return {
-        ...state,
-        memo: action.payload,
-      };
-    }
-    case types.SET_TO_ADDRESS: {
-      return {
-        ...state,
-        toAddress: action.payload,
-      };
+  },
+  [types.SET_FROM_ADDRESS](state, action) {
+    return {
+      ...state,
+      fromAddress: action.payload,
     };
-    case types.RESET_FIELDS: {
-      return initialState;
-    }
-    default:
-      return state;
-  }
-}
+  },
+  [types.SET_MEMO](state, action) {
+    return {
+      ...state,
+      memo: action.payload,
+    };
+  },
+  [types.SET_TO_ADDRESS](state, action) {
+    return {
+      ...state,
+      toAddress: action.payload,
+    };
+  },
+  [types.RESET_FIELDS]() {
+    return initialState;
+  },
+});
