@@ -11,7 +11,8 @@ import { injectIntl, intlShape } from 'react-intl';
 import { asyncForEach, getFiatAmount, getCurrencyFormat, getChartPoints } from 'lib/utils';
 import { GENERAL, ROUTES as APP_ROUTES } from 'lib/constants';
 
-import { preSelectFromAddress, preSelectToAddress } from 'plugins/send-funds/rdx/actions';
+import { preSelectFromAddress } from 'plugins/send-funds/rdx/actions';
+import { preSelectReceiver } from 'plugins/receive-funds/rdx/actions';
 
 import { setSelectedWallet, setSelectedWalletAddresses } from 'plugins/my-wallets/rdx/actions';
 import { getSelectedWallet, getFiat } from 'plugins/my-wallets/rdx/selectors';
@@ -173,22 +174,22 @@ const WalletsView = ({
         const onClick = () => onWalletClickHandler(wallet);
         const onEdit = (event) => onEditWalletClickHandler(event, wallet);
 
-        async function setFromAddress() {
+        async function setAddress(setFn) {
           const walletAddress = await getWalletAddressesById(wallet.id);
-          props.preSelectFromAddress({
+          setFn({
             id: walletAddress.id,
             data: walletAddress,
           });
         }
 
         const onDeposit = () => {
-          setFromAddress().then(() => {
+          setAddress(props.preSelectReceiver).then(() => {
             history.push(`${RECEIVE_FUNDS}`);
           });
         };
 
         const onWithdraw = () => {
-          setFromAddress().then(() => {
+          setAddress(props.preSelectFromAddress).then(() => {
             history.push(`${SEND_FUNDS}`);
           });
         };
@@ -229,7 +230,7 @@ WalletsView.propTypes = {
   selectedFiat: PropTypes.string.isRequired,
   selectedWallet: PropTypes.object.isRequired,
   preSelectFromAddress: PropTypes.func.isRequired,
-  preSelectToAddress: PropTypes.func.isRequired,
+  preSelectReceiver: PropTypes.func.isRequired,
   wallets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
@@ -256,7 +257,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   preSelectFromAddress,
-  preSelectToAddress,
+  preSelectReceiver,
   setSelectedWalletAddresses,
   setSelectedWallet,
 };

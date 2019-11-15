@@ -18,6 +18,7 @@ import { getUrlParameterByName } from './get-url-parameter-by-name';
 import { isRequestAllowed } from './is-request-allowed';
 import { getSidepanelVariant } from './layout';
 import { mapInputErrors } from './map-input-errors';
+import { preSelectedIsMultiAddress } from './objects';
 import { regexToString } from './regex-to-string';
 import { asErrorObject, safeString, unescape } from './strings';
 import { sortListByDate } from './sort-by-date-desc';
@@ -47,6 +48,7 @@ export {
   getUrlParameterByName,
   isRequestAllowed,
   mapInputErrors,
+  preSelectedIsMultiAddress,
   regexToString,
   safeString,
   SATOSHI_FACTOR,

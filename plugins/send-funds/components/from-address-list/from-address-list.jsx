@@ -40,6 +40,8 @@ function getColumnDefs(formatMessage) {
   ];
 }
 
+const isDefined = obj => obj !== undefined;
+
 function FromAddressListView({
   formatMessage,
   onClick,
@@ -49,6 +51,10 @@ function FromAddressListView({
 }) {
   const [rowData, setRowData] = useState([]);
   const setToState = onClick || props.setFromAddress;
+  const preSelect = isDefined(props.preSelect)
+    ? props.preSelect
+    : preSelectedFromAddress;
+  const onUnmount = props.onUnmount || props.preSelectFromAddress;
 
   const childList = props => <FromAddressChildList onClick={onClick} {...props} />;
 
@@ -65,7 +71,7 @@ function FromAddressListView({
     setRowData(res);
   }
 
-  useUnmount(props.preSelectFromAddress);
+  useUnmount(onUnmount);
 
   useEffect(() => {
     getWalletAddresses().then((data) => {
@@ -88,7 +94,7 @@ function FromAddressListView({
             columnDefs={getColumnDefs(formatMessage)}
             id="from-address-list"
             matchProperty="id"
-            preSelect={preSelectedFromAddress}
+            preSelect={preSelect}
             rowData={rowData}
             onDeselect={resetStateHandler(setToState)}
             onRowClicked={onRowClicked}
@@ -111,14 +117,17 @@ function FromAddressListView({
 FromAddressListView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   onClick: PropTypes.func,
+  onUnmount: PropTypes.func,
   preSelectFromAddress: PropTypes.func.isRequired,
   preSelectedFromAddress: PropTypes.object,
+  preSelect: PropTypes.object,
   setFromAddress: PropTypes.func.isRequired,
   searchLabel: PropTypes.string,
 };
 
 FromAddressListView.defaultProps = {
   onClick: null,
+  onUnmount: null,
   preSelectedFromAddress: null,
   searchLabel: null,
 };

@@ -15,6 +15,8 @@ import { getPreSelectedFromAddress } from 'plugins/send-funds/rdx/selectors';
 
 const { SELECT_ADDRESS, NUM_ADDRESSES } = SEND_FUNDS;
 
+const isDefined = obj => obj !== undefined;
+
 function SelectAddressesView({
   formatMessage,
   preSelectedFromAddress,
@@ -24,8 +26,10 @@ function SelectAddressesView({
   ...props
 }) {
   const [rowData, setRowData] = useState([]);
+  const onUnmount = props.onUnmount || props.preSelectFromAddress;
+  const preSelect = isDefined(props.preSelect) ? props.preSelect : preSelectedFromAddress;
 
-  useUnmount(props.preSelectFromAddress);
+  useUnmount(onUnmount);
 
   function subtitleFormatter(data) {
     return formatMessage(NUM_ADDRESSES, { addressCount: data.length });
@@ -50,7 +54,7 @@ function SelectAddressesView({
       </label>
       <MobileWalletList
         data={rowData}
-        preSelect={preSelectedFromAddress}
+        preSelect={preSelect}
         onAddressClicked={onAddressClicked}
         subtitleFormatter={subtitleFormatter}
       />
@@ -67,6 +71,8 @@ function SelectAddressesView({
 
 SelectAddressesView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func,
+  preSelect: PropTypes.object,
   preSelectFromAddress: PropTypes.func.isRequired,
   preSelectedFromAddress: PropTypes.object,
   setFormSelecting: PropTypes.func.isRequired,
@@ -76,6 +82,7 @@ SelectAddressesView.propTypes = {
 
 SelectAddressesView.defaultProps = {
   preSelectedFromAddress: null,
+  onUnmount: null,
 };
 
 const mapStateToProps = state => {

@@ -10,10 +10,10 @@ import { Visible } from '@codeparticle/react-visible';
 import { useMedia } from '@codeparticle/whitelabelwallet.styleguide';
 import { BackButton } from 'components';
 import { ROUTES } from 'lib/constants';
+import { preSelectedIsMultiAddress } from 'lib/utils';
 
-import { preSelectFromAddress } from 'plugins/send-funds/rdx/actions';
-import { getPreSelectedFromAddress } from 'plugins/send-funds/rdx/selectors';
-
+import { preSelectReceiver, setAddress } from 'plugins/receive-funds/rdx/actions';
+import { getPreSelectedReceiver } from 'plugins/receive-funds/rdx/selectors';
 import {
   ReceiveFundsAddressList,
   ReceiveFundsFooter,
@@ -105,25 +105,23 @@ function FooterArea({
   );
 }
 
-const isMultiAddress = preSelected => preSelected && preSelected.data.addresses.length !== 1;
-
 function ReceiveFundsLayoutView({
   formatMessage,
   history,
   match,
-  preSelectedFromAddress,
+  preSelectedReceiver,
   updateHeaderProps,
   ...props
 }) {
-  const [isFormSelecting, setIsFormSelecting] = useState(isMultiAddress(preSelectedFromAddress));
+  const [isFormSelecting, setIsFormSelecting] = useState(!preSelectedReceiver || preSelectedIsMultiAddress(preSelectedReceiver));
   const { isMobile } = useMedia();
   const notMobileOrNotHidden = !isMobile || !isFormSelecting;
   const isFromMyWallets = match.path.includes(MY_WALLETS);
 
   function MobileBackButton(btnProps) {
     const onBackClick = () => {
-      if (isFromMyWallets && (isFormSelecting || !isMultiAddress(preSelectedFromAddress))) {
-        props.preSelectFromAddress(null);
+      if (isFromMyWallets && (isFormSelecting || (preSelectedReceiver && !preSelectedIsMultiAddress(preSelectedReceiver)))) {
+        props.preSelectReceiver(null);
         history.goBack();
       } else {
         setIsFormSelecting(true);
@@ -133,6 +131,17 @@ function ReceiveFundsLayoutView({
     return <BackButton onClick={onBackClick} {...btnProps} />;
   }
 
+  // Skip selecting from list if a preSelectedWallet exists and only contains one address
+  useEffect(() => {
+    if (isMobile && !isFormSelecting && preSelectedReceiver) {
+      if (!preSelectedIsMultiAddress(preSelectedReceiver)) {
+        const [{ address }] = preSelectedReceiver.data.addresses;
+        props.setAddress(address);
+      }
+    }
+  }, [isMobile, isFormSelecting, preSelectedReceiver]);
+
+  // Update nav button to use back button if coming from my-wallets
   useEffect(() => {
     if (isMobile && (!isFormSelecting || isFromMyWallets)) {
       updateHeaderProps({
@@ -163,25 +172,27 @@ ReceiveFundsLayoutView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  preSelectFromAddress: PropTypes.func.isRequired,
-  preSelectedFromAddress: PropTypes.object,
+  preSelectReceiver: PropTypes.func.isRequired,
+  preSelectedReceiver: PropTypes.object,
+  setAddress: PropTypes.func.isRequired,
   updateHeaderProps: PropTypes.func.isRequired,
 };
 
 ReceiveFundsLayoutView.defaultProps = {
-  preSelectedFromAddress: null,
+  preSelectedReceiver: null,
 };
 
 const mapStateToProps = state => {
-  const preSelectedFromAddress = getPreSelectedFromAddress(state);
+  const preSelectedReceiver = getPreSelectedReceiver(state);
 
   return {
-    preSelectedFromAddress,
+    preSelectedReceiver,
   };
 };
 
 const mapDispatchToProps = {
-  preSelectFromAddress,
+  preSelectReceiver,
+  setAddress,
 };
 
 export const ReceiveFundsLayout = connect(mapStateToProps, mapDispatchToProps)(withRouter(ReceiveFundsLayoutView));
