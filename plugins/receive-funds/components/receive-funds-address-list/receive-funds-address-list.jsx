@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fontSizeXS3 } from '@codeparticle/whitelabelwallet.styleguide/styles/fonts.scss';
 
-import { setAddress } from 'plugins/receive-funds/rdx/actions';
+import { preSelectReceiver, setAddress } from 'plugins/receive-funds/rdx/actions';
+import { getPreSelectedReceiver } from 'plugins/receive-funds/rdx/selectors';
 import { RECEIVE_FUNDS } from 'plugins/receive-funds/translations/keys';
 import { FromAddressList } from 'plugins/send-funds/components';
 
@@ -15,6 +16,7 @@ const { SELECT_WALLET } = RECEIVE_FUNDS;
 
 function ReceiveFundsAddressListView({
   formatMessage,
+  preSelectedReceiver,
   ...props
 }) {
   return (
@@ -22,6 +24,8 @@ function ReceiveFundsAddressListView({
       <FromAddressList
         formatMessage={formatMessage}
         onClick={props.setAddress}
+        onUnmount={props.preSelectReceiver}
+        preSelect={preSelectedReceiver}
         searchLabel={formatMessage(SELECT_WALLET)}
       />
       <style jsx>
@@ -37,13 +41,28 @@ function ReceiveFundsAddressListView({
 
 ReceiveFundsAddressListView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  preSelectedReceiver: PropTypes.object,
+  preSelectReceiver: PropTypes.func.isRequired,
   setAddress: PropTypes.func.isRequired,
 };
 
+ReceiveFundsAddressListView.defaultProps = {
+  preSelectedReceiver: null,
+};
+
+const mapStateToProps = state => {
+  const preSelectedReceiver = getPreSelectedReceiver(state);
+
+  return {
+    preSelectedReceiver,
+  };
+};
+
 const mapDispatchToProps = {
+  preSelectReceiver,
   setAddress,
 };
 
-const ReceiveFundsAddressList = connect(null, mapDispatchToProps)(ReceiveFundsAddressListView);
+const ReceiveFundsAddressList = connect(mapStateToProps, mapDispatchToProps)(ReceiveFundsAddressListView);
 
 export { ReceiveFundsAddressList };

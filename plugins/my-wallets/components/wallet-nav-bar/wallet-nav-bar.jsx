@@ -11,6 +11,7 @@ import {
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { TRANSLATION_KEYS } from 'translations/keys';
 
+import { preSelectReceiver } from 'plugins/receive-funds/rdx/actions';
 import { preSelectFromAddress } from 'plugins/send-funds/rdx/actions';
 
 import { getWalletAddressesById, ROUTES } from 'plugins/my-wallets/helpers';
@@ -41,9 +42,9 @@ function WalletNavBarView({
   match,
   ...props
 }) {
-  async function setFromAddress(wallet) {
+  async function setFromAddress(wallet, setFn) {
     const walletAddress = await getWalletAddressesById(wallet.id);
-    props.preSelectFromAddress({
+    setFn({
       id: walletAddress.id,
       data: walletAddress,
     });
@@ -57,13 +58,13 @@ function WalletNavBarView({
   };
 
   const onReceiveClick = () => {
-    setFromAddress(selectedWallet).then(() => {
+    setFromAddress(selectedWallet, props.preSelectReceiver).then(() => {
       history.push(`/${PLUGIN}/${selectedWallet.id}/${RECEIVE_FUNDS}`);
     });
   };
 
   const onSendClick = () => {
-    setFromAddress(selectedWallet).then(() => {
+    setFromAddress(selectedWallet, props.preSelectFromAddress).then(() => {
       history.push(`/${PLUGIN}/${selectedWallet.id}/${SEND_FUNDS}`);
     });
   };
@@ -100,12 +101,14 @@ WalletNavBarView.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   preSelectFromAddress: PropTypes.func.isRequired,
+  preSelectReceiver: PropTypes.func.isRequired,
   selectedWallet: PropTypes.object.isRequired,
   setFromAddress: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   preSelectFromAddress,
+  preSelectReceiver,
   setFromAddress,
 };
 

@@ -137,7 +137,7 @@ const SendFundsView = ({
 SendFundsView.propTypes = {
   fiat: PropTypes.string.isRequired,
   fromAddress: PropTypes.string.isRequired,
-  fee: PropTypes.number,
+  fee: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
