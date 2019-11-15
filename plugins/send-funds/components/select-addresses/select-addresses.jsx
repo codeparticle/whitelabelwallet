@@ -31,8 +31,6 @@ function SelectAddressesView({
 
   useUnmount(onUnmount);
 
-  useUnmount(props.preSelectFromAddress);
-
   function subtitleFormatter(data) {
     return formatMessage(NUM_ADDRESSES, { addressCount: data.length });
   }
