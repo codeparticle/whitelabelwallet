@@ -31,6 +31,7 @@
   "common.done": "Done",
   "common.email": "Email",
   "common.login": "Login",
+  "common.logout": "Logout",
   "common.no_transactions_text": "No Transactions Available",
   "common.password": "Password",
   "common.pending": "Pending",

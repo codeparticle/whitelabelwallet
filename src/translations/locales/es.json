@@ -31,6 +31,7 @@
   "common.done": "Hecho",
   "common.email": "Correo electrónico",
   "common.login": "Iniciar Sesión",
+  "common.logout": "Cerrar Sesión",
   "common.no_transactions_text": "No hay transacciones disponibles",
   "common.password": "Contraseña",
   "common.pending": "Pendiente",
