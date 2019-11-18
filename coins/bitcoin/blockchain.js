@@ -32,7 +32,12 @@ const {
 } = EXPLORER_URLS;
 
 class BitcoinBlockchainManager extends ApiBlockchainManager {
-// This class instance is always fetched using "BitcoinBlockchainManager.instance"
+  constructor() {
+    super();
+    this.defaultFee = DEFAULT_FEE;
+  }
+
+  // This class instance is always fetched using "BitcoinBlockchainManager.instance"
   static get instance() {
     if (!this._instance) {
       this._instance = new BitcoinBlockchainManager();
@@ -184,7 +189,7 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
    * @param {number} arg.paymentData[x].amount
    * @param {number} arg.fee defaults to 0, should be in satoshi format by default
    */
-  async sendFromOneAddress({ fromAddress, privateKey, paymentData, fee = DEFAULT_FEE }) {
+  async sendFromOneAddress({ fromAddress, privateKey, paymentData, fee = this.defaultFee }) {
     const keyPair = bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, 'hex'), {
       network: bitcoin.networks[NETWORK],
     });

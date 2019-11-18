@@ -11,6 +11,7 @@ export { SelectFromContacts } from './select-from-contacts';
 export { SendFundsFlashAlert } from './send-funds-flash-alert';
 export { SendFundsFooter } from './send-funds-footer';
 export { SendFundsMobileAlert } from './send-funds-mobile-alert';
+export { SendFundsMobileFee } from './send-funds-mobile-fee';
 export { SendFundsMobileFooter } from './send-funds-mobile-footer';
 export { SendFundsMobileForm } from './send-funds-mobile-form';
 export { SendFundsQrReader } from './send-funds-qr-reader';
