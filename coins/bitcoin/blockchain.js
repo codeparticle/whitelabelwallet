@@ -66,23 +66,24 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
 
   /**
    * This method creates a new address and transfers the balance left from the old address to the new one.
-   * @param {string} addressParam.
-   * @param {object} wallet.
+   * @param {object} addressParam is required.
+   * @param {object} wallet is required.
    * @return {obj} returns an Address.
    */
   async refreshAddress(wallet, addressParam) {
     const { balance } = await this.fetchAddressDetails(addressParam.address);
-    const privateKey = addressParam.private_key;
+    const { address, private_key: privateKey } = addressParam;
+    const { address_index: index } = wallet;
 
     if (balance <= DEFAULT_FEE) {
       return {
-        address: addressParam.address,
-        privateKey: addressParam.private_key,
-        index: wallet.address_index,
+        address,
+        privateKey,
+        index,
       };
     }
 
-    const newAddressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
+    const newAddressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, index);
 
     await this.sendFromOneAddress({
       fromAddress: addressParam.address,

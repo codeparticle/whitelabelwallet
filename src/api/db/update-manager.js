@@ -32,7 +32,13 @@ export async function UpdateManager() {
 
     if (version) {
       const update = updates[version];
-      const success = await DBInstance.db.exec(update);
+      let success = null;
+
+      try {
+        success = await DBInstance.db.exec(update.try);
+      } catch (error) {
+        success = await DBInstance.db.exec(update.catch);
+      }
 
       if (success) {
         await DBInstance.updateDbVersion({ 'db_version': parseFloat(version) }, lastUpdate);
