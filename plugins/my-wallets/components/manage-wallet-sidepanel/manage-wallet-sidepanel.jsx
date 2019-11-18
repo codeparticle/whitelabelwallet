@@ -173,7 +173,7 @@ function ManageWalletSidepanel({
   }
 
   function onAddAddress() {
-    addAddress(wallet, newAddressNickname, setSelectedWalletAddresses);
+    addAddress(wallet, newAddressNickname, setSelectedWalletAddresses, setSelectedWallet);
     setNewAddressNickname('');
   }
 

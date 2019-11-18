@@ -53,7 +53,8 @@ async function createWalletAndUpdateList(wallet, setFn) {
 /**
  * Function to replace an address used in multi address wallets
  * @param {string} address - the address update
- * @param {func} setFn - the redux action needed to update state
+ * @param {func} setFn - the redux action needed to update addresses in state
+ * @param {func} setFn2 - the redux action needed to update wallets in state
  */
 async function refreshAddress(wallet, address, setFn, setFn2) {
   await manager.walletManager.refreshAddress(wallet, address);
@@ -66,11 +67,13 @@ async function refreshAddress(wallet, address, setFn, setFn2) {
  * Function to create a new address within a wallet.
  * @param {wallet} obj - the wallet we need to add an address to
  * @param {nickname} string - the new address's nickname
- * @param {func} setFn - the redux action needed to update state
+ * @param {func} setFn - the redux action needed to update addresses in state
+ * @param {func} setFn2 - the redux action needed to update wallets in state
  */
-async function addAddress(wallet, nickname, setFn) {
+async function addAddress(wallet, nickname, setFn, setFn2) {
   await manager.walletManager.addAddress(wallet, nickname);
   await getAddressesByWalletId(setFn, wallet.id);
+  await getWalletById(wallet.id, setFn2);
 }
 
 /**
