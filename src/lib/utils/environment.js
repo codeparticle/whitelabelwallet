@@ -1,4 +1,5 @@
 import os from 'os';
+import { checkPropTypes } from 'prop-types';
 
 const platform = os.platform();
 let packageInfo;
@@ -20,9 +21,11 @@ if (platform === 'darwin' || platform === 'win32' || platform === 'linux' || pla
 const environment = {
   allowDebug: () => process.env.ALLOW_DEBUG === true || environment.isDev(),
   coin: process.env.COIN,
+  coinApiKey: process.env.COIN_API_KEY,
   contributors: packageInfo.contributors,
   current: process.env.NODE_ENV,
   encryptionString: () => environment.isMock() ? 'mock' : 'whitelabelwallet',
+  fiat: process.env.FIAT,
   homepage: packageInfo.homepage,
   isDev: () => environment.current === 'development',
   isElectron: () => process.env.TYPE === 'electron',

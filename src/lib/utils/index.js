@@ -21,6 +21,7 @@ import { mapInputErrors } from './map-input-errors';
 import { regexToString } from './regex-to-string';
 import { asErrorObject, safeString, unescape } from './strings';
 import { sortListByDate } from './sort-by-date-desc';
+import { getExchangeRate } from './get-exchange-rate';
 
 export {
   arrayToRegex,
@@ -33,6 +34,7 @@ export {
   floatToSatoshi,
   formatFloat,
   formatUrlParameters,
+  getExchangeRate,
   getLowercaseKeys,
   getQueryString,
   getSelectOptions,
