@@ -19,7 +19,7 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { PLACEHOLDER_USD_VALUE, VARIANTS } from 'lib/constants';
-import { getSelectOptions } from 'lib/utils';
+import { getSelectOptions, getExchangeRate } from 'lib/utils';
 import { Page, NoTransactions } from 'components';
 
 import {
@@ -102,6 +102,7 @@ function WalletOverviewView({
   const [selectedDate, setSelectedDate] = useState(getDateValue());
   const [isMultiAddress, setIsMultiAddress] = useState(false);
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
+  const [fiatBalance, setFiatBalance] = useState(0);
   const [addressData, setAddressData] = useState([]);
   const { name } = selectedWallet;
   const { walletId } = match.params;
@@ -223,6 +224,19 @@ function WalletOverviewView({
     return `${name} (${selectedWalletAddresses.length})`;
   }
 
+  const getFiatBalance = useCallback(async () => {
+    console.log('========\n', 'await getExchangeRate()', await getExchangeRate(), '\n========');
+    const { rate = 0 } = (await getExchangeRate()).data;
+    console.log('========\n', 'rate', rate, '\n========');
+    const balance = getBalance();
+    setFiatBalance((balance * rate).toFixed(2));
+
+  }, [selectedWallet]);
+
+  useEffect(() => {
+    getFiatBalance();
+  }, [getFiatBalance]);
+
 
   return (
     <Page
@@ -259,7 +273,7 @@ function WalletOverviewView({
           <div className="wallet-balance-data">
             <p className="current-balance-text">{formatMessage(CURRENT_BALANCE_LABEL)}</p>
             <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
-            <span className="fiat-value">{PLACEHOLDER_USD_VALUE}</span>
+            <span className="fiat-value">{fiatBalance}</span>
           </div>
           <Visible when={isMobileMultiAddress}>
             <div className="carousel-wrapper">
