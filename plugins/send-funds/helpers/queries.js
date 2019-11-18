@@ -32,8 +32,8 @@ async function getContacts() {
   return await manager.databaseManager.getContacts();
 }
 
-async function createTransaction({ fromAddress, toAddress, amount, memo }) {
-  return manager.transactionManager.createTransaction({ fromAddress, toAddress, amount, memo });
+async function createTransaction({ fromAddress, toAddress, amount, memo, fee }) {
+  return manager.transactionManager.createTransaction({ fromAddress, toAddress, amount, memo, fee });
 }
 
 /**

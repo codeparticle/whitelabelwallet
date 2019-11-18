@@ -19,6 +19,7 @@ import { preSelectFromAddress, setToAddress } from 'plugins/send-funds/rdx/actio
 import { getToAddress } from 'plugins/send-funds/rdx/selectors';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import './send-funds-mobile-form.scss';
+import { SendFundsMobileFee } from '../send-funds-mobile-fee/send-funds-mobile-fee';
 
 const { MY_WALLETS } = ROUTES;
 const { COMMON: { DESCRIPTION } } = TRANSLATION_KEYS;
@@ -29,10 +30,12 @@ const {
 const { SELECTING_ADDRESSES, SELECTING_CONTACTS } = constants;
 
 function SendFundsMobileFormView({
+  fee,
   formatMessage,
   history,
   match,
   memo,
+  setFee,
   setMemo,
   toAddress,
   updateHeaderProps,
@@ -110,6 +113,10 @@ function SendFundsMobileFormView({
         />
       </Visible>
       <Visible when={!formSelecting}>
+        <SendFundsMobileFee
+          fee={fee}
+          setFee={setFee}
+        />
         <TextArea
           className="send-funds-mobile-form__text-area"
           label={formatMessage(DESCRIPTION)}
