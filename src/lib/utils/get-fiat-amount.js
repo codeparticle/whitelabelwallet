@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { environment } from './environment';
 
-const { coinApiKey, coin, fiat } =  environment;
+const { coinApiKey, coin = 'btc', fiat = 'usd' } =  environment;
 const URL = `https://rest.coinapi.io/v1/exchangerate/${coin.toUpperCase()}/${fiat.toUpperCase()}`;
 const config = {
   headers: { 'X-CoinAPI-Key': coinApiKey },
