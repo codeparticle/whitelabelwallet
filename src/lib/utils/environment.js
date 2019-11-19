@@ -1,5 +1,4 @@
 import os from 'os';
-import { checkPropTypes } from 'prop-types';
 
 const platform = os.platform();
 let packageInfo;

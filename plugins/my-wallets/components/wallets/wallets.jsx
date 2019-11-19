@@ -8,7 +8,7 @@ import {
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { injectIntl, intlShape } from 'react-intl';
-import { asyncForEach, empty } from 'lib/utils';
+import { asyncForEach, empty, getFiatAmount } from 'lib/utils';
 import { setSelectedWallet, setSelectedWalletAddresses } from 'plugins/my-wallets/rdx/actions';
 import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
@@ -126,6 +126,11 @@ const WalletsView = ({
           return getBalance(walletData.id).then((balanceData) => {
             walletData.balance = balanceData;
             return walletData;
+          }).then((walletData) => {
+            return getFiatAmount(walletData.balance).then((fiatBalanceData) => {
+              walletData.fiatBalance = parseFloat(fiatBalanceData.amount);
+              return walletData;
+            });
           });
         });
       });
@@ -161,6 +166,7 @@ const WalletsView = ({
           <div key={wallet.id} className="wallets-rct-component__wallet-container">
             <Wallet
               {...commonProps}
+              currencyBalance={wallet.fiatBalance}
               coinData={wallet.chartData}
               coinBalance={wallet.balance}
               onDeposit={onDeposit}
