@@ -8,7 +8,6 @@ const config = {
   headers: { 'X-CoinAPI-Key': coinApiKey },
 };
 
-
 const getFiatAmount = async (amountToConvert = 0) => {
   const { rate = 0 } = (await axios.get(URL, config)).data;
   return {
