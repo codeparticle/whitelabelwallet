@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -8,6 +8,7 @@ import { Visible } from '@codeparticle/react-visible';
 import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.styleguide';
 import { cloud } from '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 import { VARIANTS } from 'lib/constants';
+import { getFiatAmount } from 'lib/utils';
 
 import {
   FromAddressList,
@@ -38,6 +39,7 @@ const SendFundsView = ({
   match,
   ...props
 }) => {
+  const [fiatConversionRate, setFiatConversionRate] = useState(0);
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
   const mobileBackground = themeName === THEME_KEYS.LIGHT
@@ -56,6 +58,13 @@ const SendFundsView = ({
     return headerProps;
   }
 
+  const getFiatConversionRate = useCallback(async () => {
+    setFiatConversionRate((await getFiatAmount()).rate);
+  }, [amount]);
+
+  useEffect(() => {
+    getFiatConversionRate();
+  }, [getFiatConversionRate]);
 
 
   return (
@@ -69,7 +78,7 @@ const SendFundsView = ({
     >
       <div className="send-funds-layout">
         <TransferAmount
-          conversionRate={3.14}
+          conversionRate={fiatConversionRate}
           formatMessage={formatMessage}
           isMobile={isMobile}
           amount={amount}
