@@ -141,10 +141,10 @@ export class DatabaseManager {
       /**
        * Insert into the sqlite DB one row of transaction data
        */
-      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee = 0, transaction_id, description, sender_address, receiver_address, status = 0, created_date, transaction_type, pending_balance }) => {
+      transaction: ({ id, sender_address_id, receiver_address_id, amount, fee = 0, transaction_id, description, sender_address, receiver_address, status = 0, created_date, transaction_type }) => {
         return this.query({
           statement: STMT.TRANSACTIONS.INSERT.NEW,
-          params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance],
+          params: [id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type],
           run,
         });
       },

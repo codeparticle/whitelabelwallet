@@ -261,6 +261,7 @@ function WalletOverviewView({
         </Visible>
         <div className="chart-wrapper">
           {selectedWalletTransactions && <WalletChart
+            balance={getBalance()}
             selectedWalletTransactions={selectedWalletTransactions}
             selectedWalletAddresses={selectedWalletAddresses}
             selectedWallet={selectedWallet}/>}

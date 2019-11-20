@@ -23,6 +23,7 @@ import { asErrorObject, safeString, unescape } from './strings';
 import { sortListByDate } from './sort-by-date-desc';
 import { getFiatAmount } from './get-fiat-amount';
 import { getCurrencyFormat } from './get-currency-format';
+import { getChartPoints } from './get-chart-points';
 
 export {
   arrayToRegex,
@@ -35,6 +36,7 @@ export {
   floatToSatoshi,
   formatFloat,
   formatUrlParameters,
+  getChartPoints,
   getCurrencyFormat,
   getFiatAmount,
   getLowercaseKeys,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Visible } from '@codeparticle/react-visible';
 import { Page, NoTransactions } from 'components';
-import { getSelectOptions } from 'lib/utils';
-import { PLACEHOLDER_USD_VALUE } from 'lib/constants';
+import { getSelectOptions, getFiatAmount, getCurrencyFormat } from 'lib/utils';
 import { fetchAddresses, fetchTransactions } from 'plugins/transaction-history/helpers';
 import {
   setAddresses,
@@ -22,6 +21,7 @@ import {
 } from 'plugins/transaction-history/components';
 import {
   getAddresses,
+  getFiat,
   getTransactions,
 } from 'plugins/transaction-history/rdx/selectors';
 import { COMMON } from 'translations/keys/common';
@@ -42,12 +42,14 @@ const TransactionHistoryView = ({
   intl: {
     formatMessage,
   },
+  selectedFiat,
   transactions,
   ...props
 }) => {
   const [selectedDate, setSelectedDate] = useState(getDateValue());
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [fiatBalance, setFiatBalance] = useState(0);
   const [selectedTransaction, setSelectedTransaction] = useState({});
   const [previousSelectedDate, setPreviousSelectedData] = useState(selectedDate);
   const { isMobile } = useMedia();
@@ -95,10 +97,20 @@ const TransactionHistoryView = ({
   }
 
   function getBalance() {
-    return transactions.reduce((total, currentTransaction) => {
-      return total + currentTransaction.pending_balance;
+    return addresses.reduce((total, currentAddress) => {
+      return total + currentAddress.balance;
     }, 0);
   }
+
+  const getFiatBalance = useCallback(async () => {
+    const balance = getBalance();
+    setFiatBalance((await getFiatAmount(balance)).amount);
+
+  }, [transactions]);
+
+  useEffect(() => {
+    getFiatBalance();
+  }, [getFiatBalance]);
 
   function toggleSidePanel (data) {
     data.event.stopPropagation();
@@ -164,10 +176,11 @@ const TransactionHistoryView = ({
           <Visible when={isMobile}>
             <div className="wallet-balance-data">
               <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
-              <span className="fiat-value">{PLACEHOLDER_USD_VALUE}</span>
+              <span className="fiat-value">{getCurrencyFormat(selectedFiat, fiatBalance).format}</span>
             </div>
           </Visible>
           <TransactionChart
+            balance={getBalance()}
             transactions={transactions}
           />
         </div>
@@ -196,6 +209,7 @@ TransactionHistoryView.propTypes = {
   addresses: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   setAddresses: PropTypes.func.isRequired,
+  selectedFiat: PropTypes.string.isRequired,
   setTransactions: PropTypes.func.isRequired,
   setTransactionsSearchResults: PropTypes.func.isRequired,
   transactions: PropTypes.array.isRequired,
@@ -203,10 +217,12 @@ TransactionHistoryView.propTypes = {
 
 const mapStateToProps = (state) => {
   const addresses = getAddresses(state);
+  const selectedFiat = getFiat(state);
   const transactions = getTransactions(state);
 
   return {
     addresses,
+    selectedFiat,
     transactions,
   };
 };
