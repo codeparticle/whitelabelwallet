@@ -12,13 +12,12 @@ export const TRANSACTIONS_STATEMENTS = {
     status tinyint not null,
     created_date datetime,
     transaction_type varchar(100),
-    pending_balance decimal(16,8),
     foreign key (sender_address_id) references Addresses(id) on delete set null,
     foreign key (receiver_address_id) references Addresses(id) on delete set null
   );`,
   INSERT: {
-    NEW: `insert into Transactions(id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type, pending_balance)
-    values(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+    NEW: `insert into Transactions(id, sender_address_id, receiver_address_id, amount, fee, transaction_id, description, sender_address, receiver_address, status, created_date, transaction_type)
+    values(?,?,?,?,?,?,?,?,?,?,?,?)`,
   },
   SELECT: {
     ALL: `select * from Transactions order by created_date desc`,
