@@ -32,6 +32,9 @@ const CURRENCY = {
   ZAR: 'ZAR',
 };
 
+const API_KEY_NOT_SET = 'Update this';
+
 export {
+  API_KEY_NOT_SET,
   CURRENCY,
 };
