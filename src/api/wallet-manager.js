@@ -4,6 +4,7 @@
  */
 import { BlockchainManager } from 'coins';
 import { asyncForEach, satoshiToFloat } from 'lib/utils';
+import { BIP32 } from 'coins/bitcoin/constants';
 
 export class WalletManager {
   constructor(manager) {
@@ -17,7 +18,8 @@ export class WalletManager {
    */
   async createWallet(wallet) {
     await this.manager.databaseManager.insert(false).wallet(wallet);
-    const { address, privateKey: private_key } = this.blockchainManager.generateAddressFromSeed(wallet.seed);
+    const { address, privateKey: private_key, index } = this.blockchainManager.generateAddressFromSeed(wallet.seed);
+    const address_index = index;
     const insertedWallet = await this.manager.databaseManager.getLastWallet();
 
     await this.manager.databaseManager.insert().address({
@@ -25,7 +27,7 @@ export class WalletManager {
       private_key,
       wallet_id: insertedWallet.id,
     });
-
+    await this.manager.databaseManager.updateWalletById(insertedWallet.id, { address_index });
     await this.manager.saveDatabase();
   }
 
@@ -98,13 +100,16 @@ export class WalletManager {
    * @param {string} address's nickname.
    */
   async addAddress(wallet, nickname) {
-    const { address, privateKey: private_key } = this.blockchainManager.generateAddressFromSeed(wallet.seed);
+    const currentAddressIndex = wallet.address_index === null ? 1 : wallet.address_index;
+    const { address, privateKey: private_key, index } = this.blockchainManager.generateAddressFromSeed(wallet.seed, 0,  BIP32.CHANGE_CHAIN.EXTERNAL, currentAddressIndex);
+    const address_index = index;
     await this.manager.databaseManager.insert().address({
       address,
       private_key,
       name: nickname,
       wallet_id: wallet.id,
     });
+    await this.manager.databaseManager.updateWalletById(wallet.id, { address_index });
     await this.manager.saveDatabase();
   }
 
