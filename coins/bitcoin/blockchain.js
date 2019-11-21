@@ -66,20 +66,40 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
 
   /**
    * This method creates a new address and transfers the balance left from the old address to the new one.
-   * @param {string} addressParam.
+   * @param {object} addressParam is required.
+   * @param {object} wallet is required.
    * @return {obj} returns an Address.
    */
   async refreshAddress(wallet, addressParam) {
-    /*eslint-disable */
     const { balance } = await this.fetchAddressDetails(addressParam.address);
-    /* eslint-enable */
-    const addressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, wallet.address_index);
-    // Todo: create transaction using balance, newAddress and addressParam.address when WLW-161 is merged in.
+    const { address, private_key: privateKey } = addressParam;
+    const { address_index: index } = wallet;
+
+    if (balance > 0 && balance <= DEFAULT_FEE) {
+      return {
+        address,
+        privateKey,
+        index,
+      };
+    }
+
+    const newAddressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, index);
+
+    if (balance !== 0) {
+      await this.sendFromOneAddress({
+        fromAddress: addressParam.address,
+        privateKey,
+        paymentData: [{
+          address: newAddressData.address,
+          amount: satoshiToFloat(balance - DEFAULT_FEE),
+        }],
+      });
+    }
 
     return {
-      address: addressData.address,
-      index: addressData.index,
-      privateKey: addressData.privateKey,
+      address: newAddressData.address,
+      index: newAddressData.index,
+      privateKey: newAddressData.privateKey,
     };
   };
 

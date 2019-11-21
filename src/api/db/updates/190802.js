@@ -3,7 +3,7 @@
  * @author Gabriel Womble
  */
 
-const update = `
+const updateString = `
   begin transaction;
   create table Test (
     id integer primary key
@@ -11,5 +11,10 @@ const update = `
   drop table Test;
   commit;
 `;
+
+const update = {
+  try: updateString,
+  catch: '',
+};
 
 export default update;
