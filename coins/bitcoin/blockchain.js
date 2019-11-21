@@ -75,7 +75,7 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
     const { address, private_key: privateKey } = addressParam;
     const { address_index: index } = wallet;
 
-    if (balance <= DEFAULT_FEE) {
+    if (balance > 0 && balance <= DEFAULT_FEE) {
       return {
         address,
         privateKey,
@@ -85,14 +85,16 @@ class BitcoinBlockchainManager extends ApiBlockchainManager {
 
     const newAddressData = this.generateAddressFromSeed(wallet.seed, BIP32.ACCOUNT_BASE, BIP32.CHANGE_CHAIN.EXTERNAL, index);
 
-    await this.sendFromOneAddress({
-      fromAddress: addressParam.address,
-      privateKey,
-      paymentData: [{
-        address: newAddressData.address,
-        amount: satoshiToFloat(balance - DEFAULT_FEE),
-      }],
-    });
+    if (balance !== 0) {
+      await this.sendFromOneAddress({
+        fromAddress: addressParam.address,
+        privateKey,
+        paymentData: [{
+          address: newAddressData.address,
+          amount: satoshiToFloat(balance - DEFAULT_FEE),
+        }],
+      });
+    }
 
     return {
       address: newAddressData.address,
