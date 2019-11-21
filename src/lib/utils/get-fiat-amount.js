@@ -2,14 +2,15 @@
 import axios from 'axios';
 import { environment } from './environment';
 
-const { coinApiKey, coin = 'btc', fiat = 'usd' } =  environment;
+const { coinApiKey, coin = 'btc' } =  environment;
 
-const URL = `https://rest.coinapi.io/v1/exchangerate/${coin.toUpperCase()}/${fiat.toUpperCase()}`;
 const config = {
   headers: { 'X-CoinAPI-Key': coinApiKey },
 };
 
-const getFiatAmount = async (amountToConvert = 0) => {
+const getFiatAmount = async (amountToConvert = 0, fiat = 'usd') => {
+  const URL = `https://rest.coinapi.io/v1/exchangerate/${coin.toUpperCase()}/${fiat.toUpperCase()}`;
+
   if (coinApiKey === null) {
     return {
       amount: 0,

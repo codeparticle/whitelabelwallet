@@ -8,9 +8,9 @@ import {
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { injectIntl, intlShape } from 'react-intl';
-import { asyncForEach, empty, getFiatAmount } from 'lib/utils';
+import { asyncForEach, empty, getFiatAmount, getCurrencyFormat } from 'lib/utils';
 import { setSelectedWallet, setSelectedWalletAddresses } from 'plugins/my-wallets/rdx/actions';
-import { getSelectedWallet } from 'plugins/my-wallets/rdx/selectors';
+import { getSelectedWallet, getFiat } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
 import { MY_WALLETS } from 'plugins/my-wallets/translations/keys';
 import { ROUTES } from 'plugins/my-wallets/helpers';
@@ -44,6 +44,7 @@ const WalletsView = ({
     formatMessage,
   },
   wallets,
+  selectedFiat,
   selectedWallet,
   ...props
 }) => {
@@ -127,7 +128,7 @@ const WalletsView = ({
             walletData.balance = balanceData;
             return walletData;
           }).then((walletData) => {
-            return getFiatAmount(walletData.balance).then((fiatBalanceData) => {
+            return getFiatAmount(walletData.balance, selectedFiat).then((fiatBalanceData) => {
               walletData.fiatBalance = parseFloat(fiatBalanceData.amount);
               return walletData;
             });
@@ -169,6 +170,7 @@ const WalletsView = ({
               currencyBalance={wallet.fiatBalance}
               coinData={wallet.chartData}
               coinBalance={wallet.balance}
+              currencySymbol={getCurrencyFormat(selectedFiat, wallet.fiatBalance).symbol}
               onDeposit={onDeposit}
               onClick={onClick}
               onEdit={onEdit}
@@ -194,6 +196,8 @@ WalletsView.propTypes = {
   handleWalletClick: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  selectedFiat: PropTypes.string.isRequired,
+  selectedWallet: PropTypes.object.isRequired,
   wallets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
@@ -207,9 +211,11 @@ WalletsView.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
+  const selectedFiat = getFiat(state);
   const selectedWallet = getSelectedWallet(state);
 
   return {
+    selectedFiat,
     selectedWallet,
   };
 };

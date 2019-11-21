@@ -19,7 +19,7 @@ import {
   useMedia,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { VARIANTS } from 'lib/constants';
-import { getSelectOptions, getFiatAmount } from 'lib/utils';
+import { getSelectOptions, getFiatAmount, getCurrencyFormat } from 'lib/utils';
 import { Page, NoTransactions } from 'components';
 
 import {
@@ -37,6 +37,7 @@ import {
   WalletNavBar,
 }  from 'plugins/my-wallets/components';
 import {
+  getFiat,
   getSelectedWallet,
   getSelectedWalletAddresses,
   getSelectedWalletTransactions,
@@ -93,6 +94,7 @@ function WalletOverviewView({
   },
   match,
   selectedAddress,
+  selectedFiat,
   selectedWallet,
   selectedWalletAddresses,
   selectedWalletTransactions,
@@ -270,7 +272,7 @@ function WalletOverviewView({
           <div className="wallet-balance-data">
             <p className="current-balance-text">{formatMessage(CURRENT_BALANCE_LABEL)}</p>
             <p className="balance"><SvgCoinSymbol/>{`${getBalance()}`}</p>
-            <span className="fiat-value">{`$${fiatBalance}`}</span>
+            <span className="fiat-value">{`${getCurrencyFormat(selectedFiat, fiatBalance).format}`}</span>
           </div>
           <Visible when={isMobileMultiAddress}>
             <div className="carousel-wrapper">
@@ -330,12 +332,14 @@ WalletOverviewView.defaultProps = {
 
 const mapStateToProps = (state) => {
   const selectedAddress = getSelectedAddress(state);
+  const selectedFiat = getFiat(state);
   const selectedWallet = getSelectedWallet(state);
   const selectedWalletAddresses = getSelectedWalletAddresses(state);
   const selectedWalletTransactions = getSelectedWalletTransactions(state);
 
   return {
     selectedAddress,
+    selectedFiat,
     selectedWallet,
     selectedWalletAddresses,
     selectedWalletTransactions,

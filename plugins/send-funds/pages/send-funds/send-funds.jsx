@@ -21,6 +21,7 @@ import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import { resetFields, setAmount, setMemo } from 'plugins/send-funds/rdx/actions';
 import {
   getAmount,
+  getFiat,
   getFromAddress,
   getMemo,
   getToAddress,
@@ -32,6 +33,7 @@ const { SECONDARY } = VARIANTS;
 
 const SendFundsView = ({
   amount,
+  fiat,
   intl: { formatMessage },
   memo,
   toAddress,
@@ -59,7 +61,7 @@ const SendFundsView = ({
   }
 
   const getFiatConversionRate = useCallback(async () => {
-    setFiatConversionRate((await getFiatAmount()).rate);
+    setFiatConversionRate((await getFiatAmount(0, fiat)).rate);
   }, [amount]);
 
   useEffect(() => {
@@ -114,6 +116,7 @@ const SendFundsView = ({
 };
 
 SendFundsView.propTypes = {
+  fiat: PropTypes.string.isRequired,
   fromAddress: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
@@ -130,12 +133,14 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
   const amount = getAmount(state);
+  const fiat = getFiat(state);
   const fromAddress = getFromAddress(state);
   const memo = getMemo(state);
   const toAddress = getToAddress(state);
 
   return {
     amount,
+    fiat,
     fromAddress,
     memo,
     toAddress,
