@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -8,6 +8,7 @@ import { Visible } from '@codeparticle/react-visible';
 import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.styleguide';
 import { cloud } from '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 import { VARIANTS } from 'lib/constants';
+import { getFiatAmount } from 'lib/utils';
 
 import {
   FromAddressList,
@@ -20,6 +21,7 @@ import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 import { resetFields, setAmount, setMemo } from 'plugins/send-funds/rdx/actions';
 import {
   getAmount,
+  getFiat,
   getFromAddress,
   getMemo,
   getToAddress,
@@ -31,6 +33,7 @@ const { SECONDARY } = VARIANTS;
 
 const SendFundsView = ({
   amount,
+  fiat,
   intl: { formatMessage },
   memo,
   toAddress,
@@ -38,6 +41,7 @@ const SendFundsView = ({
   match,
   ...props
 }) => {
+  const [fiatConversionRate, setFiatConversionRate] = useState(0);
   const themeName = useTheme('name');
   const { isMobile } = useMedia();
   const mobileBackground = themeName === THEME_KEYS.LIGHT
@@ -56,6 +60,13 @@ const SendFundsView = ({
     return headerProps;
   }
 
+  const getFiatConversionRate = useCallback(async () => {
+    setFiatConversionRate((await getFiatAmount(0, fiat)).rate);
+  }, [amount]);
+
+  useEffect(() => {
+    getFiatConversionRate();
+  }, [getFiatConversionRate]);
 
 
   return (
@@ -69,7 +80,7 @@ const SendFundsView = ({
     >
       <div className="send-funds-layout">
         <TransferAmount
-          conversionRate={3.14}
+          conversionRate={fiatConversionRate}
           formatMessage={formatMessage}
           isMobile={isMobile}
           amount={amount}
@@ -105,6 +116,7 @@ const SendFundsView = ({
 };
 
 SendFundsView.propTypes = {
+  fiat: PropTypes.string.isRequired,
   fromAddress: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   match: PropTypes.object.isRequired,
@@ -121,12 +133,14 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
   const amount = getAmount(state);
+  const fiat = getFiat(state);
   const fromAddress = getFromAddress(state);
   const memo = getMemo(state);
   const toAddress = getToAddress(state);
 
   return {
     amount,
+    fiat,
     fromAddress,
     memo,
     toAddress,
