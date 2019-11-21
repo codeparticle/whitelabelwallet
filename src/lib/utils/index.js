@@ -22,6 +22,7 @@ import { regexToString } from './regex-to-string';
 import { asErrorObject, safeString, unescape } from './strings';
 import { sortListByDate } from './sort-by-date-desc';
 import { getFiatAmount } from './get-fiat-amount';
+import { getCurrencyFormat } from './get-currency-format';
 
 export {
   arrayToRegex,
@@ -34,6 +35,7 @@ export {
   floatToSatoshi,
   formatFloat,
   formatUrlParameters,
+  getCurrencyFormat,
   getFiatAmount,
   getLowercaseKeys,
   getQueryString,
