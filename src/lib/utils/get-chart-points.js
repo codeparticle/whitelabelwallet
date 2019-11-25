@@ -13,11 +13,11 @@ function getChartPoints(balance, transactions, transactionType, xAxisOffset = tr
     const currentTransaction = transactions[i];
 
     if (currentTransaction.transaction_type === transactionType) {
-      transactionPoints.push({ x: xAxis, y: balanceAtTheTime - currentTransaction.amount });
-      balanceAtTheTime = balanceAtTheTime - currentTransaction.amount;
+      balanceAtTheTime -= currentTransaction.amount;
+      transactionPoints.push({ x: xAxis, y: balanceAtTheTime });
     } else {
-      transactionPoints.push({ x: xAxis, y: balanceAtTheTime + currentTransaction.amount });
-      balanceAtTheTime = balanceAtTheTime + currentTransaction.amount;
+      balanceAtTheTime += currentTransaction.amount;
+      transactionPoints.push({ x: xAxis, y: balanceAtTheTime });
     }
   }
 
