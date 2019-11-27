@@ -40,7 +40,8 @@ function LogoutButtonView({ intl: { formatMessage }, logout }) {
 }
 
 LogoutButtonView.propTypes = {
-  formatMessage: PropTypes.func.isRequired,
+  intl: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 const actionsMapper = getRdxActionMapper([

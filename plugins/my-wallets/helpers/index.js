@@ -4,6 +4,7 @@ export {
   deleteAddress,
   createWalletAndUpdateList,
   fetchWallets,
+  getWalletAddressesById,
   getWalletById,
   getAddressesByWalletId,
   getTransactionsPerAddress,

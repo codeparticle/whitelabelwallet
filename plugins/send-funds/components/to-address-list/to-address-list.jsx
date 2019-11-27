@@ -6,11 +6,13 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { List } from '@codeparticle/whitelabelwallet.styleguide';
+import { useUnmount } from 'lib/hooks';
 
 import { TruncatedText, SendFundsSearch } from 'plugins/send-funds/components';
 import { getContacts, getContactsByValue, resetStateHandler } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
-import { setToAddress } from 'plugins/send-funds/rdx/actions';
+import { preSelectToAddress, setToAddress } from 'plugins/send-funds/rdx/actions';
+import { getPreSelectedToAddress } from 'plugins/send-funds/rdx/selectors';
 
 const {
   RAW_ADDRESS,
@@ -36,7 +38,7 @@ function getColumnDefs(formatMessage) {
   ];
 }
 
-function ToAddressListView({ formatMessage, ...props }) {
+function ToAddressListView({ formatMessage, preSelectedToAddress, ...props }) {
   const [rowData, setRowData] = useState([]);
 
   useEffect(() => {
@@ -44,6 +46,8 @@ function ToAddressListView({ formatMessage, ...props }) {
       setRowData(data);
     });
   }, [setRowData]);
+
+  useUnmount(props.preSelectToAddress);
 
   function onRowClicked(data) {
     const { address } = data;
@@ -69,6 +73,7 @@ function ToAddressListView({ formatMessage, ...props }) {
             columnDefs={getColumnDefs(formatMessage)}
             id="to-address-list"
             matchProperty="id"
+            preSelect={preSelectedToAddress}
             rowData={rowData}
             onDeselect={resetStateHandler(props.setToAddress)}
             onRowClicked={onRowClicked}
@@ -90,11 +95,26 @@ function ToAddressListView({ formatMessage, ...props }) {
 
 ToAddressListView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  preSelectToAddress: PropTypes.func.isRequired,
+  preSelectedToAddress: PropTypes.object,
   setToAddress: PropTypes.func.isRequired,
 };
 
+ToAddressListView.defaultProps = {
+  preSelectedToAddress: null,
+};
+
+const mapStateToProps = state => {
+  const preSelectedToAddress = getPreSelectedToAddress(state);
+
+  return {
+    preSelectedToAddress,
+  };
+};
+
 const mapDispatchToProps = {
+  preSelectToAddress,
   setToAddress,
 };
 
-export const ToAddressList = connect(null, mapDispatchToProps)(ToAddressListView);
+export const ToAddressList = connect(mapStateToProps, mapDispatchToProps)(ToAddressListView);
