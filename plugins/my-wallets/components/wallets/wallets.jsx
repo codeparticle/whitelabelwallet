@@ -8,7 +8,8 @@ import {
   svgs,
 } from '@codeparticle/whitelabelwallet.styleguide';
 import { injectIntl, intlShape } from 'react-intl';
-import { asyncForEach, empty, getFiatAmount, getCurrencyFormat } from 'lib/utils';
+import { asyncForEach, empty, getFiatAmount, getCurrencyFormat, getChartPoints } from 'lib/utils';
+import { GENERAL } from 'lib/constants';
 import { setSelectedWallet, setSelectedWalletAddresses } from 'plugins/my-wallets/rdx/actions';
 import { getSelectedWallet, getFiat } from 'plugins/my-wallets/rdx/selectors';
 import { ManageWalletSidepanel }  from 'plugins/my-wallets/components';
@@ -24,6 +25,7 @@ import './wallets.scss';
 
 const { PLUGIN, OVERVIEW } = ROUTES;
 const { SvgCoinSymbol } = svgs.icons;
+const { TRANSACTION_TYPES: { RECEIVE } } = GENERAL;
 
 /**
   @typedef WalletsProps
@@ -64,7 +66,7 @@ const WalletsView = ({
   const onWithdraw = empty;
 
   const buildWalletChart = useCallback(
-    async (id) => {
+    async (id, balance) => {
       const walletAddresses = await getAddressesByWalletId(null, id);
 
       const date2MonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
@@ -82,18 +84,24 @@ const WalletsView = ({
 
       // Current balance is equal to the balance of the latest transaction.
       const currentBalance = distinctTransactions.length > 0
-        ? distinctTransactions[distinctTransactions.length - 1].pending_balance
+        ? balance
         : 0;
 
-      // Create array of point coordinates using the distinctTransactions
-      const chartData = distinctTransactions.map((transaction, index) => {
-        return { x: index + 1, y: transaction.pending_balance };
-      });
+      let chartData = [];
+
+      // Create array of point coordinates using the distinctTransactions starting from
+      // the current balance and adjusting depending on transaction_type and amount
+      if (distinctTransactions.length > 0) {
+        chartData = getChartPoints(currentBalance, distinctTransactions, RECEIVE);
+      }
 
       // Check if we have enough transactions to build the chart, if so, set the chartData in state.
       if (chartData.length >= MINIMUM_NUMBER_CHART_POINTS) {
-        return chartData;
+        return chartData.reverse();
       }
+
+      // set the data to chronological order before moving on
+      chartData.reverse();
 
       if (chartData.length < MINIMUM_NUMBER_CHART_POINTS) {
         // If not, calculate the number of remaining points to plot on the chart.
@@ -101,7 +109,7 @@ const WalletsView = ({
 
         // Since there are not enough transactions over the last two months then we create point coordinates using the balance of the most recent transaction available.
         for (let counter = MINIMUM_NUMBER_CHART_POINTS - numberOfRemainingChartPoints; counter < MINIMUM_NUMBER_CHART_POINTS; counter++) {
-          chartData.push({ x: counter, y: currentBalance });
+          chartData.push({ x: counter + 1, y: currentBalance });
         }
       };
 
@@ -120,12 +128,12 @@ const WalletsView = ({
   useEffect(() => {
     if (wallets.length > 0) {
       const WalletDataPromises = wallets.map((wallet) => {
-        return buildWalletChart(wallet.id).then((chartData) => {
-          wallet.chartData = chartData;
+        return getBalance(wallet.id).then((balanceData) => {
+          wallet.balance = balanceData;
           return wallet;
         }).then((walletData) => {
-          return getBalance(walletData.id).then((balanceData) => {
-            walletData.balance = balanceData;
+          return buildWalletChart(walletData.id, walletData.balance).then((chartData) => {
+            walletData.chartData = chartData;
             return walletData;
           }).then((walletData) => {
             return getFiatAmount(walletData.balance, selectedFiat).then((fiatBalanceData) => {

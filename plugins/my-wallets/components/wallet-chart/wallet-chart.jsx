@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { asyncForEach } from 'lib/utils';
+import { asyncForEach, getChartPoints } from 'lib/utils';
+import { GENERAL } from 'lib/constants';
 import { uniqBy } from 'lodash';
 import {
   getTransactionsForChart,
@@ -11,12 +12,14 @@ import {
   useTheme,
 } from '@codeparticle/whitelabelwallet.styleguide';
 
+const { TRANSACTION_TYPES: { RECEIVE } } = GENERAL;
 
 function WalletChart ({
+  balance,
+  minimumNumberOfChartPoints,
   selectedWalletAddresses,
   selectedWalletTransactions,
   selectedWallet,
-  minimumNumberOfChartPoints,
 }) {
 
   const [chartDataPoints, setChartDataPoints] = useState([]);
@@ -49,26 +52,32 @@ function WalletChart ({
 
     // Current balance is equal to the balance of the latest transaction.
     const currentBalance = distinctTransactions.length > 0
-      ? distinctTransactions[distinctTransactions.length - 1].pending_balance
+      ? balance
       : 0;
 
-    // Create array of point coordinates using the distinctTransactions
-    const chartData = distinctTransactions.map((transaction, index) => {
-      return { x: index + 1, y: transaction.pending_balance };
-    });
+    let chartData = [];
+
+    // Create array of point coordinates using the distinctTransactions starting from
+    // the current balance and adjusting depending on transaction_type and amount
+    if (distinctTransactions.length > 0) {
+      chartData = getChartPoints(currentBalance, distinctTransactions, RECEIVE);
+    }
 
     // Check if we have enough transactions to build the chart, if so, set the chartData in state.
     if (chartData.length >= minimumNumberOfChartPoints) {
-      setChartDataPoints(chartData);
+      setChartDataPoints(chartData.reverse());
       return;
     }
+
+    // set the data to chronological order before moving on
+    chartData.reverse();
 
     // If not, calculate the number of remaining points to plot on the chart.
     const numberOfRemainingChartPoints = minimumNumberOfChartPoints - distinctTransactions.length;
 
     // Since there are not enough transactions over the last three months then we create point coordinates using the balance of the most recent transaction available.
     for (let counter = minimumNumberOfChartPoints - numberOfRemainingChartPoints; counter < minimumNumberOfChartPoints; counter++) {
-      chartData.push({ x: counter, y: currentBalance });
+      chartData.push({ x: counter + 1, y: currentBalance });
     }
 
     setChartDataPoints(chartData);
@@ -83,6 +92,7 @@ function WalletChart ({
 }
 
 WalletChart.prototypes = {
+  balance: PropTypes.number,
   colors: PropTypes.array,
   minimumNumberOfChartPoints: PropTypes.number,
   selectedWalletAddresses: PropTypes.array.isRequired,
@@ -91,6 +101,7 @@ WalletChart.prototypes = {
 };
 
 WalletChart.defaultProps = {
+  balance: 0,
   minimumNumberOfChartPoints: 6,
 };
 
