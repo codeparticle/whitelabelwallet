@@ -4,8 +4,13 @@ import {
   AreaChart,
   useTheme,
 } from '@codeparticle/whitelabelwallet.styleguide';
+import { getChartPoints } from 'lib/utils';
+import { GENERAL } from 'lib/constants';
+
+const { TRANSACTION_TYPES: { RECEIVE } } = GENERAL;
 
 function TransactionChart ({
+  balance,
   transactions,
   minimumNumberOfChartPoints,
 }) {
@@ -22,30 +27,37 @@ function TransactionChart ({
 
       // Current balance is equal to the balance of the latest transaction.
       const currentBalance = chronologicalTransactions.length > 0
-        ? chronologicalTransactions[chronologicalTransactions.length - 1].pending_balance
+        ? balance
         : 0;
 
-      // Create array of point coordinates using the chronologicalTransactions
-      const chartData = chronologicalTransactions.map((transaction, index) => {
-        return { x: index + 1, y: transaction.pending_balance };
-      });
+      // Create array of point coordinates using the chronologicalTransactions starting from
+      // the current balance and adjusting depending on transaction_type and amount
+      let chartData = [];
+
+      if (chronologicalTransactions.length > 0) {
+        chartData = getChartPoints(currentBalance, chronologicalTransactions, RECEIVE, false);
+        chartData.push({ x: chronologicalTransactions.length, y: balance });
+      }
 
       // Check if we have enough transactions to build the chart, if so, set the chartData in state.
       if (chartData.length >= minimumNumberOfChartPoints) {
-        setChartDataPoints(chartData);
+        setChartDataPoints(chartData.reverse());
         return;
       }
+
+      // set the data to chronological order before moving on
+      chartData.reverse();
 
       // If not, calculate the number of remaining points to plot on the chart.
       const numberOfRemainingChartPoints = minimumNumberOfChartPoints - chronologicalTransactions.length;
 
       // Since there are not enough transactions over the last three months then we create point coordinates using the balance of the most recent transaction available.
       for (let counter = minimumNumberOfChartPoints - numberOfRemainingChartPoints; counter < minimumNumberOfChartPoints; counter++) {
-        chartData.push({ x: counter, y: currentBalance });
+        chartData.push({ x: counter + 1, y: currentBalance });
       }
 
       setChartDataPoints(chartData);
-    }, [transactions],
+    }, [balance, transactions],
   );
 
   useEffect(() => {

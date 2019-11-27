@@ -14,15 +14,6 @@ export class TransactionManager {
     this.blockchainManager = BlockchainManager;
   }
 
-  async getPendingBalance({ amount, address, type }) {
-    const currentBalance = await this.manager.databaseManager.getBalanceByAddress(address);
-    const pendingBalance = type === RECEIVE
-      ? parseFloat(currentBalance) + parseFloat(amount)
-      : parseFloat(currentBalance) - parseFloat(amount);
-
-    return pendingBalance.toFixed(4);
-  }
-
   /**
    * Function that updates or inserts incoming transactions detected
    * by the polling services
@@ -33,29 +24,21 @@ export class TransactionManager {
     const { address, id } = addressObj;
 
     transactions.forEach(async (transaction) => {
-      const { amount, sender_address, receiver_address } = transaction;
+      const { sender_address, receiver_address } = transaction;
 
       // Ignore transaction change
       if (sender_address === receiver_address) {
         return;
       }
 
-      const convertedAmount = Math.abs(amount);
       const transaction_type = transaction.sender_address === address
         ? SEND
         : RECEIVE;
-
-      const pending_balance = await this.getPendingBalance({
-        amount: convertedAmount,
-        address: address,
-        type: transaction_type,
-      });
 
       this.manager.databaseManager.updateOrInsertTransactionByTxId({
         ...transaction,
         receiver_address_id: id,
         transaction_type,
-        pending_balance,
       });
     });
   }
@@ -73,13 +56,10 @@ export class TransactionManager {
       receiver_address_id,
     } = await this.manager.databaseManager.getTxAddressIds(sender_address, receiver_address);
 
-    const pending_balance = await this.getPendingBalance({ amount, address: sender_address, type: transaction_type });
-
     const txParams = {
       amount,
       description,
       created_date: getTimestamp(),
-      pending_balance,
       privateKey,
       receiver_address_id,
       receiver_address,
