@@ -6,7 +6,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { QRCode } from '@codeparticle/whitelabelwallet.styleguide';
+import { useUnmount } from 'lib/hooks';
 
+import { setAddress } from 'plugins/receive-funds/rdx/actions';
 import { getAddressName } from 'plugins/receive-funds/helpers';
 import { getAddress, getAmount } from 'plugins/receive-funds/rdx/selectors';
 import { RECEIVE_FUNDS } from 'plugins/receive-funds/translations/keys';
@@ -46,6 +48,7 @@ function ReceiveFundsQRCodeView({
   address,
   formatMessage,
   isMobile,
+  ...props
 }) {
   const [qrString, setQrString] = useState(JSON.stringify({ amount, address }));
   const [addressFields, setAddressFields] = useState('');
@@ -57,6 +60,8 @@ function ReceiveFundsQRCodeView({
   useEffect(() => {
     getAddressName(setAddressFields, address);
   }, [address]);
+
+  useUnmount(() => props.setAddress(''));
 
   return (
     <QRCode
@@ -74,6 +79,7 @@ ReceiveFundsQRCodeView.propTypes = {
   amount: PropTypes.string,
   address: PropTypes.string,
   formatMessage: PropTypes.func.isRequired,
+  setAddress: PropTypes.func.isRequired,
 };
 
 ReceiveFundsQRCodeView.defaultProps = {
@@ -91,6 +97,10 @@ const mapStateToProps = state => {
   };
 };
 
-const ReceiveFundsQRCode = connect(mapStateToProps)(ReceiveFundsQRCodeView);
+const mapDispatchToProps = {
+  setAddress,
+};
+
+const ReceiveFundsQRCode = connect(mapStateToProps, mapDispatchToProps)(ReceiveFundsQRCodeView);
 
 export { ReceiveFundsQRCode };

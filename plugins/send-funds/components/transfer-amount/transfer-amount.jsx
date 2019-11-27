@@ -8,7 +8,9 @@ import { CurrencyAmount, TransferAmount as TransferAmountComponent } from '@code
 
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
 const {
+  FEE_MESSAGE,
   MEMO,
+  TRANSACTION_FEE,
   TRANSFER_AMOUNT,
 } = SEND_FUNDS;
 
@@ -18,15 +20,19 @@ export function TransferAmount({
   amount,
   coinDecimalLimit,
   conversionRate,
+  fee,
   formatMessage,
   isMobile,
   memo,
   setAmount,
+  setFee,
   setMemo,
   tickerSymbol,
 }) {
   const Component = getComponent(isMobile);
   const translations = {
+    fee: formatMessage(TRANSACTION_FEE),
+    feeMessage: formatMessage(FEE_MESSAGE),
     header: formatMessage(TRANSFER_AMOUNT),
     memo: formatMessage(MEMO),
   };
@@ -39,9 +45,11 @@ export function TransferAmount({
         coinDecimalLimit={coinDecimalLimit}
         conversionRate={conversionRate}
         currencyValue={amount}
+        feeValue={fee}
         memoValue={memo}
-        handleMemoChange={onValueChange(setMemo)}
         handleCurrencyChange={onValueChange(setAmount)}
+        handleFeeChange={onValueChange(setFee)}
+        handleMemoChange={onValueChange(setMemo)}
         tickerSymbol={tickerSymbol}
         translations={translations}
       />
@@ -53,10 +61,12 @@ TransferAmount.propTypes = {
   amount: PropTypes.string.isRequired,
   coinDecimalLimit: PropTypes.number,
   conversionRate: PropTypes.number.isRequired,
+  fee: PropTypes.string.isRequired,
   formatMessage: PropTypes.func.isRequired,
   isMobile: PropTypes.bool.isRequired,
   memo: PropTypes.string.isRequired,
   setAmount: PropTypes.func.isRequired,
+  setFee: PropTypes.func.isRequired,
   setMemo: PropTypes.func.isRequired,
   tickerSymbol: PropTypes.string,
 };

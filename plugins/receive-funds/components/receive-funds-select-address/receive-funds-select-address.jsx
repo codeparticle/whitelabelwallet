@@ -9,11 +9,13 @@ import { empty } from 'lib/utils';
 
 import { SelectAddresses } from 'plugins/send-funds/components';
 
-import { setAddress } from 'plugins/receive-funds/rdx/actions';
+import { preSelectReceiver, setAddress } from 'plugins/receive-funds/rdx/actions';
+import { getPreSelectedReceiver } from 'plugins/receive-funds/rdx/selectors';
 import './receive-funds-select-address.scss';
 
 function ReceiveFundsSelectAddressView({
   formatMessage,
+  preSelectedReceiver,
   setIsFormSelecting,
   ...props
 }) {
@@ -26,6 +28,8 @@ function ReceiveFundsSelectAddressView({
       <SelectAddresses
         formatMessage={formatMessage}
         hideLabel
+        preSelect={preSelectedReceiver}
+        onUnmount={props.preSelectReceiver}
         setFormSelecting={setFormSelecting}
         setToState={props.setAddress}
         setIsSelecting={empty}
@@ -36,14 +40,29 @@ function ReceiveFundsSelectAddressView({
 
 ReceiveFundsSelectAddressView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  preSelectedReceiver: PropTypes.object,
+  preSelectReceiver: PropTypes.func.isRequired,
   setAddress: PropTypes.func.isRequired,
   setIsFormSelecting: PropTypes.func.isRequired,
 };
 
+ReceiveFundsSelectAddressView.defaultProps = {
+  preSelectedReceiver: null,
+};
+
+const mapStateToProps = state => {
+  const preSelectedReceiver = getPreSelectedReceiver(state);
+
+  return {
+    preSelectedReceiver,
+  };
+};
+
 const mapDispatchToProps = {
+  preSelectReceiver,
   setAddress,
 };
 
-const ReceiveFundsSelectAddress = connect(null, mapDispatchToProps)(ReceiveFundsSelectAddressView);
+const ReceiveFundsSelectAddress = connect(mapStateToProps, mapDispatchToProps)(ReceiveFundsSelectAddressView);
 
 export { ReceiveFundsSelectAddress };

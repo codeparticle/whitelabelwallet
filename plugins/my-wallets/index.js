@@ -30,12 +30,12 @@ export const MyWalletsPlugin = (store) => {
           exact: true,
         },
         {
-          path: `/${pluginId}/:walletId/send-funds/:address`,
+          path: `/${pluginId}/:walletId/send-funds`,
           component: SendFundsPage,
           exact: true,
         },
         {
-          path: `/${pluginId}/:walletId/receive-funds/:address`,
+          path: `/${pluginId}/:walletId/receive-funds`,
           component: ReceiveFundsPage,
           exact: true,
         },

@@ -9,7 +9,7 @@ import { Visible } from '@codeparticle/react-visible';
 import { TextInput } from '@codeparticle/whitelabelwallet.styleguide';
 
 import { setFromAddress } from 'plugins/send-funds/rdx/actions';
-import { getFromAddress } from 'plugins/send-funds/rdx/selectors';
+import { getFromAddress, getPreSelectedFromAddress } from 'plugins/send-funds/rdx/selectors';
 import { MobileFormButton, SelectAddresses } from 'plugins/send-funds/components';
 import { constants, getFormattedAddressName } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
@@ -25,11 +25,24 @@ const {
 function SelectFromAddressesView({
   formatMessage,
   fromAddress,
+  preSelectedFromAddress,
   setFormSelecting,
   ...props
 }) {
   const [isSelecting, setIsSelecting] = useState(false);
   const [addressName, setAddressName] = useState('');
+
+  useEffect(() => {
+    if (preSelectedFromAddress) {
+      const { data: { addresses } } = preSelectedFromAddress;
+
+      if (addresses.length === 1) {
+        props.setFromAddress(preSelectedFromAddress.data.addresses[0].address);
+      } else {
+        onClick();
+      }
+    }
+  }, [preSelectedFromAddress]);
 
   function onClick() {
     setIsSelecting(true);
@@ -75,15 +88,22 @@ function SelectFromAddressesView({
 SelectFromAddressesView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
   fromAddress: PropTypes.string.isRequired,
+  preSelectedFromAddress: PropTypes.object,
   setFormSelecting: PropTypes.func.isRequired,
   setFromAddress: PropTypes.func.isRequired,
 };
 
+SelectFromAddressesView.defaultProps = {
+  preSelectedFromAddress: null,
+};
+
 const mapStateToProps = state => {
   const fromAddress = getFromAddress(state);
+  const preSelectedFromAddress = getPreSelectedFromAddress(state);
 
   return {
     fromAddress,
+    preSelectedFromAddress,
   };
 };
 

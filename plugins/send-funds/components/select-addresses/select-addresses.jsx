@@ -4,20 +4,32 @@
  */
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { MobileWalletList } from '@codeparticle/whitelabelwallet.styleguide';
+import { useUnmount } from 'lib/hooks';
 
 import { getWalletAddresses } from 'plugins/send-funds/helpers';
 import { SEND_FUNDS } from 'plugins/send-funds/translations/keys';
+import { preSelectFromAddress } from 'plugins/send-funds/rdx/actions';
+import { getPreSelectedFromAddress } from 'plugins/send-funds/rdx/selectors';
 
 const { SELECT_ADDRESS, NUM_ADDRESSES } = SEND_FUNDS;
 
-function SelectAddresses({
+const isDefined = obj => obj !== undefined;
+
+function SelectAddressesView({
   formatMessage,
+  preSelectedFromAddress,
   setFormSelecting,
   setToState,
   setIsSelecting,
+  ...props
 }) {
   const [rowData, setRowData] = useState([]);
+  const onUnmount = props.onUnmount || props.preSelectFromAddress;
+  const preSelect = isDefined(props.preSelect) ? props.preSelect : preSelectedFromAddress;
+
+  useUnmount(onUnmount);
 
   function subtitleFormatter(data) {
     return formatMessage(NUM_ADDRESSES, { addressCount: data.length });
@@ -42,6 +54,7 @@ function SelectAddresses({
       </label>
       <MobileWalletList
         data={rowData}
+        preSelect={preSelect}
         onAddressClicked={onAddressClicked}
         subtitleFormatter={subtitleFormatter}
       />
@@ -56,11 +69,32 @@ function SelectAddresses({
   );
 }
 
-SelectAddresses.propTypes = {
+SelectAddressesView.propTypes = {
   formatMessage: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func,
+  preSelect: PropTypes.object,
+  preSelectFromAddress: PropTypes.func.isRequired,
+  preSelectedFromAddress: PropTypes.object,
   setFormSelecting: PropTypes.func.isRequired,
   setToState: PropTypes.func.isRequired,
   setIsSelecting: PropTypes.func.isRequired,
 };
 
-export { SelectAddresses };
+SelectAddressesView.defaultProps = {
+  preSelectedFromAddress: null,
+  onUnmount: null,
+};
+
+const mapStateToProps = state => {
+  const preSelectedFromAddress = getPreSelectedFromAddress(state);
+
+  return {
+    preSelectedFromAddress,
+  };
+};
+
+const mapDispatchToProps = {
+  preSelectFromAddress,
+};
+
+export const SelectAddresses = connect(mapStateToProps, mapDispatchToProps)(SelectAddressesView);
