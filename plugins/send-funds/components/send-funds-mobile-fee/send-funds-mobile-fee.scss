@@ -1,0 +1,14 @@
+@import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/fonts';
+@import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
+
+.send-funds-mobile-fee {
+  display: flex;
+  flex-direction: column;
+  margin: $spacing-s 0;
+  width: 100%;
+  
+  &__message {
+    font-size: $font-size-xs-3;
+  }
+}

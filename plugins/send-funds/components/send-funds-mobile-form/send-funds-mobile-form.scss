@@ -1,6 +1,8 @@
 @import '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 @import '@codeparticle/whitelabelwallet.styleguide/styles/layout';
 
+$text-area-min-height: 100px;
+
 .send-funds-mobile-form {
   align-items: center;
   color: $slate;
@@ -26,6 +28,7 @@
   &__text-area {
     flex: 1;
     height: initial;
+    min-height: $text-area-min-height;
   }
 }
 
@@ -40,4 +43,5 @@
 
 .dark .send-funds-mobile-form {
   background: $dark-bg;
+  color: $grey;
 }

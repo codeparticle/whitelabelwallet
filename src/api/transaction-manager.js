@@ -44,9 +44,10 @@ export class TransactionManager {
   }
 
   async createTransaction({
+    amount,
+    fee,
     fromAddress: sender_address,
     toAddress: receiver_address,
-    amount,
     memo: description,
     type: transaction_type = 'send',
   }) {
@@ -60,6 +61,7 @@ export class TransactionManager {
       amount,
       description,
       created_date: getTimestamp(),
+      fee,
       privateKey,
       receiver_address_id,
       receiver_address,
@@ -69,6 +71,7 @@ export class TransactionManager {
     };
 
     const res = await this.blockchainManager.sendFromOneAddress({
+      fee: parseInt(fee),
       fromAddress: sender_address,
       privateKey,
       paymentData: [{

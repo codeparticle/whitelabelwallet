@@ -12,6 +12,10 @@ export class WalletManager {
     this.blockchainManager = BlockchainManager;
   }
 
+  getDefaultFee() {
+    return this.blockchainManager.defaultFee;
+  }
+
   /**
    * Function that adds a new wallet to the db
    * @param {Object} wallet - the wallet object to add to the db

@@ -13,6 +13,10 @@ $input-height: 40px;
   padding-right: $spacing-s;
   width: 100%;
 
+  label > span {
+    margin-bottom: 0;
+  }
+
   & > div,
   input[type=text] {
     height: $input-height;

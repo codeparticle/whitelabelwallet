@@ -9,7 +9,7 @@ import { THEME_KEYS, useMedia, useTheme } from '@codeparticle/whitelabelwallet.s
 import { cloud } from '@codeparticle/whitelabelwallet.styleguide/styles/colors';
 import { VARIANTS } from 'lib/constants';
 import { getFiatAmount } from 'lib/utils';
-import { useUnmount } from 'lib/hooks';
+import { useManager, useMount, useUnmount } from 'lib/hooks';
 
 import {
   FromAddressList,
@@ -46,6 +46,7 @@ const SendFundsView = ({
 }) => {
   const [fiatConversionRate, setFiatConversionRate] = useState(0);
   const themeName = useTheme('name');
+  const manager = useManager();
   const { isMobile } = useMedia();
   const [headerProps, setHeaderProps] = useState(null);
   const mobileBackground = themeName === THEME_KEYS.LIGHT
@@ -83,6 +84,11 @@ const SendFundsView = ({
     }
   }
 
+  useMount(() => {
+    const fee = manager.walletManager.getDefaultFee().toString();
+    props.setFee(fee);
+  });
+
   useUnmount(props.resetFields);
 
   return (
@@ -96,12 +102,12 @@ const SendFundsView = ({
     >
       <div className="send-funds-layout">
         <TransferAmount
+          amount={amount}
           conversionRate={fiatConversionRate}
+          fee={fee}
           formatMessage={formatMessage}
           isMobile={isMobile}
-          amount={amount}
           memo={memo}
-          fee={fee}
           setAmount={props.setAmount}
           setFee={props.setFee}
           setMemo={props.setMemo}
@@ -112,16 +118,19 @@ const SendFundsView = ({
         </Visible>
         <Visible when={isMobile}>
           <SendFundsMobileForm
+            amount={amount}
+            fee={fee}
             formatMessage={formatMessage}
+            memo={memo}
             setAmount={props.setAmount}
+            setFee={props.setFee}
             setMemo={props.setMemo}
             updateHeaderProps={updateHeaderProps}
-            amount={amount}
-            memo={memo}
           />
         </Visible>
         <SendFundsFooter
           amount={amount}
+          fee={fee}
           formatMessage={formatMessage}
           fromAddress={fromAddress}
           isMobile={isMobile}
