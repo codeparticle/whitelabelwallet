@@ -25,6 +25,7 @@ const { GREEN } = VARIANTS;
 function SendFundsFooter({
   amount,
   isMobile,
+  fee,
   formatMessage,
   fromAddress,
   memo,
@@ -38,7 +39,7 @@ function SendFundsFooter({
     ? formatMessage(CONFIRM_SEND_TO, { amount, address: toAddress })
     : '';
   const btnLabel = formatMessage(CONFIRM);
-  const transactionData = { fromAddress, toAddress, amount: parsedAmount, memo };
+  const transactionData = { fromAddress, fee, toAddress, amount: parsedAmount, memo };
 
   async function onClick() {
     const errors = await validateTransaction(transactionData);

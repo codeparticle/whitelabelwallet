@@ -9,6 +9,11 @@
 const REGEX_FLOAT = /^([1-9]\d*(\.|\,)\d*|0?(\.|\,)\d*[1-9]\d*|[1-9]\d*)$/gm;
 
 /**
+ * Matches Int
+ */
+const REGEX_INT = /[0-9]/g;
+
+/**
  * Matches whitespace
  */
 const REGEX_WHITESPACE = /\s/g;
@@ -34,6 +39,7 @@ const REGEX_INPUT = /^[a-z0-9 ]*$/i;
 export const REGEXES = {
   REGEX_ADDRESS,
   REGEX_FLOAT,
+  REGEX_INT,
   REGEX_INPUT,
   REGEX_PASSWORD,
   REGEX_WHITESPACE,
