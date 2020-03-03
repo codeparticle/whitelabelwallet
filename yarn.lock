@@ -925,8 +925,8 @@
 
 "@codeparticle/whitelabelwallet.styleguide@^0.5.16":
   version "0.5.16"
-  resolved "https://codeparticle.jfrog.io/codeparticle/api/npm/npm/@codeparticle/whitelabelwallet.styleguide/-/@codeparticle/whitelabelwallet.styleguide-0.5.16.tgz#50b2b8961f1715453eb7291e84c57a6962ccaffe"
-  integrity sha1-ULK4lh8XFUU+tykehMV6aWLMr/4=
+  resolved "https://registry.yarnpkg.com/@codeparticle/whitelabelwallet.styleguide/-/whitelabelwallet.styleguide-0.5.16.tgz#ef07d584a8ca1aa776cc503cd00e7f583150c9f1"
+  integrity sha512-Cm74QX2Lz5SoaM/e2O4phIMeDxfCB8dnGi58AWTwQBLF5lwi/8gPrvYKR5EcRMeEyZwnd06+QovYZd64QOPoRw==
   dependencies:
     "@codeparticle/react-sidenav" "^0.3.2"
     "@codeparticle/react-visible" "^1.2.2"
