@@ -299,7 +299,7 @@
     "css-loader": "0.28.9",
     "cssnano": "4.1.10",
     "devtron": "1.4.0",
-    "electron": "5.0.13",
+    "electron": "11.5.0",
     "electron-builder": "21.0.5",
     "electron-devtools-installer": "2.2.3",
     "electron-icon-maker": "0.0.4",
