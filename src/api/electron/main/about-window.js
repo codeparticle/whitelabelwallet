@@ -37,6 +37,10 @@ export class AboutWindow {
       height: 500,
       webPreferences: {
         webviewTag: false,
+        enableRemoteModule: true,
+        nodeIntegration: true,
+        contextIsolation: false,
+        
       },
     };
   }
