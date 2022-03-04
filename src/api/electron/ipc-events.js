@@ -23,6 +23,7 @@
 */
 export const ADD_ALLOWED_URLS = 'add-allowed-urls';
 export const CHECK_DATABASE = 'check-database';
+export const CREATE_MENU = 'create-menu';
 export const CHECKED_DATABASE = 'checked-database';
 export const DELETE_LOGS = 'delete-logs';
 export const DELETE_LOGS_ERROR = 'delete-logs-error';
