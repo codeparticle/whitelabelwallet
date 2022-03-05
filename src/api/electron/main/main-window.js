@@ -50,6 +50,8 @@ export class MainWindow {
       icon: path.join(__dirname, 'icons/64x64.png'),
       webPreferences: {
         nodeIntegration: true,
+        enableRemoteModule: true,
+        contextIsolation: false,
       },
     };
 

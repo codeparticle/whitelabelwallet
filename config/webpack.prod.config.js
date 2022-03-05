@@ -60,7 +60,7 @@ const prodConfig = {
         test: /\.jsx?$/,
         exclude: /node_modules\/(?!(fs-extra|rss-parser|universalify|proxy-polyfill)\/).*/,
         use: [
-          'obfuscator-loader',
+          // 'obfuscator-loader',
           'uglify-loader',
           'babel-loader',
         ],
