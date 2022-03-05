@@ -70,7 +70,7 @@ const AppWithStore = ({
     }, {});
   
     const { intl } = intlProvider.getChildContext();
-    manager.createAppMenus(intl);
+    // manager.createAppMenus(intl);
   }, []);
 
   if (window.location.pathname.includes('index.html') && environment.isDev()) {
