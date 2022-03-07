@@ -38,8 +38,8 @@ import {
 } from 'api/electron/ipc-events';
 import { UpdateManager } from 'api/db';
 import { RenderManager } from 'api/render-manager';
-const { ipcRenderer, remote } = window.require('electron');
-const log = remote.require('electron-log');
+const { ipcRenderer } = window.require('electron');
+const log = require('electron-log');
 
 export class ElectronRendererManager extends RenderManager {
   static get instance() {

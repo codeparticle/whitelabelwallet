@@ -46,8 +46,8 @@ import { ElectronRendererManager } from 'api/electron/renderer';
 import './app.scss';
 
 const { remote } = window.require('electron');
-const { dialog } = remote.require('electron');
-const log = remote.require('electron-log');
+// const { dialog } = remote.require('electron');
+const log = require('electron-log');
 
 const history = createMemoryHistory();
 const { store, persistor } = configureStore(history);

@@ -55,7 +55,7 @@ Functionality can easily be added to this project by implementing plugins. By fo
 All tests should go under the `tests` directory.
 Unit tests: `yarn run test:unit`
 E2E tests: `yarn run test:e2e`
-Electron E2E tests: `yarn run test:e2e-electron`
+Electron E2E tests: `yarn run test:e2e-nogui`
 
 ## Translations
 

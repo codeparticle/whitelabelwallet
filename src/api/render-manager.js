@@ -41,8 +41,8 @@ const required = (methodName) => {
 };
 
 if (isElectron()) {
-  const { remote } = window.require('electron');
-  log = remote.require('electron-log');
+  // const { remote } = window.require('electron');
+  log = require('electron-log');
 } else {
   log.debug = empty;
 }
