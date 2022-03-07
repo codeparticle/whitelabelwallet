@@ -40,7 +40,6 @@ export class AboutWindow {
         enableRemoteModule: true,
         nodeIntegration: true,
         contextIsolation: false,
-        
       },
     };
   }
