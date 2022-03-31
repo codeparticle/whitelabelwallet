@@ -31,10 +31,8 @@ jobs:
   automerge:
     needs: setup
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - id: automerge
-        name: automerge
-        uses: "pascalgn/automerge-action@v0.15.2"
+      - name: "Merge"
+        uses: "nucleos/auto-merge-action@1.0.0"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          "GITHUB_TOKEN": ${{ secrets.GITHUB_TOKEN }}
