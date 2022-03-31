@@ -20,13 +20,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: setup
-      #   run: yarn install
-      # - run: yarn run lint
-      # - run: yarn run build --if-present
-      # - run: yarn run build:mobile
-      # - run: yarn run test:unit
-      # - run: chmod 755 ./ci/misc/web-e2e.sh
-      # - run: ./ci/misc/web-e2e.sh
+        run: yarn install
+      - run: yarn run lint
+      - run: yarn run build --if-present
+      - run: yarn run build:mobile
+      - run: yarn run test:unit
+      - run: chmod 755 ./ci/misc/web-e2e.sh
+      - run: ./ci/misc/web-e2e.sh
 
   automerge:
     needs: setup
