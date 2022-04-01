@@ -303,7 +303,7 @@
     "electron-builder": "21.0.5",
     "electron-devtools-installer": "2.2.3",
     "electron-icon-maker": "0.0.4",
-    "electron-packager": "13.0.1",
+    "electron-packager": "15.4.0",
     "electron-rebuild": "1.7.3",
     "electron-reload": "1.4.0",
     "electron-renderer": "2.0.4",
