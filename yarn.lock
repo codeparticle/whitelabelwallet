@@ -7369,10 +7369,10 @@ chai-as-promised@7.1.1:
   dependencies:
     check-error "^1.0.2"
 
-chai-immutable@1.5.3:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/chai-immutable/-/chai-immutable-1.5.3.tgz#d88a7843b923e33688fd57de2587dd853e0f274b"
-  integrity sha1-2Ip4Q7kj4zaI/VfeJYfdhT4PJ0s=
+chai-immutable@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/chai-immutable/-/chai-immutable-1.6.0.tgz#9ec00bdd67948b13b20fcbb89cbf4af2ce6f9247"
+  integrity sha1-nsAL3WeUixOyD8u4nL9K8s5vkkc=
 
 chai@3.5.0:
   version "3.5.0"
