@@ -11828,7 +11828,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fbjs@^0.8.1, fbjs@^0.8.16, fbjs@^0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.16:
   version "0.8.18"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.18.tgz#9835e0addb9aca2eff53295cd79ca1cfc7c9662a"
   integrity sha512-EQaWFK+fEPSoibjNy8IxUtaFOMXcWsY0JaVrQoZR9zC8N2Ygf9iDITPWjUTVIax95b6I742JFLqASHfsag/vKA==
@@ -21789,10 +21789,15 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.3.1, react-is@^16.6.0, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-is@^17.0.1, react-is@^17.0.2:
+"react-is@^16.12.0 || ^17.0.0", react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-is@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.0.0.tgz#026f6c4a27dbe33bf4a35655b9e1327c4e55e3f5"
+  integrity sha512-yUcBYdBBbo3QiPsgYDcfQcIkGZHfxOaoE6HLSnr1sPzMhdyxusbfKOSUbSd/ocGi32dxcj366PsTj+5oggeKKw==
 
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
@@ -21972,6 +21977,14 @@ react-select@^2.2.0, react-select@^2.4.4:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
+react-shallow-renderer@^16.13.1:
+  version "16.14.1"
+  resolved "https://registry.yarnpkg.com/react-shallow-renderer/-/react-shallow-renderer-16.14.1.tgz#bf0d02df8a519a558fd9b8215442efa5c840e124"
+  integrity sha512-rkIMcQi01/+kxiTE9D3fdS959U1g7gs+/rborw++42m1O9FAQiNI/UNRZExVUoAOprn4umcXf+pFRou8i4zuBg==
+  dependencies:
+    object-assign "^4.1.1"
+    react-is "^16.12.0 || ^17.0.0"
+
 react-side-effect@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.2.0.tgz#0e940c78faba0c73b9b0eba9cd3dda8dfb7e7dae"
@@ -22001,13 +22014,14 @@ react-syntax-highlighter@^8.0.1:
     prismjs "^1.8.4"
     refractor "^2.4.1"
 
-react-test-renderer@15.5.4:
-  version "15.5.4"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.5.4.tgz#d4ebb23f613d685ea8f5390109c2d20fbf7c83bc"
-  integrity sha1-1OuyP2E9aF6o9TkBCcLSD798g7w=
+react-test-renderer@18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-18.0.0.tgz#fa403d625ea9478a70ace43db88833f6c3a5bb4c"
+  integrity sha512-SyZTP/FSkwfiKOZuTZiISzsrC8A80KNlQ8PyyoGoOq+VzMAab6Em1POK/CiX3+XyXG6oiJa1C53zYDbdrJu9fw==
   dependencies:
-    fbjs "^0.8.9"
-    object-assign "^4.1.0"
+    react-is "^18.0.0"
+    react-shallow-renderer "^16.13.1"
+    scheduler "^0.21.0"
 
 react-test-renderer@^16.0.0-0:
   version "16.14.0"
@@ -23230,6 +23244,13 @@ scheduler@^0.19.1:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+
+scheduler@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.21.0.tgz#6fd2532ff5a6d877b6edb12f00d8ab7e8f308820"
+  integrity sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==
+  dependencies:
+    loose-envify "^1.1.0"
 
 schema-utils@2.7.0:
   version "2.7.0"
