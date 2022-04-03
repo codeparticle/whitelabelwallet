@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      - cron: "*/15 * * * *"
+        interval: hourly
     open-pull-requests-limit: 1
     labels:
       - dependencies
