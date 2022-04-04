@@ -29,13 +29,6 @@ jobs:
       - run: chmod 755 ./ci/misc/web-e2e.sh
       - run: ./ci/misc/web-e2e.sh
 
-  close-pr:
-    needs: test
-    runs-on: ubuntu-latest
-    if: always() && (needs.test.result == 'failure')
-    steps:
-      - uses: superbrothers/close-pull-request@v3
-
   automerge:
     needs: test
     runs-on: ubuntu-latest
