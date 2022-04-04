@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
-        interval: daily
+      interval: daily
     open-pull-requests-limit: 10
     labels:
       - dependencies
@@ -13,3 +13,4 @@ updates:
       - dependency-name: "@types/node"
         versions:
           - ">= 11.a"
+      - dependency-name: "postcss-loader"
