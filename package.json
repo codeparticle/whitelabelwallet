@@ -307,7 +307,7 @@
     "electron-rebuild": "1.7.3",
     "electron-reload": "1.4.0",
     "electron-renderer": "2.0.4",
-    "electron-store": "1.3.0",
+    "electron-store": "8.0.1",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.14.0",
     "enzyme-to-json": "1.6.0",
