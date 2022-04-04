@@ -1,8 +1,11 @@
-name: test
+name: Automate PRs
 on:
-  push:
+  pull_request_target:
     branches:
       - master
+    types:
+      - opened
+      - synchronize
 
 jobs:
   test:
@@ -25,3 +28,23 @@ jobs:
       - run: yarn run test:unit
       - run: chmod 755 ./ci/misc/web-e2e.sh
       - run: ./ci/misc/web-e2e.sh
+
+  close-pr:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always() && (needs.test.result == 'failure')
+    steps:
+      - uses: superbrothers/close-pull-request@v3
+
+  automerge:
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
