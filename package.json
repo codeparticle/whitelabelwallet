@@ -343,7 +343,7 @@
     "nodemon": "1.17.5",
     "npm-run-all": "4.1.2",
     "obfuscator-loader": "1.1.2",
-    "optimize-css-assets-webpack-plugin": "5.0.1",
+    "optimize-css-assets-webpack-plugin": "6.0.1",
     "postcss": "7.0.36",
     "postcss-loader": "4.3.0",
     "postcss-preset-env": "5.3.0",
