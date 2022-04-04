@@ -14,3 +14,4 @@ jobs:
           days-before-stale: 2
           days-before-close: 1
           only-labels: 'dependencies'
+          delete-branch: true
