@@ -217,7 +217,7 @@
     "decompress": "4.2.1",
     "electron": "17.1.0",
     "electron-debug": "2.0.0",
-    "electron-dl": "1.12.0",
+    "electron-dl": "3.3.0",
     "electron-log": "2.2.14",
     "es6-promise": "4.2.4",
     "express-http-proxy": "^1.5.1",
