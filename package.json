@@ -339,7 +339,7 @@
     "mini-css-extract-plugin": "^0.7.0",
     "mocha": "6.1.4",
     "module-alias": "2.0.0",
-    "node-sass": "4.13.1",
+    "node-sass": "4.14.1",
     "nodemon": "1.17.5",
     "npm-run-all": "4.1.2",
     "obfuscator-loader": "1.1.2",
