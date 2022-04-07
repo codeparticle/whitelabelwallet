@@ -1384,13 +1384,20 @@
   resolved "https://registry.yarnpkg.com/@codeparticle/react-sidenav/-/react-sidenav-0.3.2.tgz#8fcbfc8e6d2851416f66a87ccf039ed71c4abf22"
   integrity sha512-wGV7uFR6gWmfcVA+bQygrWAOw2O4oDfVkyz3h9eDK8IJa8wEI8rT1k7DhTRzlXeJO1dPCBlujoPR1zIcni52Fg==
 
-"@codeparticle/react-visible@^1.2.2", "@codeparticle/react-visible@^1.4.0":
+"@codeparticle/react-visible@^1.4.0":
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/@codeparticle/react-visible/-/react-visible-1.4.6.tgz#67f21ecb046c652537ce386e37a888552bea80b6"
   integrity sha512-Zjld+FQGqoefT1+Oqmelsv1Y4Lbt/VfFW0coLT2LGo8MBfrFfeDFiN033SiSbcK+ad5a3sS45s93PGSEeZU/vQ==
   dependencies:
     "@types/react" "^17.0.38"
     react-scripts "^5.0.0"
+
+"@codeparticle/react-visible@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@codeparticle/react-visible/-/react-visible-2.0.0.tgz#36364ee203d8c5b1a808009307780c3a4bf0299b"
+  integrity sha512-Jw7jXarj7b2u/ifY2tPj0ff/BRczED0xxhNMl1bclSptxd8EqIH9SArWNEyFvZ+7brfoCdDaYe7dSyHEmHOzmw==
+  dependencies:
+    "@types/react" "^17.0.38"
 
 "@codeparticle/whitelabelwallet.styleguide@^0.5.16":
   version "0.5.18"
