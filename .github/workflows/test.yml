@@ -22,6 +22,6 @@ jobs:
 
       # Specific for the project
       - run: chmod 755 ./ci/pipeline/ci-test-commands.sh
-      - run: ./ci/ci-test-commands.sh
+      - run: ./ci/pipeline/ci-test-commands.sh
       - run: chmod 755 ./ci/misc/web-e2e.sh
       - run: ./ci/misc/web-e2e.sh
