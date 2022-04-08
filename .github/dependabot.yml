@@ -1,0 +1,10 @@
+# Specific for the project
+version: 2
+updates:
+  # Keep npm dependencies up to date
+  - package-ecosystem: "npm"
+    directory: "/"
+    # Check the npm registry for updates at 2am UTC
+    schedule:
+      interval: "daily"
+      time: "02:00"
