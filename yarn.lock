@@ -7601,7 +7601,7 @@ chokidar@^2.0.2, chokidar@^2.0.4, chokidar@^2.1.6, chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.5.3:
+chokidar@^3.0.2, chokidar@^3.4.1, chokidar@^3.4.2, chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
   integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
@@ -10495,12 +10495,12 @@ electron-rebuild@1.7.3:
     spawn-rx "^2.0.10"
     yargs "^7.0.2"
 
-electron-reload@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/electron-reload/-/electron-reload-1.4.0.tgz#00154268c936fa17b496fdb1728434c747e1d29a"
-  integrity sha512-pluNocZ9LqIeKmUzUSEHa+vT1+dG5923zXez4iwEhWqC2hydALPKvu+kJJzkdYRJv5z15S8waDthyrMyKd5MCQ==
+electron-reload@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/electron-reload/-/electron-reload-1.5.0.tgz#179ab1f6941fcf0ed261c37b16dc465e201348f5"
+  integrity sha512-L9X6LzsL3Bt2j0eJ4/MBrI9Vt902KvVUtBB7J4qrL1A9sXqC2fE0lpvUAlOThpJYh6zWO1l86U/YiEN9bDURHw==
   dependencies:
-    chokidar "^2.0.4"
+    chokidar "^3.0.2"
 
 electron-renderer@2.0.4:
   version "2.0.4"
