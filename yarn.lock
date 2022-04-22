@@ -1777,21 +1777,23 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@ionic/core@^4.6.0":
-  version "4.11.13"
-  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-4.11.13.tgz#10c7b0d19889671c1de9233f76f9f4167df2a8b5"
-  integrity sha512-EGin45jCjds4P1AvriujxzpIXKQzQrPQyQAgEEwUybhMNcU/9xC1sf2inG1IwMVdsc6XRBYjWvtqMPWxTWmeCw==
+"@ionic/core@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-6.1.2.tgz#fbf4073afacdb794a7d957a04bdc070b1d31f6d3"
+  integrity sha512-Y0oCNew0X+4BqdmUB+YEhKibdND8E0h12cUbA2irGTElnvthSp4Z7cNsoQO3+oPG/uzYm8SjAv/ifPbczbI3cw==
   dependencies:
-    ionicons "^4.6.3"
-    tslib "^1.10.0"
+    "@stencil/core" "^2.14.2"
+    ionicons "^6.0.0"
+    tslib "^2.1.0"
 
-"@ionic/react@^0.0.6-3":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@ionic/react/-/react-0.0.6.tgz#0347bd3f10303c0a3b7af44f9304523bfbf62701"
-  integrity sha512-ifRtFIn1hFAdiio8Y7V55EEREjvzkgS/mYkpCV+JBroCjxxdiAyKYscWfxUv+3avcpQL1Nvmk8QPPQ4+EI80pw==
+"@ionic/react@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@ionic/react/-/react-6.1.2.tgz#621352f3e01586ca809131bdc7b2008ad6a1f3df"
+  integrity sha512-dUtvekON5EV2f6O7tsDf78v0auoYTnRqArCvagKk/AJhTvu1aA97B/PE7D1Ntx5eDAWgDHdOLijRauVlbjQKEQ==
   dependencies:
-    "@ionic/core" "^4.6.0"
-    tslib "^1.10.0"
+    "@ionic/core" "^6.1.2"
+    ionicons "^6.0.0"
+    tslib "*"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -2203,6 +2205,16 @@
   integrity sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@stencil/core@^2.14.2":
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.15.1.tgz#ed308d2f48c086aec63c63c33b915702036b9aee"
+  integrity sha512-NYjRwQnjzscyFfqK+iIwRdr/dgYn33u6KE7kyQWdi7xsCkqMHalXYgJlN/QBQ9PN3qXmXKeBrJNG8EkNdCbK5g==
+
+"@stencil/core@~2.12.0":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.12.1.tgz#92364d3e57337b8d36dd9b70cfbed2833929f22d"
+  integrity sha512-u24TZ+FEvjnZt5ZgIkLjLpUNsO6Ml3mUZqwmqk81w6RWWz75hgB5p4RFI5rvuErFeh2xvMIGo+pNdG24XUBz1A==
 
 "@storybook/addon-actions@5.1.3":
   version "5.1.3"
@@ -14192,10 +14204,12 @@ invert-kv@^2.0.0:
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-2.0.0.tgz#7393f5afa59ec9ff5f67a27620d11c226e3eec02"
   integrity sha512-wPVv/y/QQ/Uiirj/vh3oP+1Ww+AWehmi1g5fFWGPF6IpCBCDVrhgHRMvrLfdYcwDh3QJbGXDW4JAuzxElLSqKA==
 
-ionicons@^4.6.3:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-4.6.3.tgz#e4f3a3e9b66761eb8c0db27798cc1a8ce97777d2"
-  integrity sha512-cgP+VIr2cTJpMfFyVHTerq6n2jeoiGboVoe3GlaAo5zoSBDAEXORwUZhv6m+lCyxlsHCS3nqPUE+MKyZU71t8Q==
+ionicons@^6.0.0:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-6.0.1.tgz#e7dc8c9d6d6cff33f3c64c095b5df645fbedd917"
+  integrity sha512-xQekOJsxH82O7oB+3F60zeRggCdND9pJ/k0E6IJDVUGGlCj5mlyFqNgxUimytKgstPGv3S+3EmCxjefvtGgWUg==
+  dependencies:
+    "@stencil/core" "~2.12.0"
 
 ip-regex@^1.0.1:
   version "1.0.3"
@@ -25489,20 +25503,20 @@ tsconfig-paths@^3.14.1:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
+tslib@*, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.2.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
+  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
+
 tslib@1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
   integrity sha512-f/qGG2tUkrISBlQZEjEqoZ3B2+npJjIf04H1wuAv9iA8i04Icp+61KRXxFdha22670NJopsZCIjhC3SnjPRKrQ==
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
-
-tslib@^2.0.3, tslib@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tsutils@^3.21.0:
   version "3.21.0"
