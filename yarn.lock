@@ -1396,10 +1396,12 @@
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-1.5.3.tgz#dca85c3b4b373c9765ada986a82fde76ed044758"
   integrity sha512-pV5ozgoIllBp7vsrOHRZVQ09tqIiib9SlOZm7D8MBvE4slSC6NbOR+fFM07R3zyiWdf5cQsIZ5i2bjzF9BkZLg==
 
-"@codeparticle/formal@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@codeparticle/formal/-/formal-0.3.0.tgz#ee2547afb7116a649766fbdc56798f744cf94310"
-  integrity sha512-6onpFAcxbpVSSyVf5xVWuJtEhDeTL5QMz/EqPDBzDH2evAo+Ld8JZpYIqdqoruo2/nEWoejZE+nhZwH47SFVDw==
+"@codeparticle/formal@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@codeparticle/formal/-/formal-2.0.1.tgz#53380f0e11a6dee3523241896a719c9b818bbd08"
+  integrity sha512-nhLl3kkRNqaFny3i2Uhm+Ij178mYsIiQlsx6F0Dx4ROru/ZnwYrcI50ceiZdBv3x1AfMembIq5L0miVcEsVR0g==
+  dependencies:
+    case "^1.6.3"
 
 "@codeparticle/react-sidenav@^0.3.2":
   version "0.3.2"
@@ -7217,7 +7219,7 @@ case-sensitive-paths-webpack-plugin@^2.2.0, case-sensitive-paths-webpack-plugin@
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"
   integrity sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==
 
-case@^1.6.1:
+case@^1.6.1, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
