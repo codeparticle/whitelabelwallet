@@ -219,7 +219,7 @@
     "electron-debug": "3.2.0",
     "electron-dl": "1.12.0",
     "electron-log": "2.2.14",
-    "es6-promise": "4.2.4",
+    "es6-promise": "4.2.8",
     "express-http-proxy": "^1.5.1",
     "fast-memoize": "2.5.2",
     "fix-path": "2.1.0",
