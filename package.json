@@ -266,7 +266,7 @@
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.2",
-    "babel-jest": "22.4.1",
+    "babel-jest": "23.6.0",
     "babel-loader": "7.1.5",
     "babel-plugin-dynamic-import-webpack": "1.0.1",
     "babel-plugin-react-transform": "3.0.0",
