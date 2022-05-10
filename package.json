@@ -236,7 +236,7 @@
     "moment": "2.29.2",
     "object-assign": "4.1.1",
     "prop-types": "15.8.1",
-    "proxy-polyfill": "0.3.0",
+    "proxy-polyfill": "0.3.2",
     "qrcode.react": "3.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
