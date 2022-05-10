@@ -349,7 +349,7 @@
     "postcss-preset-env": "6.7.1",
     "postcss-scss": "3.0.5",
     "prettier": "1.10.2",
-    "puppeteer": "1.16.0",
+    "puppeteer": "14.0.0",
     "react-addons-test-utils": "15.6.2",
     "react-dev-utils": "^9.0.1",
     "react-hot-loader": "^4.11.1",
