@@ -3047,9 +3047,9 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
 
-"@trodi/electron-splashscreen@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@trodi/electron-splashscreen/-/electron-splashscreen-0.3.1.tgz#7e454644ee3017ef012ba1e18977c96bc0c5b70a"
+"@trodi/electron-splashscreen@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@trodi/electron-splashscreen/-/electron-splashscreen-1.0.2.tgz#9996383cbe2adce89ad78545d2edbda756ecfe68"
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
