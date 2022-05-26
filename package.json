@@ -330,7 +330,7 @@
     "identity-obj-proxy": "3.0.0",
     "ignore-loader": "^0.1.2",
     "img-loader": "4.0.0",
-    "jest": "28.0.3",
+    "jest": "28.1.0",
     "jest-cli": "22.4.0",
     "jest-puppeteer": "6.1.0",
     "jest-serializer-enzyme": "1.0.0",
