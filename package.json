@@ -370,7 +370,7 @@
     "standard-version": "^9.5.0",
     "style-loader": "2.0.0",
     "styled-jsx": "^3.2.1",
-    "stylelint": "10.1.0",
+    "stylelint": "13.13.1",
     "stylelint-config-airbnb": "0.0.0",
     "stylelint-order": "4.1.0",
     "stylelint-scss": "3.21.0",
