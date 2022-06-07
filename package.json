@@ -346,7 +346,7 @@
     "optimize-css-assets-webpack-plugin": "6.0.1",
     "postcss": "8.4.14",
     "postcss-loader": "3.0.0",
-    "postcss-preset-env": "6.7.1",
+    "postcss-preset-env": "7.7.1",
     "postcss-scss": "4.0.4",
     "prettier": "2.6.2",
     "puppeteer": "14.2.1",
