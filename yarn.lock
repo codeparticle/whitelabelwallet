@@ -14902,7 +14902,7 @@ jest-worker@^27.0.2, jest-worker@^27.3.1, jest-worker@^27.4.5, jest-worker@^27.5
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jest-worker@^28.1.1:
+jest-worker@^28.1.0, jest-worker@^28.1.1:
   version "28.1.1"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-28.1.1.tgz#3480c73247171dfd01eda77200f0063ab6a3bf28"
   dependencies:
@@ -19609,9 +19609,9 @@ pupa@^2.0.1, pupa@^2.1.1:
   dependencies:
     escape-goat "^2.0.0"
 
-puppeteer@14.3.0:
-  version "14.3.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-14.3.0.tgz#0099cabf97767461aca02486313e84fcfc776af6"
+puppeteer@14.4.0:
+  version "14.4.0"
+  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-14.4.0.tgz#e711789814f785484ff5906d464a32a8146a1304"
   dependencies:
     cross-fetch "3.1.5"
     debug "4.3.4"
