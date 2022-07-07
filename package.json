@@ -191,7 +191,7 @@
     "@codeparticle/formal": "^2.0.1",
     "@codeparticle/react-visible": "^2.0.0",
     "@codeparticle/whitelabelwallet.styleguide": "^0.5.16",
-    "@ionic/react": "^0.0.6-3",
+    "@ionic/react": "^6.1.13",
     "@trodi/electron-splashscreen": "1.0.2",
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.7",
