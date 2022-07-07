@@ -10876,9 +10876,9 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-expect-puppeteer@6.1.0, expect-puppeteer@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-6.1.0.tgz#507bf3488e656c2f11fb1306ecaccc108a4bbaa5"
+expect-puppeteer@6.1.1, expect-puppeteer@^6.1.0:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-6.1.1.tgz#f446cd2a6f9db895077e4fe591db432b5d7f34b5"
 
 expect@^22.4.0:
   version "22.4.3"
