@@ -212,7 +212,7 @@
     "body-parser": "1.20.0",
     "case": "^1.6.1",
     "classnames": "^2.2.6",
-    "connected-react-router": "^6.5.2",
+    "connected-react-router": "^6.9.3",
     "crypto-js": "^4.1.1",
     "decompress": "4.2.1",
     "electron": "^19.0.8",
