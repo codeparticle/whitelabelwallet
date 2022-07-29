@@ -1392,9 +1392,9 @@
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-1.5.3.tgz#5dc0cede0fe4c1d9868a21a212205749dc78afa5"
 
-"@capacitor/cli@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-4.0.0.tgz#dfb5985d7b019428e18a8051db7d0085e499695b"
+"@capacitor/cli@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-4.0.1.tgz#b5f91cc1c375e05d9a912c1c076a7afd2f6021c4"
   dependencies:
     "@ionic/cli-framework-output" "^2.2.5"
     "@ionic/utils-fs" "^3.1.6"
