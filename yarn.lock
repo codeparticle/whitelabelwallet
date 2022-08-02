@@ -8099,9 +8099,9 @@ concurrently@7.3.0:
     tree-kill "^1.2.2"
     yargs "^17.3.1"
 
-conf@^10.1.2:
-  version "10.1.2"
-  resolved "https://registry.yarnpkg.com/conf/-/conf-10.1.2.tgz#50132158f388756fa9dea3048f6b47935315c14e"
+conf@^10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/conf/-/conf-10.2.0.tgz#838e757be963f1a2386dfe048a98f8f69f7b55d6"
   dependencies:
     ajv "^8.6.3"
     ajv-formats "^2.1.1"
@@ -10075,12 +10075,12 @@ electron-renderer@2.0.4:
   dependencies:
     electron "^2.0.4"
 
-electron-store@8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/electron-store/-/electron-store-8.0.2.tgz#95c8cf81c1e1cf48b24f3ceeea24b921c1ff62d7"
+electron-store@8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/electron-store/-/electron-store-8.1.0.tgz#46a398f2bd9aa83c4a9daaae28380e2b3b9c7597"
   dependencies:
-    conf "^10.1.2"
-    type-fest "^2.12.2"
+    conf "^10.2.0"
+    type-fest "^2.17.0"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.247, electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.47, electron-to-chromium@^1.4.118:
   version "1.4.132"
@@ -23644,9 +23644,9 @@ type-fest@^0.8.1:
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
 
-type-fest@^2.12.2:
-  version "2.13.1"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.13.1.tgz#621c84220df0e01a8469002594fc005714f0cfba"
+type-fest@^2.17.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.18.0.tgz#fdef3a74e0a9e68ebe46054836650fb91ac3881e"
 
 type-is@~1.6.18:
   version "1.6.18"
