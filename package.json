@@ -304,7 +304,7 @@
     "electron-devtools-installer": "3.2.0",
     "electron-icon-maker": "0.0.5",
     "electron-packager": "15.5.1",
-    "electron-rebuild": "3.2.8",
+    "electron-rebuild": "3.2.9",
     "electron-reload": "1.5.0",
     "electron-renderer": "2.0.4",
     "electron-store": "8.0.2",
