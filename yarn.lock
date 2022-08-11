@@ -3773,9 +3773,9 @@
   version "0.7.31"
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
 
-"@types/node@*", "@types/node@^18.6.5":
-  version "18.6.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.6.5.tgz#06caea822caf9e59d5034b695186ee74154d2802"
+"@types/node@*", "@types/node@^18.7.1":
+  version "18.7.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.1.tgz#352bee64f93117d867d05f7406642a52685cbca6"
 
 "@types/node@10.12.18":
   version "10.12.18"
@@ -10094,9 +10094,9 @@ electron@^2.0.4:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
-electron@^20.0.1:
-  version "20.0.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-20.0.1.tgz#eaaa14a7b54b6c405b1768727be4c55976a95419"
+electron@^20.0.2:
+  version "20.0.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-20.0.2.tgz#5a610b07192a03979f83a35b9b9d1568a7f08c93"
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
