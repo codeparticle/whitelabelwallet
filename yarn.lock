@@ -10666,9 +10666,9 @@ eslint-plugin-react-hooks@^4.3.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.5.0.tgz#5f762dfedf8b2cf431c689f533c9d3fa5dcf25ad"
 
-eslint-plugin-react@7.31.6, eslint-plugin-react@^7.27.1:
-  version "7.31.6"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.31.6.tgz#55ec176be94917ecde3f3ca0e1363073193e241a"
+eslint-plugin-react@7.31.7, eslint-plugin-react@^7.27.1:
+  version "7.31.7"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.31.7.tgz#36fb1c611a7db5f757fce09cbbcc01682f8b0fbb"
   dependencies:
     array-includes "^3.1.5"
     array.prototype.flatmap "^1.3.0"
