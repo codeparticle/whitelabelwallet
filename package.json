@@ -369,7 +369,7 @@
     "spectron": "7.0.0",
     "standard-version": "^9.5.0",
     "style-loader": "2.0.0",
-    "styled-jsx": "^3.2.1",
+    "styled-jsx": "^5.0.7",
     "stylelint": "13.13.1",
     "stylelint-config-airbnb": "0.0.0",
     "stylelint-order": "4.1.0",
