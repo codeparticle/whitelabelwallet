@@ -211,7 +211,7 @@
     "bip39": "^3.0.2",
     "body-parser": "1.20.0",
     "case": "^1.6.1",
-    "classnames": "^2.2.6",
+    "classnames": "^2.3.2",
     "connected-react-router": "^6.9.3",
     "crypto-js": "^4.1.1",
     "decompress": "4.2.1",
