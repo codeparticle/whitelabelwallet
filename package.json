@@ -243,7 +243,7 @@
     "react-ga": "^3.3.1",
     "react-helmet": "^6.1.0",
     "react-intl": "^2.9.0",
-    "react-redux": "^7.1.0",
+    "react-redux": "^7.2.9",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.3.3",
     "react-tooltip": "4.2.21",
