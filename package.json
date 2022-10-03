@@ -245,7 +245,7 @@
     "react-intl": "^2.9.0",
     "react-redux": "^7.2.9",
     "react-router": "^5.0.1",
-    "react-router-dom": "^5.3.3",
+    "react-router-dom": "^5.3.4",
     "react-tooltip": "4.2.21",
     "redux": "^4.0.1",
     "redux-api-middleware": "^3.0.1",
