@@ -9972,9 +9972,9 @@ electron-devtools-installer@3.2.0:
     tslib "^2.1.0"
     unzip-crx-3 "^0.2.0"
 
-electron-dl@3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-3.3.1.tgz#14164595bebcc636c671eb791b2a3265003f76c4"
+electron-dl@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-3.4.0.tgz#49452ed4e8668abbe1771a1e8cd1e4dac9f30e25"
   dependencies:
     ext-name "^5.0.0"
     pupa "^2.0.1"
