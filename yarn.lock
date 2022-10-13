@@ -10160,9 +10160,9 @@ electron@^2.0.4:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
-electron@^21.1.0:
-  version "21.1.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-21.1.0.tgz#7272dfe1a5d6a00fd58d17b26215e541b6ff10dd"
+electron@^21.1.1:
+  version "21.1.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-21.1.1.tgz#3ee427e31cccafbce45bebd32f2a8eba9e3399ca"
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
