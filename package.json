@@ -185,7 +185,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^1.1.0",
-    "@capacitor/cli": "^4.3.0",
+    "@capacitor/cli": "^4.4.0",
     "@capacitor/core": "^1.1.0",
     "@capacitor/ios": "^1.1.0",
     "@codeparticle/formal": "^2.0.1",
