@@ -309,7 +309,7 @@
     "electron-renderer": "2.0.4",
     "electron-store": "8.1.0",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.6",
+    "enzyme-adapter-react-16": "1.15.7",
     "enzyme-to-json": "3.6.2",
     "eslint": "5.16.0",
     "eslint-config-prettier": "6.15.0",
