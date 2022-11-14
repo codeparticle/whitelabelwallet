@@ -10338,38 +10338,38 @@ env-paths@^2.2.0, env-paths@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
 
-enzyme-adapter-react-16@1.15.6:
-  version "1.15.6"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.15.6.tgz#fd677a658d62661ac5afd7f7f541f141f8085901"
+enzyme-adapter-react-16@1.15.7:
+  version "1.15.7"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.15.7.tgz#a737e6d8e2c147e9da5acf957755be7634f76201"
   dependencies:
-    enzyme-adapter-utils "^1.14.0"
-    enzyme-shallow-equal "^1.0.4"
+    enzyme-adapter-utils "^1.14.1"
+    enzyme-shallow-equal "^1.0.5"
     has "^1.0.3"
-    object.assign "^4.1.2"
-    object.values "^1.1.2"
-    prop-types "^15.7.2"
+    object.assign "^4.1.4"
+    object.values "^1.1.5"
+    prop-types "^15.8.1"
     react-is "^16.13.1"
     react-test-renderer "^16.0.0-0"
     semver "^5.7.0"
 
-enzyme-adapter-utils@^1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.14.0.tgz#afbb0485e8033aa50c744efb5f5711e64fbf1ad0"
+enzyme-adapter-utils@^1.14.1:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.14.1.tgz#f30db15dafc22e0ccd44f5acc8d93be29218cdcf"
   dependencies:
     airbnb-prop-types "^2.16.0"
-    function.prototype.name "^1.1.3"
+    function.prototype.name "^1.1.5"
     has "^1.0.3"
-    object.assign "^4.1.2"
-    object.fromentries "^2.0.3"
-    prop-types "^15.7.2"
+    object.assign "^4.1.4"
+    object.fromentries "^2.0.5"
+    prop-types "^15.8.1"
     semver "^5.7.1"
 
-enzyme-shallow-equal@^1.0.1, enzyme-shallow-equal@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/enzyme-shallow-equal/-/enzyme-shallow-equal-1.0.4.tgz#b9256cb25a5f430f9bfe073a84808c1d74fced2e"
+enzyme-shallow-equal@^1.0.1, enzyme-shallow-equal@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/enzyme-shallow-equal/-/enzyme-shallow-equal-1.0.5.tgz#5528a897a6ad2bdc417c7221a7db682cd01711ba"
   dependencies:
     has "^1.0.3"
-    object-is "^1.1.2"
+    object-is "^1.1.5"
 
 enzyme-to-json@3.6.2:
   version "3.6.2"
@@ -11995,7 +11995,7 @@ function-name-support@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/function-name-support/-/function-name-support-0.2.0.tgz#55d3bfaa6eafd505a50f9bc81fdf57564a0bb071"
 
-function.prototype.name@^1.1.0, function.prototype.name@^1.1.2, function.prototype.name@^1.1.3:
+function.prototype.name@^1.1.0, function.prototype.name@^1.1.2, function.prototype.name@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/function.prototype.name/-/function.prototype.name-1.1.5.tgz#cce0505fe1ffb80503e6f9e46cc64e46a12a9621"
   dependencies:
@@ -17441,7 +17441,7 @@ object-inspect@^1.12.0, object-inspect@^1.7.0, object-inspect@^1.9.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.12.0.tgz#6e2c120e868fd1fd18cb4f18c31741d0d6e776f0"
 
-object-is@^1.0.1, object-is@^1.0.2, object-is@^1.1.2:
+object-is@^1.0.1, object-is@^1.0.2, object-is@^1.1.2, object-is@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/object-is/-/object-is-1.1.5.tgz#b9deeaa5fc7f1846a0faecdceec138e5778f53ac"
   dependencies:
@@ -17466,13 +17466,13 @@ object-visit@^1.0.0:
   dependencies:
     isobject "^3.0.0"
 
-object.assign@^4.1.0, object.assign@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.2.tgz#0ed54a342eceb37b38ff76eb831a0e788cb63940"
+object.assign@^4.1.0, object.assign@^4.1.2, object.assign@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.4.tgz#9673c7c7c351ab8c4d0b516f4343ebf4dfb7799f"
   dependencies:
-    call-bind "^1.0.0"
-    define-properties "^1.1.3"
-    has-symbols "^1.0.1"
+    call-bind "^1.0.2"
+    define-properties "^1.1.4"
+    has-symbols "^1.0.3"
     object-keys "^1.1.1"
 
 object.entries@^1.0.4, object.entries@^1.1.0, object.entries@^1.1.1, object.entries@^1.1.2, object.entries@^1.1.5:
@@ -17483,7 +17483,7 @@ object.entries@^1.0.4, object.entries@^1.1.0, object.entries@^1.1.1, object.entr
     define-properties "^1.1.3"
     es-abstract "^1.19.1"
 
-"object.fromentries@^2.0.0 || ^1.0.0", object.fromentries@^2.0.3, object.fromentries@^2.0.5:
+"object.fromentries@^2.0.0 || ^1.0.0", object.fromentries@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/object.fromentries/-/object.fromentries-2.0.5.tgz#7b37b205109c21e741e605727fe8b0ad5fa08251"
   dependencies:
@@ -17519,7 +17519,7 @@ object.pick@^1.3.0:
   dependencies:
     isobject "^3.0.1"
 
-object.values@^1.1.0, object.values@^1.1.1, object.values@^1.1.2, object.values@^1.1.5:
+object.values@^1.1.0, object.values@^1.1.1, object.values@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/object.values/-/object.values-1.1.5.tgz#959f63e3ce9ef108720333082131e4a459b716ac"
   dependencies:
