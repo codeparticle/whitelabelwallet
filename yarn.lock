@@ -1518,9 +1518,9 @@
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
 
-"@capacitor/android@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-1.5.3.tgz#5dc0cede0fe4c1d9868a21a212205749dc78afa5"
+"@capacitor/android@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-4.5.0.tgz#081ca5025aa7df467281b032961c34d2c5b88a02"
 
 "@capacitor/cli@^4.3.0":
   version "4.3.0"
@@ -1544,15 +1544,15 @@
     tslib "^2.4.0"
     xml2js "^0.4.23"
 
-"@capacitor/core@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-1.5.3.tgz#254d4d0c56e01a1837551970b1f09befec15c1cf"
+"@capacitor/core@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.5.0.tgz#06b861bdc6a28b336de81e0ca0e4298343ecb5ca"
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.1.0"
 
-"@capacitor/ios@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-1.5.3.tgz#dca85c3b4b373c9765ada986a82fde76ed044758"
+"@capacitor/ios@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-4.5.0.tgz#44087d9aa87d4c4a96e77f588d104a786206cb6f"
 
 "@codeparticle/formal@^2.0.1":
   version "2.0.1"
