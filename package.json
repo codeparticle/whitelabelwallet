@@ -290,7 +290,7 @@
     "babel-runtime": "6.26.0",
     "bitcoinjs-lib": "^6.0.2",
     "canvas": "2.10.2",
-    "chai": "3.5.0",
+    "chai": "4.3.7",
     "chai-as-promised": "7.1.1",
     "chai-immutable": "1.6.0",
     "chalk": "5.1.2",
