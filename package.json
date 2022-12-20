@@ -235,7 +235,7 @@
     "minimist": "1.2.6",
     "moment": "2.20.1",
     "object-assign": "4.1.1",
-    "prop-types": "15.6.0",
+    "prop-types": "15.8.1",
     "proxy-polyfill": "0.3.0",
     "qrcode.react": "0.7.2",
     "react": "^16.8.6",
