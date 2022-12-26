@@ -226,7 +226,7 @@
     "fs": "^0.0.1-security",
     "fs-extra": "5.0.0",
     "grid-styled": "2.0.0-12",
-    "hdkey": "^1.1.1",
+    "hdkey": "^2.0.1",
     "intl": "1.2.5",
     "isomorphic-fetch": "2.2.1",
     "json-server": "^0.15.0",
