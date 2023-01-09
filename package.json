@@ -348,7 +348,7 @@
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "5.3.0",
     "postcss-scss": "2.0.0",
-    "prettier": "1.10.2",
+    "prettier": "2.8.2",
     "puppeteer": "1.16.0",
     "react-addons-test-utils": "15.6.2",
     "react-dev-utils": "^9.0.1",
