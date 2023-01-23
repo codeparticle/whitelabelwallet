@@ -222,7 +222,7 @@
     "es6-promise": "4.2.8",
     "express-http-proxy": "^1.5.1",
     "fast-memoize": "2.5.2",
-    "fix-path": "2.1.0",
+    "fix-path": "4.0.0",
     "fs": "^0.0.1-security",
     "fs-extra": "5.0.0",
     "grid-styled": "2.0.0-12",
