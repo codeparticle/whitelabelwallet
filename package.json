@@ -372,7 +372,7 @@
     "styled-jsx": "^3.2.1",
     "stylelint": "9.10.1",
     "stylelint-config-airbnb": "0.0.0",
-    "stylelint-order": "1.0.0",
+    "stylelint-order": "2.2.1",
     "stylelint-scss": "3.21.0",
     "stylelint-webpack-plugin": "0.10.5",
     "uglify-loader": "3.0.0",
