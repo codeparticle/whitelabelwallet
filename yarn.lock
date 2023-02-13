@@ -3034,10 +3034,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@trodi/electron-splashscreen@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@trodi/electron-splashscreen/-/electron-splashscreen-0.3.1.tgz#7e454644ee3017ef012ba1e18977c96bc0c5b70a"
-  integrity sha512-2NilGoVuVNBKoOwjnDp9MIsb5gPJZTxEK5Dg/Vd/TaOvgMwFl4aPAWky3+O3OH2SISUdmvQyWo0UmWMnjY+04A==
+"@trodi/electron-splashscreen@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@trodi/electron-splashscreen/-/electron-splashscreen-1.0.2.tgz#9996383cbe2adce89ad78545d2edbda756ecfe68"
+  integrity sha512-Lb36omHRFRAN4nkgPacmxXYgGKXDXxrNlDFXoZp6+ceAIC4kExOvoxj/WyCOtZXLd48MygR3QpjDvflpX67+4A==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
