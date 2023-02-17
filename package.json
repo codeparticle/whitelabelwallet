@@ -233,7 +233,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "4.17.21",
     "minimist": "1.2.7",
-    "moment": "2.20.1",
+    "moment": "2.29.4",
     "object-assign": "4.1.1",
     "prop-types": "15.6.0",
     "proxy-polyfill": "0.3.0",
