@@ -351,7 +351,7 @@
     "prettier": "1.10.2",
     "puppeteer": "1.16.0",
     "react-addons-test-utils": "15.6.2",
-    "react-dev-utils": "^9.0.1",
+    "react-dev-utils": "^12.0.1",
     "react-hot-loader": "^4.11.1",
     "react-intl-cra": "^0.3.4",
     "react-intl-translations-manager": "5.0.3",
