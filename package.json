@@ -380,7 +380,7 @@
     "webpack": "4.39.2",
     "webpack-cli": "3.3.7",
     "webpack-dev-server": "3.8.0",
-    "webpack-hot-middleware": "2.25.3",
+    "webpack-hot-middleware": "2.25.4",
     "webpack-merge": "4.1.4"
   }
 }
