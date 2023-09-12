@@ -230,7 +230,7 @@
     "intl": "1.2.5",
     "isomorphic-fetch": "2.2.1",
     "json-server": "^0.17.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "4.17.21",
     "minimist": "1.2.8",
     "moment": "2.29.4",
