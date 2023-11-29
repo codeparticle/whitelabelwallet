@@ -254,7 +254,7 @@
     "redux-promise-middleware": "^6.1.1",
     "redux-saga": "^1.2.3",
     "redux-thunk": "^2.3.0",
-    "sql.js": "0.4.0",
+    "sql.js": "1.9.0",
     "sqlstring-sqlite": "^0.1.1",
     "ts-loader": "^6.0.4"
   },
