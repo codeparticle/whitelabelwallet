@@ -18797,10 +18797,10 @@ module-alias@2.2.3:
   resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.3.tgz#ec2e85c68973bda6ab71ce7c93b763ec96053221"
   integrity sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==
 
-moment@2.29.4:
-  version "2.29.4"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
-  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
+moment@2.30.0:
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.0.tgz#c2a65bb962bdf2a9c49c69b5358c41f6c66ad10e"
+  integrity sha512-8XSlYFhOSJvnEJOas6RpDCNU2PYeVC+oE33d3Z9tIsXpD8LIgBeqrHPjP8es4b3fcJpf07D1PJWGDUfdbqDLnQ==
 
 moo@^0.5.0:
   version "0.5.2"
