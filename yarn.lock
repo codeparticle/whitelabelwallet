@@ -8327,10 +8327,10 @@ class-validator@0.8.5:
   dependencies:
     validator "9.2.0"
 
-classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.3.tgz#897b59920fa3e336571c164366efad73e9d6418b"
-  integrity sha512-1inzZmicIFcmUya7PGtUQeXtcF7zZpPnxtQoYOrz0uiOBGlLFa4ik4361seYL2JCcRDIyfdFHiwQolESFlw+Og==
+classnames@^2.2.5, classnames@^2.2.6, classnames@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.4.0.tgz#78011af2612f5c552195e2e657bd5fe2de973cac"
+  integrity sha512-lWxiIlphgAhTLN657pwU/ofFxsUTOWc2CRIFeoV5st0MGRJHStUnWIUJgDHxjUO/F0mXzGufXIM4Lfu/8h+MpA==
 
 clean-css@4.2.x, clean-css@^4.2.3:
   version "4.2.4"
