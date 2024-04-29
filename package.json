@@ -356,7 +356,7 @@
     "react-intl-cra": "^0.3.4",
     "react-intl-translations-manager": "5.0.3",
     "react-qr-reader": "^2.2.1",
-    "react-test-renderer": "15.5.4",
+    "react-test-renderer": "18.3.1",
     "react-transform-catch-errors": "1.0.2",
     "react-transform-hmr": "1.0.4",
     "redbox-react": "1.6.0",
