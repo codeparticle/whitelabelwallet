@@ -11016,14 +11016,14 @@ electron-devtools-installer@2.2.3:
     rimraf "^2.5.2"
     semver "^5.3.0"
 
-electron-dl@1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-1.12.0.tgz#328c7f12d3e458ed4ddc773d8ffc28d59ab35d2e"
-  integrity sha512-UMc2CL45Ybpvu66LDPYzwmDRmYK4Ivz+wdnTM0eXcNMztvQwhixAk2UPme1c7McqG8bAlKEkQpZn3epmQy4EWg==
+electron-dl@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-4.0.0.tgz#413929460cb6bf91257378d262e904787d10e03d"
+  integrity sha512-USiB9816d2JzKv0LiSbreRfTg5lDk3lWh0vlx/gugCO92ZIJkHVH0UM18EHvKeadErP6Xn4yiTphWzYfbA2Ong==
   dependencies:
     ext-name "^5.0.0"
-    pupa "^1.0.0"
-    unused-filename "^1.0.0"
+    pupa "^3.1.0"
+    unused-filename "^4.0.1"
 
 electron-download@^3.0.1:
   version "3.3.0"
@@ -11661,6 +11661,11 @@ escalade@^3.1.1:
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
   integrity sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==
 
+escape-goat@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/escape-goat/-/escape-goat-4.0.0.tgz#9424820331b510b0666b98f7873fe11ac4aa8081"
+  integrity sha512-2Sd4ShcWxbx6OY1IHyla/CVNwvg7XwZVoXZHcSu9w9SReNP1EzzD5T8NWKIR38fIqEns9kDWKUQTXXAmlDrdPg==
+
 escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
@@ -11680,6 +11685,11 @@ escape-string-regexp@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
+
+escape-string-regexp@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz#4683126b500b61762f2dbebace1806e8be31b1c8"
+  integrity sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==
 
 escodegen-wallaby@1.6.18:
   version "1.6.18"
@@ -18797,11 +18807,6 @@ mocha@6.1.4:
     yargs-parser "13.0.0"
     yargs-unparser "1.5.0"
 
-modify-filename@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/modify-filename/-/modify-filename-1.1.0.tgz#9a2dec83806fbb2d975f22beec859ca26b393aa1"
-  integrity sha512-EickqnKq3kVVaZisYuCxhtKbZjInCuwgwZWyAmRIp1NTMhri7r3380/uqwrUHfaDiPzLVTuoNy4whX66bxPVog==
-
 modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
@@ -20096,6 +20101,11 @@ path-exists@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-4.0.0.tgz#513bdbe2d3b95d7762e8c1137efa195c6c61b5b3"
   integrity sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==
+
+path-exists@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/path-exists/-/path-exists-5.0.0.tgz#a6aad9489200b21fab31e49cf09277e5116fb9e7"
+  integrity sha512-RjhtfwJOxzcFmNOi6ltcbcu4Iu+FL3zEj83dk4kAS+fVpTxXLO1b38RvJgT/0QwvV/L3aY9TAnyv0EOqW4GoMQ==
 
 path-is-absolute@^1.0.0, path-is-absolute@^1.0.1:
   version "1.0.1"
@@ -22313,10 +22323,12 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-pupa@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
-  integrity sha512-WTQm0CKSL1kn+DQCuu970eBPGmhIcfDyDBa9cbgR/grZ2jLrQmLDHoqqAPWLTRlOHFUrBBmL7FQJBZALA+llQg==
+pupa@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/pupa/-/pupa-3.1.0.tgz#f15610274376bbcc70c9a3aa8b505ea23f41c579"
+  integrity sha512-FLpr4flz5xZTSJxSeaheeMKN/EDzMdK7b8PTOC6a5PYFKTucWbdqjgqaEyH0shFiSJrVB1+Qqi4Tk19ccU6Aug==
+  dependencies:
+    escape-goat "^4.0.0"
 
 puppeteer@1.16.0:
   version "1.16.0"
@@ -27177,13 +27189,13 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unused-filename@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-1.0.0.tgz#d340880f71ae2115ebaa1325bef05cc6684469c6"
-  integrity sha512-CzxEtvTNfsydlKb30IeExGVcRAQv9CLgzoYmnQskceQTV/EZY4jTOrtUcUBlWnAfZdi1UmX1JO0hMKQTDcwCVw==
+unused-filename@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-4.0.1.tgz#3e7285db0f3ec94fb2b089dd220a3b269b226914"
+  integrity sha512-ZX6U1J04K1FoSUeoX1OicAhw4d0aro2qo+L8RhJkiGTNtBNkd/Fi1Wxoc9HzcVu6HfOzm0si/N15JjxFmD1z6A==
   dependencies:
-    modify-filename "^1.1.0"
-    path-exists "^3.0.0"
+    escape-string-regexp "^5.0.0"
+    path-exists "^5.0.0"
 
 unzip-response@^2.0.1:
   version "2.0.1"
