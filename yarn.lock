@@ -1658,10 +1658,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capacitor/android@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-1.5.3.tgz#5dc0cede0fe4c1d9868a21a212205749dc78afa5"
-  integrity sha512-hkoUQvjsIF0a9vz2dgYMZ16RHVx/bZe63bLWXVygJJQjjVwGkljXfDAeFwR1I71cpjsR+0XtopZ6gBGwEsd0bA==
+"@capacitor/android@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-6.1.0.tgz#68a64de088f2a42dafa3bcbcdeba860ca33e2fc4"
+  integrity sha512-S4PW4N5xtKHTrICjG7bkBhI70jdXbb+8nbm1pJpuXChCD0gkCcofJhPaw4bCoO0egcugBN1U7DkegNw5jWpHcw==
 
 "@capacitor/cli@^1.1.0":
   version "1.5.3"
@@ -1680,17 +1680,17 @@
     which "^1.3.0"
     xml2js "^0.4.19"
 
-"@capacitor/core@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-1.5.3.tgz#254d4d0c56e01a1837551970b1f09befec15c1cf"
-  integrity sha512-Tohy9+koVDAc7+HaZmXzcRQSGhrvUczcifmvI9o4KamhXJSGajJCdDZV+n7FUqWpfDf470kKiA+SeyhD7OeL1w==
+"@capacitor/core@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-6.1.0.tgz#1b4a93f3d5976ce3fd4a7f1b797c48c1243ec934"
+  integrity sha512-Kt4ONm0X9xxJXn9Q73oBaKdzep5B/VJw3VjXa2eGul4cD2k37mJwgjpXSMRnLH0Aju5bCiRL8J/hMAfTlokO6A==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.1.0"
 
-"@capacitor/ios@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-1.5.3.tgz#dca85c3b4b373c9765ada986a82fde76ed044758"
-  integrity sha512-pV5ozgoIllBp7vsrOHRZVQ09tqIiib9SlOZm7D8MBvE4slSC6NbOR+fFM07R3zyiWdf5cQsIZ5i2bjzF9BkZLg==
+"@capacitor/ios@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-6.1.0.tgz#0f6b9818032f4e187bbdd63015c8c040fcde85a7"
+  integrity sha512-ex2q0LAyDDgfJj4fKDQuSNUYSpic3939/8A/sIIIxslwuRBF5i5fuhAngu6BhCt/pQSfEETcHtg2j2vD+YEZ2w==
 
 "@codeparticle/formal@^0.3.0":
   version "0.3.0"
@@ -26805,10 +26805,10 @@ tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.0, tslib@^2.0.3:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
-  integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
+tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.3.tgz#0438f810ad7a9edcde7a241c3d80db693c8cbfe0"
+  integrity sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==
 
 tsutils@^3.21.0:
   version "3.21.0"
