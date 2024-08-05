@@ -25294,10 +25294,10 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==
 
-sql.js@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/sql.js/-/sql.js-0.4.0.tgz#23be9635520eb0ff43a741e7e830397266e88445"
-  integrity sha512-pIvpttdtwmLJgXfgzDPYx28IK/GJvW8tAEdbOfmE8KSkPSQpbFKPcSBEhvcTghAdM93qYhglL2BRO2TRG6EH8Q==
+sql.js@1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/sql.js/-/sql.js-1.11.0.tgz#2fcfb6aa24fae9b8ecc5395c70fc596a71247994"
+  integrity sha512-GsLUDU3vhOo14Pd5ME0y2te49JQyby6HuoCuadevEV+CGgTUjmYRrm7B7lhRyzOgrmcWmspUfyjNb6sOAEqdsA==
 
 sqlstring-sqlite@^0.1.1:
   version "0.1.1"
