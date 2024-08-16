@@ -11084,13 +11084,13 @@ electron-chromedriver@^5.0.1:
     electron-download "^4.1.1"
     extract-zip "^1.6.7"
 
-electron-debug@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-2.0.0.tgz#3059a6557acbfb091f138d83875f57bac80cea6d"
-  integrity sha512-orGlw9uErUztdD7cgdKz78txq3czpOnKG/zvvsINkUsugqL+dn77UFrbwRGVgPwuLJ7Ejbjjk9EcxIcgTivMbA==
+electron-debug@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-4.0.1.tgz#01e2e549a25f45872d346ee6feb87e09d9d1c695"
+  integrity sha512-PdUG3SvcK70P05z99PFLUzn0+lPZl5c4quG1bXI7OtPaXxidwh8UONcdRLsr+6J9kf5y1FycJD5nBd80dYrcsA==
   dependencies:
-    electron-is-dev "^0.3.0"
-    electron-localshortcut "^3.0.0"
+    electron-is-dev "^3.0.1"
+    electron-localshortcut "^3.2.1"
 
 electron-devtools-installer@2.2.3:
   version "2.2.3"
@@ -11155,12 +11155,12 @@ electron-is-accelerator@^0.1.0:
   resolved "https://registry.yarnpkg.com/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
   integrity sha512-fLGSAjXZtdn1sbtZxx52+krefmtNuVwnJCV2gNiVt735/ARUboMl8jnNC9fZEqQdlAv2ZrETfmBUsoQci5evJA==
 
-electron-is-dev@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
-  integrity sha512-jLttuuq8QK67n3mXmIe9pkrO7IH3LGIk12xJkhTmc852U2sCJaRAOpRGPSh+1Xnzck5v9escd9YXzuze9nGejg==
+electron-is-dev@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-3.0.1.tgz#1cbc79b1dd046787903acd357efdfab6549dc17a"
+  integrity sha512-8TjjAh8Ec51hUi3o4TaU0mD3GMTOESi866oRNavj9A3IQJ7pmv+MJVmdZBFGw4GFT36X7bkqnuDNYvkQgvyI8Q==
 
-electron-localshortcut@^3.0.0:
+electron-localshortcut@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/electron-localshortcut/-/electron-localshortcut-3.2.1.tgz#cfc83a3eff5e28faf98ddcc87f80a2ce4f623cd3"
   integrity sha512-DWvhKv36GsdXKnaFFhEiK8kZZA+24/yFLgtTwJJHc7AFgDjNRIBJZ/jq62Y/dWv9E4ypYwrVWN2bVrCYw1uv7Q==
