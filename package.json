@@ -300,7 +300,7 @@
     "css-loader": "0.28.9",
     "cssnano": "4.1.11",
     "devtron": "1.4.0",
-    "electron-builder": "21.0.5",
+    "electron-builder": "25.0.5",
     "electron-devtools-installer": "2.2.3",
     "electron-icon-maker": "0.0.5",
     "electron-packager": "13.0.1",
