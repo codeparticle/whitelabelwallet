@@ -11214,10 +11214,10 @@ electron-localshortcut@^3.0.0:
     keyboardevent-from-electron-accelerator "^2.0.0"
     keyboardevents-areequal "^0.2.1"
 
-electron-log@2.2.14:
-  version "2.2.14"
-  resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-2.2.14.tgz#2123319ccb8d70b0db07f0eda57d5823cb42b4b0"
-  integrity sha512-Rj+XyK4nShe/nv9v1Uks4KEfjtQ6N+eSnx5CLpAjG6rlyUdAflyFHoybcHSLoq9l9pGavclULWS5IXgk8umc2g==
+electron-log@5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-5.2.2.tgz#cdb0a6dc48178a7cbacb434a268ab097ad5198dc"
+  integrity sha512-fgvx6srjIHDowJD8WAAjoAXmiTyOz6JnGQoxOtk1mXw7o4S+HutuPHLCsk24xTXqWZgy4uO63NbedG+oEvldLw==
 
 electron-notarize@^0.0.5:
   version "0.0.5"
