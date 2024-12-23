@@ -12665,10 +12665,10 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-expect-puppeteer@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-3.2.0.tgz#b4c322e28b86e9e74f5c6d636fb1e0dde5c4a559"
-  integrity sha512-oweQvy03610zRw/7pNfLOPsDAmXlUDJ11RhzgKmq1x/oAn3K+k5OSBQykXr3EytZPJsslzbx8pGAhT4nUUM9sg==
+expect-puppeteer@11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-11.0.0.tgz#12a5ca44cdcf33944121bd743f577a9e51bbff74"
+  integrity sha512-fgxsbOD+HqwOCMitYqEDzRoJM2fxKbCKPYfUoukK+qdZm/nC+cTOI74Au2MfmMZmF/5CgQGO4+1Ywq2GgD8zCQ==
 
 expect-puppeteer@^3.2.0:
   version "3.5.1"
