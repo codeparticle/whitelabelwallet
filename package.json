@@ -337,7 +337,7 @@
     "js-sha256": "0.11.0",
     "json-loader": "0.5.7",
     "mini-css-extract-plugin": "^0.7.0",
-    "mocha": "6.1.4",
+    "mocha": "11.2.2",
     "module-alias": "2.2.3",
     "node-sass": "4.14.1",
     "nodemon": "1.17.5",
