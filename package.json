@@ -334,7 +334,7 @@
     "jest-cli": "22.4.0",
     "jest-puppeteer": "3.2.1",
     "jest-serializer-enzyme": "1.0.0",
-    "js-sha256": "0.11.0",
+    "js-sha256": "0.11.1",
     "json-loader": "0.5.7",
     "mini-css-extract-plugin": "^0.7.0",
     "mocha": "6.1.4",
