@@ -336,7 +336,7 @@
     "jest-serializer-enzyme": "1.0.0",
     "js-sha256": "0.11.1",
     "json-loader": "0.5.7",
-    "mini-css-extract-plugin": "^0.7.0",
+    "mini-css-extract-plugin": "^1.6.2",
     "mocha": "6.1.4",
     "module-alias": "2.2.3",
     "node-sass": "4.14.1",
