@@ -207,7 +207,7 @@
     "babel-plugin-transform-inline-environment-variables": "0.4.3",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-runtime": "6.26.0",
-    "bip32": "^2.0.4",
+    "bip32": "^5.0.0",
     "bip39": "^3.1.0",
     "body-parser": "1.20.3",
     "case": "^1.6.1",
