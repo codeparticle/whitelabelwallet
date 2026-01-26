@@ -298,7 +298,7 @@
     "concurrently": "4.0.1",
     "cross-env": "5.2.0",
     "css-loader": "0.28.9",
-    "cssnano": "4.1.11",
+    "cssnano": "7.1.2",
     "devtron": "1.4.0",
     "electron-builder": "21.0.5",
     "electron-devtools-installer": "2.2.3",
