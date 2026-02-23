@@ -239,7 +239,7 @@
     "proxy-polyfill": "0.3.0",
     "qrcode.react": "0.7.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react-dom": "^19.2.4",
     "react-ga": "^2.6.0",
     "react-helmet": "^5.2.1",
     "react-intl": "^2.9.0",
