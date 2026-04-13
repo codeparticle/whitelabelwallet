@@ -6648,10 +6648,10 @@ babel-plugin-transform-inline-consecutive-adds@^0.4.3:
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-consecutive-adds/-/babel-plugin-transform-inline-consecutive-adds-0.4.3.tgz#323d47a3ea63a83a7ac3c811ae8e6941faf2b0d1"
   integrity sha512-8D104wbzzI5RlxeVPYeQb9QsUyepiH1rAO5hpPpQ6NPRgQLpIVwkS/Nbx944pm4K8Z+rx7CgjPsFACz/VCBN0Q==
 
-babel-plugin-transform-inline-environment-variables@0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-environment-variables/-/babel-plugin-transform-inline-environment-variables-0.4.3.tgz#a3b09883353be8b5e2336e3ff1ef8a5d93f9c489"
-  integrity sha512-SVieXlfPHgdJbH60LDcxHgh36CHViCYCcF3Vkp4tk4vNQJQmAEr+V/lsAgx5KroCnAcQkakZMSaZ8LWZBYwcMA==
+babel-plugin-transform-inline-environment-variables@0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-inline-environment-variables/-/babel-plugin-transform-inline-environment-variables-0.4.4.tgz#974245008b3cbbd646bd81707af147aea3acca43"
+  integrity sha512-bJILBtn5a11SmtR2j/3mBOjX4K3weC6cq+NNZ7hG22wCAqpc3qtj/iN7dSe9HDiS46lgp1nHsQgeYrea/RUe+g==
 
 babel-plugin-transform-member-expression-literals@^6.9.4:
   version "6.9.4"
