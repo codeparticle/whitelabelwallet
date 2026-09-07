@@ -1621,10 +1621,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capacitor/android@^1.1.0":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-1.5.3.tgz#5dc0cede0fe4c1d9868a21a212205749dc78afa5"
-  integrity sha512-hkoUQvjsIF0a9vz2dgYMZ16RHVx/bZe63bLWXVygJJQjjVwGkljXfDAeFwR1I71cpjsR+0XtopZ6gBGwEsd0bA==
+"@capacitor/android@^8.5.1":
+  version "8.5.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-8.5.1.tgz#577a8cea742341a0494e93366d1059d96ec90025"
+  integrity sha512-o8fUIPDSEASeXHHrDz26WU7OlyiRb+QqtI9KFdnLS1jUL77o5iGrvegibaZX8rWpiCyDJ6jlUhhhHlfeq3ou9A==
 
 "@capacitor/cli@^1.1.0":
   version "1.5.3"
