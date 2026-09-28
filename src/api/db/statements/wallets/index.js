@@ -39,22 +39,22 @@ export const WALLETS_STATEMENTS = {
   },
   SELECT: {
     ALL: `select * from Wallets`,
-    ID: (id) => `select * from Wallets where id = ${id}`,
+    ID: `select * from Wallets where id = ?`,
     NAME: `select id, name from Wallets`,
-    NAME_BY_ADDRESS: (addr) => `
+    NAME_BY_ADDRESS: `
       select Wallets.name as name from Wallets
       inner join Addresses
       on Wallets.id = Addresses.wallet_id
-      where Addresses.address="${addr}"
+      where Addresses.address=?
     `,
-    WALLET_ADDRESSES_BY_VALUE: (value) => `
+    WALLET_ADDRESSES_BY_VALUE: `
         select Wallets.id, Wallets.name as wallet_name,
         Addresses.id as address_id, Addresses.name as address_name, Addresses.address, Addresses.balance
         from Wallets
         inner join Addresses
         on Wallets.id = Addresses.wallet_id
-        where Wallets.name like "${value}%" or Addresses.name like "${value}%"
-        or Addresses.balance like "${value}%" or Addresses.address like "${value}%"
+        where Wallets.name like ? or Addresses.name like ?
+        or Addresses.balance like ? or Addresses.address like ?
       `,
   },
 };

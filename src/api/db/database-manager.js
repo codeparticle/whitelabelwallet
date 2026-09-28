@@ -219,9 +219,10 @@ export class DatabaseManager {
 
   /**
    * Update data into the sqlite DB utilizing the query method
-   * @param {object} the table name, the columns to be updated, and an optional where clause
+   * @param {object} the table name, the columns to be updated, an optional where
+   * clause holding placeholders, and the values to bind to those placeholders
    */
-  update({ table, cols, where = null } = {}) {
+  update({ table, cols, where = null, whereParams = [] } = {}) {
     const setClause = this.flattenObjectToSetClause(cols);
     const whereClause = where
       ? `where ${where}`
@@ -229,31 +230,32 @@ export class DatabaseManager {
     const statement = `update ${table} set ${setClause} ${whereClause};`;
     return this.query({
       statement,
+      params: [...Object.values(cols), ...whereParams],
       run: true,
     });
   };
 
   /**
    * Execute a delete query into the sqlite DB
-   * @param {object} the table name, and an optional where clause
+   * @param {object} the table name, a where clause holding placeholders, and the
+   * values to bind to those placeholders
    */
-  delete({ table, where } = {}) {
+  delete({ table, where, whereParams = [] } = {}) {
     const statement = `delete from ${table} where ${where};`;
     return this.query({
       statement,
+      params: whereParams,
       run: true,
     });
   };
 
   /**
-   * Flatten the object into a single string to be used in the set clause.
+   * Flatten the object into a single string to be used in the set clause. Values
+   * are bound as parameters, so the clause only carries placeholders.
    * @param {object} data the data that needs to be flattened.
    */
   flattenObjectToSetClause(data) {
-    return Object.keys(data).map(key => {
-      const value = typeof data[key] === 'string' ? `'${data[key]}'` : data[key];
-      return `${key}=${value}`;
-    }).join(', ');
+    return Object.keys(data).map(key => `${key}=?`).join(', ');
   }
 
   /**
@@ -286,8 +288,10 @@ export class DatabaseManager {
    * @param {string} value - Value to search by
    */
   getContactsByValue(value = '') {
-    const statement = STMT.CONTACTS.SELECT.VALUE(value);
-    return this.query({ statement });
+    const statement = STMT.CONTACTS.SELECT.VALUE;
+    const searchValue = `${value}%`;
+
+    return this.query({ statement, params: [searchValue, searchValue] });
   }
 
   /**
@@ -296,8 +300,8 @@ export class DatabaseManager {
    * @param {string} contactAddress - the contact's address
    */
   async getFormattedContactName(contactAddress) {
-    const statement = STMT.CONTACTS.SELECT.FORMATTED_CONTACT_NAME(contactAddress);
-    const [res] = await this.query({ statement });
+    const statement = STMT.CONTACTS.SELECT.FORMATTED_CONTACT_NAME;
+    const [res] = await this.query({ statement, params: [contactAddress] });
 
     return res && res.name
       ? `${res.name} - (${contactAddress})`
@@ -313,7 +317,8 @@ export class DatabaseManager {
     return this.update({
       table: 'Contacts',
       cols,
-      where: `id=${id}`,
+      where: 'id=?',
+      whereParams: [id],
     });
   }
 
@@ -324,7 +329,8 @@ export class DatabaseManager {
   deleteContactById(id) {
     return this.delete({
       table: 'Contacts',
-      where: `id=${id}`,
+      where: 'id=?',
+      whereParams: [id],
     });
   }
 
@@ -349,8 +355,8 @@ export class DatabaseManager {
    * @param {String} receiver_address
    */
   getTransactionByDetails(txId, type) {
-    const statement = STMT.TRANSACTIONS.SELECT.TX_DETAILS(txId, type);
-    return this.query({ statement });
+    const statement = STMT.TRANSACTIONS.SELECT.TX_DETAILS;
+    return this.query({ statement, params: [txId, type] });
   }
 
   /**
@@ -359,8 +365,8 @@ export class DatabaseManager {
    */
   getTransactionsAfterDate(dateTime) {
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
-    const statement = STMT.TRANSACTIONS.SELECT.AFTER_DATE(filterDate);
-    return this.query({ statement });
+    const statement = STMT.TRANSACTIONS.SELECT.AFTER_DATE;
+    return this.query({ statement, params: [filterDate] });
   }
 
   /**
@@ -372,9 +378,21 @@ export class DatabaseManager {
   searchTransactionsForValue(addresses, value = '', dateTime) {
     const queryResults = [];
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    const searchValue = `%${value}%`;
+    const statement = STMT.TRANSACTIONS.SELECT.VALUE;
+
     addresses.forEach((addressData) => {
-      const statement = STMT.TRANSACTIONS.SELECT.VALUE(addressData.address, value, filterDate);
-      queryResults.push(this.query({ statement }));
+      const params = [
+        searchValue,
+        searchValue,
+        searchValue,
+        searchValue,
+        addressData.address,
+        addressData.address,
+        filterDate,
+      ];
+
+      queryResults.push(this.query({ statement, params }));
     });
 
     return Promise.all(queryResults).then((results) => {
@@ -385,10 +403,21 @@ export class DatabaseManager {
   searchTransactionsAndWalletsByValue(addresses, value = '', dateTime) {
     const queryResults = [];
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
+    const searchValue = `%${value}%`;
+    const statement = STMT.TRANSACTIONS.SELECT.INCLUDE_WALLETS_SEARCH_BY_VALUE;
 
     addresses.forEach((addressData) => {
-      const statement = STMT.TRANSACTIONS.SELECT.INCLUDE_WALLETS_SEARCH_BY_VALUE(addressData.address, value, filterDate);
-      queryResults.push(this.query({ statement }));
+      const params = [
+        searchValue,
+        searchValue,
+        searchValue,
+        searchValue,
+        addressData.address,
+        addressData.address,
+        filterDate,
+      ];
+
+      queryResults.push(this.query({ statement, params }));
     });
 
     return Promise.all(queryResults).then((results) => {
@@ -424,7 +453,8 @@ export class DatabaseManager {
     return this.update({
       table: 'Transactions',
       cols,
-      where: `transaction_id="${txId}"`,
+      where: 'transaction_id=?',
+      whereParams: [txId],
     });
   }
 
@@ -435,9 +465,9 @@ export class DatabaseManager {
    */
   getTransactionsPerAddressAfterDate(address = '', dateTime) {
     const filterDate = dateTime !== null ? dateTime : '1753-01-01';
-    const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS(address, filterDate);
+    const statement = STMT.TRANSACTIONS.SELECT.PER_ADDRESS;
 
-    return this.query({ statement });
+    return this.query({ statement, params: [address, address, filterDate] });
   }
 
   /**
@@ -448,10 +478,16 @@ export class DatabaseManager {
    * @param {string} - receiver_address
    */
   async getTxAddressIds(sender_address, receiver_address) {
-    const senderStatement = STMT.ADDRESSES.SELECT.ADDRESS_ID(sender_address);
-    const receiverStatement = STMT.CONTACTS.SELECT.ADDRESS_ID(receiver_address);
-    const [{ id: sender_address_id }] = await this.query({ statement: senderStatement });
-    const [recipient = null] = await this.query({ statement: receiverStatement });
+    const senderStatement = STMT.ADDRESSES.SELECT.ADDRESS_ID;
+    const receiverStatement = STMT.CONTACTS.SELECT.ADDRESS_ID;
+    const [{ id: sender_address_id }] = await this.query({
+      statement: senderStatement,
+      params: [sender_address],
+    });
+    const [recipient = null] = await this.query({
+      statement: receiverStatement,
+      params: [receiver_address],
+    });
     const receiver_address_id = recipient ? recipient.id : null;
 
     return { sender_address_id, receiver_address_id };
@@ -478,7 +514,8 @@ export class DatabaseManager {
     this.update({
       table: 'Updates',
       cols,
-      where: `db_version=${lastVersion}`,
+      where: 'db_version=?',
+      whereParams: [lastVersion],
     });
   }
 
@@ -564,8 +601,8 @@ export class DatabaseManager {
     });
 
     wallets.forEach(async (wallet) => {
-      const addrStatement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(wallet.id);
-      wallet.addresses = await this.query({ statement: addrStatement });
+      const addrStatement = STMT.ADDRESSES.SELECT.BY_WALLET_ID;
+      wallet.addresses = await this.query({ statement: addrStatement, params: [wallet.id] });
     });
 
     return wallets;
@@ -578,8 +615,8 @@ export class DatabaseManager {
    */
   async getWalletAddressesById(id) {
     const wallet = await this.getWalletById(id);
-    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(wallet.id);
-    wallet.addresses = await this.query({ statement });
+    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID;
+    wallet.addresses = await this.query({ statement, params: [wallet.id] });
 
     return wallet;
   }
@@ -592,8 +629,12 @@ export class DatabaseManager {
    * @returns {Array.<WalletAddresses>} wallets
    */
   async getWalletAddressesByValue(value) {
-    const statement = STMT.WALLETS.SELECT.WALLET_ADDRESSES_BY_VALUE(value);
-    const res = await this.query({ statement });
+    const statement = STMT.WALLETS.SELECT.WALLET_ADDRESSES_BY_VALUE;
+    const searchValue = `${value}%`;
+    const res = await this.query({
+      statement,
+      params: [searchValue, searchValue, searchValue, searchValue],
+    });
     const wallets = {};
 
     res.forEach((obj) => {
@@ -634,8 +675,8 @@ export class DatabaseManager {
   }
 
   async getWalletNameByAddress(address) {
-    const statement = STMT.WALLETS.SELECT.NAME_BY_ADDRESS(address);
-    const [{ name }] = await this.query({ statement });
+    const statement = STMT.WALLETS.SELECT.NAME_BY_ADDRESS;
+    const [{ name }] = await this.query({ statement, params: [address] });
 
     return name;
   }
@@ -645,8 +686,8 @@ export class DatabaseManager {
    * @returns {Object} Wallet
    */
   async getWalletById(id) {
-    const statement = STMT.WALLETS.SELECT.ID(id);
-    const [res] = await this.query({ statement });
+    const statement = STMT.WALLETS.SELECT.ID;
+    const [res] = await this.query({ statement, params: [id] });
 
     return res;
   }
@@ -660,7 +701,8 @@ export class DatabaseManager {
     return this.update({
       table: 'Wallets',
       cols,
-      where: `id=${id}`,
+      where: 'id=?',
+      whereParams: [id],
     });
   }
 
@@ -684,8 +726,8 @@ export class DatabaseManager {
    */
 
   getAddressesByWalletId(id) {
-    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID(id);
-    return this.query({ statement });
+    const statement = STMT.ADDRESSES.SELECT.BY_WALLET_ID;
+    return this.query({ statement, params: [id] });
   }
 
   /**
@@ -693,8 +735,8 @@ export class DatabaseManager {
    * @param {string} address - address value to query
    */
   async getBalanceByAddress(address) {
-    const statement = STMT.ADDRESSES.SELECT.BALANCE_BY_ADDRESS(address);
-    const [{ balance }] = await this.query({ statement });
+    const statement = STMT.ADDRESSES.SELECT.BALANCE_BY_ADDRESS;
+    const [{ balance }] = await this.query({ statement, params: [address] });
 
     return balance;
   }
@@ -704,8 +746,8 @@ export class DatabaseManager {
    * @param {string} address - address value to query
    */
   async getPrivKeyFromAddress(address) {
-    const statement = STMT.ADDRESSES.SELECT.PRIV_KEY_BY_ADDR(address);
-    const [{ private_key }] = await this.query({ statement });
+    const statement = STMT.ADDRESSES.SELECT.PRIV_KEY_BY_ADDR;
+    const [{ private_key }] = await this.query({ statement, params: [address] });
 
     return private_key;
   }
@@ -715,8 +757,8 @@ export class DatabaseManager {
    * @param {string} address - address value to query
    */
   async getAddressName(address) {
-    const statement = STMT.ADDRESSES.SELECT.FORMATTED_ADDRESS_NAME(address);
-    const [{ wallet_name, address_name = null }] = await this.query({ statement });
+    const statement = STMT.ADDRESSES.SELECT.FORMATTED_ADDRESS_NAME;
+    const [{ wallet_name, address_name = null }] = await this.query({ statement, params: [address] });
 
     return {
       walletName: wallet_name,
@@ -733,7 +775,8 @@ export class DatabaseManager {
     return this.update({
       table: 'Addresses',
       cols,
-      where: `id=${id}`,
+      where: 'id=?',
+      whereParams: [id],
     });
   }
 
@@ -744,7 +787,8 @@ export class DatabaseManager {
   deleteAddressById(id) {
     return this.delete({
       table: 'Addresses',
-      where: `id=${id}`,
+      where: 'id=?',
+      whereParams: [id],
     });
   }
 }
