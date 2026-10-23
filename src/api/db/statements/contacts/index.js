@@ -33,9 +33,9 @@ export const CONTACTS_STATEMENTS = {
           values(?,?,?,?)`,
   },
   SELECT: {
-    ADDRESS_ID: (addr) => `select id from Contacts where address="${addr}"`,
+    ADDRESS_ID: `select id from Contacts where address=?`,
     ALL: `select * from Contacts`,
-    FORMATTED_CONTACT_NAME: (addr) => `select name from Contacts where address="${addr}"`,
-    VALUE: (value) => `select * from Contacts where name like "${value}%" or address like "${value}%"`,
+    FORMATTED_CONTACT_NAME: `select name from Contacts where address=?`,
+    VALUE: `select * from Contacts where name like ? or address like ?`,
   },
 };

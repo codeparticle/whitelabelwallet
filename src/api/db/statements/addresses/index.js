@@ -40,17 +40,17 @@ export const ADDRESSES_STATEMENTS = {
     values(?,?,?,?,?,?,?,?)`,
   },
   SELECT: {
-    ADDRESS_ID: (addr) => `select id from Addresses where address="${addr}"`,
+    ADDRESS_ID: `select id from Addresses where address=?`,
     ALL: `select * from Addresses`,
-    BALANCE_BY_ADDRESS: (addr) => `select balance from Addresses where address="${addr}"`,
-    BY_WALLET_ID: (id) => `select * from Addresses where wallet_id=${id}`,
-    PRIV_KEY_BY_ADDR: (addr) => `select private_key from Addresses where address="${addr}"`,
-    FORMATTED_ADDRESS_NAME: (addr) => `
+    BALANCE_BY_ADDRESS: `select balance from Addresses where address=?`,
+    BY_WALLET_ID: `select * from Addresses where wallet_id=?`,
+    PRIV_KEY_BY_ADDR: `select private_key from Addresses where address=?`,
+    FORMATTED_ADDRESS_NAME: `
       select Wallets.name as wallet_name, Addresses.name as address_name
       from Wallets
       inner join Addresses
       on Wallets.id = Addresses.wallet_id
-      where Addresses.address="${addr}"
+      where Addresses.address=?
     `,
   },
 };
